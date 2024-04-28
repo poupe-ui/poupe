@@ -1,0 +1,11 @@
+{
+	"recommendations": [
+		"bradlc.vscode-tailwindcss",
+		"christian-kohler.path-intellisense",
+		"dbaeumer.vscode-eslint",
+		"editorconfig.editorconfig",
+		"streetsidesoftware.code-spell-checker",
+		"streetsidesoftware.code-spell-checker-british-english",
+		"vue.volar"
+	]
+}
