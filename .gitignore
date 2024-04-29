@@ -1,2 +1,14 @@
+# Logs
+logs
+*.log
+pnpm-debug.log*
+
+.DS_Store
 dist
+dist-ssr
 node_modules
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
