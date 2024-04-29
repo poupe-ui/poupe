@@ -3,12 +3,55 @@ logs
 *.log
 pnpm-debug.log*
 
+# OSX
 .DS_Store
+.AppleDouble
+.LSOverride
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Generated dirs
 dist
 dist-ssr
+
+# Nuxt
+.nuxt
+.output
+.data
+.vercel_build_output
+.build-*
+.netlify
+
+# Temp directories
+.temp
+.tmp
+.cache
+
+# Dependencies
 node_modules
 
+# Env
+.env
+
+# Testing
+reports
+coverage
+*.lcov
+.nyc_output
+
 # Editor directories and files
+#
+# VSCode
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/*.code-snippets
+
+# Intellij idea
+*.iml
+.idea
