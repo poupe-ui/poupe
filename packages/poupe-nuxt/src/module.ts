@@ -11,7 +11,6 @@ export default defineNuxtModule<ModuleOptions>({
   // Default configuration options of the Nuxt module
   defaults: {},
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(_options, _nuxt) {
     const resolver = createResolver(import.meta.url);
 

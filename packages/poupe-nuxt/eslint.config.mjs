@@ -1,6 +1,6 @@
 // @ts-check
 import { createConfigForNuxt } from '@nuxt/eslint-config/flat';
-import { configs as poupe } from '@poupe/eslint-config';
+import { files, rules } from '@poupe/eslint-config';
 
 // Run `pnpx @eslint/config-inspector` to inspect the resolved config interactively
 export default createConfigForNuxt({
@@ -16,14 +16,10 @@ export default createConfigForNuxt({
     ],
   },
 })
-  .append(
-    ...poupe,
-    {
-      ignores: [
-        '**/.nuxt',
-      ],
-      rules: {
-        '@stylistic/semi': ['error', 'always'],
-      },
+  .append({
+    files,
+    rules: {
+      ...rules,
+      '@stylistic/semi': ['error', 'always'],
     },
-  );
+  });
