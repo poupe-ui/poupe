@@ -1,0 +1,4 @@
+[submodule "packages/eslint-config"]
+	path = packages/eslint-config
+	url = ../eslint-config
+	branch = main
