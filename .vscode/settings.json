@@ -4,8 +4,9 @@
 	],
 
 	"editor.codeActionsOnSave": {
-		"source.fixAll": "explicit"
+		"source.fixAll.eslint": "always"
 	},
 
+	"eslint.experimental.useFlatConfig": true,
 	"explorer.excludeGitIgnore": true
 }
