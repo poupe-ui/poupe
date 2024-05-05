@@ -1,1 +1,2 @@
-export const buildTheme = () => {};
+export * from './colors';
+export * from './utils';
