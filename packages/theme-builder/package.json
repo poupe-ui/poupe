@@ -30,12 +30,11 @@
     "clean": "rm -rf dist node_modules",
     "type-check": "tsc --noEmit"
   },
-  "peerDependencies": {
-  },
   "dependencies": {
     "@material/material-color-utilities": "^0.2.7"
   },
   "devDependencies": {
+    "@poupe/eslint-config": "link:../eslint-config"
   },
   "engines": {
     "node": ">= 18",

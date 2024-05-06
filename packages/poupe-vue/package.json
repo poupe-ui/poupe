@@ -15,9 +15,10 @@
     "vue": "^3.4.26"
   },
   "devDependencies": {
+    "@poupe/eslint-config": "link:../eslint-config",
     "@tsconfig/node20": "^20.1.4",
     "@types/jsdom": "^21.1.6",
-    "@types/node": "^20.12.7",
+    "@types/node": "^20.12.10",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/test-utils": "^2.4.5",
