@@ -33,23 +33,18 @@ export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
   return out;
 }
 
-function expandOption(o: ColorOption) {
+function customColor(source: Hct, name: string, option: ColorOption) {
   let blend: boolean;
   let value: number;
 
-  if (typeof o === 'string') {
-    value = argbFromHex(o);
-    blend = false;
+  if (typeof option === 'string') {
+    value = argbFromHex(option);
+    blend = true;
   } else {
-    value = argbFromHex(o.value);
-    blend = o.harmonize || false;
+    value = argbFromHex(option.value);
+    blend = option.harmonize || true;
   }
 
-  return { value, blend };
-}
-
-function customColor(source: Hct, name: string, option: ColorOption) {
-  const { value, blend } = expandOption(option);
   return customColorFromArgb(source.toInt(), {
     name,
     value,
