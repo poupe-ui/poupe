@@ -40,10 +40,12 @@ export class Color {
       this._hct = Hct.fromInt(value);
       this._argb = value;
       this._hex = undefined;
-    } else {
+    } else if (value instanceof Hct) {
       this._hct = value;
       this._argb = undefined;
       this._hex = undefined;
+    } else {
+      throw new TypeError('invalid initializer value');
     }
   }
 
@@ -116,10 +118,14 @@ export function makeCustomColors(source: HexColor | Color, colors: ColorOptionTa
     }
   }
 
+  type customColorTable = {
+    [K in keyof typeof darkColors]: Color;
+  };
+
   return {
     source,
-    dark: darkColors,
-    light: lightColors,
+    dark: darkColors as customColorTable,
+    light: lightColors as customColorTable,
   };
 }
 
@@ -130,9 +136,9 @@ export function makeColors(source: HexColor | Color,
 ) {
   source = typeof source === 'string' ? new Color(source) : source;
 
-  const schemeObject = standardDynamicSchemes[scheme] || standardDynamicSchemes.content;
-  const darkScheme = schemeObject(source.hct, true, contrastLevel);
-  const lightScheme = schemeObject(source.hct, false, contrastLevel);
+  const schemeFactory = standardDynamicSchemes[scheme] || standardDynamicSchemes.content;
+  const darkScheme = schemeFactory(source.hct, true, contrastLevel);
+  const lightScheme = schemeFactory(source.hct, false, contrastLevel);
 
   const { dark: darkCustomColors, light: lightCustomColors } = makeCustomColors(source, customColors);
 
@@ -146,13 +152,15 @@ export function makeColors(source: HexColor | Color,
     ...lightCustomColors,
   };
 
-  // TODO: generate unique type for dark/light
+  type dynamicColorTable = {
+    [K in keyof typeof dark]: Color;
+  };
+
   return {
-    source,
-    scheme: schemeObject,
+    source: source as Color,
     darkScheme,
     lightScheme,
-    dark: dark as ColorTable,
-    light: light as ColorTable,
+    dark: dark as dynamicColorTable,
+    light: light as dynamicColorTable,
   };
 }
