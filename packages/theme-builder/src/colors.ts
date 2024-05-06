@@ -3,17 +3,15 @@ import {
 } from './utils';
 
 import {
-  ColorGroup,
+  standardDynamicColors,
+  standardDynamicSchemes,
+  standardDynamicSchemeKey,
+  customDynamicColors,
+} from './mcu';
+
+import {
   DynamicScheme,
   Hct,
-  MaterialDynamicColors,
-  SchemeContent,
-  SchemeExpressive,
-  SchemeFidelity,
-  SchemeMonochrome,
-  SchemeNeutral,
-  SchemeTonalSpot,
-  SchemeVibrant,
   argbFromHex,
   hexFromArgb,
   customColor,
@@ -73,91 +71,6 @@ export class Color {
 
 export type ColorTable = { [name: string]: Color };
 export type ColorOptionTable = { [name: string]: ColorOption };
-
-// work tables
-//
-const standardDynamicSchemes: { [name: string]: typeof DynamicScheme.constructor } = {
-  content: SchemeContent,
-  expressive: SchemeExpressive,
-  fidelity: SchemeFidelity,
-  monochrome: SchemeMonochrome,
-  neutral: SchemeNeutral,
-  tonalSport: SchemeTonalSpot,
-  vibrant: SchemeVibrant,
-};
-
-const customDynamicColors: { [pattern: string]: (cc: ColorGroup) => number } = {
-  '{}': (cc: ColorGroup) => cc.color,
-  '{}-container': (cc: ColorGroup) => cc.colorContainer,
-  'on-{}': (cc: ColorGroup) => cc.onColor,
-  'on-{}-container': (cc: ColorGroup) => cc.onColorContainer,
-};
-
-const standardDynamicColors = {
-  // {}
-  'background': MaterialDynamicColors.background,
-  'inverse-surface': MaterialDynamicColors.inverseSurface,
-  // surface-{}
-  'surface': MaterialDynamicColors.surface,
-  'surface-dim': MaterialDynamicColors.surfaceDim,
-  'surface-bright': MaterialDynamicColors.surfaceBright,
-  'surface-variant': MaterialDynamicColors.surfaceVariant,
-  'surface-tint': MaterialDynamicColors.surfaceTint,
-  // surface-container-{}
-  'surface-container-lowest': MaterialDynamicColors.surfaceContainerLowest,
-  'surface-container-low': MaterialDynamicColors.surfaceContainerLow,
-  'surface-container': MaterialDynamicColors.surfaceContainer,
-  'surface-container-high': MaterialDynamicColors.surfaceContainerHigh,
-  'surface-container-highest': MaterialDynamicColors.surfaceContainerHighest,
-
-  // on-{}
-  'on-background': MaterialDynamicColors.onBackground,
-  'on-inverse-surface': MaterialDynamicColors.inverseOnSurface,
-  // on-surface-{}
-  'on-surface': MaterialDynamicColors.onSurface,
-  'on-surface-dim': MaterialDynamicColors.onSurface,
-  'on-surface-bright': MaterialDynamicColors.onSurface,
-  'on-surface-variant': MaterialDynamicColors.onSurfaceVariant,
-  'on-surface-tint': MaterialDynamicColors.onSurface,
-  // on-surface-container-{}
-  'on-surface-container-lowest': MaterialDynamicColors.onSurface,
-  'on-surface-container-low': MaterialDynamicColors.onSurface,
-  'on-surface-container': MaterialDynamicColors.onSurface,
-  'on-surface-container-high': MaterialDynamicColors.onSurface,
-  'on-surface-container-highest': MaterialDynamicColors.onSurface,
-
-  // {}
-  'primary': MaterialDynamicColors.primary,
-  'secondary': MaterialDynamicColors.secondary,
-  'tertiary': MaterialDynamicColors.tertiary,
-  'error': MaterialDynamicColors.error,
-
-  // {}-container
-  'primary-container': MaterialDynamicColors.primaryContainer,
-  'secondary-container': MaterialDynamicColors.secondaryContainer,
-  'tertiary-container': MaterialDynamicColors.tertiaryContainer,
-  'error-container': MaterialDynamicColors.errorContainer,
-
-  // on-{}
-  'on-primary': MaterialDynamicColors.onPrimary,
-  'on-secondary': MaterialDynamicColors.onSecondary,
-  'on-tertiary': MaterialDynamicColors.onTertiary,
-  'on-error': MaterialDynamicColors.onError,
-
-  // on-{}-container
-  'on-primary-container': MaterialDynamicColors.onPrimaryContainer,
-  'on-secondary-container': MaterialDynamicColors.onSecondaryContainer,
-  'on-tertiary-container': MaterialDynamicColors.onTertiaryContainer,
-  'on-error-container': MaterialDynamicColors.onErrorContainer,
-
-  // misc
-  'inverse-primary': MaterialDynamicColors.inversePrimary,
-
-  'outline': MaterialDynamicColors.outline,
-  'outline-variant': MaterialDynamicColors.outlineVariant,
-};
-
-type standardDynamicSchemeKey = keyof typeof standardDynamicSchemes;
 
 export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
   const out: ColorTable = {};
