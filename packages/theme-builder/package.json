@@ -13,8 +13,14 @@
   },
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "import": "./dist/index.d.mts"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "require": "./dist/index.cjs"
+      }
     }
   },
   "main": "dist/index.cjs",
@@ -29,6 +35,9 @@
     "build": "unbuild",
     "clean": "rm -rf dist node_modules",
     "type-check": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@material/material-color-utilities": "^0.2.7"
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.2.7"
