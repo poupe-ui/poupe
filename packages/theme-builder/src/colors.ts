@@ -3,223 +3,94 @@ import {
 } from './utils';
 
 import {
-  ColorGroup,
   DynamicScheme,
   Hct,
-  MaterialDynamicColors,
-  SchemeContent,
-  SchemeExpressive,
-  SchemeFidelity,
-  SchemeMonochrome,
-  SchemeNeutral,
-  SchemeTonalSpot,
-  SchemeVibrant,
+
+  standardDynamicColors,
+  standardDynamicSchemes,
+  standardDynamicSchemeKey,
+  customDynamicColors,
   argbFromHex,
-  hexFromArgb,
-  customColor,
-} from '@material/material-color-utilities';
+  hctFromHex,
+  customColorFromArgb,
+} from './mcu';
 
 // types
 //
 export type HexColor = `#${string}`;
 export type ColorOption = HexColor | { value: HexColor, harmonize?: boolean };
 
-export class Color {
-  private _hct?: Hct;
-  private _argb?: number;
-  private _hex?: HexColor;
-
-  constructor(value: Hct | HexColor | number) {
-    this.set(value);
-  }
-
-  set(value: Hct | HexColor | number) {
-    if (typeof value === 'string') {
-      this._argb = argbFromHex(value);
-      this._hct = Hct.fromInt(this._argb);
-      this._hex = value;
-    } else if (typeof value === 'number') {
-      this._hct = Hct.fromInt(value);
-      this._argb = value;
-      this._hex = undefined;
-    } else {
-      this._hct = value;
-      this._argb = undefined;
-      this._hex = undefined;
-    }
-  }
-
-  get hct(): Hct {
-    if (this._hct)
-      return this._hct;
-
-    throw 'unreachable';
-  }
-
-  get argb(): number {
-    if (this._argb === undefined) {
-      this._argb = this.hct.toInt();
-    }
-    return this._argb;
-  }
-
-  get hex(): HexColor {
-    if (this._hex === undefined) {
-      this._hex = hexFromArgb(this.argb) as HexColor;
-    }
-    return this._hex;
-  }
-}
-
-export type ColorTable = { [name: string]: Color };
+export type ColorTable = { [name: string]: Hct };
 export type ColorOptionTable = { [name: string]: ColorOption };
-
-// work tables
-//
-const standardDynamicSchemes: { [name: string]: typeof DynamicScheme.constructor } = {
-  content: SchemeContent,
-  expressive: SchemeExpressive,
-  fidelity: SchemeFidelity,
-  monochrome: SchemeMonochrome,
-  neutral: SchemeNeutral,
-  tonalSport: SchemeTonalSpot,
-  vibrant: SchemeVibrant,
-};
-
-const customDynamicColors: { [pattern: string]: (cc: ColorGroup) => number } = {
-  '{}': (cc: ColorGroup) => cc.color,
-  '{}-container': (cc: ColorGroup) => cc.colorContainer,
-  'on-{}': (cc: ColorGroup) => cc.onColor,
-  'on-{}-container': (cc: ColorGroup) => cc.onColorContainer,
-};
-
-const standardDynamicColors = {
-  // {}
-  'background': MaterialDynamicColors.background,
-  'inverse-surface': MaterialDynamicColors.inverseSurface,
-  // surface-{}
-  'surface': MaterialDynamicColors.surface,
-  'surface-dim': MaterialDynamicColors.surfaceDim,
-  'surface-bright': MaterialDynamicColors.surfaceBright,
-  'surface-variant': MaterialDynamicColors.surfaceVariant,
-  'surface-tint': MaterialDynamicColors.surfaceTint,
-  // surface-container-{}
-  'surface-container-lowest': MaterialDynamicColors.surfaceContainerLowest,
-  'surface-container-low': MaterialDynamicColors.surfaceContainerLow,
-  'surface-container': MaterialDynamicColors.surfaceContainer,
-  'surface-container-high': MaterialDynamicColors.surfaceContainerHigh,
-  'surface-container-highest': MaterialDynamicColors.surfaceContainerHighest,
-
-  // on-{}
-  'on-background': MaterialDynamicColors.onBackground,
-  'on-inverse-surface': MaterialDynamicColors.inverseOnSurface,
-  // on-surface-{}
-  'on-surface': MaterialDynamicColors.onSurface,
-  'on-surface-dim': MaterialDynamicColors.onSurface,
-  'on-surface-bright': MaterialDynamicColors.onSurface,
-  'on-surface-variant': MaterialDynamicColors.onSurfaceVariant,
-  'on-surface-tint': MaterialDynamicColors.onSurface,
-  // on-surface-container-{}
-  'on-surface-container-lowest': MaterialDynamicColors.onSurface,
-  'on-surface-container-low': MaterialDynamicColors.onSurface,
-  'on-surface-container': MaterialDynamicColors.onSurface,
-  'on-surface-container-high': MaterialDynamicColors.onSurface,
-  'on-surface-container-highest': MaterialDynamicColors.onSurface,
-
-  // {}
-  'primary': MaterialDynamicColors.primary,
-  'secondary': MaterialDynamicColors.secondary,
-  'tertiary': MaterialDynamicColors.tertiary,
-  'error': MaterialDynamicColors.error,
-
-  // {}-container
-  'primary-container': MaterialDynamicColors.primaryContainer,
-  'secondary-container': MaterialDynamicColors.secondaryContainer,
-  'tertiary-container': MaterialDynamicColors.tertiaryContainer,
-  'error-container': MaterialDynamicColors.errorContainer,
-
-  // on-{}
-  'on-primary': MaterialDynamicColors.onPrimary,
-  'on-secondary': MaterialDynamicColors.onSecondary,
-  'on-tertiary': MaterialDynamicColors.onTertiary,
-  'on-error': MaterialDynamicColors.onError,
-
-  // on-{}-container
-  'on-primary-container': MaterialDynamicColors.onPrimaryContainer,
-  'on-secondary-container': MaterialDynamicColors.onSecondaryContainer,
-  'on-tertiary-container': MaterialDynamicColors.onTertiaryContainer,
-  'on-error-container': MaterialDynamicColors.onErrorContainer,
-
-  // misc
-  'inverse-primary': MaterialDynamicColors.inversePrimary,
-
-  'outline': MaterialDynamicColors.outline,
-  'outline-variant': MaterialDynamicColors.outlineVariant,
-};
-
-type standardDynamicSchemeKey = keyof typeof standardDynamicSchemes;
 
 export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
   const out: ColorTable = {};
 
   for (const [name, dc] of Object.entries(standardDynamicColors)) {
-    out[name] = new Color(dc.getHct(scheme));
+    out[name] = dc.getHct(scheme);
   }
 
   return out;
 }
 
-function expandOption(o: ColorOption) {
+function customColor(source: Hct, name: string, option: ColorOption) {
   let blend: boolean;
   let value: number;
 
-  if (typeof o === 'string') {
-    value = argbFromHex(o);
-    blend = false;
+  if (typeof option === 'string') {
+    value = argbFromHex(option);
+    blend = true;
   } else {
-    value = argbFromHex(o.value);
-    blend = o.harmonize || false;
+    value = argbFromHex(option.value);
+    blend = option.harmonize || true;
   }
 
-  return { value, blend };
+  return customColorFromArgb(source.toInt(), {
+    name,
+    value,
+    blend,
+  });
 }
 
-export function makeCustomColors(source: HexColor | Color, colors: ColorOptionTable = {}) {
-  source = typeof source === 'string' ? new Color(source) : source;
+export function makeCustomColors(source: HexColor | Hct, colors: ColorOptionTable = {}) {
+  source = typeof source === 'string' ? hctFromHex(source) : source;
 
   const darkColors: ColorTable = {};
   const lightColors: ColorTable = {};
 
   for (const [name, option] of Object.entries(colors)) {
     const kebabName = kebabCase(name);
-    const { value, blend } = expandOption(option);
-    const { dark, light } = customColor(source.argb, { name, value, blend });
+    const { dark, light } = customColor(source, name, option);
 
     for (const [pattern, fn] of Object.entries(customDynamicColors)) {
       const name = pattern.replace('{}', kebabName);
 
-      darkColors[name] = new Color(fn(dark));
-      lightColors[name] = new Color(fn(light));
+      darkColors[name] = Hct.fromInt(fn(dark));
+      lightColors[name] = Hct.fromInt(fn(light));
     }
   }
 
+  type customColorTable = {
+    [K in keyof typeof darkColors]: Hct;
+  };
+
   return {
     source,
-    dark: darkColors,
-    light: lightColors,
+    dark: darkColors as customColorTable,
+    light: lightColors as customColorTable,
   };
 }
 
-export function makeColors(source: HexColor | Color,
+export function makeColors(source: HexColor | Hct,
   scheme: standardDynamicSchemeKey = 'content',
   contrastLevel: number,
   customColors: ColorOptionTable = {},
 ) {
-  source = typeof source === 'string' ? new Color(source) : source;
+  source = typeof source === 'string' ? hctFromHex(source) : source;
 
-  const schemeObject = standardDynamicSchemes[scheme] || standardDynamicSchemes.content;
-  const darkScheme = schemeObject(source.hct, true, contrastLevel);
-  const lightScheme = schemeObject(source.hct, false, contrastLevel);
+  const schemeFactory = standardDynamicSchemes[scheme] || standardDynamicSchemes.content;
+  const darkScheme = schemeFactory(source, true, contrastLevel);
+  const lightScheme = schemeFactory(source, false, contrastLevel);
 
   const { dark: darkCustomColors, light: lightCustomColors } = makeCustomColors(source, customColors);
 
@@ -233,13 +104,15 @@ export function makeColors(source: HexColor | Color,
     ...lightCustomColors,
   };
 
-  // TODO: generate unique type for dark/light
+  type dynamicColorTable = {
+    [K in keyof typeof dark]: Hct;
+  };
+
   return {
-    source,
-    scheme: schemeObject,
+    source: source as Hct,
     darkScheme,
     lightScheme,
-    dark: dark as ColorTable,
-    light: light as ColorTable,
+    dark: dark as dynamicColorTable,
+    light: light as dynamicColorTable,
   };
 }
