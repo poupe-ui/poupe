@@ -1,4 +1,13 @@
 {
+	// exporer
+	"files.exclude": {
+		"**/.git": true,
+		"**/.DS_Store": true,
+		"**/Thumbs.db": true,
+		"**/node_modules": true,
+	},
+
+	// spelling
 	"cSpell.language": "en-GB",
 	"cSpell.words": [
 		"changelogen",
@@ -7,10 +16,10 @@
 		"poupe"
 	],
 
+	// ESLint
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "always"
 	},
 
-	"eslint.experimental.useFlatConfig": true,
-	"explorer.excludeGitIgnore": true
+	"eslint.experimental.useFlatConfig": true
 }
