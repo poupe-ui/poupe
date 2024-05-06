@@ -23,7 +23,7 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "pnpm build",
+    "prepack": "run-s lint type-check build",
     "dev:prepare": "unbuild --stub",
     "lint": "eslint --fix .",
     "build": "unbuild",
