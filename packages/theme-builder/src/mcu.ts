@@ -1,6 +1,5 @@
 import {
   ColorGroup,
-  CustomColor,
   DynamicScheme,
   MaterialDynamicColors,
   Hct,
@@ -11,10 +10,6 @@ import {
   SchemeNeutral,
   SchemeTonalSpot,
   SchemeVibrant,
-
-  argbFromHex,
-  hexFromArgb,
-  customColor as customColorFromArgb,
 } from '@material/material-color-utilities';
 
 // re-export
@@ -30,9 +25,6 @@ export {
 
 // helpers
 //
-export const hctFromHex = (hex: string) => Hct.fromInt(argbFromHex(hex));
-export const hexFromHct = (c: Hct) => hexFromArgb(c.toInt());
-export const customColorFromHct = (source: Hct, color: CustomColor) => customColorFromArgb(source.toInt(), color);
 
 // DynamicScheme
 //

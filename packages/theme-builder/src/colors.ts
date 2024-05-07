@@ -10,10 +10,13 @@ import {
   standardDynamicSchemes,
   standardDynamicSchemeKey,
   customDynamicColors,
+} from './mcu';
+
+import {
   argbFromHex,
   hctFromHex,
   customColorFromArgb,
-} from './mcu';
+} from './dynamic-color';
 
 // types
 //
