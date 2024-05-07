@@ -149,6 +149,9 @@ importers:
       '@poupe/eslint-config':
         specifier: link:../eslint-config
         version: link:../eslint-config
+      vitest:
+        specifier: ^1.5.3
+        version: 1.6.0(@types/node@20.12.10)(jsdom@24.0.0)(terser@5.31.0)
 
 packages:
 
