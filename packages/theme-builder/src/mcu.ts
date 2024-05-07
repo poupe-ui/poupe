@@ -1,46 +1,13 @@
 import {
   ColorGroup,
-  DynamicScheme,
   MaterialDynamicColors,
-  Hct,
-  SchemeContent,
-  SchemeExpressive,
-  SchemeFidelity,
-  SchemeMonochrome,
-  SchemeNeutral,
-  SchemeTonalSpot,
-  SchemeVibrant,
 } from '@material/material-color-utilities';
 
 // re-export
 //
 export {
-  DynamicScheme,
-  Hct,
-
-  argbFromHex,
-  hexFromArgb,
-  customColor as customColorFromArgb,
+  ColorGroup,
 } from '@material/material-color-utilities';
-
-// helpers
-//
-
-// DynamicScheme
-//
-export type DynamicSchemeFactory = (source: Hct, isDark: boolean, contrastLevel: number) => DynamicScheme;
-
-export const standardDynamicSchemes = {
-  content: SchemeContent.constructor as DynamicSchemeFactory,
-  expressive: SchemeExpressive.constructor as DynamicSchemeFactory,
-  fidelity: SchemeFidelity.constructor as DynamicSchemeFactory,
-  monochrome: SchemeMonochrome.constructor as DynamicSchemeFactory,
-  neutral: SchemeNeutral.constructor as DynamicSchemeFactory,
-  tonalSport: SchemeTonalSpot.constructor as DynamicSchemeFactory,
-  vibrant: SchemeVibrant.constructor as DynamicSchemeFactory,
-};
-
-export type standardDynamicSchemeKey = keyof typeof standardDynamicSchemes;
 
 // DynamicColor
 //

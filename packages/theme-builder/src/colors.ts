@@ -3,23 +3,26 @@ import {
 } from './utils';
 
 import {
-  DynamicScheme,
-  Hct,
-
   standardDynamicColors,
-  standardDynamicSchemes,
-  standardDynamicSchemeKey,
   customDynamicColors,
 } from './mcu';
 
 import {
   Color,
   HexColor,
+  Hct,
 
   argbFromHex,
   hct,
   customColorFromArgb,
 } from './dynamic-color';
+
+import {
+  DynamicScheme,
+
+  standardDynamicSchemes,
+  standardDynamicSchemeKey,
+} from './dynamic-scheme';
 
 // types
 //
