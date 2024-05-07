@@ -15,7 +15,7 @@
     ".": {
       "import": {
         "types": "./dist/index.d.mts",
-        "import": "./dist/index.d.mts"
+        "import": "./dist/index.mjs"
       },
       "require": {
         "types": "./dist/index.d.cts",
@@ -23,18 +23,20 @@
       }
     }
   },
-  "main": "dist/index.cjs",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "prepack": "run-s lint type-check build",
+    "prepack": "run-s lint type-check build publint",
     "dev:prepare": "unbuild --stub",
+    "type-check": "tsc --noEmit",
     "lint": "eslint --fix .",
+    "publint": "pnpx publint",
     "build": "unbuild",
-    "clean": "rm -rf dist node_modules",
-    "type-check": "tsc --noEmit"
+    "clean": "rm -rf dist node_modules"
   },
   "peerDependencies": {
     "@material/material-color-utilities": "^0.2.7"
