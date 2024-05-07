@@ -3,11 +3,6 @@ import {
 } from './utils';
 
 import {
-  standardDynamicColors,
-  customDynamicColors,
-} from './mcu';
-
-import {
   Color,
   HexColor,
   Hct,
@@ -15,6 +10,9 @@ import {
   argbFromHex,
   hct,
   customColorFromArgb,
+
+  standardDynamicColors,
+  customDynamicColors,
 } from './dynamic-color';
 
 import {
