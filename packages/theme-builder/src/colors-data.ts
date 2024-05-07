@@ -17,7 +17,7 @@ import {
 
 // DynamicColor
 //
-export const customDynamicColors: { [pattern: string]: (cc: ColorGroup) => number } = {
+export const customDynamicColors: Record<string, (cc: ColorGroup) => number > = {
   '{}': (cc: ColorGroup) => cc.color,
   '{}-container': (cc: ColorGroup) => cc.colorContainer,
   'on-{}': (cc: ColorGroup) => cc.onColor,

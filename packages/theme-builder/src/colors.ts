@@ -27,11 +27,10 @@ import {
 //
 export type ColorOption = HexColor | { value: HexColor, harmonize?: boolean };
 
-export type ColorTable = { [name: string]: Hct };
-export type ColorOptionTable = { [name: string]: ColorOption };
+export type ColorOptionTable = Record<string, ColorOption>;
 
 export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
-  const out: ColorTable = {};
+  const out: Record<string, Hct> = {};
 
   for (const [name, dc] of Object.entries(standardDynamicColors)) {
     out[name] = dc.getHct(scheme);
@@ -62,8 +61,8 @@ function customColor(source: Hct, name: string, option: ColorOption) {
 export function makeCustomColors(source: Color, colors: ColorOptionTable = {}) {
   source = hct(source);
 
-  const darkColors: ColorTable = {};
-  const lightColors: ColorTable = {};
+  const darkColors: Record<string, Hct> = {};
+  const lightColors: Record<string, Hct> = {};
 
   for (const [name, option] of Object.entries(colors)) {
     const kebabName = kebabCase(name);
@@ -90,7 +89,7 @@ export function makeCustomColors(source: Color, colors: ColorOptionTable = {}) {
 
 export function makeColors(source: Color,
   scheme: standardDynamicSchemeKey = 'content',
-  contrastLevel: number,
+  contrastLevel: number = 0,
   customColors: ColorOptionTable = {},
 ) {
   source = hct(source);
@@ -116,7 +115,7 @@ export function makeColors(source: Color,
   };
 
   return {
-    source: source as Hct,
+    source,
     darkScheme,
     lightScheme,
     dark: dark as dynamicColorTable,
