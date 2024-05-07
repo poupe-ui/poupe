@@ -10,17 +10,18 @@ import {
   argbFromHex,
   hct,
   customColorFromArgb,
-
-  standardDynamicColors,
-  customDynamicColors,
 } from './dynamic-color';
 
 import {
   DynamicScheme,
+} from './dynamic-scheme';
 
+import {
   standardDynamicSchemes,
   standardDynamicSchemeKey,
-} from './dynamic-scheme';
+  standardDynamicColors,
+  customDynamicColors,
+} from './colors-data';
 
 // types
 //
