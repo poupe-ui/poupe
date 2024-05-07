@@ -30,12 +30,14 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "run-s lint type-check build publint",
+    "prepack": "run-s lint type-check test build publint",
     "dev:prepare": "unbuild --stub",
     "type-check": "tsc --noEmit",
     "lint": "eslint --fix .",
     "publint": "pnpx publint",
     "build": "unbuild",
+    "test": "vitest run",
+    "dev":  "vitest watch",
     "clean": "rm -rf dist node_modules"
   },
   "peerDependencies": {
@@ -45,7 +47,8 @@
     "@material/material-color-utilities": "^0.2.7"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "link:../eslint-config"
+    "@poupe/eslint-config": "link:../eslint-config",
+    "vitest": "^1.5.3"
   },
   "engines": {
     "node": ">= 18",
