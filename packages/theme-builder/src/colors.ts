@@ -13,14 +13,16 @@ import {
 } from './mcu';
 
 import {
+  Color,
+  HexColor,
+
   argbFromHex,
-  hctFromHex,
+  hct,
   customColorFromArgb,
 } from './dynamic-color';
 
 // types
 //
-export type HexColor = `#${string}`;
 export type ColorOption = HexColor | { value: HexColor, harmonize?: boolean };
 
 export type ColorTable = { [name: string]: Hct };
@@ -55,8 +57,8 @@ function customColor(source: Hct, name: string, option: ColorOption) {
   });
 }
 
-export function makeCustomColors(source: HexColor | Hct, colors: ColorOptionTable = {}) {
-  source = typeof source === 'string' ? hctFromHex(source) : source;
+export function makeCustomColors(source: Color, colors: ColorOptionTable = {}) {
+  source = hct(source);
 
   const darkColors: ColorTable = {};
   const lightColors: ColorTable = {};
@@ -84,12 +86,12 @@ export function makeCustomColors(source: HexColor | Hct, colors: ColorOptionTabl
   };
 }
 
-export function makeColors(source: HexColor | Hct,
+export function makeColors(source: Color,
   scheme: standardDynamicSchemeKey = 'content',
   contrastLevel: number,
   customColors: ColorOptionTable = {},
 ) {
-  source = typeof source === 'string' ? hctFromHex(source) : source;
+  source = hct(source);
 
   const schemeFactory = standardDynamicSchemes[scheme] || standardDynamicSchemes.content;
   const darkScheme = schemeFactory(source, true, contrastLevel);
