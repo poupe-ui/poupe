@@ -108,7 +108,7 @@ export const contentAccentToneDelta = MaterialDynamicColors.contentAccentToneDel
 
 // DynamicScheme
 //
-export const standardDynamicSchemes: Record<string, standardDynamicSchemeFactory> = {
+export const standardDynamicSchemes = {
   content: (primary, isDark = false, contrastLevel = 0) => new SchemeContent(hct(primary), isDark, contrastLevel),
   expressive: (primary, isDark = false, contrastLevel = 0) => new SchemeExpressive(hct(primary), isDark, contrastLevel),
   fidelity: (primary, isDark = false, contrastLevel = 0) => new SchemeFidelity(hct(primary), isDark, contrastLevel),
@@ -116,8 +116,6 @@ export const standardDynamicSchemes: Record<string, standardDynamicSchemeFactory
   neutral: (primary, isDark = false, contrastLevel = 0) => new SchemeNeutral(hct(primary), isDark, contrastLevel),
   tonalSpot: (primary, isDark = false, contrastLevel = 0) => new SchemeTonalSpot(hct(primary), isDark, contrastLevel),
   vibrant: (primary, isDark = false, contrastLevel = 0) => new SchemeVibrant(hct(primary), isDark, contrastLevel),
-};
+} satisfies Record<string, standardDynamicSchemeFactory>;
 
-export type standardDynamicSchemeKey =
-  'content' | 'expressive' | 'fidelity' |
-  'monochrome' | 'neutral' | 'tonalSpot' | 'vibrant';
+export type standardDynamicSchemeKey = keyof typeof standardDynamicSchemes;
