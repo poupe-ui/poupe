@@ -63,9 +63,7 @@ export const argb = (value: string | Hct | number): number => {
 
 export const hex = (value: string | Hct | number): HexColor => {
   if (typeof value === 'number')
-    return hexFromArgb(value) as HexColor;
-  else if (typeof value === 'object')
-    return hexFromHct(value) as HexColor;
-  else
-    return hexFromString(value);
+    return hexFromArgb(value);
+
+  return typeof value === 'object' ? hexFromHct(value) : hexFromString(value);
 };
