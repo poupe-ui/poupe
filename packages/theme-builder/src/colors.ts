@@ -40,16 +40,8 @@ export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
 }
 
 function customColor(source: Hct, name: string, option: ColorOption) {
-  let blend: boolean;
-  let value: number;
-
-  if (typeof option === 'string') {
-    value = argbFromHex(option);
-    blend = true;
-  } else {
-    value = argbFromHex(option.value);
-    blend = option.harmonize || true;
-  }
+  const value = argbFromHex(typeof option === 'object' ? option.value : option);
+  const blend = typeof option === 'object' ? option.harmonize || true : true;
 
   return customColorFromArgb(source.toInt(), {
     name,
