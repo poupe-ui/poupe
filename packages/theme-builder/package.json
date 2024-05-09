@@ -42,14 +42,15 @@
     "publint": "pnpx publint",
     "build": "unbuild",
     "test": "vitest run",
-    "dev":  "vitest watch",
+    "dev": "vitest watch",
     "clean": "rm -rf dist node_modules"
   },
   "peerDependencies": {
     "@material/material-color-utilities": "^0.2.7"
   },
   "dependencies": {
-    "@material/material-color-utilities": "^0.2.7"
+    "@material/material-color-utilities": "^0.2.7",
+    "type-fest": "^4.18.2"
   },
   "devDependencies": {
     "@poupe/eslint-config": "link:../eslint-config",

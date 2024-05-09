@@ -15,15 +15,23 @@ import {
   standardDynamicSchemeFactory,
 } from './core';
 
-// DynamicColor
+// CustomDynamicColor
 //
-export const customDynamicColors: Record<string, (cc: ColorGroup) => number > = {
+export const customDynamicColors = {
   '{}': (cc: ColorGroup) => cc.color,
   '{}-container': (cc: ColorGroup) => cc.colorContainer,
   'on-{}': (cc: ColorGroup) => cc.onColor,
   'on-{}-container': (cc: ColorGroup) => cc.onColorContainer,
-};
+} satisfies Record<string, (cc: ColorGroup) => number>;
 
+export type CustomDynamicColorKey<T extends string> =
+  `${T}` |
+  `${T}-container` |
+  `on-${T}` |
+  `on-${T}-container`;
+
+// StandardDynamicColor
+//
 export const standardDynamicColors = {
   // surface-{}
   'surface': MaterialDynamicColors.surface,
@@ -106,6 +114,8 @@ export const standardDynamicColors = {
 
 export const contentAccentToneDelta = MaterialDynamicColors.contentAccentToneDelta;
 
+export type StandardDynamicColorKey = keyof typeof standardDynamicColors;
+
 // DynamicScheme
 //
 export const standardDynamicSchemes = {
@@ -118,4 +128,4 @@ export const standardDynamicSchemes = {
   vibrant: (primary, isDark = false, contrastLevel = 0) => new SchemeVibrant(hct(primary), isDark, contrastLevel),
 } satisfies Record<string, standardDynamicSchemeFactory>;
 
-export type standardDynamicSchemeKey = keyof typeof standardDynamicSchemes;
+export type StandardDynamicSchemeKey = keyof typeof standardDynamicSchemes;
