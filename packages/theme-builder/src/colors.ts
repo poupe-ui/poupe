@@ -4,10 +4,9 @@ import {
 
 import {
   Color,
-  HexColor,
   Hct,
 
-  argbFromHex,
+  argb,
   hct,
   customColorFromArgb,
 } from './dynamic-color';
@@ -25,7 +24,7 @@ import {
 
 // types
 //
-export type ColorOption = HexColor | { value: HexColor, harmonize?: boolean };
+export type ColorOption = Color | { value: Color, harmonize?: boolean };
 
 type StandardDynamicColorKey = keyof typeof standardDynamicColors;
 type StandardDynamicColors = { [K in StandardDynamicColorKey]: Hct };
@@ -41,8 +40,12 @@ export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
 }
 
 function customColor(source: Hct, name: string, option: ColorOption) {
-  const value = argbFromHex(typeof option === 'object' ? option.value : option);
-  const blend = typeof option === 'object' ? option.harmonize || true : true;
+  if (option instanceof Hct || typeof option !== 'object') {
+    option = { value: option };
+  }
+
+  const value = argb(option.value);
+  const blend = option.harmonize || true;
 
   return customColorFromArgb(source.toInt(), {
     name,
