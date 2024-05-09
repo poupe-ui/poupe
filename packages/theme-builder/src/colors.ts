@@ -27,16 +27,17 @@ import {
 //
 export type ColorOption = HexColor | { value: HexColor, harmonize?: boolean };
 
-export type ColorOptionTable = Record<string, ColorOption>;
+type StandardDynamicColorKey = keyof typeof standardDynamicColors;
+type StandardDynamicColors = { [K in StandardDynamicColorKey]: Hct };
 
 export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
-  const out: Record<string, Hct> = {};
+  const out: Partial<StandardDynamicColors> = {};
 
   for (const [name, dc] of Object.entries(standardDynamicColors)) {
-    out[name] = dc.getHct(scheme);
+    out[name as StandardDynamicColorKey] = dc.getHct(scheme);
   }
 
-  return out;
+  return out as StandardDynamicColors;
 }
 
 function customColor(source: Hct, name: string, option: ColorOption) {
@@ -50,7 +51,7 @@ function customColor(source: Hct, name: string, option: ColorOption) {
   });
 }
 
-export function makeCustomColors(source: Color, colors: ColorOptionTable = {}) {
+export function makeCustomColors(source: Color, colors = {} satisfies Record<string, ColorOption>) {
   source = hct(source);
 
   const darkColors: Record<string, Hct> = {};
@@ -58,7 +59,7 @@ export function makeCustomColors(source: Color, colors: ColorOptionTable = {}) {
 
   for (const [name, option] of Object.entries(colors)) {
     const kebabName = kebabCase(name);
-    const { dark, light } = customColor(source, name, option);
+    const { dark, light } = customColor(source, name, option as ColorOption);
 
     for (const [pattern, fn] of Object.entries(customDynamicColors)) {
       const name = pattern.replace('{}', kebabName);
@@ -68,21 +69,21 @@ export function makeCustomColors(source: Color, colors: ColorOptionTable = {}) {
     }
   }
 
-  type customColorTable = {
-    [K in keyof typeof darkColors]: Hct;
+  type customDynamicColors = {
+    [K in keyof typeof darkColors]: Hct; // TODO: fixme
   };
 
   return {
     source,
-    dark: darkColors as customColorTable,
-    light: lightColors as customColorTable,
+    dark: darkColors as customDynamicColors,
+    light: lightColors as customDynamicColors,
   };
 }
 
 export function makeColors(source: Color,
   scheme: standardDynamicSchemeKey = 'content',
   contrastLevel: number = 0,
-  customColors: ColorOptionTable = {},
+  customColors = {} satisfies Record<string, ColorOption>,
 ) {
   source = hct(source);
 
@@ -91,26 +92,26 @@ export function makeColors(source: Color,
   const lightScheme = schemeFactory(source, false, contrastLevel);
 
   const { dark: darkCustomColors, light: lightCustomColors } = makeCustomColors(source, customColors);
+  const darkStandardColors = makeStandardColorsFromScheme(darkScheme);
+  const lightStandardColors = makeStandardColorsFromScheme(lightScheme);
 
-  const dark = {
-    ...makeStandardColorsFromScheme(darkScheme),
+  type dynamicColors = typeof darkStandardColors & typeof darkCustomColors;
+
+  const dark: dynamicColors = {
+    ...darkStandardColors,
     ...darkCustomColors,
   };
 
-  const light = {
-    ...makeStandardColorsFromScheme(lightScheme),
+  const light: dynamicColors = {
+    ...lightStandardColors,
     ...lightCustomColors,
-  };
-
-  type dynamicColorTable = {
-    [K in keyof typeof dark]: Hct;
   };
 
   return {
     source,
     darkScheme,
     lightScheme,
-    dark: dark as dynamicColorTable,
-    light: light as dynamicColorTable,
+    dark,
+    light,
   };
 }
