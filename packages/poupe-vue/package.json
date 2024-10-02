@@ -23,7 +23,7 @@
     "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.5.1",
-    "eslint": "^8.57.1",
+    "eslint": "^9.0.0",
     "eslint-config-unjs": "0.4.1",
     "eslint-plugin-vue": "^9.28.0",
     "jsdom": "^24.1.3",

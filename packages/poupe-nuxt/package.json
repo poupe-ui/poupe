@@ -40,7 +40,7 @@
     "@poupe/eslint-config": "link:../eslint-config",
     "@types/node": "^20.16.10",
     "changelogen": "^0.5.7",
-    "eslint": "^8.57.1",
+    "eslint": "^9.0.0",
     "nuxt": "^3.13.2",
     "typescript": "latest",
     "vitest": "^1.5.3",
