@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.2.7",
-    "type-fest": "^4.18.2"
+    "type-fest": "^4.26.1"
   },
   "devDependencies": {
     "@poupe/eslint-config": "link:../eslint-config",
