@@ -49,12 +49,13 @@
     "@material/material-color-utilities": "^0.2.7"
   },
   "dependencies": {
-    "@material/material-color-utilities": "^0.2.7",
+    "@material/material-color-utilities": "^0.3.0",
     "type-fest": "^4.26.1"
   },
   "devDependencies": {
     "@poupe/eslint-config": "link:../eslint-config",
-    "vitest": "^1.5.3"
+    "typescript": "~5.5.4",
+    "vitest": "^2.1.1"
   },
   "engines": {
     "node": ">= 18",
