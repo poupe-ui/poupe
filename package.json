@@ -8,8 +8,8 @@
   "keywords": [],
   "scripts": {
     "build": "pnpm -r build",
-    "clean": "(ls -1d node_modules 2> /dev/null; find packages -name dist -o -name node_modules -o -name .nuxt ) | xargs -rt -n1 rm -rf",
-    "lint": "eslint --fix --ignore-pattern 'packages/*' . && pnpm -r lint",
+    "clean": "(ls -1d node_modules 2> /dev/null; find packages -name dist -o -name node_modules -o -name .nuxt) | xargs -rt -n1 rm -rf",
+    "lint": "env DEBUG=eslint:eslint eslint --fix --ignore-pattern 'packages/*' . && pnpm -r lint",
     "prepare": "pnpm -r dev:prepare"
   },
   "packageManager": "pnpm@9.14.2+sha512.6e2baf77d06b9362294152c851c4f278ede37ab1eba3a55fda317a4a17b209f4dbb973fb250a77abc463a341fcb1f17f17cfa24091c4eb319cda0d9b84278387"

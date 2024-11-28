@@ -38,7 +38,7 @@
     "prepack": "run-s lint type-check test build publint",
     "dev:prepare": "unbuild --stub",
     "type-check": "tsc --noEmit",
-    "lint": "eslint --fix .",
+    "lint": "env DEBUG=eslint:eslint eslint --fix .",
     "publint": "pnpx publint",
     "build": "unbuild",
     "test": "vitest run",
