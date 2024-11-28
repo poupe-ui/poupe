@@ -1,0 +1,24 @@
+name: Build
+on:
+  push:
+    branches-ignore:
+      - '**-wip'
+  pull_request:
+
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    # Pull requests from the same repository won't trigger this checks as they were already triggered by the push
+    if: (github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository)
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: |
+            - recursive: true
+      - name: Lint
+        run: pnpm lint
+      - name: build
+        run: pnpm build
