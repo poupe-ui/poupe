@@ -1,4 +1,4 @@
-export { KebabCase } from 'type-fest';
+export type { KebabCase } from 'type-fest';
 
 export type Prettify<T> = {
   [K in keyof T]: T[K];
