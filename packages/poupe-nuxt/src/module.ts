@@ -1,7 +1,10 @@
 import { defineNuxtModule, addPlugin, createResolver } from '@nuxt/kit';
+import type { StandardDynamicSchemeKey } from '@poupe/theme-builder';
 
 // Module options TypeScript interface definition
-export interface ModuleOptions {}
+export interface ModuleOptions {
+  scheme: StandardDynamicSchemeKey
+};
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -9,7 +12,9 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'poupe',
   },
   // Default configuration options of the Nuxt module
-  defaults: {},
+  defaults: {
+    scheme: 'content',
+  },
 
   setup(_options, _nuxt) {
     const resolver = createResolver(import.meta.url);
