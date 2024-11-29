@@ -21,6 +21,8 @@ import type { PropType } from './utils';
 
 // types
 //
+type ColorMap<K extends string> = Record<K, Hct>;
+
 interface ColorConfig {
   value: HexColor
   harmonize?: boolean // default: true
@@ -31,24 +33,33 @@ interface MaterialColorConfig {
   [name: string]: HexColor | ColorConfig
 }
 
-export interface MaterialColorOptions {
-  scheme?: StandardDynamicSchemeKey // default: 'content'
-  contrastLevel?: number // default: 0
+export interface TailwindConfigOptions {
   prefix?: string // default: 'md-'
   darkSuffix?: string // default: '-dark'
   lightSuffix?: string // default: '-light'
   darkMode?: string // default: '.dark'
 };
 
-function defaultsMaterialColorOptions(options: MaterialColorOptions): MaterialColorOptions {
+function defaultsTailwindConfigOptions(options: TailwindConfigOptions): TailwindConfigOptions {
   return {
-    scheme: 'content',
-    contrastLevel: 0,
     prefix: 'md-',
     darkSuffix: '-dark',
     lightSuffix: '-light',
     darkMode: '.dark',
     ...options,
+  };
+}
+
+export interface MaterialColorOptions extends TailwindConfigOptions {
+  scheme?: StandardDynamicSchemeKey // default: 'content'
+  contrastLevel?: number // default: 0
+};
+
+function defaultsMaterialColorOptions(options: MaterialColorOptions): MaterialColorOptions {
+  return {
+    scheme: 'content',
+    contrastLevel: 0,
+    ...defaultsMaterialColorOptions(options),
   };
 }
 
@@ -85,10 +96,9 @@ function flattenColorConfigTable(colors: { [name: string]: HexColor | ColorConfi
   };
 }
 
-type colorMap<K extends string> = Record<K, Hct>;
-function buildTailwindConfig<K extends string>(dark: colorMap<K>, light: colorMap<K>, options: MaterialColorOptions) {
+function buildTailwindConfig<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: TailwindConfigOptions) {
   // apply defaults
-  options = defaultsMaterialColorOptions(options);
+  options = defaultsTailwindConfigOptions(options);
 
   const keys = Object.keys(dark) as K[];
   const rootVars: CSSRuleObject = {};
@@ -163,9 +173,7 @@ export function withMaterialColors(config: Partial<Config>,
 
   // build
   const { dark, light } = makeColors(source.value, customColors, options.scheme, options.contrastLevel);
-
-  type K = keyof typeof dark;
-  const { styles, theme } = buildTailwindConfig<K>(dark, light, options);
+  const { styles, theme } = buildTailwindConfig(dark, light, options);
 
   return <Partial<Config>>{
     ...config,
