@@ -47,6 +47,20 @@ export const hexFromHct = (c: Hct) => hexFromArgb(argbFromHct(c));
 export const hctFromHex = (hex: string) => Hct.fromInt(argbFromHex(hex));
 export const hctFromArgb = (argb: number) => Hct.fromInt(argb);
 
+export const alphaFromArgb = (argb: number) => argb >> 24 & 255;
+export const redFromArgb = (argb: number) => argb >> 16 & 255;
+export const greenFromArgb = (argb: number) => argb >> 8 & 255;
+export const blueFromArgb = (argb: number) => argb & 255;
+
+export const rgbFromArgb = (argb: number) => {
+  const r = redFromArgb(argb);
+  const g = greenFromArgb(argb);
+  const b = blueFromArgb(argb);
+  return `${r} ${g} ${b}`;
+};
+
+export const rgbFromHct = (c: Hct) => rgbFromArgb(argbFromHct(c));
+
 export const hct = (value: string | Hct | number): Hct => {
   if (typeof value === 'object')
     return value;
