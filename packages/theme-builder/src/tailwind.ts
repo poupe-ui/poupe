@@ -59,7 +59,7 @@ function defaultsMaterialColorOptions(options: MaterialColorOptions): MaterialCo
   return {
     scheme: 'content',
     contrastLevel: 0,
-    ...defaultsMaterialColorOptions(options),
+    ...defaultsTailwindConfigOptions(options),
   };
 }
 
