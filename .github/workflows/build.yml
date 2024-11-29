@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  make:
+  build:
     runs-on: ubuntu-latest
     # Pull requests from the same repository won't trigger this checks as they were already triggered by the push
     if: (github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository)
@@ -14,11 +14,27 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: 'true'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
       - uses: pnpm/action-setup@v4
         with:
-          run_install: |
-            - recursive: true
-      - name: Lint
+          run_install: false
+      # pnpm cache
+      - name: setup pnpm store cache 1/2
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - name: setup pnpm store cache 2/2
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: pnpm install
+        run: pnpm -r i
+      - name: pnpm lint
         run: pnpm lint
-      - name: build
+      - name: pnpm build
         run: pnpm build
