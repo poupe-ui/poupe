@@ -56,8 +56,8 @@ export const rgbFromArgb = (argb: number) => {
   const r = redFromArgb(argb);
   const g = greenFromArgb(argb);
   const b = blueFromArgb(argb);
-  return `${r} ${g} ${b}`
-}
+  return `${r} ${g} ${b}`;
+};
 
 export const rgbFromHct = (c: Hct) => rgbFromArgb(argbFromHct(c));
 

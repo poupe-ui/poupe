@@ -10,6 +10,7 @@ import {
 
   argb,
   hct,
+  rgbFromHct,
   customColorFromArgb,
 } from './dynamic-color';
 
@@ -119,4 +120,32 @@ export function makeColors<CustomColors extends Record<string, ColorOption>>(sou
     dark,
     light,
   };
+}
+
+export function makeColorVariables<CustomColors extends Record<string, ColorOption>>(source: Color,
+  scheme: StandardDynamicSchemeKey = 'content',
+  contrastLevel: number = 0,
+  customColors: CustomColors = {} as CustomColors,
+  prefix: string = 'md-',
+  darkSuffix: string = '-dark',
+  lightSuffix: string = '-light',
+) {
+  const { dark, light } = makeColors(source, scheme, contrastLevel, customColors);
+
+  const keys = Object.keys(dark) as Array<keyof typeof dark>;
+  const vars: { [k: string]: { dark: string, light: string } } = {};
+  const darkVars: { [k: string]: string } = {};
+  const lightVars: { [k: string]: string } = {};
+
+  for (const k of keys) {
+    const k2 = `--${prefix}${k}`;
+    const k3 = `${k2}${darkSuffix}`;
+    const k4 = `${k2}${lightSuffix}`;
+
+    vars[k2] = { dark: k3, light: k4 };
+    darkVars[k3] = rgbFromHct(dark[k] as Hct);
+    lightVars[k4] = rgbFromHct(light[k] as Hct);
+  }
+
+  return { keys, vars, dark: darkVars, light: lightVars };
 }
