@@ -88,9 +88,9 @@ export function makeCustomColors<Colors extends Record<string, ColorOption>>(sou
 }
 
 export function makeColors<CustomColors extends Record<string, ColorOption>>(source: Color,
+  customColors: CustomColors = {} as CustomColors,
   scheme: StandardDynamicSchemeKey = 'content',
   contrastLevel: number = 0,
-  customColors: CustomColors = {} as CustomColors,
 ) {
   source = hct(source);
 
