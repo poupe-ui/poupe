@@ -101,11 +101,13 @@ function buildTailwindConfig<K extends string>(dark: ColorMap<K>, light: ColorMa
   options = defaultsTailwindConfigOptions(options);
 
   const keys = Object.keys(dark) as K[];
+  const colors: Record<string, string> = {};
+  const rootValues: CSSRuleObject = {};
+  const darkValues: CSSRuleObject = {};
   const rootVars: CSSRuleObject = {};
   const darkVars: CSSRuleObject = {};
-  const colors: Record<string, string> = {};
 
-  const { prefix, darkSuffix, lightSuffix } = options;
+  const { prefix, darkSuffix, lightSuffix, darkMode } = options;
 
   for (const k of keys) {
     const k0 = `--${prefix}${k}`;
@@ -114,30 +116,33 @@ function buildTailwindConfig<K extends string>(dark: ColorMap<K>, light: ColorMa
 
     if (darkSuffix === '' && lightSuffix === '') {
       // MODE 1: direct rgb.
-      rootVars[k0] = v1;
-      darkVars[k0] = v2;
+      rootValues[k0] = v1;
+      darkValues[k0] = v2;
     } else if (darkSuffix !== '' && lightSuffix !== '') {
       // MODE 2: dark and light variables.
       const k1 = `${k0}${lightSuffix}`;
       const k2 = `${k0}${darkSuffix}`;
 
-      rootVars[k1] = v1;
-      rootVars[k2] = v2;
+      rootValues[k1] = v1;
+      rootValues[k2] = v2;
+
       rootVars[k0] = `var(${k1})`;
       darkVars[k0] = `var(${k2})`;
     } else if (darkSuffix === '') {
       // MODE 4: dark direct, light variable.
       const k1 = `${k0}${lightSuffix}`;
 
-      rootVars[k1] = v1;
+      rootValues[k1] = v1;
+      darkValues[k0] = v2;
+
       rootVars[k0] = `var(${k1})`;
-      darkVars[k0] = v2;
     } else {
       // MODE 3: dark variables, light direct.
       const k2 = `${k0}${darkSuffix}`;
 
-      rootVars[k0] = v1;
-      rootVars[k2] = v2;
+      rootValues[k0] = v1;
+      rootValues[k2] = v2;
+
       darkVars[k0] = `var(${k2})`;
     }
 
@@ -147,8 +152,14 @@ function buildTailwindConfig<K extends string>(dark: ColorMap<K>, light: ColorMa
 
   // assemble return values
   const styles: CSSRuleObject = {
-    ':root': rootVars,
-    [options?.darkMode || '.dark']: darkVars,
+    ':root': {
+      ...rootValues,
+      ...rootVars,
+    },
+    [darkMode || '.dark']: {
+      ...darkValues,
+      ...darkVars,
+    },
   };
 
   const theme: PropType<Config, 'theme'> = {
