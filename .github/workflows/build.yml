@@ -33,7 +33,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       - name: pnpm install
-        run: pnpm -r i
+        run: pnpm -r i --no-frozen-lockfile
       - name: pnpm lint
         run: pnpm lint
       - name: pnpm build
