@@ -38,14 +38,20 @@ export interface TailwindConfigOptions {
   darkSuffix?: string // default: '-dark'
   lightSuffix?: string // default: '-light'
   darkMode?: string // default: '.dark'
+  omitValues?: boolean // default: false
+  omitVariables?: boolean // default: false
+  omitColors?: boolean // default: false
 };
 
-function defaultsTailwindConfigOptions(options: TailwindConfigOptions): TailwindConfigOptions {
+function defaultsTailwindConfigOptions(options: TailwindConfigOptions): Required<TailwindConfigOptions> {
   return {
     prefix: 'md-',
     darkSuffix: '-dark',
     lightSuffix: '-light',
     darkMode: '.dark',
+    omitValues: false,
+    omitVariables: false,
+    omitColors: false,
     ...options,
   };
 }
@@ -55,7 +61,7 @@ export interface MaterialColorOptions extends TailwindConfigOptions {
   contrastLevel?: number // default: 0
 };
 
-function defaultsMaterialColorOptions(options: MaterialColorOptions): MaterialColorOptions {
+function defaultsMaterialColorOptions(options: MaterialColorOptions): Required<MaterialColorOptions> {
   return {
     scheme: 'content',
     contrastLevel: 0,
@@ -97,65 +103,104 @@ function flattenColorConfigTable(colors: { [name: string]: HexColor | ColorConfi
 }
 
 function buildTailwindConfig<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: TailwindConfigOptions) {
-  // apply defaults
-  options = defaultsTailwindConfigOptions(options);
+  // output
+  const theme: PropType<Config, 'theme'> = {};
+  const styles: CSSRuleObject = {};
+
+  // options
+  const { prefix, darkSuffix, lightSuffix, darkMode,
+    omitValues, omitVariables, omitColors,
+  } = defaultsTailwindConfigOptions(options);
+
+  if (omitValues && omitVariables && omitColors) {
+    // omit everything
+    return { styles, theme };
+  }
 
   const keys = Object.keys(dark) as K[];
+  const colors: Record<string, string> = {};
+  const rootValues: CSSRuleObject = {};
+  const darkValues: CSSRuleObject = {};
   const rootVars: CSSRuleObject = {};
   const darkVars: CSSRuleObject = {};
-  const colors: Record<string, string> = {};
-
-  const { prefix, darkSuffix, lightSuffix } = options;
 
   for (const k of keys) {
     const k0 = `--${prefix}${k}`;
-    const v1 = rgbFromHct(light[k]);
-    const v2 = rgbFromHct(dark[k]);
+    const v1 = omitValues ? '' : rgbFromHct(light[k]);
+    const v2 = omitValues ? '' : rgbFromHct(dark[k]);
 
-    if (darkSuffix === '' && lightSuffix === '') {
+    if (omitValues && omitVariables) {
+      // MODE 0: only colors
+      ;
+    } else if (darkSuffix === '' && lightSuffix === '') {
       // MODE 1: direct rgb.
-      rootVars[k0] = v1;
-      darkVars[k0] = v2;
+      if (!omitValues) {
+        rootValues[k0] = v1;
+        darkValues[k0] = v2;
+      }
     } else if (darkSuffix !== '' && lightSuffix !== '') {
       // MODE 2: dark and light variables.
       const k1 = `${k0}${lightSuffix}`;
       const k2 = `${k0}${darkSuffix}`;
 
-      rootVars[k1] = v1;
-      rootVars[k2] = v2;
-      rootVars[k0] = `var(${k1})`;
-      darkVars[k0] = `var(${k2})`;
+      if (!omitValues) {
+        rootValues[k1] = v1;
+        rootValues[k2] = v2;
+      }
+
+      if (!omitVariables) {
+        rootVars[k0] = `var(${k1})`;
+        darkVars[k0] = `var(${k2})`;
+      }
     } else if (darkSuffix === '') {
       // MODE 4: dark direct, light variable.
       const k1 = `${k0}${lightSuffix}`;
 
-      rootVars[k1] = v1;
-      rootVars[k0] = `var(${k1})`;
-      darkVars[k0] = v2;
+      if (!omitValues) {
+        rootValues[k1] = v1;
+        darkValues[k0] = v2;
+      }
+
+      if (!omitVariables) {
+        rootVars[k0] = `var(${k1})`;
+      }
     } else {
       // MODE 3: dark variables, light direct.
       const k2 = `${k0}${darkSuffix}`;
 
-      rootVars[k0] = v1;
-      rootVars[k2] = v2;
-      darkVars[k0] = `var(${k2})`;
+      if (!omitValues) {
+        rootValues[k0] = v1;
+        rootValues[k2] = v2;
+      }
+
+      if (!omitVariables) {
+        darkVars[k0] = `var(${k2})`;
+      }
     }
 
-    // register colors
-    colors[k] = `rgb(var(${k0}) / <alpha-value>)`;
+    if (!omitColors) {
+      // register colors
+      colors[k] = `rgb(var(${k0}) / <alpha-value>)`;
+    }
   }
 
   // assemble return values
-  const styles: CSSRuleObject = {
-    ':root': rootVars,
-    [options?.darkMode || '.dark']: darkVars,
-  };
+  if (!omitValues || !omitVariables) {
+    styles['root'] = {
+      ...rootValues,
+      ...rootVars,
+    };
+    styles[darkMode] = {
+      ...darkValues,
+      ...darkVars,
+    };
+  }
 
-  const theme: PropType<Config, 'theme'> = {
-    extend: {
+  if (!omitColors) {
+    theme.extend = {
       colors,
-    },
-  };
+    };
+  }
 
   return { styles, theme };
 }
@@ -169,29 +214,44 @@ export function withMaterialColors(config: Partial<Config>,
   const source = flattenColorConfig(primary);
   const customColors = flattenColorConfigTable(extraColors);
 
-  options = defaultsMaterialColorOptions(options);
+  // options
+  const {
+    scheme, contrastLevel,
+    omitValues, omitVariables, omitColors,
+  } = defaultsMaterialColorOptions(options);
 
   // build
-  const { dark, light } = makeColors(source.value, customColors, options.scheme, options.contrastLevel);
+  const { dark, light } = makeColors(source.value, customColors, scheme, contrastLevel);
   const { styles, theme } = buildTailwindConfig(dark, light, options);
 
-  return <Partial<Config>>{
-    ...config,
-    theme: {
-      ...config?.theme,
-      ...theme,
-      extend: {
-        ...config?.theme?.extend,
-        ...theme?.extend,
-        colors: {
-          ...config?.theme?.extend?.colors,
-          ...theme?.extend?.colors,
+  // output
+  if (!omitColors) {
+    config = {
+      ...config,
+      theme: {
+        ...config?.theme,
+        ...theme,
+        extend: {
+          ...config?.theme?.extend,
+          ...theme?.extend,
+          colors: {
+            ...config?.theme?.extend?.colors,
+            ...theme?.extend?.colors,
+          },
         },
       },
-    },
-    plugins: [
-      ...(config.plugins || []),
-      plugin(({ addBase }) => addBase(styles)),
-    ],
-  };
+    };
+  }
+
+  if (!omitValues || !omitVariables) {
+    config = {
+      ...config,
+      plugins: [
+        ...(config.plugins || []),
+        plugin(({ addBase }) => addBase(styles)),
+      ],
+    };
+  }
+
+  return config;
 }
