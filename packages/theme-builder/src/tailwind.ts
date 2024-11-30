@@ -15,7 +15,7 @@ import {
   hct,
 } from './dynamic-color';
 
-import type { CSSRuleObject, Config } from 'tailwindcss/types/config';
+import type { CSSRuleObject, Config, PluginCreator } from 'tailwindcss/types/config';
 
 import type { PropType } from './utils';
 
@@ -41,6 +41,7 @@ export interface TailwindConfigOptions {
   omitValues?: boolean // default: false
   omitVariables?: boolean // default: false
   omitColors?: boolean // default: false
+  omitPrintException?: boolean // default: false
 };
 
 function defaultsTailwindConfigOptions(options: TailwindConfigOptions): Required<TailwindConfigOptions> {
@@ -52,6 +53,7 @@ function defaultsTailwindConfigOptions(options: TailwindConfigOptions): Required
     omitValues: false,
     omitVariables: false,
     omitColors: false,
+    omitPrintException: false,
     ...options,
   };
 }
@@ -102,6 +104,17 @@ function flattenColorConfigTable(colors: { [name: string]: HexColor | ColorConfi
   };
 }
 
+function darkStyleNotPrint(darkMode: string = '.dark') {
+  return `@media not print { ${darkMode} & }`;
+}
+
+function darkStyleNotPrintPlugin(darkMode: string = '.dark') {
+  return plugin(function ({ addVariant }) {
+    addVariant('dark', darkStyleNotPrint(darkMode));
+  } as PluginCreator);
+}
+
+// withMaterialColors
 function buildTailwindConfig<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: TailwindConfigOptions) {
   // output
   const theme: PropType<Config, 'theme'> = {};
@@ -109,7 +122,7 @@ function buildTailwindConfig<K extends string>(dark: ColorMap<K>, light: ColorMa
 
   // options
   const { prefix, darkSuffix, lightSuffix, darkMode,
-    omitValues, omitVariables, omitColors,
+    omitValues, omitVariables, omitColors, omitPrintException,
   } = defaultsTailwindConfigOptions(options);
 
   if (omitValues && omitVariables && omitColors) {
@@ -186,11 +199,14 @@ function buildTailwindConfig<K extends string>(dark: ColorMap<K>, light: ColorMa
 
   // assemble return values
   if (!omitValues || !omitVariables) {
-    styles['root'] = {
+    const darkStyle = omitPrintException ? darkMode : darkStyleNotPrint(darkMode);
+
+    styles[':root'] = {
       ...rootValues,
       ...rootVars,
     };
-    styles[darkMode] = {
+
+    styles[darkStyle] = {
       ...darkValues,
       ...darkVars,
     };
@@ -216,8 +232,8 @@ export function withMaterialColors(config: Partial<Config>,
 
   // options
   const {
-    scheme, contrastLevel,
-    omitValues, omitVariables, omitColors,
+    scheme, contrastLevel, darkMode,
+    omitValues, omitVariables, omitColors, omitPrintException,
   } = defaultsMaterialColorOptions(options);
 
   // build
@@ -244,14 +260,54 @@ export function withMaterialColors(config: Partial<Config>,
   }
 
   if (!omitValues || !omitVariables) {
+    const plugins: PropType<Config, 'plugin'> = [
+      ...(config.plugins || []),
+      plugin(({ addBase }) => addBase(styles)),
+    ];
+
     config = {
       ...config,
-      plugins: [
-        ...(config.plugins || []),
-        plugin(({ addBase }) => addBase(styles)),
-      ],
+      plugins,
+    };
+  }
+
+  if (!omitPrintException) {
+    const plugins: PropType<Config, 'plugin'> = [
+      ...(config.plugins || []),
+      darkStyleNotPrintPlugin(darkMode),
+    ];
+
+    config = {
+      ...config,
+      plugins,
     };
   }
 
   return config;
 }
+
+// withPrintMode disable dark mode when printing and introduce 'print' and 'screen' variants.
+export function withPrintMode(config: Partial<Config>, darkMode: string = '.dark'): Partial<Config> {
+  const theme: PropType<Config, 'theme'> = {
+    ...config?.theme,
+    extend: {
+      ...config?.theme?.extend,
+      screens: {
+        ...config?.theme?.extend?.screens,
+        print: { raw: 'print' },
+        screen: { raw: 'screen' },
+      },
+    },
+  };
+
+  const plugins: PropType<Config, 'plugins'> = [
+    ...(config.plugins || []),
+    darkStyleNotPrintPlugin(darkMode),
+  ];
+
+  return {
+    ...config,
+    theme,
+    plugins,
+  };
+};
