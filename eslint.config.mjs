@@ -3,6 +3,24 @@ import { defineConfig } from '@poupe/eslint-config';
 
 export default defineConfig({
   rules: {
-    '@stylistic/semi': ['error', 'always'],
+    'unicorn/prevent-abbreviations': [
+      'error',
+      {
+        replacements: {
+          env: {
+            environment: false,
+          },
+          fn: {
+            function: false,
+          },
+          prop: {
+            property: false,
+          },
+          vars: {
+            variables: false,
+          },
+        },
+      },
+    ],
   },
 });
