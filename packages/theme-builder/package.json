@@ -61,6 +61,7 @@
   },
   "devDependencies": {
     "@poupe/eslint-config": "^0.4.4",
+    "eslint": "^9.15.0",
     "typescript": "~5.5.4",
     "vitest": "^2.1.6"
   },
