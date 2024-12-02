@@ -1,6 +1,6 @@
 // @ts-check
 import { createConfigForNuxt } from '@nuxt/eslint-config/flat';
-import { files, rules } from '@poupe/eslint-config';
+import { forNuxt } from '@poupe/eslint-config/nuxt';
 
 // Run `pnpx @eslint/config-inspector` to inspect the resolved config interactively
 export default createConfigForNuxt({
@@ -15,11 +15,4 @@ export default createConfigForNuxt({
       './playground',
     ],
   },
-})
-  .append({
-    files,
-    rules: {
-      ...rules,
-      '@stylistic/semi': ['error', 'always'],
-    },
-  });
+}, forNuxt());

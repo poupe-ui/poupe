@@ -7,7 +7,7 @@ export type Prettify<T> = {
 export type PropType<T, K extends keyof T> = T[K];
 
 export function kebabCase(s: string): string {
-  return s.replace(/([a-z])([A-Z])/g, '$1-$2')
-    .replace(/[\s_]+/g, '-')
+  return s.replaceAll(/([a-z])([A-Z])/g, '$1-$2')
+    .replaceAll(/[\s_]+/g, '-')
     .toLowerCase();
 }
