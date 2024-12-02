@@ -36,5 +36,7 @@ jobs:
         run: pnpm -r i
       - name: pnpm lint
         run: pnpm lint
+      - name: pnpm dev:build
+        run: pnpm -r dev:build
       - name: pnpm build
         run: pnpm build
