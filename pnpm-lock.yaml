@@ -97,8 +97,8 @@ importers:
         specifier: ^9.16.0
         version: 9.16.0(jiti@2.4.0)
       eslint-config-unjs:
-        specifier: 0.4.1
-        version: 0.4.1(eslint@9.16.0(jiti@2.4.0))(typescript@5.5.4)
+        specifier: 0.4.2
+        version: 0.4.2(eslint@9.16.0(jiti@2.4.0))(typescript@5.5.4)
       eslint-plugin-vue:
         specifier: ^9.32.0
         version: 9.32.0(eslint@9.16.0(jiti@2.4.0))
@@ -2432,8 +2432,8 @@ packages:
   eslint-config-flat-gitignore@0.2.0:
     resolution: {integrity: sha512-s4lsQLYX+76FCt3PZPwdLwWlqssa5SLufl2gopFmCo3PETOLY3OW5IrD3/l2R0FfYEJvd9BRJ19yJ+yfc5oW3g==}
 
-  eslint-config-unjs@0.4.1:
-    resolution: {integrity: sha512-b5y2a9rvhQZdzRaXt7CBU8i/NTnkAC5uBKck+yQ2v1FdNgdX/wPcaAn/d2xwsDGq/6jegKaASCNihc5XEjHEoQ==}
+  eslint-config-unjs@0.4.2:
+    resolution: {integrity: sha512-i9//hTramdqBZw/xwkk3Teako/eUZOw1QUaALr2euMt/K44DoCJj2aY3ppiHG7XE5HiYNkUYNaRAHjb9QhM3tQ==}
     peerDependencies:
       eslint: '*'
       typescript: '*'
@@ -2472,12 +2472,6 @@ packages:
     engines: {node: ^18 || >=20}
     peerDependencies:
       eslint: '>=8.44.0'
-
-  eslint-plugin-unicorn@55.0.0:
-    resolution: {integrity: sha512-n3AKiVpY2/uDcGrS3+QsYDkjPfaOrNrsfQxU9nt5nitd9KuvVXrfAvgCO9DYPSfap+Gqjw9EOrXIsBp5tlHZjA==}
-    engines: {node: '>=18.18'}
-    peerDependencies:
-      eslint: '>=8.56.0'
 
   eslint-plugin-unicorn@56.0.1:
     resolution: {integrity: sha512-FwVV0Uwf8XPfVnKSGpMg7NtlZh0G0gBarCaFcMUOoqPxXryxdYxTRRv4kH6B9TFCVIrjRXG+emcxIk2ayZilog==}
@@ -7504,12 +7498,12 @@ snapshots:
     transitivePeerDependencies:
       - eslint
 
-  eslint-config-unjs@0.4.1(eslint@9.16.0(jiti@2.4.0))(typescript@5.5.4):
+  eslint-config-unjs@0.4.2(eslint@9.16.0(jiti@2.4.0))(typescript@5.5.4):
     dependencies:
       '@eslint/js': 9.16.0
       eslint: 9.16.0(jiti@2.4.0)
       eslint-plugin-markdown: 5.1.0(eslint@9.16.0(jiti@2.4.0))
-      eslint-plugin-unicorn: 55.0.0(eslint@9.16.0(jiti@2.4.0))
+      eslint-plugin-unicorn: 56.0.1(eslint@9.16.0(jiti@2.4.0))
       globals: 15.12.0
       typescript: 5.5.4
       typescript-eslint: 8.16.0(eslint@9.16.0(jiti@2.4.0))(typescript@5.5.4)
@@ -7583,26 +7577,6 @@ snapshots:
       refa: 0.12.1
       regexp-ast-analysis: 0.7.1
       scslre: 0.3.0
-
-  eslint-plugin-unicorn@55.0.0(eslint@9.16.0(jiti@2.4.0)):
-    dependencies:
-      '@babel/helper-validator-identifier': 7.25.9
-      '@eslint-community/eslint-utils': 4.4.1(eslint@9.16.0(jiti@2.4.0))
-      ci-info: 4.1.0
-      clean-regexp: 1.0.0
-      core-js-compat: 3.39.0
-      eslint: 9.16.0(jiti@2.4.0)
-      esquery: 1.6.0
-      globals: 15.12.0
-      indent-string: 4.0.0
-      is-builtin-module: 3.2.1
-      jsesc: 3.0.2
-      pluralize: 8.0.0
-      read-pkg-up: 7.0.1
-      regexp-tree: 0.1.27
-      regjsparser: 0.10.0
-      semver: 7.6.3
-      strip-indent: 3.0.0
 
   eslint-plugin-unicorn@56.0.1(eslint@9.16.0(jiti@2.4.0)):
     dependencies:
