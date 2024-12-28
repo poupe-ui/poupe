@@ -38,6 +38,7 @@ export interface TailwindConfigOptions {
   darkSuffix?: string // default: '-dark'
   lightSuffix?: string // default: '-light'
   darkMode?: string // default: '.dark'
+  primaryName?: string // default: 'primary'
   omitValues?: boolean // default: false
   omitVariables?: boolean // default: false
   omitColors?: boolean // default: false
@@ -50,6 +51,7 @@ function defaultsTailwindConfigOptions(options: TailwindConfigOptions): Required
     darkSuffix: '-dark',
     lightSuffix: '-light',
     darkMode: '.dark',
+    primaryName: 'primary',
     omitValues: false,
     omitVariables: false,
     omitColors: false,
@@ -122,6 +124,7 @@ function buildTailwindConfig<K extends string>(dark: ColorMap<K>, light: ColorMa
 
   // options
   const { prefix, darkSuffix, lightSuffix, darkMode,
+    primaryName,
     omitValues, omitVariables, omitColors, omitPrintException,
   } = defaultsTailwindConfigOptions(options);
 
@@ -138,6 +141,7 @@ function buildTailwindConfig<K extends string>(dark: ColorMap<K>, light: ColorMa
   const darkVars: CSSRuleObject = {};
 
   for (const k of keys) {
+    const n = k === 'primary' ? primaryName : k;
     const k0 = `--${prefix}${k}`;
     const v1 = omitValues ? '' : rgbFromHct(light[k]);
     const v2 = omitValues ? '' : rgbFromHct(dark[k]);
@@ -193,7 +197,7 @@ function buildTailwindConfig<K extends string>(dark: ColorMap<K>, light: ColorMa
 
     if (!omitColors) {
       // register colors
-      colors[k] = `rgb(var(${k0}) / <alpha-value>)`;
+      colors[n] = `rgb(var(${k0}) / <alpha-value>)`;
     }
   }
 
