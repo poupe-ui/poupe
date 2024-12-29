@@ -9,11 +9,12 @@ import type {
 } from './colors-data';
 
 import {
+  type HexColor,
   Hct,
-  HexColor,
+
   rgbFromHct,
   hct,
-} from './dynamic-color';
+} from './tailwind-common';
 
 import type { CSSRuleObject, Config, PluginCreator } from 'tailwindcss/types/config';
 
