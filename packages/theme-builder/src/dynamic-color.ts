@@ -1,7 +1,7 @@
 // imports
 //
 import {
-  CustomColor,
+  type CustomColor,
   Hct,
 
   customColor as customColorFromArgb,
@@ -13,7 +13,7 @@ import {
 // re-export
 //
 export {
-  CustomColor,
+  type CustomColor,
   Hct,
 
   customColor as customColorFromArgb,
@@ -40,7 +40,13 @@ export function hexFromString(value: string): HexColor {
     throw new TypeError('not HexColor string');
 }
 
-export const argbFromHct = (c: Hct) => c.toInt();
+export const argbFromHct = (c: Hct) => {
+  if (c instanceof Hct) {
+    return c.toInt();
+  }
+  throw new TypeError('not Hct object');
+};
+
 export const argbFromHex = (hex: string) => mcuArgbFromHex(hexFromString(hex));
 export const hexFromArgb = (argb: number) => mcuHexFromArgb(argb) as HexColor;
 export const hexFromHct = (c: Hct) => hexFromArgb(argbFromHct(c));
@@ -62,8 +68,11 @@ export const rgbFromArgb = (argb: number) => {
 export const rgbFromHct = (c: Hct) => rgbFromArgb(argbFromHct(c));
 
 export const hct = (value: string | Hct | number): Hct => {
-  if (typeof value === 'object')
+  if (value instanceof Hct) {
     return value;
+  } else if (typeof value === 'object') {
+    throw new TypeError('not Hct object');
+  }
 
   return typeof value === 'number' ? hctFromArgb(value) : hctFromHex(value);
 };
