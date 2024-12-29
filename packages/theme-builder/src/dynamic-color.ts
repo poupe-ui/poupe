@@ -1,7 +1,7 @@
 // imports
 //
 import {
-  CustomColor,
+  type CustomColor,
   Hct,
 
   customColor as customColorFromArgb,
@@ -13,7 +13,7 @@ import {
 // re-export
 //
 export {
-  CustomColor,
+  type CustomColor,
   Hct,
 
   customColor as customColorFromArgb,
