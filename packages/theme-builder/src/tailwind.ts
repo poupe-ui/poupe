@@ -14,3 +14,10 @@ export {
   withMaterialColors,
   withPrintMode,
 } from './tailwind-config';
+
+export {
+  type Shades,
+
+  makeShades,
+  makeHexShades,
+} from './tailwind-shades';
