@@ -9,7 +9,7 @@ import {
 
   hct,
   hexFromHct,
-} from './tailwind-common';
+} from './core';
 
 // export
 //

@@ -1,92 +1,122 @@
 // imports
 //
 import {
-  type CustomColor,
+  type Color,
+  DynamicScheme,
   Hct,
 
-  customColor as customColorFromArgb,
+  argb,
+  hct,
+  customColorFromArgb,
+} from './core';
 
-  argbFromHex as mcuArgbFromHex,
-  hexFromArgb as mcuHexFromArgb,
-} from '@material/material-color-utilities';
+import {
+  type KebabCase,
+  type Prettify,
 
-// re-export
-//
-export {
-  type CustomColor,
-  Hct,
+  kebabCase,
+} from './utils';
 
-  customColor as customColorFromArgb,
-} from '@material/material-color-utilities';
+import {
+  StandardDynamicColorKey,
+  StandardDynamicSchemeKey,
+  CustomDynamicColorKey,
+
+  standardDynamicSchemes,
+  standardDynamicColors,
+  customDynamicColors,
+} from './dynamic-color-data';
 
 // types
 //
-export type HexColor = `#${string}`;
-export type Color = Hct | HexColor | number;
+export type ColorOption = Color | { value: Color, harmonize?: boolean };
 
-// tools
-//
-export const customColorFromHct = (source: Hct, color: CustomColor) => customColorFromArgb(source.toInt(), color);
+type StandardDynamicColors = { [K in StandardDynamicColorKey]: Hct };
 
-export const hexColorPattern = /^#([\da-f]{3}|[\da-f]{6}|[\da-f]{8})$/i;
-export const isHexColor = (s: string = '') => !!hexColorPattern.test(s || '');
+type CustomDynamicColors<T extends string> = { [K in CustomDynamicColorKey<KebabCase<T>>]: Hct };
 
-export function hexFromString(value: string): HexColor {
-  if (isHexColor(value))
-    return value as HexColor;
-  else if (isHexColor('#' + value))
-    return '#' + value as HexColor;
-  else
-    throw new TypeError('not HexColor string');
+export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
+  const out: Partial<StandardDynamicColors> = {};
+
+  for (const [name, dc] of Object.entries(standardDynamicColors)) {
+    out[name as StandardDynamicColorKey] = dc.getHct(scheme);
+  }
+
+  return out as StandardDynamicColors;
 }
 
-export const argbFromHct = (c: Hct) => {
-  if (c instanceof Hct) {
-    return c.toInt();
-  }
-  throw new TypeError('not Hct object');
-};
-
-export const argbFromHex = (hex: string) => mcuArgbFromHex(hexFromString(hex));
-export const hexFromArgb = (argb: number) => mcuHexFromArgb(argb) as HexColor;
-export const hexFromHct = (c: Hct) => hexFromArgb(argbFromHct(c));
-export const hctFromHex = (hex: string) => Hct.fromInt(argbFromHex(hex));
-export const hctFromArgb = (argb: number) => Hct.fromInt(argb);
-
-export const alphaFromArgb = (argb: number) => argb >> 24 & 255;
-export const redFromArgb = (argb: number) => argb >> 16 & 255;
-export const greenFromArgb = (argb: number) => argb >> 8 & 255;
-export const blueFromArgb = (argb: number) => argb & 255;
-
-export const rgbFromArgb = (argb: number) => {
-  const r = redFromArgb(argb);
-  const g = greenFromArgb(argb);
-  const b = blueFromArgb(argb);
-  return `rgb(${r} ${g} ${b})`;
-};
-
-export const rgbFromHct = (c: Hct) => rgbFromArgb(argbFromHct(c));
-
-export const hct = (value: string | Hct | number): Hct => {
-  if (value instanceof Hct) {
-    return value;
-  } else if (typeof value === 'object') {
-    throw new TypeError('not Hct object');
+function customColor(source: Hct, name: string, option: ColorOption) {
+  if (option instanceof Hct || typeof option !== 'object') {
+    option = { value: option };
   }
 
-  return typeof value === 'number' ? hctFromArgb(value) : hctFromHex(value);
-};
+  const value = argb(option.value);
+  const blend = option.harmonize === undefined ? true : option.harmonize;
 
-export const argb = (value: string | Hct | number): number => {
-  if (typeof value === 'number')
-    return value;
+  return customColorFromArgb(source.toInt(), {
+    name,
+    value,
+    blend,
+  });
+}
 
-  return typeof value === 'object' ? argbFromHct(value) : argbFromHex(value);
-};
+export function makeCustomColors<Colors extends Record<string, ColorOption>>(source: Color, colors: Colors) {
+  source = hct(source);
 
-export const hex = (value: string | Hct | number): HexColor => {
-  if (typeof value === 'number')
-    return hexFromArgb(value);
+  type customDynamicColors = CustomDynamicColors<keyof Colors & string>;
 
-  return typeof value === 'object' ? hexFromHct(value) : hexFromString(value);
-};
+  const darkColors: Partial<customDynamicColors> = {};
+  const lightColors: Partial<customDynamicColors> = {};
+
+  for (const [name, option] of Object.entries(colors)) {
+    const kebabName = kebabCase(name);
+    const { dark, light } = customColor(source, name, option);
+
+    for (const [pattern, fn] of Object.entries(customDynamicColors)) {
+      const name = pattern.replace('{}', kebabName) as keyof customDynamicColors;
+
+      darkColors[name] = Hct.fromInt(fn(dark));
+      lightColors[name] = Hct.fromInt(fn(light));
+    }
+  }
+
+  return {
+    source,
+    dark: darkColors as Prettify<customDynamicColors>,
+    light: lightColors as Prettify<customDynamicColors>,
+  };
+}
+
+export function makeColors<CustomColors extends Record<string, ColorOption>>(source: Color,
+  customColors: CustomColors = {} as CustomColors,
+  scheme: StandardDynamicSchemeKey = 'content',
+  contrastLevel: number = 0,
+) {
+  source = hct(source);
+
+  const schemeFactory = standardDynamicSchemes[scheme] || standardDynamicSchemes.content;
+  const darkScheme = schemeFactory(source, true, contrastLevel);
+  const lightScheme = schemeFactory(source, false, contrastLevel);
+
+  const { dark: darkCustomColors, light: lightCustomColors } = makeCustomColors(source, customColors);
+  const darkStandardColors = makeStandardColorsFromScheme(darkScheme);
+  const lightStandardColors = makeStandardColorsFromScheme(lightScheme);
+
+  const dark = {
+    ...darkStandardColors,
+    ...darkCustomColors,
+  };
+
+  const light = {
+    ...lightStandardColors,
+    ...lightCustomColors,
+  };
+
+  return {
+    source,
+    darkScheme,
+    lightScheme,
+    dark,
+    light,
+  };
+}
