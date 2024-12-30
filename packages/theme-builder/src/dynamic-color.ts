@@ -51,7 +51,7 @@ function customColor(source: Hct, name: string, option: ColorOption) {
   }
 
   const value = argb(option.value);
-  const blend = option.harmonize || true;
+  const blend = option.harmonize === undefined ? true : option.harmonize;
 
   return customColorFromArgb(source.toInt(), {
     name,
