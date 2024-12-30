@@ -1,19 +1,22 @@
 import plugin from 'tailwindcss/plugin';
 
 import {
-  makeColors,
-} from './colors';
-
-import type {
-  StandardDynamicSchemeKey,
-} from './colors-data';
-
-import {
   type HexColor,
   Hct,
 
-  rgbFromHct,
   hct,
+} from './core';
+
+import {
+  makeColors,
+} from './dynamic-color';
+
+import type {
+  StandardDynamicSchemeKey,
+} from './dynamic-color-data';
+
+import {
+  rgbFromHct,
 } from './tailwind-common';
 
 import type { CSSRuleObject, Config, PluginCreator } from 'tailwindcss/types/config';

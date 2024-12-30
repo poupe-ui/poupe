@@ -5,6 +5,10 @@ export {
 
   hct,
   hexFromHct,
+} from './core';
+
+export {
+  rgbFromHct,
 } from './tailwind-common';
 
 export {

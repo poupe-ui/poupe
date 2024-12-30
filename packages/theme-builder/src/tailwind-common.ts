@@ -7,21 +7,7 @@ import {
   redFromArgb,
   greenFromArgb,
   blueFromArgb,
-} from './dynamic-color';
-
-// re-export
-//
-export {
-  type Color,
-  type HexColor,
-  Hct,
-
-  hct,
-  hexFromHct,
-} from './dynamic-color';
-
-// export
-//
+} from './core';
 
 // rgbFromArgb for tailwindcss color variables.
 export const rgbFromArgb = (argb: number) => {
