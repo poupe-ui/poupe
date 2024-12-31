@@ -1,6 +1,11 @@
 import plugin from 'tailwindcss/plugin.js';
 
 import {
+  type CSSRuleObject,
+  type PropType,
+} from './utils';
+
+import {
   type HexColor,
   Hct,
 
@@ -19,9 +24,7 @@ import {
   rgbFromHct,
 } from './tailwind-common';
 
-import type { CSSRuleObject, Config, PluginCreator } from 'tailwindcss/types/config';
-
-import type { PropType } from './utils';
+import type { Config, PluginCreator } from 'tailwindcss/types/config';
 
 // types
 //
