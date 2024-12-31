@@ -1,5 +1,7 @@
 export {
   type CSSRuleObject,
+
+  formatCSSRuleObjects,
 } from './utils';
 
 export {
