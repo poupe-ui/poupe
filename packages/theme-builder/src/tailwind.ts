@@ -1,4 +1,10 @@
 export {
+  type CSSRuleObject,
+
+  formatCSSRuleObjects,
+} from './utils';
+
+export {
   type Color,
   type HexColor,
   Hct,
@@ -6,6 +12,10 @@ export {
   hct,
   hexFromHct,
 } from './core';
+
+export {
+  type StandardDynamicSchemeKey,
+} from './dynamic-color-data';
 
 export {
   rgbFromHct,
