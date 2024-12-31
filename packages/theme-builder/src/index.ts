@@ -1,5 +1,3 @@
+export * from './core';
 export * from './dynamic-color';
-
-export type {
-  StandardDynamicSchemeKey,
-} from './dynamic-color-data';
+export * from './dynamic-color-data';
