@@ -12,6 +12,10 @@ export {
 } from './core';
 
 export {
+  type StandardDynamicSchemeKey,
+} from './dynamic-color-data';
+
+export {
   rgbFromHct,
 } from './tailwind-common';
 
