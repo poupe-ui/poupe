@@ -14,6 +14,10 @@ import {
 // re-export
 //
 export {
+  type CSSRuleObject,
+} from './utils';
+
+export {
   type CustomColor,
   DynamicScheme,
   Hct,

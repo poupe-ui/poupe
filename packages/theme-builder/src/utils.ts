@@ -11,3 +11,10 @@ export function kebabCase(s: string): string {
     .replaceAll(/[\s_]+/g, '-')
     .toLowerCase();
 }
+
+/*
+ * CSSRuleObject inspired by tailwindcss/types/config's
+ */
+export interface CSSRuleObject {
+  [key: string]: null | string | string[] | CSSRuleObject
+};

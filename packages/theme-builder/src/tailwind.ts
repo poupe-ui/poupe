@@ -1,4 +1,8 @@
 export {
+  type CSSRuleObject,
+} from './utils';
+
+export {
   type Color,
   type HexColor,
   Hct,
