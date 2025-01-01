@@ -5,9 +5,9 @@ import {
   DynamicScheme,
   Hct,
 
-  argb,
-  hct,
+  argbFromHct,
   customColorFromArgb,
+  hct,
 } from './core';
 
 import {
@@ -29,6 +29,11 @@ import {
 
 // types
 //
+interface CustomColorOption {
+  value: Hct
+  harmonize?: boolean
+};
+
 export type ColorOption = Color | { value: Color, harmonize?: boolean };
 
 type StandardDynamicColors = { [K in StandardDynamicColorKey]: Hct };
@@ -45,12 +50,27 @@ export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
   return out as StandardDynamicColors;
 }
 
-function customColor(source: Hct, name: string, option: ColorOption) {
-  if (option instanceof Hct || typeof option !== 'object') {
-    option = { value: option };
-  }
+function flattenColorOptions<K extends string>(options: Record<K, ColorOption>) {
+  const out: Partial<Record<K, CustomColorOption>> = {};
+  for (const name in options) {
+    const opt = options[name];
+    let value: CustomColorOption;
 
-  const value = argb(option.value);
+    if (opt instanceof Hct) {
+      value = { value: opt };
+    } else if (typeof opt === 'object') {
+      value = { value: hct(opt.value), harmonize: opt.harmonize };
+    } else {
+      value = { value: hct(opt) };
+    }
+
+    out[name] = value;
+  }
+  return out as Record<K, CustomColorOption>;
+}
+
+function customColor(source: Hct, name: string, option: CustomColorOption) {
+  const value = argbFromHct(option.value);
   const blend = option.harmonize === undefined ? true : option.harmonize;
 
   return customColorFromArgb(source.toInt(), {
@@ -60,17 +80,18 @@ function customColor(source: Hct, name: string, option: ColorOption) {
   });
 }
 
-export function makeCustomColors<Colors extends Record<string, ColorOption>>(source: Color, colors: Colors) {
-  source = hct(source);
+export function makeCustomColors<K extends string>(source: Color, colors: Record<K, ColorOption>) {
+  const $source = hct(source);
+  const $colors = flattenColorOptions(colors);
 
-  type customDynamicColors = CustomDynamicColors<keyof Colors & string>;
+  type customDynamicColors = CustomDynamicColors<K>;
 
   const darkColors: Partial<customDynamicColors> = {};
   const lightColors: Partial<customDynamicColors> = {};
 
-  for (const [name, option] of Object.entries(colors)) {
+  for (const name in $colors) {
     const kebabName = kebabCase(name);
-    const { dark, light } = customColor(source, name, option);
+    const { dark, light } = customColor($source, name, $colors[name]);
 
     for (const [pattern, fn] of Object.entries(customDynamicColors)) {
       const name = pattern.replace('{}', kebabName) as keyof customDynamicColors;
