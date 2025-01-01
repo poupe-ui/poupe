@@ -35,6 +35,7 @@ export type standardDynamicSchemeFactory = (primary: Color, isDark: boolean, con
 //
 export type HexColor = `#${string}`;
 export type Color = Hct | HexColor | number;
+export type ColorMap<K extends string> = Record<K, Hct>;
 
 // tools
 //
