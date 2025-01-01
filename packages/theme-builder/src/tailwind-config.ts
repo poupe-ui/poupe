@@ -7,6 +7,7 @@ import {
 
 import {
   type HexColor,
+  type ColorMap,
   Hct,
 
   hct,
@@ -28,8 +29,6 @@ import type { Config, PluginCreator } from 'tailwindcss/types/config';
 
 // types
 //
-type ColorMap<K extends string> = Record<K, Hct>;
-
 interface ColorConfig {
   value: HexColor
   harmonize?: boolean // default: true
