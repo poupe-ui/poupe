@@ -101,12 +101,15 @@ export function makeCustomColors<K extends string>(source: Color, colors: Record
 
   type customDynamicColors = CustomDynamicColors<K>;
 
+  const names: Array<KebabCase<K>> = [];
   const darkColors: Partial<customDynamicColors> = {};
   const lightColors: Partial<customDynamicColors> = {};
 
-  for (const name in $colors) {
-    const kebabName = kebabCase(name);
-    const { dark, light } = customColor($source, name, $colors[name]);
+  for (const color in $colors) {
+    const kebabName = kebabCase(color) as KebabCase<K>;
+    const { dark, light } = customColor($source, color, $colors[color]);
+
+    names.push(kebabName);
 
     for (const [pattern, fn] of Object.entries(customDynamicColors)) {
       const name = pattern.replace('{}', kebabName) as keyof customDynamicColors;
@@ -118,6 +121,7 @@ export function makeCustomColors<K extends string>(source: Color, colors: Record
 
   return {
     source,
+    colors: names,
     dark: darkColors as Prettify<customDynamicColors>,
     light: lightColors as Prettify<customDynamicColors>,
   };
