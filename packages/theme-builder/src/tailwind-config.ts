@@ -6,20 +6,17 @@ import {
 } from './utils';
 
 import {
-  type HexColor,
   type ColorMap,
-  Hct,
-
-  hct,
 } from './core';
 
 import {
-  makeColors,
-} from './dynamic-color';
-
-import type {
-  StandardDynamicSchemeKey,
+  type StandardDynamicSchemeKey,
 } from './dynamic-color-data';
+
+import {
+  type ThemeColors,
+  makeTheme,
+} from './dynamic-theme';
 
 import {
   rgbFromHct,
@@ -29,16 +26,6 @@ import type { Config, PluginCreator } from 'tailwindcss/types/config';
 
 // types
 //
-interface ColorConfig {
-  value: HexColor
-  harmonize?: boolean // default: true
-}
-
-interface MaterialColorConfig {
-  primary: HexColor | ColorConfig
-  [name: string]: HexColor | ColorConfig
-}
-
 export interface TailwindConfigOptions {
   prefix?: string // default: 'md-'
   darkSuffix?: string // default: '-dark'
@@ -81,37 +68,6 @@ function defaultsMaterialColorOptions(options: MaterialColorOptions): Required<M
 
 // helpers
 //
-interface TColorData {
-  value: Hct
-  harmonize: boolean
-}
-
-function flattenColorConfig(c: HexColor | ColorConfig): TColorData {
-  if (typeof c !== 'string') return {
-    value: hct(c.value),
-    harmonize: c.harmonize === undefined ? true : c.harmonize,
-  };
-
-  return {
-    value: hct(c),
-    harmonize: true,
-  };
-}
-
-function flattenColorConfigTable(colors: { [name: string]: HexColor | ColorConfig }) {
-  const out: Partial<{
-    [K in keyof typeof colors]: TColorData
-  }> = {};
-
-  for (const [name, value] of Object.entries(colors)) {
-    out[name] = flattenColorConfig(value);
-  }
-
-  return out as {
-    [K in keyof typeof colors]: TColorData
-  };
-}
-
 function darkStyleNotPrint(darkMode: string = '.dark') {
   return `@media not print { ${darkMode} & }`;
 }
@@ -231,15 +187,10 @@ function buildTailwindConfig<K extends string>(dark: ColorMap<K>, light: ColorMa
   return { styles, theme };
 }
 
-export function withMaterialColors(config: Partial<Config>,
-  colors: MaterialColorConfig,
+export function withMaterialColors<K extends string>(config: Partial<Config>,
+  colors: ThemeColors<K>,
   options: MaterialColorOptions = {},
 ): Partial<Config> {
-  // build themes
-  const { primary, ...extraColors } = { ...colors };
-  const source = flattenColorConfig(primary);
-  const customColors = flattenColorConfigTable(extraColors);
-
   // options
   const {
     scheme, contrastLevel, darkMode,
@@ -247,7 +198,7 @@ export function withMaterialColors(config: Partial<Config>,
   } = defaultsMaterialColorOptions(options);
 
   // build
-  const { dark, light } = makeColors(source.value, customColors, scheme, contrastLevel);
+  const { dark, light } = makeTheme(colors, scheme, contrastLevel);
   const { styles, theme } = buildTailwindConfig(dark, light, options);
 
   // output

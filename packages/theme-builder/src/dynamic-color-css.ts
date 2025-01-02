@@ -1,7 +1,6 @@
 import {
-  type Color,
   type ColorMap,
-  CSSRuleObject,
+  type CSSRuleObject,
   type Hct,
 
   rgbFromHct,
@@ -12,19 +11,23 @@ import {
 } from './dynamic-color-data';
 
 import {
-  type ColorOption,
+  type ThemeColors,
 
-  makeColors,
-} from './dynamic-color';
+  makeTheme,
+} from './dynamic-theme';
 
-export interface CSSColorOptions {
-  prefix: string // default: 'md-'
-  darkSuffix: string // default: '-dark'
-  lightSuffix: string // default: '-light'
-  stringify: (c: Hct) => string // default: rgb('{r} {g} {b}')
+export interface CSSThemeOptions {
+  /** @defaultValue `'md-'` */
+  prefix: string
+  /** @defaultValue `'-dark'` */
+  darkSuffix: string
+  /** @defaultValue `'-light'` */
+  lightSuffix: string
+  /** @defaultValue `rgb('{r} {g} {b}')` */
+  stringify: (c: Hct) => string
 };
 
-export function assembleCSSColors<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: Partial<CSSColorOptions> = {}) {
+export function assembleCSSColors<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: Partial<CSSThemeOptions> = {}) {
   const keys = Object.keys(dark).filter((key): boolean => !key.endsWith('-palette-key')) as K[];
   const { prefix, darkSuffix, lightSuffix, stringify } = {
     prefix: 'md-',
@@ -63,12 +66,23 @@ export function assembleCSSColors<K extends string>(dark: ColorMap<K>, light: Co
   return { vars, darkValues, lightValues, darkVars, lightVars };
 }
 
-export function makeCSSColors<CustomColors extends Record<string, ColorOption>>(primary: Color,
-  customColors: CustomColors = {} as CustomColors,
-  scheme: StandardDynamicSchemeKey = 'content',
-  contrastLevel: number = 0,
-  options: Partial<CSSColorOptions> = {},
+export interface MakeCSSThemeOptions extends CSSThemeOptions {
+  /** @defaultValue `'content'` */
+  scheme?: StandardDynamicSchemeKey
+  /** @defaultValue `0` */
+  contrastLevel?: number
+}
+
+/**
+ *  makeCSSTheme assembles CSS variables to use in M3 dark/light themes.
+ *
+ * @param colors - base colors of the theme.
+ * @param options - configuration options.
+ * @returns  CSSRuleObjects to set up dark/light themes.
+ */
+export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
+  options: Partial<MakeCSSThemeOptions> = {},
 ) {
-  const { dark, light } = makeColors(primary, customColors, scheme, contrastLevel);
+  const { dark, light } = makeTheme(colors, options.scheme, options.contrastLevel);
   return assembleCSSColors(dark, light, options);
 }

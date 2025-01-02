@@ -80,26 +80,44 @@ export const rgbFromArgb = (argb: number) => {
 
 export const rgbFromHct = (c: Hct) => rgbFromArgb(argbFromHct(c));
 
+/**
+ * @param value - color to convert to Hct.
+ * @returns Hct representation of the given color.
+ */
 export const hct = (value: string | Hct | number): Hct => {
   if (value instanceof Hct) {
     return value;
-  } else if (typeof value === 'object') {
-    throw new TypeError('not Hct object');
+  } else if (typeof value === 'number') {
+    return hctFromArgb(value);
+  } else {
+    return hctFromHex(value);
   }
-
-  return typeof value === 'number' ? hctFromArgb(value) : hctFromHex(value);
 };
 
+/**
+ * @param value - color to convert to ARGB
+ * @returns ARGB representation of the given color.
+ */
 export const argb = (value: string | Hct | number): number => {
-  if (typeof value === 'number')
+  if (value instanceof Hct) {
+    return argbFromHct(value);
+  } else if (typeof value === 'number') {
     return value;
-
-  return typeof value === 'object' ? argbFromHct(value) : argbFromHex(value);
+  } else {
+    return argbFromHex(value);
+  }
 };
 
+/**
+ * @param value - color to convert to HexColor
+ * @returns HexColor representation of the given Color.
+ */
 export const hex = (value: string | Hct | number): HexColor => {
-  if (typeof value === 'number')
+  if (value instanceof Hct) {
+    return hexFromHct(value);
+  } else if (typeof value === 'number') {
     return hexFromArgb(value);
-
-  return typeof value === 'object' ? hexFromHct(value) : hexFromString(value);
+  } else {
+    return hexFromString(value);
+  }
 };

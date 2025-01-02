@@ -22,16 +22,20 @@ export {
 } from './tailwind-common';
 
 export {
+  type Shades,
+
+  makeShades,
+  makeHexShades,
+} from './tailwind-shades';
+
+export {
+  makeCSSTheme,
+} from './tailwind-theme';
+
+export {
   type TailwindConfigOptions,
   type MaterialColorOptions,
 
   withMaterialColors,
   withPrintMode,
 } from './tailwind-config';
-
-export {
-  type Shades,
-
-  makeShades,
-  makeHexShades,
-} from './tailwind-shades';

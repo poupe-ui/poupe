@@ -1,7 +1,11 @@
 // @ts-check
 import { defineConfig } from '@poupe/eslint-config';
+import tsdocPlugin from 'eslint-plugin-tsdoc';
 
 export default defineConfig({
+  plugins: {
+    tsdoc: tsdocPlugin,
+  },
   rules: {
     'unicorn/prevent-abbreviations': [
       'error',
@@ -22,5 +26,6 @@ export default defineConfig({
         },
       },
     ],
+    'tsdoc/syntax': 'warn',
   },
 });

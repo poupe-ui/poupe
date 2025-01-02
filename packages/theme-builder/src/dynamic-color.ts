@@ -5,7 +5,7 @@ import {
   DynamicScheme,
   Hct,
 
-  argbFromHct,
+  argb,
   customColorFromArgb,
   hct,
 } from './core';
@@ -19,22 +19,24 @@ import {
 
 import {
   StandardDynamicColorKey,
-  StandardDynamicSchemeKey,
   CustomDynamicColorKey,
 
-  standardDynamicSchemes,
   standardDynamicColors,
   customDynamicColors,
 } from './dynamic-color-data';
 
 // types
 //
-interface CustomColorOption {
-  value: Hct
+
+/**
+ * ColorOptions describes how a color must be processed.
+ */
+export interface ColorOptions {
+  value: Color
+
+  /** harmonize indicates the value must be blended to the source color */
   harmonize?: boolean
 };
-
-export type ColorOption = Color | { value: Color, harmonize?: boolean };
 
 type StandardDynamicColors = { [K in StandardDynamicColorKey]: Hct };
 
@@ -50,11 +52,11 @@ export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
   return out as StandardDynamicColors;
 }
 
-function flattenColorOptions<K extends string>(options: Record<K, ColorOption>) {
-  const out: Partial<Record<K, CustomColorOption>> = {};
+function flattenColorOptions<K extends string>(options: Record<K, ColorOptions>) {
+  const out: Partial<Record<K, ColorOptions>> = {};
   for (const name in options) {
     const opt = options[name];
-    let value: CustomColorOption;
+    let value: ColorOptions;
 
     if (opt instanceof Hct) {
       value = { value: opt };
@@ -66,11 +68,11 @@ function flattenColorOptions<K extends string>(options: Record<K, ColorOption>) 
 
     out[name] = value;
   }
-  return out as Record<K, CustomColorOption>;
+  return out as Record<K, ColorOptions>;
 }
 
-function customColor(source: Hct, name: string, option: CustomColorOption) {
-  const value = argbFromHct(option.value);
+function customColor(source: Hct, name: string, option: ColorOptions) {
+  const value = argb(option.value);
   const blend = option.harmonize === undefined ? true : option.harmonize;
 
   return customColorFromArgb(source.toInt(), {
@@ -80,7 +82,7 @@ function customColor(source: Hct, name: string, option: CustomColorOption) {
   });
 }
 
-export function makeCustomColors<K extends string>(source: Color, colors: Record<K, ColorOption>) {
+export function makeCustomColors<K extends string>(source: Color, colors: Record<K, ColorOptions>) {
   const $source = hct(source);
   const $colors = flattenColorOptions(colors);
 
@@ -105,39 +107,5 @@ export function makeCustomColors<K extends string>(source: Color, colors: Record
     source,
     dark: darkColors as Prettify<customDynamicColors>,
     light: lightColors as Prettify<customDynamicColors>,
-  };
-}
-
-export function makeColors<CustomColors extends Record<string, ColorOption>>(source: Color,
-  customColors: CustomColors = {} as CustomColors,
-  scheme: StandardDynamicSchemeKey = 'content',
-  contrastLevel: number = 0,
-) {
-  source = hct(source);
-
-  const schemeFactory = standardDynamicSchemes[scheme] || standardDynamicSchemes.content;
-  const darkScheme = schemeFactory(source, true, contrastLevel);
-  const lightScheme = schemeFactory(source, false, contrastLevel);
-
-  const { dark: darkCustomColors, light: lightCustomColors } = makeCustomColors(source, customColors);
-  const darkStandardColors = makeStandardColorsFromScheme(darkScheme);
-  const lightStandardColors = makeStandardColorsFromScheme(lightScheme);
-
-  const dark = {
-    ...darkStandardColors,
-    ...darkCustomColors,
-  };
-
-  const light = {
-    ...lightStandardColors,
-    ...lightCustomColors,
-  };
-
-  return {
-    source,
-    darkScheme,
-    lightScheme,
-    dark,
-    light,
   };
 }
