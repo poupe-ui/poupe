@@ -67,12 +67,19 @@ export function assembleCSSColors<K extends string>(dark: ColorMap<K>, light: Co
 }
 
 export interface MakeCSSThemeOptions extends CSSThemeOptions {
-  /** default: 'content' */
+  /** @defaultValue `'content'` */
   scheme?: StandardDynamicSchemeKey
-  /** default: 0 */
+  /** @defaultValue `0` */
   contrastLevel?: number
 }
 
+/**
+ *  makeCSSTheme assembles CSS variables to use in M3 dark/light themes.
+ *
+ * @param colors - base colors of the theme.
+ * @param options - configuration options.
+ * @returns  CSSRuleObjects to set up dark/light themes.
+ */
 export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
   options: Partial<MakeCSSThemeOptions> = {},
 ) {
