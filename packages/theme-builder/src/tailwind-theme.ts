@@ -10,8 +10,10 @@ import {
 
 import {
   type ThemeColors,
+  type ThemeColorOptions,
 
   makeTheme,
+  makeThemeKeys,
 } from './dynamic-theme';
 
 import {
@@ -19,6 +21,9 @@ import {
 } from './tailwind-common';
 
 import {
+  type Shade,
+
+  defaultShades,
   makeShades,
 } from './tailwind-shades';
 
@@ -64,4 +69,40 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
     stringify: rgbFromHct,
     ...options,
   });
+}
+
+/**
+ * @param colors - describes the colors of the theme.
+ * @param prefix - indicates the prefix used for the CSS variables.
+ * @returns tailwindcss Config theme colors using the CSS variables associated with the theme.
+ */
+export function makeColorConfig<K extends string>(colors: ThemeColorOptions<K> | ThemeColors<K>,
+  prefix: string = 'md-',
+) {
+  const { keys, paletteKeys } = makeThemeKeys(colors);
+  const theme = {} as Record<typeof keys[0] | typeof paletteKeys[0], string | Record<Shade, string>>;
+
+  // palette colors with shades
+  for (const color of paletteKeys) {
+    const k0 = `--${prefix}${color}`;
+    const colorShades = {} as Record<Shade, string>;
+
+    for (const shade of defaultShades) {
+      const k1 = `${k0}-${shade}`;
+      colorShades[shade] = `rgb(var(${k1}) / <alpha-value>)`;
+    }
+
+    colorShades['DEFAULT'] = `rgb(var(${k0}) / <alpha-value>)`;
+    theme[color] = colorShades;
+  }
+
+  // the rest directly
+  for (const color of keys) {
+    if (!(color in theme)) {
+      const k0 = `--${prefix}${color}`;
+      theme[color] = `rgb(var(${k0}) / <alpha-value>)`;
+    }
+  }
+
+  return theme;
 }

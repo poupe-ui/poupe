@@ -30,6 +30,7 @@ export {
 } from './tailwind-shades';
 
 export {
+  makeColorConfig,
   makeCSSTheme,
 } from './tailwind-theme';
 
