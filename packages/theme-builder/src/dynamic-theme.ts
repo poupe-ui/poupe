@@ -68,7 +68,7 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
   const { colors: customPaletteKeys, dark: darkCustomColors, light: lightCustomColors } = makeCustomColors(source, extraColors);
 
   type ColorKey = keyof typeof darkPalette & keyof typeof darkStandardColors & keyof typeof darkCustomColors;
-  type CustomPaletteKey = keyof typeof darkPalette & typeof customPaletteKeys[0];
+  type PaletteKey = keyof typeof darkPalette & typeof customPaletteKeys[0];
 
   const dark: { [P in ColorKey]: Hct } = {
     ...darkPalette,
@@ -99,8 +99,8 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
     source,
     darkScheme,
     lightScheme,
-    darkPalette: darkCustomPalette as { [P in CustomPaletteKey]: Hct },
-    lightPalette: lightCustomPalette as { [P in CustomPaletteKey]: Hct },
+    darkPalette: darkCustomPalette as { [P in PaletteKey]: Hct },
+    lightPalette: lightCustomPalette as { [P in PaletteKey]: Hct },
     dark,
     light,
   };
