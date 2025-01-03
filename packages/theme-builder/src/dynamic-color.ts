@@ -23,6 +23,8 @@ import {
 
   standardDynamicColors,
   customDynamicColors,
+  StandardPaletteKey,
+  standardPaletteKeyColors,
 } from './dynamic-color-data';
 
 // types
@@ -39,6 +41,7 @@ export interface ColorOptions {
 };
 
 type StandardDynamicColors = { [K in StandardDynamicColorKey]: Hct };
+type StandardPaletteColors = { [K in StandardPaletteKey]: Hct };
 
 type CustomDynamicColors<T extends string> = { [K in CustomDynamicColorKey<KebabCase<T>>]: Hct };
 
@@ -50,6 +53,16 @@ export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
   }
 
   return out as StandardDynamicColors;
+}
+
+export function makeStandardPaletteFromScheme(scheme: DynamicScheme) {
+  const out: Partial<StandardPaletteColors> = {};
+
+  for (const [name, dc] of Object.entries(standardPaletteKeyColors)) {
+    out[name as StandardPaletteKey] = dc.getHct(scheme);
+  }
+
+  return out as StandardPaletteColors;
 }
 
 function flattenColorOptions<K extends string>(options: Record<K, ColorOptions>) {
