@@ -32,6 +32,8 @@ export type CustomDynamicColorKey<T extends string> =
 
 // StandardDynamicColor
 //
+
+/** standardDynamicColors are all dynamic colors defined by Material Design 3 */
 export const standardDynamicColors = {
   // surface-{}
   'surface': MaterialDynamicColors.surface,
@@ -105,10 +107,16 @@ export const standardDynamicColors = {
   'scrim': MaterialDynamicColors.scrim,
 };
 
+/** contentAccentToneDelta is re-exported from MaterialDynamicColors for completeness */
 export const contentAccentToneDelta = MaterialDynamicColors.contentAccentToneDelta;
 
+/** StandardDynamicColorKey is a type representing all fields in standardDynamicColors */
 export type StandardDynamicColorKey = keyof typeof standardDynamicColors;
 
+/** standardDynamicColorKeys is an array of all StandardDynamicColorKey values */
+export const standardDynamicColorKeys = Object.keys(standardDynamicColors) as StandardDynamicColorKey[];
+
+/** standardPaletteKeyColors are all palette key colors defined by MaterialDynamicColors */
 export const standardPaletteKeyColors = {
   'primary': MaterialDynamicColors.primaryPaletteKeyColor,
   'secondary': MaterialDynamicColors.secondaryPaletteKeyColor,
@@ -117,8 +125,10 @@ export const standardPaletteKeyColors = {
   'neutral-variant': MaterialDynamicColors.neutralVariantPaletteKeyColor,
 };
 
+/** StandardPaletteKey is a type representing all palette key colors is standardPaletteKeyColors */
 export type StandardPaletteKey = keyof typeof standardPaletteKeyColors;
 
+/** standardPaletteKeys is an array of all StandardPaletteKey values */
 export const standardPaletteKeys = Object.keys(standardPaletteKeyColors) as StandardPaletteKey[];
 
 // DynamicScheme
