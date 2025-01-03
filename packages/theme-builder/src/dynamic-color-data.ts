@@ -98,13 +98,6 @@ export const standardDynamicColors = {
   'on-error': MaterialDynamicColors.onError,
   'on-error-container': MaterialDynamicColors.onErrorContainer,
 
-  // palettes
-  'primary-palette-key': MaterialDynamicColors.primaryPaletteKeyColor,
-  'secondary-palette-key': MaterialDynamicColors.secondaryPaletteKeyColor,
-  'tertiary-palette-key': MaterialDynamicColors.tertiaryPaletteKeyColor,
-  'neutral-palette-key': MaterialDynamicColors.neutralPaletteKeyColor,
-  'neutral-variant-palette-key': MaterialDynamicColors.neutralVariantPaletteKeyColor,
-
   // special
   'outline': MaterialDynamicColors.outline,
   'outline-variant': MaterialDynamicColors.outlineVariant,
@@ -115,6 +108,18 @@ export const standardDynamicColors = {
 export const contentAccentToneDelta = MaterialDynamicColors.contentAccentToneDelta;
 
 export type StandardDynamicColorKey = keyof typeof standardDynamicColors;
+
+export const standardPaletteKeyColors = {
+  'primary': MaterialDynamicColors.primaryPaletteKeyColor,
+  'secondary': MaterialDynamicColors.secondaryPaletteKeyColor,
+  'tertiary': MaterialDynamicColors.tertiaryPaletteKeyColor,
+  'neutral': MaterialDynamicColors.neutralPaletteKeyColor,
+  'neutral-variant': MaterialDynamicColors.neutralVariantPaletteKeyColor,
+};
+
+export type StandardPaletteKey = keyof typeof standardPaletteKeyColors;
+
+export const standardPaletteKeys = Object.keys(standardPaletteKeyColors) as StandardPaletteKey[];
 
 // DynamicScheme
 //

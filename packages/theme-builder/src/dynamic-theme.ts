@@ -1,8 +1,8 @@
 import {
   type Color,
-  type ColorMap,
-  hct,
   Hct,
+
+  hct,
 } from './core';
 
 import {
@@ -16,6 +16,7 @@ import {
 
   makeCustomColors,
   makeStandardColorsFromScheme,
+  makeStandardPaletteFromScheme,
 } from './dynamic-color';
 
 /**
@@ -26,11 +27,8 @@ export type ThemeColors<K extends string> = { primary: Color | ColorOptions } & 
 export type FlatThemeColors<K extends string> = { primary: ColorOptions } & Record<K, ColorOptions>;
 
 function flattenColorOptions(c: Color | ColorOptions): ColorOptions {
-  if (c instanceof Hct) {
+  if (c instanceof Hct || typeof c !== 'object') {
     return { value: c };
-  }
-  if (typeof c !== 'object') {
-    return { value: hct(c) };
   }
   return c;
 }
@@ -56,32 +54,53 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
   contrastLevel: number = 0,
 ) {
   const { primary, ...extraColors } = flattenThemeColors(colors);
-  const source = primary.value as Hct;
+  const source = hct(primary.value);
 
   const schemeFactory = standardDynamicSchemes[scheme] || standardDynamicSchemes.content;
   const darkScheme = schemeFactory(source, true, contrastLevel);
   const lightScheme = schemeFactory(source, false, contrastLevel);
 
-  const { dark: darkCustomColors, light: lightCustomColors } = makeCustomColors(source, extraColors);
+  const darkPalette = makeStandardPaletteFromScheme(darkScheme);
+  const lightPalette = makeStandardPaletteFromScheme(lightScheme);
   const darkStandardColors = makeStandardColorsFromScheme(darkScheme);
   const lightStandardColors = makeStandardColorsFromScheme(lightScheme);
 
-  type N = keyof typeof darkStandardColors & keyof typeof darkCustomColors;
+  const { colors: customPaletteKeys, dark: darkCustomColors, light: lightCustomColors } = makeCustomColors(source, extraColors);
 
-  const dark: ColorMap<N> = {
+  type ColorKey = keyof typeof darkPalette & keyof typeof darkStandardColors & keyof typeof darkCustomColors;
+  type CustomPaletteKey = keyof typeof darkPalette & typeof customPaletteKeys[0];
+
+  const dark: { [P in ColorKey]: Hct } = {
+    ...darkPalette,
     ...darkStandardColors,
     ...darkCustomColors,
   };
 
-  const light: ColorMap<N> = {
+  const light: { [P in ColorKey]: Hct } = {
+    ...lightPalette,
     ...lightStandardColors,
     ...lightCustomColors,
   };
+
+  const darkCustomPalette: Record<string, Hct> = {
+    ...darkPalette,
+  };
+
+  const lightCustomPalette: Record<string, Hct> = {
+    ...lightPalette,
+  };
+
+  for (const k of customPaletteKeys) {
+    darkCustomPalette[k] = darkCustomColors[k as keyof typeof darkCustomColors];
+    lightCustomPalette[k] = lightCustomColors[k as keyof typeof lightCustomColors];
+  }
 
   return {
     source,
     darkScheme,
     lightScheme,
+    darkPalette: darkCustomPalette as { [P in CustomPaletteKey]: Hct },
+    lightPalette: lightCustomPalette as { [P in CustomPaletteKey]: Hct },
     dark,
     light,
   };

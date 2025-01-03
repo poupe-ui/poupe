@@ -23,6 +23,8 @@ import {
 
   standardDynamicColors,
   customDynamicColors,
+  StandardPaletteKey,
+  standardPaletteKeyColors,
 } from './dynamic-color-data';
 
 // types
@@ -39,6 +41,7 @@ export interface ColorOptions {
 };
 
 type StandardDynamicColors = { [K in StandardDynamicColorKey]: Hct };
+type StandardPaletteColors = { [K in StandardPaletteKey]: Hct };
 
 type CustomDynamicColors<T extends string> = { [K in CustomDynamicColorKey<KebabCase<T>>]: Hct };
 
@@ -50,6 +53,16 @@ export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
   }
 
   return out as StandardDynamicColors;
+}
+
+export function makeStandardPaletteFromScheme(scheme: DynamicScheme) {
+  const out: Partial<StandardPaletteColors> = {};
+
+  for (const [name, dc] of Object.entries(standardPaletteKeyColors)) {
+    out[name as StandardPaletteKey] = dc.getHct(scheme);
+  }
+
+  return out as StandardPaletteColors;
 }
 
 function flattenColorOptions<K extends string>(options: Record<K, ColorOptions>) {
@@ -88,12 +101,15 @@ export function makeCustomColors<K extends string>(source: Color, colors: Record
 
   type customDynamicColors = CustomDynamicColors<K>;
 
+  const names: Array<KebabCase<K>> = [];
   const darkColors: Partial<customDynamicColors> = {};
   const lightColors: Partial<customDynamicColors> = {};
 
-  for (const name in $colors) {
-    const kebabName = kebabCase(name);
-    const { dark, light } = customColor($source, name, $colors[name]);
+  for (const color in $colors) {
+    const kebabName = kebabCase(color) as KebabCase<K>;
+    const { dark, light } = customColor($source, color, $colors[color]);
+
+    names.push(kebabName);
 
     for (const [pattern, fn] of Object.entries(customDynamicColors)) {
       const name = pattern.replace('{}', kebabName) as keyof customDynamicColors;
@@ -105,6 +121,7 @@ export function makeCustomColors<K extends string>(source: Color, colors: Record
 
   return {
     source,
+    colors: names,
     dark: darkColors as Prettify<customDynamicColors>,
     light: lightColors as Prettify<customDynamicColors>,
   };
