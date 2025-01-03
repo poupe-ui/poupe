@@ -28,7 +28,7 @@ export interface CSSThemeOptions {
 };
 
 export function assembleCSSColors<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: Partial<CSSThemeOptions> = {}) {
-  const keys = Object.keys(dark).filter((key): boolean => !key.endsWith('-palette-key')) as K[];
+  const keys = Object.keys(dark) as K[];
   const { prefix, darkSuffix, lightSuffix, stringify } = {
     prefix: 'md-',
     darkSuffix: '-dark',
