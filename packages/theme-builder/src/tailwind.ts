@@ -22,6 +22,7 @@ export {
 } from './tailwind-common';
 
 export {
+  type Shade,
   type Shades,
 
   makeShades,

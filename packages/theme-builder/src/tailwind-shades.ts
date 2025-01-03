@@ -26,16 +26,28 @@ export const defaultShades = [
   900,
 ];
 
-// Shades can be an array of numbers between 0 and 1000 where
-// 0 is full brightness and 1000 full darkness. if it's true,
-// the defaultShades will be used, and if false only the DEFAULT
-// entry will be set.
+/**
+ * Shades can be an array of numbers between 0 and 1000 where
+ * 0 is full brightness and 1000 full darkness. if it's true,
+ * the defaultShades will be used, and if false only the DEFAULT
+ * entry will be set.
+ */
 export type Shades = boolean | number[];
 
+/**
+ * Shade is a particular shade of a tailwind color
+ */
+export type Shade = number | 'DEFAULT';
+
+/**
+ * @param color - color to use as reference
+ * @param shades - list of shade values to use
+ * @returns colors based on the given reference with modified tone.
+ */
 export function makeShades(color: Color, shades: Shades = true) {
   const c1 = hct(color);
 
-  const out: Record<number | 'DEFAULT', Hct> = {
+  const out: Record<Shade, Hct> = {
     DEFAULT: c1,
   };
 
