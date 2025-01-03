@@ -1,8 +1,9 @@
 import {
   type Color,
   type ColorMap,
-  hct,
   Hct,
+
+  hct,
 } from './core';
 
 import {
@@ -16,6 +17,7 @@ import {
 
   makeCustomColors,
   makeStandardColorsFromScheme,
+  makeStandardPaletteFromScheme,
 } from './dynamic-color';
 
 /**
@@ -26,11 +28,8 @@ export type ThemeColors<K extends string> = { primary: Color | ColorOptions } & 
 export type FlatThemeColors<K extends string> = { primary: ColorOptions } & Record<K, ColorOptions>;
 
 function flattenColorOptions(c: Color | ColorOptions): ColorOptions {
-  if (c instanceof Hct) {
+  if (c instanceof Hct || typeof c !== 'object') {
     return { value: c };
-  }
-  if (typeof c !== 'object') {
-    return { value: hct(c) };
   }
   return c;
 }
@@ -56,24 +55,29 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
   contrastLevel: number = 0,
 ) {
   const { primary, ...extraColors } = flattenThemeColors(colors);
-  const source = primary.value as Hct;
+  const source = hct(primary.value);
 
   const schemeFactory = standardDynamicSchemes[scheme] || standardDynamicSchemes.content;
   const darkScheme = schemeFactory(source, true, contrastLevel);
   const lightScheme = schemeFactory(source, false, contrastLevel);
 
-  const { dark: darkCustomColors, light: lightCustomColors } = makeCustomColors(source, extraColors);
+  const darkPalette = makeStandardPaletteFromScheme(darkScheme);
+  const lightPalette = makeStandardPaletteFromScheme(lightScheme);
   const darkStandardColors = makeStandardColorsFromScheme(darkScheme);
   const lightStandardColors = makeStandardColorsFromScheme(lightScheme);
 
-  type N = keyof typeof darkStandardColors & keyof typeof darkCustomColors;
+  const { dark: darkCustomColors, light: lightCustomColors } = makeCustomColors(source, extraColors);
+
+  type N = keyof typeof darkPalette & keyof typeof darkStandardColors & keyof typeof darkCustomColors;
 
   const dark: ColorMap<N> = {
+    ...darkPalette,
     ...darkStandardColors,
     ...darkCustomColors,
   };
 
   const light: ColorMap<N> = {
+    ...lightPalette,
     ...lightStandardColors,
     ...lightCustomColors,
   };
@@ -82,6 +86,8 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
     source,
     darkScheme,
     lightScheme,
+    darkPalette,
+    lightPalette,
     dark,
     light,
   };
