@@ -36,6 +36,9 @@ import {
 export interface ColorOptions {
   value: Color
 
+  /** name allows us to customize the tailwindcss color name */
+  name?: string
+
   /** harmonize indicates the value must be blended to the source color */
   harmonize?: boolean
 };
