@@ -60,7 +60,7 @@ importers:
         specifier: ^6.0.1
         version: 6.0.6(@types/node@22.10.2)(jiti@2.4.2)(terser@5.36.0)(yaml@2.6.1)
       vitest:
-        specifier: ^2.1.6
+        specifier: ^2.1.8
         version: 2.1.8(@types/node@22.10.2)(jsdom@25.0.1)(terser@5.36.0)
       vue-tsc:
         specifier: ^2.1.10
@@ -121,7 +121,7 @@ importers:
         specifier: ^7.6.7
         version: 7.6.8(rollup@4.29.1)(vite@6.0.6(@types/node@22.10.2)(jiti@2.4.2)(terser@5.36.0)(yaml@2.6.1))(vue@3.5.13(typescript@5.7.2))
       vitest:
-        specifier: ^2.1.6
+        specifier: ^2.1.8
         version: 2.1.8(@types/node@22.10.2)(jsdom@25.0.1)(terser@5.36.0)
       vue-tsc:
         specifier: ^2.1.10
@@ -149,7 +149,7 @@ importers:
         specifier: ~5.7.2
         version: 5.7.2
       vitest:
-        specifier: ^2.1.6
+        specifier: ^2.1.8
         version: 2.1.8(@types/node@22.10.2)(jsdom@25.0.1)(terser@5.36.0)
 
 packages:
