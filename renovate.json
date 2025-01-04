@@ -3,6 +3,21 @@
   "extends": [
     "config:recommended"
   ],
+  "packageRules": [
+    {
+      "groupName": "Nuxt.js",
+      "groupSlug": "nuxt",
+      "matchPackageNames": [
+        "@nuxt/**",
+        "@nuxtjs/**",
+        "nuxt"
+      ],
+      "matchPackagePatterns": [
+        "^nuxt-.*$"
+      ],
+      "versioning": "semver"
+    }
+  ],
   "postUpdateOptions": [
     "pnpmDedupe"
   ],
