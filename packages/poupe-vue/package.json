@@ -18,7 +18,7 @@
     "@poupe/eslint-config": "^0.4.8",
     "@tsconfig/node20": "^20.1.4",
     "@types/jsdom": "^21.1.7",
-    "@types/node": "^22.10.1",
+    "@types/node": "^22.10.5",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/eslint-config-typescript": "^14.1.4",
     "@vue/test-utils": "^2.4.6",
@@ -29,7 +29,7 @@
     "jsdom": "^25.0.1",
     "npm-run-all2": "^7.0.1",
     "typescript": "~5.7.2",
-    "vite": "^6.0.1",
+    "vite": "^6.0.7",
     "vite-plugin-vue-devtools": "^7.6.7",
     "vitest": "^2.1.6",
     "vue-tsc": "^2.1.10"
