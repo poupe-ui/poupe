@@ -12,8 +12,7 @@
         "@nuxtjs/**",
         "nuxt",
         "/^nuxt-.*$/"
-      ],
-      "versioning": "semver"
+      ]
     }
   ],
   "postUpdateOptions": [
