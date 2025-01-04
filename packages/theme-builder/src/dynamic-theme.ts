@@ -19,28 +19,31 @@ import {
   makeStandardPaletteFromScheme,
 } from './dynamic-color';
 
+/** flattens ThemeColors */
+function flattenColorOptions(c: Color | ColorOptions): ColorOptions {
+  return c instanceof Hct || typeof c !== 'object' ? { value: c } : c;
+}
+
 /**
  * ThemeColors describes colors used to build the theme.
  */
 export type ThemeColors<K extends string> = { primary: Color | ColorOptions } & Record<K, Color | ColorOptions>;
 
+/**
+ * FlatThemeColors defines the colors of the theme
+ */
 export type FlatThemeColors<K extends string> = { primary: ColorOptions } & Record<K, ColorOptions>;
 
-function flattenColorOptions(c: Color | ColorOptions): ColorOptions {
-  if (c instanceof Hct || typeof c !== 'object') {
-    return { value: c };
-  }
-  return c;
-}
-
+/** flattens a ThemeColors */
 export function flattenThemeColors<K extends string>(colors: ThemeColors<K>) {
-  const out = {} as Record<string, ColorOptions>;
+  const out = {} as Record<keyof typeof colors, ColorOptions>;
+  const keys = Object.keys(colors) as Array<keyof typeof colors>;
 
-  for (const [name, value] of Object.entries(colors)) {
-    out[name] = flattenColorOptions(value);
+  for (const c of keys) {
+    out[c] = flattenColorOptions(colors[c]);
   }
 
-  return out as FlatThemeColors<K>;
+  return out;
 }
 
 /**
