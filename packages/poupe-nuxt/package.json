@@ -29,7 +29,7 @@
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
   },
   "devDependencies": {
-    "@nuxt/devtools": "^1.5.1",
+    "@nuxt/devtools": "^1.7.0",
     "@nuxt/eslint-config": "^0.7.2",
     "@nuxt/kit": "^3.14.1592",
     "@nuxt/module-builder": "^0.8.4",
