@@ -36,7 +36,7 @@ importers:
         specifier: ^3.14.1592
         version: 3.15.0(magicast@0.3.5)(rollup@4.29.1)
       '@nuxt/test-utils':
-        specifier: ^3.14.4
+        specifier: ^3.15.1
         version: 3.15.1(@types/node@22.10.2)(@vue/test-utils@2.4.6)(jsdom@25.0.1)(magicast@0.3.5)(rollup@4.29.1)(terser@5.36.0)(typescript@5.7.2)(vitest@2.1.8(@types/node@22.10.2)(jsdom@25.0.1)(terser@5.36.0))
       '@poupe/eslint-config':
         specifier: ^0.4.5
