@@ -48,7 +48,7 @@ importers:
         specifier: ^0.5.7
         version: 0.5.7(magicast@0.3.5)
       eslint:
-        specifier: ^9.16.0
+        specifier: ^9.17.0
         version: 9.17.0(jiti@2.4.2)
       nuxt:
         specifier: ^3.14.1592
@@ -97,7 +97,7 @@ importers:
         specifier: ^0.7.0
         version: 0.7.0(typescript@5.7.2)(vue@3.5.13(typescript@5.7.2))
       eslint:
-        specifier: ^9.16.0
+        specifier: ^9.17.0
         version: 9.17.0(jiti@2.4.2)
       eslint-config-unjs:
         specifier: 0.4.2
@@ -143,7 +143,7 @@ importers:
         specifier: ^0.4.5
         version: 0.4.5(jiti@2.4.2)
       eslint:
-        specifier: ^9.16.0
+        specifier: ^9.17.0
         version: 9.17.0(jiti@2.4.2)
       typescript:
         specifier: ~5.7.2
