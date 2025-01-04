@@ -35,9 +35,6 @@ export {
 } from './tailwind-theme';
 
 export {
-  type TailwindConfigOptions,
-  type MaterialColorOptions,
-
   withMaterialColors,
   withPrintMode,
 } from './tailwind-config';
