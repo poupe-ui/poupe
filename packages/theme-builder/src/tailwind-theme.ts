@@ -1,4 +1,8 @@
 import {
+  type Prettify,
+} from './utils';
+
+import {
   Hct,
 } from './core';
 
@@ -79,12 +83,14 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
 export function makeColorConfig<K extends string>(colors: ThemeColorOptions<K> | ThemeColors<K>,
   prefix: string = 'md-',
 ) {
-  const { keys, paletteKeys } = makeThemeKeys(colors);
-  const theme = {} as Record<typeof keys[0] | typeof paletteKeys[0], string | Record<Shade, string>>;
+  const { keys, paletteKeys, configOptions } = makeThemeKeys(colors);
+  const theme = {} as Record<string, string | Record<Shade, string>>;
 
   // palette colors with shades
   for (const color of paletteKeys) {
     const k0 = `--${prefix}${color}`;
+    const colorName = configOptions[color]?.name || color;
+
     const colorShades = {} as Record<Shade, string>;
 
     for (const shade of defaultShades) {
@@ -93,7 +99,7 @@ export function makeColorConfig<K extends string>(colors: ThemeColorOptions<K> |
     }
 
     colorShades['DEFAULT'] = `rgb(var(${k0}) / <alpha-value>)`;
-    theme[color] = colorShades;
+    theme[colorName] = colorShades;
   }
 
   // the rest directly
@@ -104,5 +110,5 @@ export function makeColorConfig<K extends string>(colors: ThemeColorOptions<K> |
     }
   }
 
-  return theme;
+  return theme as Prettify<typeof theme>;
 }
