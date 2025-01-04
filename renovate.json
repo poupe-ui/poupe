@@ -10,10 +10,8 @@
       "matchPackageNames": [
         "@nuxt/**",
         "@nuxtjs/**",
-        "nuxt"
-      ],
-      "matchPackagePatterns": [
-        "^nuxt-.*$"
+        "nuxt",
+        "/^nuxt-.*$/"
       ],
       "versioning": "semver"
     }
