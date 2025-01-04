@@ -6,63 +6,34 @@ import {
 } from './utils';
 
 import {
-  type ColorMap,
-} from './core';
-
-import {
-  type StandardDynamicSchemeKey,
-} from './dynamic-color-data';
-
-import {
   type ThemeColors,
-  makeTheme,
+  type ThemeColorOptions,
 } from './dynamic-theme';
+
+import {
+  MakeCSSThemeOptions,
+} from './dynamic-color-css';
 
 import {
   rgbFromHct,
 } from './tailwind-common';
 
+import {
+  makeCSSTheme,
+  makeColorConfig,
+} from './tailwind-theme';
+
 import type { Config, PluginCreator } from 'tailwindcss/types/config';
 
-// types
-//
-export interface TailwindConfigOptions {
-  prefix?: string // default: 'md-'
-  darkSuffix?: string // default: '-dark'
-  lightSuffix?: string // default: '-light'
-  darkMode?: string // default: '.dark'
-  primaryName?: string // default: 'primary'
-  omitValues?: boolean // default: false
-  omitVariables?: boolean // default: false
-  omitColors?: boolean // default: false
-  omitPrintException?: boolean // default: false
-};
+type MaterialColorOptions = Partial<MakeCSSThemeOptions>;
 
-function defaultsTailwindConfigOptions(options: TailwindConfigOptions): Required<TailwindConfigOptions> {
+function defaultMaterialColorOptions(options: MaterialColorOptions = {}): MakeCSSThemeOptions {
   return {
     prefix: 'md-',
     darkSuffix: '-dark',
     lightSuffix: '-light',
-    darkMode: '.dark',
-    primaryName: 'primary',
-    omitValues: false,
-    omitVariables: false,
-    omitColors: false,
-    omitPrintException: false,
+    stringify: rgbFromHct,
     ...options,
-  };
-}
-
-export interface MaterialColorOptions extends TailwindConfigOptions {
-  scheme?: StandardDynamicSchemeKey // default: 'content'
-  contrastLevel?: number // default: 0
-};
-
-function defaultsMaterialColorOptions(options: MaterialColorOptions): Required<MaterialColorOptions> {
-  return {
-    scheme: 'content',
-    contrastLevel: 0,
-    ...defaultsTailwindConfigOptions(options),
   };
 }
 
@@ -78,176 +49,102 @@ function darkStyleNotPrintPlugin(darkMode: string = '.dark') {
   } as PluginCreator);
 }
 
-// withMaterialColors
-function buildTailwindConfig<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: TailwindConfigOptions) {
-  // output
-  const theme: PropType<Config, 'theme'> = {};
-  const styles: CSSRuleObject = {};
+/** withColorConfig adds the colors to the TailwindCSS Config */
+function withColorConfig<K extends string>(config: Partial<Config>,
+  colors: ThemeColors<K> | ThemeColorOptions<K>,
+  prefix?: string): Partial<Config> {
+  //
+  const theme: PropType<Config, 'theme'> = {
+    extend: {
+      colors: makeColorConfig(colors, prefix),
+    },
+  };
 
-  // options
-  const { prefix, darkSuffix, lightSuffix, darkMode,
-    primaryName,
-    omitValues, omitVariables, omitColors, omitPrintException,
-  } = defaultsTailwindConfigOptions(options);
+  return {
+    ...config,
+    theme: {
+      ...config?.theme,
+      ...theme,
+      extend: {
+        ...config?.theme?.extend,
+        ...theme?.extend,
+        colors: {
+          ...config?.theme?.extend?.colors,
+          ...theme?.extend?.colors,
+        },
+      },
+    },
+  };
+}
 
-  if (omitValues && omitVariables && omitColors) {
-    // omit everything
-    return { styles, theme };
-  }
+function withCSSTheme<K extends string>(config: Partial<Config>,
+  colors: ThemeColors<K>,
+  options: MakeCSSThemeOptions = {} as MakeCSSThemeOptions,
+): Partial<Config> {
+  const theme = makeCSSTheme(colors, options);
+  const styles: CSSRuleObject[] = [];
 
-  const keys = Object.keys(dark) as K[];
-  const colors: Record<string, string> = {};
-  const rootValues: CSSRuleObject = {};
-  const darkValues: CSSRuleObject = {};
-  const rootVars: CSSRuleObject = {};
-  const darkVars: CSSRuleObject = {};
+  let root: CSSRuleObject | undefined;
+  let light: CSSRuleObject | undefined;
+  let dark: CSSRuleObject | undefined;
 
-  for (const k of keys) {
-    const n = k === 'primary' ? primaryName : k;
-    const k0 = `--${prefix}${k}`;
-    const v1 = omitValues ? '' : rgbFromHct(light[k]);
-    const v2 = omitValues ? '' : rgbFromHct(dark[k]);
-
-    if (omitValues && omitVariables) {
-      // MODE 0: only colors
-      ;
-    } else if (darkSuffix === '' && lightSuffix === '') {
-      // MODE 1: direct rgb.
-      if (!omitValues) {
-        rootValues[k0] = v1;
-        darkValues[k0] = v2;
-      }
-    } else if (darkSuffix !== '' && lightSuffix !== '') {
-      // MODE 2: dark and light variables.
-      const k1 = `${k0}${lightSuffix}`;
-      const k2 = `${k0}${darkSuffix}`;
-
-      if (!omitValues) {
-        rootValues[k1] = v1;
-        rootValues[k2] = v2;
-      }
-
-      if (!omitVariables) {
-        rootVars[k0] = `var(${k1})`;
-        darkVars[k0] = `var(${k2})`;
-      }
-    } else if (darkSuffix === '') {
-      // MODE 4: dark direct, light variable.
-      const k1 = `${k0}${lightSuffix}`;
-
-      if (!omitValues) {
-        rootValues[k1] = v1;
-        darkValues[k0] = v2;
-      }
-
-      if (!omitVariables) {
-        rootVars[k0] = `var(${k1})`;
-      }
-    } else {
-      // MODE 3: dark variables, light direct.
-      const k2 = `${k0}${darkSuffix}`;
-
-      if (!omitValues) {
-        rootValues[k0] = v1;
-        rootValues[k2] = v2;
-      }
-
-      if (!omitVariables) {
-        darkVars[k0] = `var(${k2})`;
-      }
-    }
-
-    if (!omitColors) {
-      // register colors
-      colors[n] = `rgb(var(${k0}) / <alpha-value>)`;
-    }
-  }
-
-  // assemble return values
-  if (!omitValues || !omitVariables) {
-    const darkStyle = omitPrintException ? darkMode : darkStyleNotPrint(darkMode);
-
-    styles[':root'] = {
-      ...rootValues,
-      ...rootVars,
+  if (theme.darkVars) {
+    root = {
+      ...root,
+      ...theme.darkValues,
     };
-
-    styles[darkStyle] = {
-      ...darkValues,
-      ...darkVars,
-    };
+    dark = theme.darkVars;
+  } else {
+    dark = theme.darkValues;
   }
 
-  if (!omitColors) {
-    theme.extend = {
-      colors,
+  if (theme.lightVars) {
+    root = {
+      ...root,
+      ...theme.lightValues,
     };
+    light = theme.lightVars;
+  } else {
+    light = theme.lightValues;
   }
 
-  return { styles, theme };
+  if (root) {
+    styles.push({
+      ':root': root,
+    });
+  }
+
+  styles.push({
+    ':root, .light': light,
+    '@media not print': {
+      '.dark': dark,
+    },
+  });
+
+  const plugins: PropType<Config, 'plugin'> = [
+    ...(config.plugins || []),
+    plugin(({ addBase }) => addBase(styles)),
+  ];
+
+  config = {
+    ...config,
+    plugins,
+  };
+
+  return config;
 }
 
 export function withMaterialColors<K extends string>(config: Partial<Config>,
   colors: ThemeColors<K>,
   options: MaterialColorOptions = {},
 ): Partial<Config> {
-  // options
-  const {
-    scheme, contrastLevel, darkMode,
-    omitValues, omitVariables, omitColors, omitPrintException,
-  } = defaultsMaterialColorOptions(options);
-
-  // build
-  const { dark, light } = makeTheme(colors, scheme, contrastLevel);
-  const { styles, theme } = buildTailwindConfig(dark, light, options);
-
-  // output
-  if (!omitColors) {
-    config = {
-      ...config,
-      theme: {
-        ...config?.theme,
-        ...theme,
-        extend: {
-          ...config?.theme?.extend,
-          ...theme?.extend,
-          colors: {
-            ...config?.theme?.extend?.colors,
-            ...theme?.extend?.colors,
-          },
-        },
-      },
-    };
-  }
-
-  if (!omitValues || !omitVariables) {
-    const plugins: PropType<Config, 'plugin'> = [
-      ...(config.plugins || []),
-      plugin(({ addBase }) => addBase(styles)),
-    ];
-
-    config = {
-      ...config,
-      plugins,
-    };
-  }
-
-  if (!omitPrintException) {
-    const plugins: PropType<Config, 'plugin'> = [
-      ...(config.plugins || []),
-      darkStyleNotPrintPlugin(darkMode),
-    ];
-
-    config = {
-      ...config,
-      plugins,
-    };
-  }
-
+  const $options = defaultMaterialColorOptions(options);
+  config = withCSSTheme(config, colors, $options);
+  config = withColorConfig(config, colors, $options.prefix);
   return config;
 }
 
-// withPrintMode disable dark mode when printing and introduce 'print' and 'screen' variants.
+/** withPrintMode disable dark mode when printing and introduce 'print' and 'screen' variants. */
 export function withPrintMode(config: Partial<Config>, darkMode: string = '.dark'): Partial<Config> {
   const theme: PropType<Config, 'theme'> = {
     ...config?.theme,

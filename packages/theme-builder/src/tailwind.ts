@@ -22,6 +22,7 @@ export {
 } from './tailwind-common';
 
 export {
+  type Shade,
   type Shades,
 
   makeShades,
@@ -29,13 +30,11 @@ export {
 } from './tailwind-shades';
 
 export {
+  makeColorConfig,
   makeCSSTheme,
 } from './tailwind-theme';
 
 export {
-  type TailwindConfigOptions,
-  type MaterialColorOptions,
-
   withMaterialColors,
   withPrintMode,
 } from './tailwind-config';

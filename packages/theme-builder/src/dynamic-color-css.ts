@@ -39,9 +39,10 @@ export function assembleCSSColors<K extends string>(dark: ColorMap<K>, light: Co
 
   const darkValues: CSSRuleObject = {};
   const lightValues: CSSRuleObject = {};
-  const darkVars: CSSRuleObject = {};
-  const lightVars: CSSRuleObject = {};
   const vars: Record<K, string> = {} as Record<K, string>;
+
+  let darkVars: CSSRuleObject | undefined = {};
+  let lightVars: CSSRuleObject | undefined = {};
 
   for (const k of keys) {
     const k0 = `--${prefix}${k}`;
@@ -61,6 +62,13 @@ export function assembleCSSColors<K extends string>(dark: ColorMap<K>, light: Co
     if (k2 !== k0) {
       lightVars[k0] = `var(${k2})`;
     }
+  }
+
+  if (Object.keys(darkVars).length === 0) {
+    darkVars = undefined;
+  }
+  if (Object.keys(lightVars).length === 0) {
+    lightVars = undefined;
   }
 
   return { vars, darkValues, lightValues, darkVars, lightVars };
