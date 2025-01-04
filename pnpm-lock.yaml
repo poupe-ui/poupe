@@ -109,7 +109,7 @@ importers:
         specifier: ^25.0.1
         version: 25.0.1
       npm-run-all2:
-        specifier: ^7.0.1
+        specifier: ^7.0.2
         version: 7.0.2
       typescript:
         specifier: ~5.7.2
