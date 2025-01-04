@@ -27,5 +27,7 @@ export default defineConfig({
       },
     ],
     'tsdoc/syntax': 'warn',
+    'unicorn/no-array-for-each': 'error',
+    '@stylistic/arrow-parens': 'error',
   },
 });
