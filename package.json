@@ -13,7 +13,7 @@
     "prepare": "pnpm -r dev:prepare"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "^0.4.5",
+    "@poupe/eslint-config": "^0.4.8",
     "eslint": "^9.17.0",
     "eslint-plugin-tsdoc": "^0.4.0"
   },
