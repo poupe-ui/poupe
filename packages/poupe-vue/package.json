@@ -30,7 +30,7 @@
     "npm-run-all2": "^7.0.2",
     "typescript": "~5.7.2",
     "vite": "^6.0.7",
-    "vite-plugin-vue-devtools": "^7.6.7",
+    "vite-plugin-vue-devtools": "^7.6.8",
     "vitest": "^2.1.8",
     "vue-tsc": "^2.2.0"
   }
