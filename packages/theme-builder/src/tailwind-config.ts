@@ -19,15 +19,15 @@ import {
 } from './tailwind-common';
 
 import {
+  type TailwindCSSThemeOptions,
+
   makeCSSTheme,
   makeColorConfig,
 } from './tailwind-theme';
 
 import type { Config, PluginCreator } from 'tailwindcss/types/config';
 
-type MaterialColorOptions = Partial<MakeCSSThemeOptions>;
-
-function defaultMaterialColorOptions(options: MaterialColorOptions = {}): MakeCSSThemeOptions {
+function defaultMaterialColorOptions(options: TailwindCSSThemeOptions = {}): MakeCSSThemeOptions {
   return {
     prefix: 'md-',
     darkSuffix: '-dark',
@@ -52,11 +52,12 @@ function darkStyleNotPrintPlugin(darkMode: string = '.dark') {
 /** withColorConfig adds the colors to the TailwindCSS Config */
 function withColorConfig<K extends string>(config: Partial<Config>,
   colors: ThemeColors<K> | ThemeColorOptions<K>,
-  prefix?: string): Partial<Config> {
+  options: TailwindCSSThemeOptions = {},
+): Partial<Config> {
   //
   const theme: PropType<Config, 'theme'> = {
     extend: {
-      colors: makeColorConfig(colors, prefix),
+      colors: makeColorConfig(colors, options),
     },
   };
 
@@ -79,7 +80,7 @@ function withColorConfig<K extends string>(config: Partial<Config>,
 
 function withCSSTheme<K extends string>(config: Partial<Config>,
   colors: ThemeColors<K>,
-  options: MakeCSSThemeOptions = {} as MakeCSSThemeOptions,
+  options: TailwindCSSThemeOptions = {},
 ): Partial<Config> {
   const theme = makeCSSTheme(colors, options);
   const styles: CSSRuleObject[] = [];
@@ -136,11 +137,11 @@ function withCSSTheme<K extends string>(config: Partial<Config>,
 
 export function withMaterialColors<K extends string>(config: Partial<Config>,
   colors: ThemeColors<K>,
-  options: MaterialColorOptions = {},
+  options: TailwindCSSThemeOptions = {},
 ): Partial<Config> {
   const $options = defaultMaterialColorOptions(options);
   config = withCSSTheme(config, colors, $options);
-  config = withColorConfig(config, colors, $options.prefix);
+  config = withColorConfig(config, colors, $options);
   return config;
 }
 

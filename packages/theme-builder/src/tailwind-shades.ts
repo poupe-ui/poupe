@@ -11,8 +11,7 @@ import {
   hexFromHct,
 } from './core';
 
-// export
-//
+/** list of shades to use by default */
 export const defaultShades = [
   50,
   100,
@@ -24,6 +23,7 @@ export const defaultShades = [
   700,
   800,
   900,
+  950,
 ];
 
 /**

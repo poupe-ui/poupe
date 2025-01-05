@@ -7,6 +7,8 @@ import {
 } from './core';
 
 import {
+  type ColorOptions,
+
   getColorNameOption,
 } from './dynamic-color';
 
@@ -30,10 +32,39 @@ import {
 
 import {
   type Shade,
+  type Shades,
 
   defaultShades,
   makeShades,
 } from './tailwind-shades';
+
+/** ColorOptions extended for Tailwind configuration */
+export interface TailwindColorOptions extends ColorOptions {
+  /** @defaultValue `true` */
+  shades?: Shades
+};
+
+function getColorShadesOption<K extends string>(color: K, fallback: Shades = true, options?: Record<K, Partial<TailwindColorOptions>>): number[] {
+  if (fallback === false)
+    fallback = [];
+  else if (fallback === true)
+    fallback = defaultShades;
+
+  const $opt = options ? options[color] : undefined;
+  if ($opt === undefined || $opt.shades === undefined || $opt.shades === true)
+    return fallback;
+  else if ($opt.shades === false) {
+    return [];
+  } else {
+    return $opt.shades;
+  }
+}
+
+/** options for {@link makeCSSTheme} */
+export interface TailwindCSSThemeOptions extends Partial<MakeCSSThemeOptions> {
+  /** @defaultValue `true` */
+  shades?: Shades
+}
 
 /**
  *  makeCSSTheme assembles CSS variables to use in M3 dark/light TailwindCSS themes.
@@ -43,9 +74,9 @@ import {
  * @returns  CSSRuleObjects to set up dark/light themes.
  */
 export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
-  options: Partial<MakeCSSThemeOptions> = {},
+  options: TailwindCSSThemeOptions = {},
 ) {
-  const { dark, light, darkPalette, lightPalette } = makeTheme(colors, options.scheme, options.contrastLevel);
+  const { dark, light, darkPalette, lightPalette, colorOptions } = makeTheme(colors, options.scheme, options.contrastLevel);
 
   // shades
   const darkColors: Record<string, Hct> = {
@@ -58,8 +89,10 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
 
   const keys = Object.keys(darkPalette) as Array<keyof typeof darkPalette>;
   for (const key of keys) {
-    const darkShades = makeShades(darkPalette[key]);
-    const lightShades = makeShades(lightPalette[key]);
+    const $shades = getColorShadesOption(key, options.shades, colorOptions);
+
+    const darkShades = makeShades(darkPalette[key], $shades);
+    const lightShades = makeShades(lightPalette[key], $shades);
 
     const shades = Object.keys(darkShades) as Array<keyof typeof darkShades>;
     for (const shade of shades) {
@@ -79,14 +112,23 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
   });
 }
 
+interface MakeColorConfigOptions {
+  /** @defaultValue `'md-` */
+  prefix?: string
+
+  /** @defaultValue `true` */
+  shades?: Shades
+};
+
 /**
  * @param colors - describes the colors of the theme.
  * @param prefix - indicates the prefix used for the CSS variables.
  * @returns tailwindcss Config theme colors using the CSS variables associated with the theme.
  */
 export function makeColorConfig<K extends string>(colors: ThemeColorOptions<K> | ThemeColors<K>,
-  prefix: string = 'md-',
+  options: MakeColorConfigOptions = {},
 ) {
+  const { prefix = 'md-' } = options;
   const { keys, paletteKeys, colorOptions } = makeThemeKeys(colors);
   const theme = {} as Record<string, string | Record<Shade, string>>;
 
@@ -99,8 +141,9 @@ export function makeColorConfig<K extends string>(colors: ThemeColorOptions<K> |
 
     const k0 = `--${prefix}${color}`;
     const colorShades = {} as Record<Shade, string>;
+    const shades = getColorShadesOption(color, options.shades, colorOptions);
 
-    for (const shade of defaultShades) {
+    for (const shade of shades) {
       const k1 = `${k0}-${shade}`;
       colorShades[shade] = `rgb(var(${k1}) / <alpha-value>)`;
     }
