@@ -87,12 +87,12 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
 export function makeColorConfig<K extends string>(colors: ThemeColorOptions<K> | ThemeColors<K>,
   prefix: string = 'md-',
 ) {
-  const { keys, paletteKeys, configOptions } = makeThemeKeys(colors);
+  const { keys, paletteKeys, colorOptions } = makeThemeKeys(colors);
   const theme = {} as Record<string, string | Record<Shade, string>>;
 
   // palette colors with shades
   for (const color of paletteKeys) {
-    const colorName = getColorNameOption(color, configOptions);
+    const colorName = getColorNameOption(color, colorOptions);
 
     if (colorName === undefined)
       continue;

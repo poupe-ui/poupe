@@ -94,7 +94,7 @@ export function makeThemeKeys<K extends string>(colors: ThemeColorOptions<K> | T
   type PaletteKey = StandardPaletteKey | KebabCase<K>;
   type ColorKey = PaletteKey | StandardDynamicColorKey | CustomDynamicColorKey<KebabCase<K>>;
 
-  const configOptions = {} as Record<PaletteKey, Partial<ColorOptions>>;
+  const colorOptions = {} as Record<PaletteKey, Partial<ColorOptions>>;
   const paletteKeys: PaletteKey[] = [...standardPaletteKeys];
   const keys: ColorKey[] = [...standardDynamicColorKeys];
 
@@ -103,7 +103,7 @@ export function makeThemeKeys<K extends string>(colors: ThemeColorOptions<K> | T
     const kebabName = kebabCase(name) as KebabCase<K>;
 
     // preserve config
-    configOptions[kebabName] = flattenPartialColorOptions(colors[name]);
+    colorOptions[kebabName] = flattenPartialColorOptions(colors[name]);
 
     if (!(kebabName in keys)) {
       // custom color
@@ -119,15 +119,15 @@ export function makeThemeKeys<K extends string>(colors: ThemeColorOptions<K> | T
     if (!(name in keys)) {
       keys.push(name);
     }
-    if (!(name in configOptions)) {
-      configOptions[name] = {};
+    if (!(name in colorOptions)) {
+      colorOptions[name] = {};
     }
   }
 
   return {
     keys,
     paletteKeys,
-    configOptions,
+    colorOptions,
   };
 }
 /**
