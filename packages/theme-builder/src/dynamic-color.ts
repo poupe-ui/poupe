@@ -37,11 +37,27 @@ export interface ColorOptions {
   value: Color
 
   /** name allows us to customize the tailwindcss color name */
-  name?: string
+  name?: boolean | string
 
   /** harmonize indicates the value must be blended to the source color */
   harmonize?: boolean
 };
+
+/**
+ * @param color - color name in the table
+ * @param colors - table of ColorOptions
+ * @returns desired name for the color. undefined if the color is to be omitted.
+ */
+export function getColorNameOption<K extends string>(color: K, colors: Record<K, Partial<ColorOptions>>): string | undefined {
+  const $opt = colors[color];
+  if ($opt === undefined || $opt.name === undefined || $opt.name === true) {
+    return color; // default
+  } else if ($opt.name !== false && $opt.name !== '') {
+    return $opt.name; // custom
+  } else {
+    return undefined; // omit
+  }
+}
 
 type StandardDynamicColors = { [K in StandardDynamicColorKey]: Hct };
 type StandardPaletteColors = { [K in StandardPaletteKey]: Hct };
@@ -68,25 +84,6 @@ export function makeStandardPaletteFromScheme(scheme: DynamicScheme) {
   return out as StandardPaletteColors;
 }
 
-function flattenColorOptions<K extends string>(options: Record<K, ColorOptions>) {
-  const out: Partial<Record<K, ColorOptions>> = {};
-  for (const name in options) {
-    const opt = options[name];
-    let value: ColorOptions;
-
-    if (opt instanceof Hct) {
-      value = { value: opt };
-    } else if (typeof opt === 'object') {
-      value = { value: hct(opt.value), harmonize: opt.harmonize };
-    } else {
-      value = { value: hct(opt) };
-    }
-
-    out[name] = value;
-  }
-  return out as Record<K, ColorOptions>;
-}
-
 function customColor(source: Hct, name: string, option: ColorOptions) {
   const value = argb(option.value);
   const blend = option.harmonize === undefined ? true : option.harmonize;
@@ -100,19 +97,18 @@ function customColor(source: Hct, name: string, option: ColorOptions) {
 
 export function makeCustomColors<K extends string>(source: Color, colors: Record<K, ColorOptions>) {
   const $source = hct(source);
-  const $colors = flattenColorOptions(colors);
 
   type customDynamicColors = CustomDynamicColors<K>;
 
-  const names: Array<KebabCase<K>> = [];
+  const colorOptions = {} as Record<KebabCase<K>, ColorOptions>;
   const darkColors: Partial<customDynamicColors> = {};
   const lightColors: Partial<customDynamicColors> = {};
 
-  for (const color in $colors) {
+  for (const color in colors) {
     const kebabName = kebabCase(color) as KebabCase<K>;
-    const { dark, light } = customColor($source, color, $colors[color]);
+    const { dark, light } = customColor($source, color, colors[color]);
 
-    names.push(kebabName);
+    colorOptions[kebabName] = colors[color];
 
     for (const [pattern, fn] of Object.entries(customDynamicColors)) {
       const name = pattern.replace('{}', kebabName) as keyof customDynamicColors;
@@ -124,7 +120,8 @@ export function makeCustomColors<K extends string>(source: Color, colors: Record
 
   return {
     source,
-    colors: names,
+    colors: Object.keys(colorOptions) as Array<keyof typeof colorOptions>,
+    colorOptions: colorOptions,
     dark: darkColors as Prettify<customDynamicColors>,
     light: lightColors as Prettify<customDynamicColors>,
   };

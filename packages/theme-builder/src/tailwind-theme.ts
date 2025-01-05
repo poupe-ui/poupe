@@ -7,6 +7,10 @@ import {
 } from './core';
 
 import {
+  getColorNameOption,
+} from './dynamic-color';
+
+import {
   type MakeCSSThemeOptions,
 
   assembleCSSColors,
@@ -83,14 +87,17 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
 export function makeColorConfig<K extends string>(colors: ThemeColorOptions<K> | ThemeColors<K>,
   prefix: string = 'md-',
 ) {
-  const { keys, paletteKeys, configOptions } = makeThemeKeys(colors);
+  const { keys, paletteKeys, colorOptions } = makeThemeKeys(colors);
   const theme = {} as Record<string, string | Record<Shade, string>>;
 
   // palette colors with shades
   for (const color of paletteKeys) {
-    const k0 = `--${prefix}${color}`;
-    const colorName = configOptions[color]?.name || color;
+    const colorName = getColorNameOption(color, colorOptions);
 
+    if (colorName === undefined)
+      continue;
+
+    const k0 = `--${prefix}${color}`;
     const colorShades = {} as Record<Shade, string>;
 
     for (const shade of defaultShades) {
