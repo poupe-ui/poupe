@@ -38,7 +38,7 @@
     "@poupe/eslint-config": "^0.4.9",
     "@types/node": "^22.10.5",
     "changelogen": "^0.5.7",
-    "eslint": "^9.16.0",
+    "eslint": "^9.17.0",
     "nuxt": "^3.15.0",
     "typescript": "^5.7.2",
     "vite": "^6.0.7",
