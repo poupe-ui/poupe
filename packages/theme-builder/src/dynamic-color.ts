@@ -37,11 +37,27 @@ export interface ColorOptions {
   value: Color
 
   /** name allows us to customize the tailwindcss color name */
-  name?: string
+  name?: boolean | string
 
   /** harmonize indicates the value must be blended to the source color */
   harmonize?: boolean
 };
+
+/**
+ * @param color - color name in the table
+ * @param colors - table of ColorOptions
+ * @returns desired name for the color. undefined if the color is to be omitted.
+ */
+export function getColorNameOption<K extends string>(color: K, colors: Record<K, Partial<ColorOptions>>): string | undefined {
+  const $opt = colors[color];
+  if ($opt === undefined || $opt.name === undefined || $opt.name === true) {
+    return color; // default
+  } else if ($opt.name !== false && $opt.name !== '') {
+    return $opt.name; // custom
+  } else {
+    return undefined; // omit
+  }
+}
 
 type StandardDynamicColors = { [K in StandardDynamicColorKey]: Hct };
 type StandardPaletteColors = { [K in StandardPaletteKey]: Hct };
