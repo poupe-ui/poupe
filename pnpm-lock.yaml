@@ -115,7 +115,7 @@ importers:
         specifier: ^6.0.7
         version: 6.0.7(@types/node@22.10.5)(jiti@2.4.2)(terser@5.36.0)(yaml@2.6.1)
       vite-plugin-vue-devtools:
-        specifier: ^7.6.7
+        specifier: ^7.6.8
         version: 7.6.8(rollup@4.29.1)(vite@6.0.7(@types/node@22.10.5)(jiti@2.4.2)(terser@5.36.0)(yaml@2.6.1))(vue@3.5.13(typescript@5.7.2))
       vitest:
         specifier: ^2.1.8
