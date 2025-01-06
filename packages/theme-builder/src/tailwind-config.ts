@@ -11,31 +11,13 @@ import {
 } from './dynamic-theme';
 
 import {
-  MakeCSSThemeOptions,
-} from './dynamic-color-css';
-
-import {
-  rgbFromHct,
-} from './tailwind-common';
-
-import {
-  type TailwindCSSThemeOptions,
+  type TailwindThemeOptions,
 
   makeCSSTheme,
   makeColorConfig,
 } from './tailwind-theme';
 
 import type { Config, PluginCreator } from 'tailwindcss/types/config';
-
-function defaultMaterialColorOptions(options: TailwindCSSThemeOptions = {}): MakeCSSThemeOptions {
-  return {
-    prefix: 'md-',
-    darkSuffix: '-dark',
-    lightSuffix: '-light',
-    stringify: rgbFromHct,
-    ...options,
-  };
-}
 
 // helpers
 //
@@ -52,35 +34,32 @@ function darkStyleNotPrintPlugin(darkMode: string = '.dark') {
 /** withColorConfig adds the colors to the TailwindCSS Config */
 function withColorConfig<K extends string>(config: Partial<Config>,
   colors: ThemeColors<K> | ThemeColorOptions<K>,
-  options: TailwindCSSThemeOptions = {},
+  options: TailwindThemeOptions = {},
 ): Partial<Config> {
   //
+  const tailwindColors = makeColorConfig(colors, options);
   const theme: PropType<Config, 'theme'> = {
-    extend: {
-      colors: makeColorConfig(colors, options),
+    ...config?.theme,
+  };
+
+  // extend colors
+  theme.extend = {
+    ...theme.extend,
+    colors: {
+      ...theme.extend?.colors,
+      ...tailwindColors,
     },
   };
 
   return {
     ...config,
-    theme: {
-      ...config?.theme,
-      ...theme,
-      extend: {
-        ...config?.theme?.extend,
-        ...theme?.extend,
-        colors: {
-          ...config?.theme?.extend?.colors,
-          ...theme?.extend?.colors,
-        },
-      },
-    },
+    theme,
   };
 }
 
 function withCSSTheme<K extends string>(config: Partial<Config>,
   colors: ThemeColors<K>,
-  options: TailwindCSSThemeOptions = {},
+  options: TailwindThemeOptions = {},
 ): Partial<Config> {
   const theme = makeCSSTheme(colors, options);
   const styles: CSSRuleObject[] = [];
@@ -137,11 +116,10 @@ function withCSSTheme<K extends string>(config: Partial<Config>,
 
 export function withMaterialColors<K extends string>(config: Partial<Config>,
   colors: ThemeColors<K>,
-  options: TailwindCSSThemeOptions = {},
+  options: TailwindThemeOptions = {},
 ): Partial<Config> {
-  const $options = defaultMaterialColorOptions(options);
-  config = withCSSTheme(config, colors, $options);
-  config = withColorConfig(config, colors, $options);
+  config = withCSSTheme(config, colors, options);
+  config = withColorConfig(config, colors, options);
   return config;
 }
 
