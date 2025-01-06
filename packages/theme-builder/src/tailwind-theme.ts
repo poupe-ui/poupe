@@ -61,9 +61,12 @@ function getColorShadesOption<K extends string>(color: K, fallback: Shades = tru
 }
 
 /** options for {@link makeCSSTheme} */
-export interface TailwindCSSThemeOptions extends Partial<MakeCSSThemeOptions> {
+export interface TailwindThemeOptions extends Partial<MakeCSSThemeOptions> {
   /** @defaultValue `true` */
   shades?: Shades
+
+  /** @defaultValue `true` */
+  extend?: boolean
 }
 
 /**
@@ -74,7 +77,7 @@ export interface TailwindCSSThemeOptions extends Partial<MakeCSSThemeOptions> {
  * @returns  CSSRuleObjects to set up dark/light themes.
  */
 export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
-  options: TailwindCSSThemeOptions = {},
+  options: TailwindThemeOptions = {},
 ) {
   const { dark, light, darkPalette, lightPalette, colorOptions } = makeTheme(colors, options.scheme, options.contrastLevel);
 
@@ -112,21 +115,13 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
   });
 }
 
-interface MakeColorConfigOptions {
-  /** @defaultValue `'md-` */
-  prefix?: string
-
-  /** @defaultValue `true` */
-  shades?: Shades
-};
-
 /**
  * @param colors - describes the colors of the theme.
  * @param prefix - indicates the prefix used for the CSS variables.
  * @returns tailwindcss Config theme colors using the CSS variables associated with the theme.
  */
 export function makeColorConfig<K extends string>(colors: ThemeColorOptions<K> | ThemeColors<K>,
-  options: MakeColorConfigOptions = {},
+  options: TailwindThemeOptions = {},
 ) {
   const { prefix = 'md-' } = options;
   const { keys, paletteKeys, colorOptions } = makeThemeKeys(colors);
