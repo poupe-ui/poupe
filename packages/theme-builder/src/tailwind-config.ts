@@ -1,3 +1,4 @@
+import defaultColors from 'tailwindcss/colors.js';
 import plugin from 'tailwindcss/plugin.js';
 
 import {
@@ -37,19 +38,32 @@ function withColorConfig<K extends string>(config: Partial<Config>,
   options: TailwindThemeOptions = {},
 ): Partial<Config> {
   //
+  const { extend = true } = options;
   const tailwindColors = makeColorConfig(colors, options);
   const theme: PropType<Config, 'theme'> = {
     ...config?.theme,
   };
 
-  // extend colors
-  theme.extend = {
-    ...theme.extend,
-    colors: {
-      ...theme.extend?.colors,
+  if (extend) {
+    // extend colors
+    theme.extend = {
+      ...theme.extend,
+      colors: {
+        ...theme.extend?.colors,
+        ...tailwindColors,
+      },
+    };
+  } else {
+    // replace colors
+    theme.colors = {
+      inherit: defaultColors.inherit,
+      current: defaultColors.current,
+      transparent: defaultColors.transparent,
+      black: defaultColors.black,
+      white: defaultColors.white,
       ...tailwindColors,
-    },
-  };
+    };
+  }
 
   return {
     ...config,

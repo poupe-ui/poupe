@@ -64,6 +64,9 @@ function getColorShadesOption<K extends string>(color: K, fallback: Shades = tru
 export interface TailwindThemeOptions extends Partial<MakeCSSThemeOptions> {
   /** @defaultValue `true` */
   shades?: Shades
+
+  /** @defaultValue `true` */
+  extend?: boolean
 }
 
 /**
