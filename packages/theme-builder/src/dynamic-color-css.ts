@@ -17,6 +17,10 @@ import {
 } from './dynamic-theme';
 
 export interface CSSThemeOptions {
+  /** @defaultValue `'.dark'` */
+  darkMode: boolean | string
+  /** @defaultValue `'.light'` */
+  lightMode: boolean | string
   /** @defaultValue `'md-'` */
   prefix: string
   /** @defaultValue `'-dark'` */
@@ -27,23 +31,90 @@ export interface CSSThemeOptions {
   stringify: (c: Hct) => string
 };
 
-export function assembleCSSColors<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: Partial<CSSThemeOptions> = {}) {
-  const keys = Object.keys(dark) as K[];
-  const { prefix, darkSuffix, lightSuffix, stringify } = {
+/** apply defaults to {@link CSSThemeOptions} */
+export function defaultCSSThemeOptions(options: Partial<CSSThemeOptions> = {}): CSSThemeOptions {
+  return {
+    darkMode: '.dark',
+    lightMode: '.light',
     prefix: 'md-',
     darkSuffix: '-dark',
     lightSuffix: '-light',
     stringify: rgbFromHct,
     ...options,
   };
+}
 
+function defaultDarkSelector(options: Partial<CSSThemeOptions>) {
+  const { darkMode = true } = options;
+  if (darkMode === true || darkMode === '.dark')
+    return '.dark';
+  else if (darkMode === false || darkMode === '' || darkMode === 'media')
+    return '@media not print and (prefers-color-scheme: dark)';
+  else
+    return darkMode;
+}
+
+function defaultLightSelector(options: Partial<CSSThemeOptions>) {
+  const { lightMode = true } = options;
+  if (lightMode === true || lightMode === '.light')
+    return '.light';
+  else if (lightMode === false || lightMode === '')
+    return undefined;
+  else
+    return lightMode;
+}
+
+function defaultRootLightSelector(options: Partial<CSSThemeOptions>) {
+  const rootSelector = ':root';
+  const lightSelector = defaultLightSelector(options);
+  if (lightSelector) {
+    return `${rootSelector}, ${lightSelector}`;
+  }
+  return rootSelector;
+}
+
+/** creates resulting {@link CSSRuleObject} array */
+function assembleCSSRules(root: CSSRuleObject | undefined,
+  light: CSSRuleObject, dark: CSSRuleObject,
+  options: CSSThemeOptions): CSSRuleObject[] {
+  /*
+   * options
+   */
+  const rootSelector = ':root';
+  const darkSelector = defaultDarkSelector(options);
+  const rootLightSelector = defaultRootLightSelector(options);
+
+  const styles: CSSRuleObject[] = [];
+
+  if (root) {
+    styles.push({
+      [rootSelector]: root,
+    });
+  }
+
+  styles.push({
+    [rootLightSelector]: light,
+    [darkSelector]: dark,
+  });
+
+  return styles;
+}
+
+function generateCSSColorVariables<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: CSSThemeOptions) {
+  const {
+    prefix,
+    darkSuffix,
+    lightSuffix,
+    stringify,
+  } = options;
+
+  let darkVars: CSSRuleObject | undefined = {};
+  let lightVars: CSSRuleObject | undefined = {};
   const darkValues: CSSRuleObject = {};
   const lightValues: CSSRuleObject = {};
   const vars: Record<K, string> = {} as Record<K, string>;
 
-  let darkVars: CSSRuleObject | undefined = {};
-  let lightVars: CSSRuleObject | undefined = {};
-
+  const keys = Object.keys(dark) as K[];
   for (const k of keys) {
     const k0 = `--${prefix}${k}`;
     const k1 = `${k0}${darkSuffix}`;
@@ -72,6 +143,52 @@ export function assembleCSSColors<K extends string>(dark: ColorMap<K>, light: Co
   }
 
   return { vars, darkValues, lightValues, darkVars, lightVars };
+}
+
+/** generates CSS color tables */
+export function assembleCSSColors<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: Partial<CSSThemeOptions> = {}) {
+  /*
+   * options
+   */
+  const $options = defaultCSSThemeOptions(options);
+
+  /*
+   * color variables
+   */
+  const { vars, darkValues, lightValues, darkVars, lightVars } = generateCSSColorVariables(dark, light, $options);
+
+  /*
+   * styles
+   */
+  let rootStyles: CSSRuleObject | undefined;
+  let lightStyles: CSSRuleObject;
+  let darkStyles: CSSRuleObject;
+
+  if (darkVars) {
+    rootStyles = {
+      ...darkValues,
+    };
+    darkStyles = darkVars;
+  } else {
+    darkStyles = darkValues;
+  }
+
+  if (lightVars) {
+    rootStyles = {
+      ...rootStyles,
+      ...lightValues,
+    };
+    lightStyles = lightVars;
+  } else {
+    lightStyles = lightValues;
+  }
+
+  /*
+   * CSS Rules
+   */
+  const styles: CSSRuleObject[] = assembleCSSRules(rootStyles, lightStyles, darkStyles, $options);
+
+  return { vars, darkValues, lightValues, darkVars, lightVars, styles, options: $options };
 }
 
 export interface MakeCSSThemeOptions extends CSSThemeOptions {

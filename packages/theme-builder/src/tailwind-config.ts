@@ -2,7 +2,6 @@ import defaultColors from 'tailwindcss/colors.js';
 import plugin from 'tailwindcss/plugin.js';
 
 import {
-  type CSSRuleObject,
   type PropType,
 } from './utils';
 
@@ -75,45 +74,7 @@ function withCSSTheme<K extends string>(config: Partial<Config>,
   colors: ThemeColors<K>,
   options: TailwindThemeOptions = {},
 ): Partial<Config> {
-  const theme = makeCSSTheme(colors, options);
-  const styles: CSSRuleObject[] = [];
-
-  let root: CSSRuleObject | undefined;
-  let light: CSSRuleObject | undefined;
-  let dark: CSSRuleObject | undefined;
-
-  if (theme.darkVars) {
-    root = {
-      ...root,
-      ...theme.darkValues,
-    };
-    dark = theme.darkVars;
-  } else {
-    dark = theme.darkValues;
-  }
-
-  if (theme.lightVars) {
-    root = {
-      ...root,
-      ...theme.lightValues,
-    };
-    light = theme.lightVars;
-  } else {
-    light = theme.lightValues;
-  }
-
-  if (root) {
-    styles.push({
-      ':root': root,
-    });
-  }
-
-  styles.push({
-    ':root, .light': light,
-    '@media not print': {
-      '.dark': dark,
-    },
-  });
+  const { styles } = makeCSSTheme(colors, options);
 
   const plugins: PropType<Config, 'plugin'> = [
     ...(config.plugins || []),
