@@ -44,7 +44,8 @@ export function defaultCSSThemeOptions(options: Partial<CSSThemeOptions> = {}): 
   };
 }
 
-function defaultDarkSelector(options: Partial<CSSThemeOptions>) {
+/** @returns the dark mode selector or media rule */
+export function defaultDarkSelector(options: Partial<CSSThemeOptions>) {
   const { darkMode = true } = options;
   if (darkMode === true || darkMode === '.dark')
     return '.dark';
@@ -54,7 +55,8 @@ function defaultDarkSelector(options: Partial<CSSThemeOptions>) {
     return darkMode;
 }
 
-function defaultLightSelector(options: Partial<CSSThemeOptions>) {
+/** @returns the light mode selector, or undefined if disabled */
+export function defaultLightSelector(options: Partial<CSSThemeOptions>) {
   const { lightMode = true } = options;
   if (lightMode === true || lightMode === '.light')
     return '.light';
