@@ -27,15 +27,22 @@ export interface CSSThemeOptions {
   stringify: (c: Hct) => string
 };
 
-export function assembleCSSColors<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: Partial<CSSThemeOptions> = {}) {
-  const keys = Object.keys(dark) as K[];
-  const { prefix, darkSuffix, lightSuffix, stringify } = {
+/** apply defaults to {@link CSSThemeOptions} */
+export function defaultCSSThemeOptions(options: Partial<CSSThemeOptions> = {}): CSSThemeOptions {
+  return {
     prefix: 'md-',
     darkSuffix: '-dark',
     lightSuffix: '-light',
     stringify: rgbFromHct,
     ...options,
   };
+}
+
+/** generates CSS color tables */
+export function assembleCSSColors<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: Partial<CSSThemeOptions> = {}) {
+  const keys = Object.keys(dark) as K[];
+  const $options = defaultCSSThemeOptions(options);
+  const { prefix, darkSuffix, lightSuffix, stringify } = $options;
 
   const darkValues: CSSRuleObject = {};
   const lightValues: CSSRuleObject = {};
@@ -71,7 +78,7 @@ export function assembleCSSColors<K extends string>(dark: ColorMap<K>, light: Co
     lightVars = undefined;
   }
 
-  return { vars, darkValues, lightValues, darkVars, lightVars };
+  return { vars, darkValues, lightValues, darkVars, lightVars, options: $options };
 }
 
 export interface MakeCSSThemeOptions extends CSSThemeOptions {
