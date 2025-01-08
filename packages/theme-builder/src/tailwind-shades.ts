@@ -3,7 +3,6 @@
 import { Prettify } from './utils';
 
 import {
-  type HexColor,
   type Color,
   Hct,
 
@@ -71,11 +70,22 @@ export function makeShades(color: Color, shades: Shades = true) {
   return out as Prettify<typeof out>;
 }
 
-export function makeHexShades(baseColor: Color, shades: Shades = true) {
-  const t = makeShades(baseColor, shades);
+function hexStringify<V extends string>(c: Hct): V {
+  /* work around HexColor return value */
+  return hexFromHct(c) as V;
+}
+
+/** @returns a map of shades of the baseColor to be used in tailwind.config.
+ *
+ * @param baseColor - color used as reference for hue and chroma.
+ * @param shades - optional array of shades to use, {@link defaultShades} by default.
+ * @param stringify - optional {@link Hct} to `string` convertor.
+ */
+export function withShades<V extends string>(baseColor: string | Hct, shades: Shades = true, stringify: ((c: Hct) => V) = hexStringify) {
+  const t = makeShades(hct(baseColor), shades);
 
   type K = keyof typeof t;
-  type T = Record<K, HexColor>;
+  type T = Record<K, V>;
 
   const keys = Object.keys(t) as K[];
   const out = {} as Partial<T>;
@@ -83,7 +93,7 @@ export function makeHexShades(baseColor: Color, shades: Shades = true) {
   for (const shade of keys) {
     const c = t[shade];
     if (c !== undefined) {
-      out[shade] = hexFromHct(c);
+      out[shade] = stringify(c);
     }
   }
 

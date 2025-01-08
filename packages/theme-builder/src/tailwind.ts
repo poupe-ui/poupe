@@ -1,4 +1,5 @@
 export {
+  type PropType,
   type CSSRuleObject,
 
   formatCSSRuleObjects,
@@ -26,7 +27,7 @@ export {
   type Shades,
 
   makeShades,
-  makeHexShades,
+  withShades,
 } from './tailwind-shades';
 
 export {
@@ -38,3 +39,7 @@ export {
   withMaterialColors,
   withPrintMode,
 } from './tailwind-config';
+
+export {
+  type Config,
+} from 'tailwindcss/types/config';
