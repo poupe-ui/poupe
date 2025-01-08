@@ -27,7 +27,7 @@ export {
   type Shades,
 
   makeShades,
-  makeHexShades,
+  withShades,
 } from './tailwind-shades';
 
 export {
