@@ -1,4 +1,5 @@
 export {
+  type PropType,
   type CSSRuleObject,
 
   formatCSSRuleObjects,
@@ -38,3 +39,7 @@ export {
   withMaterialColors,
   withPrintMode,
 } from './tailwind-config';
+
+export {
+  type Config,
+} from 'tailwindcss/types/config';
