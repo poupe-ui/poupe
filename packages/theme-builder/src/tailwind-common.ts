@@ -4,16 +4,12 @@ import {
   Hct,
 
   argbFromHct,
-  redFromArgb,
-  greenFromArgb,
-  blueFromArgb,
+  arrayFromArgb,
 } from './core';
 
 // rgbFromArgb for tailwindcss color variables.
 export const rgbFromArgb = (argb: number) => {
-  const r = redFromArgb(argb);
-  const g = greenFromArgb(argb);
-  const b = blueFromArgb(argb);
+  const [, r, g, b] = arrayFromArgb(argb);
   return `${r} ${g} ${b}`;
 };
 

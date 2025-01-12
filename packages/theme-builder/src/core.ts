@@ -7,6 +7,7 @@ import {
 
   customColor as customColorFromArgb,
 
+  alphaFromArgb,
   redFromArgb,
   greenFromArgb,
   blueFromArgb,
@@ -75,10 +76,15 @@ export const hexFromHct = (c: Hct) => hexFromArgb(argbFromHct(c));
 export const hctFromHex = (hex: string) => Hct.fromInt(argbFromHex(hex));
 export const hctFromArgb = (argb: number) => Hct.fromInt(argb);
 
+export const arrayFromArgb = (argb: number): number[] => [
+  alphaFromArgb(argb),
+  redFromArgb(argb),
+  greenFromArgb(argb),
+  blueFromArgb(argb),
+];
+
 export const rgbFromArgb = (argb: number) => {
-  const r = redFromArgb(argb);
-  const g = greenFromArgb(argb);
-  const b = blueFromArgb(argb);
+  const [, r, g, b] = arrayFromArgb(argb);
   return `rgb(${r} ${g} ${b})`;
 };
 
