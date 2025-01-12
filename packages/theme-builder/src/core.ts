@@ -7,6 +7,10 @@ import {
 
   customColor as customColorFromArgb,
 
+  redFromArgb,
+  greenFromArgb,
+  blueFromArgb,
+
   argbFromHex as mcuArgbFromHex,
   hexFromArgb as mcuHexFromArgb,
 } from '@material/material-color-utilities';
@@ -25,6 +29,11 @@ export {
   Hct,
 
   customColor as customColorFromArgb,
+
+  alphaFromArgb,
+  redFromArgb,
+  greenFromArgb,
+  blueFromArgb,
 } from '@material/material-color-utilities';
 
 // DynamicScheme
@@ -65,11 +74,6 @@ export const hexFromArgb = (argb: number) => mcuHexFromArgb(argb) as HexColor;
 export const hexFromHct = (c: Hct) => hexFromArgb(argbFromHct(c));
 export const hctFromHex = (hex: string) => Hct.fromInt(argbFromHex(hex));
 export const hctFromArgb = (argb: number) => Hct.fromInt(argb);
-
-export const alphaFromArgb = (argb: number) => argb >> 24 & 255;
-export const redFromArgb = (argb: number) => argb >> 16 & 255;
-export const greenFromArgb = (argb: number) => argb >> 8 & 255;
-export const blueFromArgb = (argb: number) => argb & 255;
 
 export const rgbFromArgb = (argb: number) => {
   const r = redFromArgb(argb);
