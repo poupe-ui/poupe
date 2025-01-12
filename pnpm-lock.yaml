@@ -51,7 +51,7 @@ importers:
         specifier: ^3.15.1
         version: 3.15.1(@parcel/watcher@2.5.0)(@types/node@22.10.5)(db0@0.2.1)(eslint@9.18.0(jiti@2.4.2))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.29.1)(terser@5.36.0)(typescript@5.7.3)(vite@6.0.7(@types/node@22.10.5)(jiti@2.4.2)(terser@5.36.0)(yaml@2.6.1))(vue-tsc@2.2.0(typescript@5.7.3))(yaml@2.6.1)
       typescript:
-        specifier: ^5.7.2
+        specifier: ^5.7.3
         version: 5.7.3
       vite:
         specifier: ^6.0.7
@@ -109,7 +109,7 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
       typescript:
-        specifier: ~5.7.2
+        specifier: ~5.7.3
         version: 5.7.3
       vite:
         specifier: ^6.0.7
@@ -143,7 +143,7 @@ importers:
         specifier: ^9.18.0
         version: 9.18.0(jiti@2.4.2)
       typescript:
-        specifier: ~5.7.2
+        specifier: ~5.7.3
         version: 5.7.3
       vitest:
         specifier: ^2.1.8
