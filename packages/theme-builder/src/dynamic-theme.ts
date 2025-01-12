@@ -43,8 +43,15 @@ function flattenPartialColorOptions(c?: Color | ColorOptions | Partial<ColorOpti
 }
 
 /** flattens ThemeColors */
-function flattenColorOptions(c: Color | ColorOptions): ColorOptions {
-  return c instanceof Hct || typeof c !== 'object' ? { value: c } : c;
+function flattenColorOptions(c: Color | ColorOptions | Partial<ColorOptions>): ColorOptions {
+  const p: Partial<ColorOptions> = c instanceof Hct || typeof c !== 'object' ? { value: c } : c;
+  if (p.value === undefined)
+    throw new TypeError('color value not specified');
+
+  return {
+    ...p,
+    value: hct(p.value),
+  };
 }
 
 /**
@@ -75,7 +82,7 @@ export function flattenPartialThemeColors<K extends string>(colors: ThemeColorOp
 }
 
 /** flattens a ThemeColors */
-export function flattenThemeColors<K extends string>(colors: ThemeColors<K>) {
+export function flattenThemeColors<K extends string>(colors: ThemeColorOptions<K> | ThemeColors<K>) {
   const out = {} as Record<keyof typeof colors, ColorOptions>;
   const keys = Object.keys(colors) as Array<keyof typeof colors>;
 

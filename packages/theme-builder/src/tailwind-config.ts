@@ -13,6 +13,7 @@ import {
 import {
   type ThemeColors,
   type ThemeColorOptions,
+  flattenThemeColors,
 } from './dynamic-theme';
 
 import {
@@ -113,11 +114,21 @@ function withCSSTheme<K extends string>(config: Partial<Config>,
   return config;
 }
 
+interface MaterialColorOptions extends TailwindThemeOptions {
+  /** @defaultValue `false` */
+  omitTheme?: boolean
+}
+
 export function withMaterialColors<K extends string>(config: Partial<Config>,
-  colors: ThemeColors<K>,
-  options: TailwindThemeOptions = {},
+  colors: ThemeColors<K> | ThemeColorOptions<K>,
+  options: MaterialColorOptions = {},
 ): Partial<Config> {
-  config = withCSSTheme(config, colors, options);
+  const { omitTheme = false } = options;
+  if (!omitTheme) {
+    const $colors = flattenThemeColors<K>(colors);
+    config = withCSSTheme(config, $colors, options);
+  }
+
   config = withColorConfig(config, colors, options);
   return config;
 }
