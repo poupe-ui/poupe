@@ -6,7 +6,7 @@ import {
 
 import {
   type Color,
-  Hct,
+  HCT,
 
   hct,
 } from './core';
@@ -35,7 +35,7 @@ import {
 function flattenPartialColorOptions(c?: Color | ColorOptions | Partial<ColorOptions>): Partial<ColorOptions> {
   if (c === undefined) {
     return {};
-  } else if (c instanceof Hct || typeof c !== 'object') {
+  } else if (c instanceof HCT || typeof c !== 'object') {
     return { value: c };
   } else {
     return c;
@@ -44,7 +44,7 @@ function flattenPartialColorOptions(c?: Color | ColorOptions | Partial<ColorOpti
 
 /** flattens ThemeColors */
 function flattenColorOptions(c: Color | ColorOptions | Partial<ColorOptions>): ColorOptions {
-  const p: Partial<ColorOptions> = c instanceof Hct || typeof c !== 'object' ? { value: c } : c;
+  const p: Partial<ColorOptions> = c instanceof HCT || typeof c !== 'object' ? { value: c } : c;
   if (p.value === undefined)
     throw new TypeError('color value not specified');
 
@@ -169,23 +169,23 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
     ...customColorOptions,
   };
 
-  const dark: { [P in ColorKey]: Hct } = {
+  const dark: { [P in ColorKey]: HCT } = {
     ...darkPalette,
     ...darkStandardColors,
     ...darkCustomColors,
   };
 
-  const light: { [P in ColorKey]: Hct } = {
+  const light: { [P in ColorKey]: HCT } = {
     ...lightPalette,
     ...lightStandardColors,
     ...lightCustomColors,
   };
 
-  const darkCustomPalette: Record<string, Hct> = {
+  const darkCustomPalette: Record<string, HCT> = {
     ...darkPalette,
   };
 
-  const lightCustomPalette: Record<string, Hct> = {
+  const lightCustomPalette: Record<string, HCT> = {
     ...lightPalette,
   };
 
@@ -199,8 +199,8 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
     colorOptions,
     darkScheme,
     lightScheme,
-    darkPalette: darkCustomPalette as { [P in PaletteKey]: Hct },
-    lightPalette: lightCustomPalette as { [P in PaletteKey]: Hct },
+    darkPalette: darkCustomPalette as { [P in PaletteKey]: HCT },
+    lightPalette: lightCustomPalette as { [P in PaletteKey]: HCT },
     dark,
     light,
   };
