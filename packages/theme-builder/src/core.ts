@@ -90,6 +90,43 @@ export const rgbFromArgb = (argb: number) => {
 
 export const rgbFromHct = (c: Hct) => rgbFromArgb(argbFromHct(c));
 
+export const hslFromArgb = (argb: number): number[] => {
+  const [a255, r255, g255, b255] = arrayFromArgb(argb);
+  const a = a255 / 255;
+  const r = r255 / 255;
+  const g = g255 / 255;
+  const b = b255 / 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const sum = max + min;
+  const diff = max - min;
+
+  let h = 0;
+  let s = 0;
+  const l = sum / 2;
+
+  if (diff !== 0) {
+    s = l >= 0.5 ? diff / (2 - sum) : diff / sum;
+    if (max === r) {
+      h = 0 + ((g - b) / diff);
+    } else if (max === g) {
+      h = 2 + ((b - r) / diff);
+    } else {
+      h = 4 + ((r - g) / diff);
+    }
+  }
+
+  return [
+    a * 100,
+    h * 60,
+    s * 100,
+    l * 100,
+  ];
+};
+
+export const hslFromHct = (c: Hct): number[] => hslFromArgb(argbFromHct(c));
+
 /**
  * @param value - color to convert to Hct.
  * @returns Hct representation of the given color.
