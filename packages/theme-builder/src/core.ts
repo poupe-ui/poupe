@@ -3,7 +3,7 @@
 import {
   type CustomColor,
   DynamicScheme,
-  Hct,
+  Hct as HCT,
 
   customColor as customColorFromArgb,
 
@@ -27,7 +27,7 @@ export {
 export {
   type CustomColor,
   DynamicScheme,
-  Hct,
+  Hct as HCT,
 
   customColor as customColorFromArgb,
 
@@ -44,12 +44,12 @@ export type standardDynamicSchemeFactory = (primary: Color, isDark: boolean, con
 // types
 //
 export type HexColor = `#${string}`;
-export type Color = Hct | HexColor | number;
-export type ColorMap<K extends string> = Record<K, Hct>;
+export type Color = HCT | HexColor | number;
+export type ColorMap<K extends string> = Record<K, HCT>;
 
 // tools
 //
-export const customColorFromHct = (source: Hct, color: CustomColor) => customColorFromArgb(source.toInt(), color);
+export const customColorFromHCT = (source: HCT, color: CustomColor) => customColorFromArgb(source.toInt(), color);
 
 export const hexColorPattern = /^#([\da-f]{3}|[\da-f]{6}|[\da-f]{8})$/i;
 export const isHexColor = (s: string = '') => !!hexColorPattern.test(s || '');
@@ -63,18 +63,18 @@ export function hexFromString(value: string): HexColor {
     throw new TypeError('not HexColor string');
 }
 
-export const argbFromHct = (c: Hct) => {
-  if (c instanceof Hct) {
+export const argbFromHCT = (c: HCT) => {
+  if (c instanceof HCT) {
     return c.toInt();
   }
-  throw new TypeError('not Hct object');
+  throw new TypeError('not HCT object');
 };
 
 export const argbFromHex = (hex: string) => mcuArgbFromHex(hexFromString(hex));
 export const hexFromArgb = (argb: number) => mcuHexFromArgb(argb) as HexColor;
-export const hexFromHct = (c: Hct) => hexFromArgb(argbFromHct(c));
-export const hctFromHex = (hex: string) => Hct.fromInt(argbFromHex(hex));
-export const hctFromArgb = (argb: number) => Hct.fromInt(argb);
+export const hexFromHCT = (c: HCT) => hexFromArgb(argbFromHCT(c));
+export const hctFromHex = (hex: string) => HCT.fromInt(argbFromHex(hex));
+export const hctFromArgb = (argb: number) => HCT.fromInt(argb);
 
 export type ARGB = {
   a?: number
@@ -97,7 +97,7 @@ export const rgbFromArgb = (argb: number) => {
   return `rgb(${r} ${g} ${b})`;
 };
 
-export const rgbFromHct = (c: Hct) => rgbFromArgb(argbFromHct(c));
+export const rgbFromHCT = (c: HCT) => rgbFromArgb(argbFromHCT(c));
 
 export type HSL = {
   a?: number
@@ -141,14 +141,14 @@ export const hslFromArgb = (argb: number): HSL => {
   };
 };
 
-export const hslFromHct = (c: Hct): HSL => hslFromArgb(argbFromHct(c));
+export const hslFromHCT = (c: HCT): HSL => hslFromArgb(argbFromHCT(c));
 
 /**
- * @param value - color to convert to Hct.
- * @returns Hct representation of the given color.
+ * @param value - color to convert to HCT.
+ * @returns HCT representation of the given color.
  */
-export const hct = (value: string | Hct | number): Hct => {
-  if (value instanceof Hct) {
+export const hct = (value: string | HCT | number): HCT => {
+  if (value instanceof HCT) {
     return value;
   } else if (typeof value === 'number') {
     return hctFromArgb(value);
@@ -161,9 +161,9 @@ export const hct = (value: string | Hct | number): Hct => {
  * @param value - color to convert to ARGB
  * @returns ARGB representation of the given color.
  */
-export const argb = (value: string | Hct | number): number => {
-  if (value instanceof Hct) {
-    return argbFromHct(value);
+export const argb = (value: string | HCT | number): number => {
+  if (value instanceof HCT) {
+    return argbFromHCT(value);
   } else if (typeof value === 'number') {
     return value;
   } else {
@@ -175,9 +175,9 @@ export const argb = (value: string | Hct | number): number => {
  * @param value - color to convert to HexColor
  * @returns HexColor representation of the given Color.
  */
-export const hex = (value: string | Hct | number): HexColor => {
-  if (value instanceof Hct) {
-    return hexFromHct(value);
+export const hex = (value: string | HCT | number): HexColor => {
+  if (value instanceof HCT) {
+    return hexFromHCT(value);
   } else if (typeof value === 'number') {
     return hexFromArgb(value);
   } else {

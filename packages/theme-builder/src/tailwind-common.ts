@@ -1,9 +1,9 @@
 // imports
 //
 import {
-  Hct,
+  HCT,
 
-  argbFromHct,
+  argbFromHCT,
   splitArgb,
 } from './core';
 
@@ -13,5 +13,5 @@ export const rgbFromArgb = (argb: number) => {
   return `${r} ${g} ${b}`;
 };
 
-// rgbFromHct for tailwindcss color variables.
-export const rgbFromHct = (c: Hct) => rgbFromArgb(argbFromHct(c));
+// rgbFromHCT for tailwindcss color variables.
+export const rgbFromHCT = (c: HCT) => rgbFromArgb(argbFromHCT(c));

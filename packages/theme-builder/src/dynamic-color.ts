@@ -3,7 +3,7 @@
 import {
   type Color,
   DynamicScheme,
-  Hct,
+  HCT,
 
   argb,
   customColorFromArgb,
@@ -59,10 +59,10 @@ export function getColorNameOption<K extends string>(color: K, colors: Record<K,
   }
 }
 
-type StandardDynamicColors = { [K in StandardDynamicColorKey]: Hct };
-type StandardPaletteColors = { [K in StandardPaletteKey]: Hct };
+type StandardDynamicColors = { [K in StandardDynamicColorKey]: HCT };
+type StandardPaletteColors = { [K in StandardPaletteKey]: HCT };
 
-type CustomDynamicColors<T extends string> = { [K in CustomDynamicColorKey<KebabCase<T>>]: Hct };
+type CustomDynamicColors<T extends string> = { [K in CustomDynamicColorKey<KebabCase<T>>]: HCT };
 
 export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
   const out: Partial<StandardDynamicColors> = {};
@@ -84,7 +84,7 @@ export function makeStandardPaletteFromScheme(scheme: DynamicScheme) {
   return out as StandardPaletteColors;
 }
 
-function customColor(source: Hct, name: string, option: ColorOptions) {
+function customColor(source: HCT, name: string, option: ColorOptions) {
   const value = argb(option.value);
   const blend = option.harmonize === undefined ? true : option.harmonize;
 
@@ -113,8 +113,8 @@ export function makeCustomColors<K extends string>(source: Color, colors: Record
     for (const [pattern, fn] of Object.entries(customDynamicColors)) {
       const name = pattern.replace('{}', kebabName) as keyof customDynamicColors;
 
-      darkColors[name] = Hct.fromInt(fn(dark));
-      lightColors[name] = Hct.fromInt(fn(light));
+      darkColors[name] = HCT.fromInt(fn(dark));
+      lightColors[name] = HCT.fromInt(fn(light));
     }
   }
 

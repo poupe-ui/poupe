@@ -3,7 +3,7 @@ import {
 } from './utils';
 
 import {
-  Hct,
+  HCT,
 } from './core';
 
 import {
@@ -27,7 +27,7 @@ import {
 } from './dynamic-theme';
 
 import {
-  rgbFromHct,
+  rgbFromHCT,
 } from './tailwind-common';
 
 import {
@@ -82,11 +82,11 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
   const { dark, light, darkPalette, lightPalette, colorOptions } = makeTheme(colors, options.scheme, options.contrastLevel);
 
   // shades
-  const darkColors: Record<string, Hct> = {
+  const darkColors: Record<string, HCT> = {
     ...dark,
   };
 
-  const lightColors: Record<string, Hct> = {
+  const lightColors: Record<string, HCT> = {
     ...light,
   };
 
@@ -110,7 +110,7 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
   }
 
   return assembleCSSColors(darkColors, lightColors, {
-    stringify: rgbFromHct,
+    stringify: rgbFromHCT,
     ...options,
   });
 }
