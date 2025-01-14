@@ -76,22 +76,38 @@ export const hexFromHct = (c: Hct) => hexFromArgb(argbFromHct(c));
 export const hctFromHex = (hex: string) => Hct.fromInt(argbFromHex(hex));
 export const hctFromArgb = (argb: number) => Hct.fromInt(argb);
 
-export const arrayFromArgb = (argb: number): number[] => [
-  alphaFromArgb(argb),
-  redFromArgb(argb),
-  greenFromArgb(argb),
-  blueFromArgb(argb),
-];
+export type ARGB = {
+  a?: number
+  r: number
+  g: number
+  b: number
+};
+
+export const splitArgb = (argb: number): ARGB => {
+  return {
+    a: alphaFromArgb(argb),
+    r: redFromArgb(argb),
+    g: greenFromArgb(argb),
+    b: blueFromArgb(argb),
+  };
+};
 
 export const rgbFromArgb = (argb: number) => {
-  const [, r, g, b] = arrayFromArgb(argb);
+  const { r, g, b } = splitArgb(argb);
   return `rgb(${r} ${g} ${b})`;
 };
 
 export const rgbFromHct = (c: Hct) => rgbFromArgb(argbFromHct(c));
 
-export const hslFromArgb = (argb: number): number[] => {
-  const [a255, r255, g255, b255] = arrayFromArgb(argb);
+export type HSL = {
+  a?: number
+  h: number
+  s: number
+  l: number
+};
+
+export const hslFromArgb = (argb: number): HSL => {
+  const { a: a255 = 0, r: r255, g: g255, b: b255 } = splitArgb(argb);
   const a = a255 / 255;
   const r = r255 / 255;
   const g = g255 / 255;
@@ -117,15 +133,15 @@ export const hslFromArgb = (argb: number): number[] => {
     }
   }
 
-  return [
-    a * 100,
-    h * 60,
-    s * 100,
-    l * 100,
-  ];
+  return {
+    a: a * 100,
+    h: h * 60,
+    s: s * 100,
+    l: l * 100,
+  };
 };
 
-export const hslFromHct = (c: Hct): number[] => hslFromArgb(argbFromHct(c));
+export const hslFromHct = (c: Hct): HSL => hslFromArgb(argbFromHct(c));
 
 /**
  * @param value - color to convert to Hct.

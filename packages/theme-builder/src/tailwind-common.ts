@@ -4,12 +4,12 @@ import {
   Hct,
 
   argbFromHct,
-  arrayFromArgb,
+  splitArgb,
 } from './core';
 
 // rgbFromArgb for tailwindcss color variables.
 export const rgbFromArgb = (argb: number) => {
-  const [, r, g, b] = arrayFromArgb(argb);
+  const { r, g, b } = splitArgb(argb);
   return `${r} ${g} ${b}`;
 };
 
