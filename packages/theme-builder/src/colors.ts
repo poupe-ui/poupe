@@ -7,8 +7,13 @@ import {
   type HslaColor,
   Colord,
 
+  extend,
   colord,
 } from 'colord';
+
+// extend colord with the mix plugin
+import mixPlugin from 'colord/plugins/mix';
+extend([mixPlugin]);
 
 /*
  * MCU
