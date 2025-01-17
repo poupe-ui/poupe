@@ -1,9 +1,9 @@
 import {
   type ColorMap,
   type CSSRuleObject,
-  type HCT,
+  type Hct,
 
-  rgbFromHCT,
+  rgbFromHct,
 } from './core';
 
 import {
@@ -28,7 +28,7 @@ export interface CSSThemeOptions {
   /** @defaultValue `'-light'` */
   lightSuffix: string
   /** @defaultValue `rgb('{r} {g} {b}')` */
-  stringify: (c: HCT) => string
+  stringify: (c: Hct) => string
 };
 
 /** apply defaults to {@link CSSThemeOptions} */
@@ -39,7 +39,7 @@ export function defaultCSSThemeOptions(options: Partial<CSSThemeOptions> = {}): 
     prefix: 'md-',
     darkSuffix: '-dark',
     lightSuffix: '-light',
-    stringify: rgbFromHCT,
+    stringify: rgbFromHct,
     ...options,
   };
 }

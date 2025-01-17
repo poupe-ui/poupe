@@ -4,10 +4,13 @@ import { Prettify } from './utils';
 
 import {
   type Color,
-  HCT,
+  Hct,
 
   hct,
-  hexFromHCT,
+} from './colors';
+
+import {
+  hexFromHct,
 } from './core';
 
 /** list of shades to use by default */
@@ -46,7 +49,7 @@ export type Shade = number | 'DEFAULT';
 export function makeShades(color: Color, shades: Shades = true) {
   const c1 = hct(color);
 
-  const out: Record<Shade, HCT> = {
+  const out: Record<Shade, Hct> = {
     DEFAULT: c1,
   };
 
@@ -63,25 +66,25 @@ export function makeShades(color: Color, shades: Shades = true) {
     if (typeof shade === 'number' && shade >= 0 && shade <= 1000) {
       const tone = (1000 - shade) / 10;
 
-      out[shade] = HCT.from(hue, chroma, tone);
+      out[shade] = Hct.from(hue, chroma, tone);
     }
   }
 
   return out as Prettify<typeof out>;
 }
 
-function hexStringify<V extends string>(c: HCT): V {
+function hexStringify<V extends string>(c: Hct): V {
   /* work around HexColor return value */
-  return hexFromHCT(c) as V;
+  return hexFromHct(c) as V;
 }
 
 /** @returns a map of shades of the baseColor to be used in tailwind.config.
  *
  * @param baseColor - color used as reference for hue and chroma.
  * @param shades - optional array of shades to use, {@link defaultShades} by default.
- * @param stringify - optional {@link HCT} to `string` convertor.
+ * @param stringify - optional {@link Hct} to `string` convertor.
  */
-export function withShades<V extends string>(baseColor: string | HCT, shades: Shades = true, stringify: ((c: HCT) => V) = hexStringify) {
+export function withShades<V extends string>(baseColor: string | Hct, shades: Shades = true, stringify: ((c: Hct) => V) = hexStringify) {
   const t = makeShades(hct(baseColor), shades);
 
   type K = keyof typeof t;
