@@ -8,7 +8,7 @@ import {
   Colord,
 
   extend,
-  colord,
+  colord as origColord,
 } from 'colord';
 
 // extend colord with the mix plugin
@@ -94,7 +94,7 @@ export const argbFromHctColor = (c: HctColor): number => {
 export const argbFromColord = (c: Colord) => argbFromRgbaColor(c.rgba);
 
 /** @returns the ARGB number corresponding to the color string */
-export const argbFromString = (s: string) => argbFromColord(colord(s));
+export const argbFromString = (s: string) => argbFromColord(origColord(s));
 
 /** @returns the the decomposed {@link RgbaColor} corresponding to the given ARGB number */
 export const splitArgb = (argb: number): RgbaColor => {
@@ -118,7 +118,32 @@ export const argb = (c: Color): number => {
   } else if (typeof c === 'object' && 't' in c) {
     return argbFromHctColor(c);
   } else {
-    return argbFromColord(colord(c));
+    return argbFromColord(origColord(c));
+  }
+};
+
+/*
+ * Colord factories
+ */
+
+/** @returns {@link Colord} from an ARGB number */
+export const colordFromArgb = (argb: number) => origColord(splitArgb(argb));
+
+/** @returns {@link Colord} from a {@link Hct} color */
+export const colordFromHct = (c: Hct) => colordFromArgb(argbFromHct(c));
+
+/** @returns {@link Colord} from the given {@link Color}. */
+export const colord = (c: Color): Colord => {
+  if (c instanceof Colord) {
+    return c;
+  } else if (c instanceof Hct) {
+    return colordFromHct(c);
+  } else if (typeof c === 'number') {
+    return colordFromArgb(c);
+  } else if (typeof c === 'object' && 't' in c) {
+    return colordFromArgb(argbFromHctColor(c));
+  } else {
+    return origColord(c);
   }
 };
 
@@ -136,7 +161,7 @@ export const hctFromRgbaColor = (c: RgbaColor): Hct => Hct.fromInt(argbFromRgbaC
 export const hctFromColord = (c: Colord) => hctFromRgbaColor(c.rgba);
 
 /** @returns {@link Hct} from a valid CSS color string */
-export const hctFromString = (s: string): Hct => hctFromColord(colord(s));
+export const hctFromString = (s: string): Hct => hctFromColord(origColord(s));
 
 /** @returns {@link HctColor} decomposing the given {@link Hct} color. */
 export const splitHct = (c: Hct): HctColor => {
@@ -154,7 +179,7 @@ export const hct = (c: Color): Hct => {
   } else if (typeof c === 'object' && 't' in c) {
     return Hct.from(c.h, c.c, c.t);
   } else {
-    return hctFromColord(colord(c));
+    return hctFromColord(origColord(c));
   }
 };
 
@@ -195,6 +220,6 @@ export const hex = (c: Color): HexColor => {
   } else if (typeof c === 'object' && 't' in c) {
     return hexFromHct(Hct.from(c.h, c.c, c.t));
   } else {
-    return hexFromColord(colord(c));
+    return hexFromColord(origColord(c));
   }
 };
