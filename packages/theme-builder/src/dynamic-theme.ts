@@ -9,7 +9,9 @@ import {
   Colord,
   Hct,
 
+  colordFromHct,
   hct,
+  hctFromColord,
 } from './colors';
 
 import {
@@ -219,4 +221,36 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
     dark,
     light,
   };
+}
+
+/** @returns the result of mixing two colors in given ratios */
+export function makeColorMix<K extends string>(base: Hct, other: Hct, ratios: number | Array<number> | Record<K, number>) {
+  const c0 = colordFromHct(base);
+  const c1 = colordFromHct(other);
+
+  if (typeof ratios === 'number') {
+    // single value
+    const c = c0.mix(c1, ratios);
+    return hctFromColord(c);
+  }
+
+  if (Array.isArray(ratios)) {
+    // array
+    const out: Hct[] = [];
+    for (const r of ratios) {
+      const c = c0.mix(c1, r);
+      out.push(hctFromColord(c));
+    }
+    return out;
+  }
+
+  // named
+  const out = {} as Record<K, Hct>;
+  const keys = Object.keys(ratios) as Array<K>;
+  for (const k of keys) {
+    const c = c0.mix(c1, ratios[k]);
+    out[k] = hctFromColord(c);
+  }
+
+  return out;
 }
