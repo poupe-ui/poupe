@@ -4,8 +4,6 @@ import {
   type SafelistConfig,
   type ThemeConfig,
 
-  type PluginCreator,
-
   defaultColors,
   plugin,
 } from './tailwind/common';
@@ -28,18 +26,10 @@ import {
   makeColorConfig,
 } from './tailwind-theme';
 
+export * from './tailwind/index';
+
 // helpers
 //
-function darkStyleNotPrint(darkMode: string = '.dark') {
-  return `@media not print { ${darkMode} & }`;
-}
-
-function darkStyleNotPrintPlugin(darkMode: string = '.dark') {
-  return plugin(function ({ addVariant }) {
-    addVariant('dark', darkStyleNotPrint(darkMode));
-  } as PluginCreator);
-}
-
 /** withColorConfig adds the colors to the TailwindCSS Config */
 function withColorConfig<K extends string>(config: Partial<Config>,
   colors: ThemeColors<K> | ThemeColorOptions<K>,
@@ -135,29 +125,3 @@ export function withMaterialColors<K extends string>(config: Partial<Config>,
   config = withColorConfig(config, colors, options);
   return config;
 }
-
-/** withPrintMode disable dark mode when printing and introduce 'print' and 'screen' variants. */
-export function withPrintMode(config: Partial<Config>, darkMode: string = '.dark'): Partial<Config> {
-  const theme: ThemeConfig = {
-    ...config?.theme,
-    extend: {
-      ...config?.theme?.extend,
-      screens: {
-        ...config?.theme?.extend?.screens,
-        print: { raw: 'print' },
-        screen: { raw: 'screen' },
-      },
-    },
-  };
-
-  const plugins: PluginsConfig = [
-    ...(config?.plugins || []),
-    darkStyleNotPrintPlugin(darkMode),
-  ];
-
-  return {
-    ...config,
-    theme,
-    plugins,
-  };
-};

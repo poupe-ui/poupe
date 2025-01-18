@@ -14,6 +14,8 @@ export {
   hexFromHct,
 } from './colors';
 
+export * from './tailwind/index';
+
 export {
   type StandardDynamicSchemeKey,
 } from './dynamic-color-data';
@@ -39,5 +41,4 @@ export {
 
 export {
   withMaterialColors,
-  withPrintMode,
 } from './tailwind-config';
