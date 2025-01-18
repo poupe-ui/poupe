@@ -1,6 +1,6 @@
 import {
   type Prettify,
-} from './utils';
+} from './core/utils';
 
 import {
   Hct,

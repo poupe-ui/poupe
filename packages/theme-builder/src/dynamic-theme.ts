@@ -2,7 +2,7 @@ import {
   type KebabCase,
 
   kebabCase,
-} from './utils';
+} from './core/utils';
 
 import {
   type Color,

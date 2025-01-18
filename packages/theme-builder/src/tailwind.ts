@@ -1,6 +1,6 @@
 export {
   type PropType,
-} from './utils';
+} from './core/utils';
 
 export {
   type Color,

@@ -1,6 +1,6 @@
 import {
   type PropType,
-} from '../utils';
+} from '../core/utils';
 
 import {
   type Config,

@@ -18,7 +18,7 @@ import {
   type Prettify,
 
   kebabCase,
-} from './utils';
+} from './core/utils';
 
 import {
   StandardDynamicColorKey,
