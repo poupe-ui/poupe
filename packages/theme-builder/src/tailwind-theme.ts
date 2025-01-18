@@ -4,7 +4,7 @@ import {
 
 import {
   Hct,
-} from './colors';
+} from './core/colors';
 
 import {
   type ColorOptions,

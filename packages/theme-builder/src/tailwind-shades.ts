@@ -7,7 +7,7 @@ import {
   Hct,
 
   hct,
-} from './colors';
+} from './core/colors';
 
 import {
   hexFromHct,

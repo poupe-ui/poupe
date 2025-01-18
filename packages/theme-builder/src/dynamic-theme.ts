@@ -12,7 +12,7 @@ import {
   colordFromHct,
   hct,
   hctFromColord,
-} from './colors';
+} from './core/colors';
 
 import {
   type StandardDynamicSchemeKey,

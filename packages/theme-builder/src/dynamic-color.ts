@@ -7,7 +7,7 @@ import {
 
   argb,
   hct,
-} from './colors';
+} from './core/colors';
 
 import {
   customColorFromArgb,

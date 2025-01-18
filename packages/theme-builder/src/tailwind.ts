@@ -12,7 +12,7 @@ export {
 
   hct,
   hexFromHct,
-} from './colors';
+} from './core/colors';
 
 export * from './tailwind/index';
 
