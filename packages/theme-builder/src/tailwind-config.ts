@@ -1,9 +1,14 @@
-import defaultColors from 'tailwindcss/colors.js';
-import plugin from 'tailwindcss/plugin.js';
-
 import {
-  type PropType,
-} from './utils';
+  type Config,
+  type PluginsConfig,
+  type SafelistConfig,
+  type ThemeConfig,
+
+  type PluginCreator,
+
+  defaultColors,
+  plugin,
+} from './tailwind/common';
 
 import {
   defaultDarkSelector,
@@ -22,8 +27,6 @@ import {
   makeCSSTheme,
   makeColorConfig,
 } from './tailwind-theme';
-
-import type { Config, PluginCreator } from 'tailwindcss/types/config';
 
 // helpers
 //
@@ -45,7 +48,7 @@ function withColorConfig<K extends string>(config: Partial<Config>,
   //
   const { extend = true } = options;
   const tailwindColors = makeColorConfig(colors, options);
-  const theme: PropType<Config, 'theme'> = {
+  const theme: ThemeConfig = {
     ...config?.theme,
   };
 
@@ -77,7 +80,7 @@ function withColorConfig<K extends string>(config: Partial<Config>,
 }
 
 function generateSafeList(options: TailwindThemeOptions) {
-  const safelist: PropType<Config, 'safelist'> = [];
+  const safelist: SafelistConfig = [];
   const darkSelector = defaultDarkSelector(options);
   const lightSelector = defaultLightSelector(options);
 
@@ -95,12 +98,12 @@ function withCSSTheme<K extends string>(config: Partial<Config>,
 ): Partial<Config> {
   const { styles } = makeCSSTheme(colors, options);
 
-  const plugins: PropType<Config, 'plugin'> = [
+  const plugins: PluginsConfig = [
     ...(config.plugins || []),
     plugin(({ addBase }) => addBase(styles)),
   ];
 
-  const safelist: PropType<Config, 'safelist'> = [
+  const safelist: SafelistConfig = [
     ...(config?.safelist || []),
     ...generateSafeList(options),
   ];
@@ -135,7 +138,7 @@ export function withMaterialColors<K extends string>(config: Partial<Config>,
 
 /** withPrintMode disable dark mode when printing and introduce 'print' and 'screen' variants. */
 export function withPrintMode(config: Partial<Config>, darkMode: string = '.dark'): Partial<Config> {
-  const theme: PropType<Config, 'theme'> = {
+  const theme: ThemeConfig = {
     ...config?.theme,
     extend: {
       ...config?.theme?.extend,
@@ -147,8 +150,8 @@ export function withPrintMode(config: Partial<Config>, darkMode: string = '.dark
     },
   };
 
-  const plugins: PropType<Config, 'plugins'> = [
-    ...(config.plugins || []),
+  const plugins: PluginsConfig = [
+    ...(config?.plugins || []),
     darkStyleNotPrintPlugin(darkMode),
   ];
 

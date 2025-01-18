@@ -18,6 +18,8 @@ export {
   type StandardDynamicSchemeKey,
 } from './dynamic-color-data';
 
+export * from './tailwind/common';
+
 export {
   rgbFromHct,
 } from './tailwind-common';
@@ -39,7 +41,3 @@ export {
   withMaterialColors,
   withPrintMode,
 } from './tailwind-config';
-
-export {
-  type Config,
-} from 'tailwindcss/types/config';
