@@ -6,10 +6,13 @@ import {
 
 import {
   type Color,
-  HCT,
+  Colord,
+  Hct,
 
+  colordFromHct,
   hct,
-} from './core';
+  hctFromColord,
+} from './colors';
 
 import {
   type StandardDynamicSchemeKey,
@@ -35,7 +38,20 @@ import {
 function flattenPartialColorOptions(c?: Color | ColorOptions | Partial<ColorOptions>): Partial<ColorOptions> {
   if (c === undefined) {
     return {};
-  } else if (c instanceof HCT || typeof c !== 'object') {
+  } else if (c instanceof Hct || c instanceof Colord || typeof c !== 'object') {
+    return { value: c };
+  } else if ('name' in c || 'value' in c || 'harmonize' in c) {
+    return c;
+  } else if (('r' in c && 'g' in c && 'b' in c)
+    || ('h' in c && 'c' in c && 't' in c)
+    || ('h' in c && 's' in c && 'l' in c)
+    || ('h' in c && 's' in c && 'v' in c)
+    || ('h' in c && 'w' in c && 'b' in c)
+    || ('x' in c && 'y' in c && 'z' in c)
+    || ('l' in c && 'a' in c && 'b' in c)
+    || ('l' in c && 'c' in c && 'h' in c)
+    || ('c' in c && 'm' in c && 'y' in c && 'k' in c)
+  ) {
     return { value: c };
   } else {
     return c;
@@ -44,7 +60,8 @@ function flattenPartialColorOptions(c?: Color | ColorOptions | Partial<ColorOpti
 
 /** flattens ThemeColors */
 function flattenColorOptions(c: Color | ColorOptions | Partial<ColorOptions>): ColorOptions {
-  const p: Partial<ColorOptions> = c instanceof HCT || typeof c !== 'object' ? { value: c } : c;
+  const p = flattenPartialColorOptions(c);
+
   if (p.value === undefined)
     throw new TypeError('color value not specified');
 
@@ -169,23 +186,23 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
     ...customColorOptions,
   };
 
-  const dark: { [P in ColorKey]: HCT } = {
+  const dark: { [P in ColorKey]: Hct } = {
     ...darkPalette,
     ...darkStandardColors,
     ...darkCustomColors,
   };
 
-  const light: { [P in ColorKey]: HCT } = {
+  const light: { [P in ColorKey]: Hct } = {
     ...lightPalette,
     ...lightStandardColors,
     ...lightCustomColors,
   };
 
-  const darkCustomPalette: Record<string, HCT> = {
+  const darkCustomPalette: Record<string, Hct> = {
     ...darkPalette,
   };
 
-  const lightCustomPalette: Record<string, HCT> = {
+  const lightCustomPalette: Record<string, Hct> = {
     ...lightPalette,
   };
 
@@ -199,9 +216,41 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
     colorOptions,
     darkScheme,
     lightScheme,
-    darkPalette: darkCustomPalette as { [P in PaletteKey]: HCT },
-    lightPalette: lightCustomPalette as { [P in PaletteKey]: HCT },
+    darkPalette: darkCustomPalette as { [P in PaletteKey]: Hct },
+    lightPalette: lightCustomPalette as { [P in PaletteKey]: Hct },
     dark,
     light,
   };
+}
+
+/** @returns the result of mixing two colors in given ratios */
+export function makeColorMix<K extends string>(base: Hct, other: Hct, ratios: number | Array<number> | Record<K, number>) {
+  const c0 = colordFromHct(base);
+  const c1 = colordFromHct(other);
+
+  if (typeof ratios === 'number') {
+    // single value
+    const c = c0.mix(c1, ratios);
+    return hctFromColord(c);
+  }
+
+  if (Array.isArray(ratios)) {
+    // array
+    const out: Hct[] = [];
+    for (const r of ratios) {
+      const c = c0.mix(c1, r);
+      out.push(hctFromColord(c));
+    }
+    return out;
+  }
+
+  // named
+  const out = {} as Record<K, Hct>;
+  const keys = Object.keys(ratios) as Array<K>;
+  for (const k of keys) {
+    const c = c0.mix(c1, ratios[k]);
+    out[k] = hctFromColord(c);
+  }
+
+  return out;
 }

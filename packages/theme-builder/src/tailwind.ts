@@ -8,18 +8,18 @@ export {
 export {
   type Color,
   type HexColor,
-  HCT,
+  Hct,
 
   hct,
-  hexFromHCT,
-} from './core';
+  hexFromHct,
+} from './colors';
 
 export {
   type StandardDynamicSchemeKey,
 } from './dynamic-color-data';
 
 export {
-  rgbFromHCT,
+  rgbFromHct,
 } from './tailwind-common';
 
 export {
