@@ -1,8 +1,5 @@
 export {
   type PropType,
-  type CSSRuleObject,
-
-  formatCSSRuleObjects,
 } from './utils';
 
 export {
@@ -14,13 +11,13 @@ export {
   hexFromHct,
 } from './core/colors';
 
+export * from './core/css';
+export * from './tailwind/common';
 export * from './tailwind/index';
 
 export {
   type StandardDynamicSchemeKey,
 } from './dynamic-color-data';
-
-export * from './tailwind/common';
 
 export {
   rgbFromHct,

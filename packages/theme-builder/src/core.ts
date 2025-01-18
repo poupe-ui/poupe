@@ -19,12 +19,7 @@ import {
 // re-export
 //
 export * from './core/colors';
-
-export {
-  type CSSRuleObject,
-
-  formatCSSRuleObjects,
-} from './utils';
+export * from './core/css';
 
 export {
   customColor as customColorFromArgb,
