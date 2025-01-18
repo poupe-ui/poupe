@@ -14,17 +14,12 @@ import {
   argb,
   argbFromHct,
   splitArgb,
-} from './colors';
+} from './core/colors';
 
 // re-export
 //
-export * from './colors';
-
-export {
-  type CSSRuleObject,
-
-  formatCSSRuleObjects,
-} from './utils';
+export * from './core/colors';
+export * from './core/css';
 
 export {
   customColor as customColorFromArgb,

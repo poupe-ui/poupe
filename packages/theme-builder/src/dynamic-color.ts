@@ -7,7 +7,7 @@ import {
 
   argb,
   hct,
-} from './colors';
+} from './core/colors';
 
 import {
   customColorFromArgb,
@@ -18,7 +18,7 @@ import {
   type Prettify,
 
   kebabCase,
-} from './utils';
+} from './core/utils';
 
 import {
   StandardDynamicColorKey,

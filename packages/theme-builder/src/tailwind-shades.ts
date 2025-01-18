@@ -1,13 +1,13 @@
 // imports
 //
-import { Prettify } from './utils';
+import { type Prettify } from './core/utils';
 
 import {
   type Color,
   Hct,
 
   hct,
-} from './colors';
+} from './core/colors';
 
 import {
   hexFromHct,

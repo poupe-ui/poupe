@@ -1,9 +1,12 @@
-import defaultColors from 'tailwindcss/colors.js';
-import plugin from 'tailwindcss/plugin.js';
-
 import {
-  type PropType,
-} from './utils';
+  type Config,
+  type PluginsConfig,
+  type SafelistConfig,
+  type ThemeConfig,
+
+  defaultColors,
+  plugin,
+} from './tailwind/common';
 
 import {
   defaultDarkSelector,
@@ -23,20 +26,10 @@ import {
   makeColorConfig,
 } from './tailwind-theme';
 
-import type { Config, PluginCreator } from 'tailwindcss/types/config';
+export * from './tailwind/index';
 
 // helpers
 //
-function darkStyleNotPrint(darkMode: string = '.dark') {
-  return `@media not print { ${darkMode} & }`;
-}
-
-function darkStyleNotPrintPlugin(darkMode: string = '.dark') {
-  return plugin(function ({ addVariant }) {
-    addVariant('dark', darkStyleNotPrint(darkMode));
-  } as PluginCreator);
-}
-
 /** withColorConfig adds the colors to the TailwindCSS Config */
 function withColorConfig<K extends string>(config: Partial<Config>,
   colors: ThemeColors<K> | ThemeColorOptions<K>,
@@ -45,7 +38,7 @@ function withColorConfig<K extends string>(config: Partial<Config>,
   //
   const { extend = true } = options;
   const tailwindColors = makeColorConfig(colors, options);
-  const theme: PropType<Config, 'theme'> = {
+  const theme: ThemeConfig = {
     ...config?.theme,
   };
 
@@ -77,7 +70,7 @@ function withColorConfig<K extends string>(config: Partial<Config>,
 }
 
 function generateSafeList(options: TailwindThemeOptions) {
-  const safelist: PropType<Config, 'safelist'> = [];
+  const safelist: SafelistConfig = [];
   const darkSelector = defaultDarkSelector(options);
   const lightSelector = defaultLightSelector(options);
 
@@ -95,12 +88,12 @@ function withCSSTheme<K extends string>(config: Partial<Config>,
 ): Partial<Config> {
   const { styles } = makeCSSTheme(colors, options);
 
-  const plugins: PropType<Config, 'plugin'> = [
+  const plugins: PluginsConfig = [
     ...(config.plugins || []),
     plugin(({ addBase }) => addBase(styles)),
   ];
 
-  const safelist: PropType<Config, 'safelist'> = [
+  const safelist: SafelistConfig = [
     ...(config?.safelist || []),
     ...generateSafeList(options),
   ];
@@ -132,29 +125,3 @@ export function withMaterialColors<K extends string>(config: Partial<Config>,
   config = withColorConfig(config, colors, options);
   return config;
 }
-
-/** withPrintMode disable dark mode when printing and introduce 'print' and 'screen' variants. */
-export function withPrintMode(config: Partial<Config>, darkMode: string = '.dark'): Partial<Config> {
-  const theme: PropType<Config, 'theme'> = {
-    ...config?.theme,
-    extend: {
-      ...config?.theme?.extend,
-      screens: {
-        ...config?.theme?.extend?.screens,
-        print: { raw: 'print' },
-        screen: { raw: 'screen' },
-      },
-    },
-  };
-
-  const plugins: PropType<Config, 'plugins'> = [
-    ...(config.plugins || []),
-    darkStyleNotPrintPlugin(darkMode),
-  ];
-
-  return {
-    ...config,
-    theme,
-    plugins,
-  };
-};

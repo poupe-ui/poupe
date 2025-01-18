@@ -1,10 +1,10 @@
 import {
   type Prettify,
-} from './utils';
+} from './core/utils';
 
 import {
   Hct,
-} from './colors';
+} from './core/colors';
 
 import {
   type ColorOptions,

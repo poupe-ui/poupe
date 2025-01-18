@@ -1,9 +1,6 @@
 export {
   type PropType,
-  type CSSRuleObject,
-
-  formatCSSRuleObjects,
-} from './utils';
+} from './core/utils';
 
 export {
   type Color,
@@ -12,7 +9,11 @@ export {
 
   hct,
   hexFromHct,
-} from './colors';
+} from './core/colors';
+
+export * from './core/css';
+export * from './tailwind/common';
+export * from './tailwind/index';
 
 export {
   type StandardDynamicSchemeKey,
@@ -37,9 +38,4 @@ export {
 
 export {
   withMaterialColors,
-  withPrintMode,
 } from './tailwind-config';
-
-export {
-  type Config,
-} from 'tailwindcss/types/config';

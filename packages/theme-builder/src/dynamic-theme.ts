@@ -2,7 +2,7 @@ import {
   type KebabCase,
 
   kebabCase,
-} from './utils';
+} from './core/utils';
 
 import {
   type Color,
@@ -12,7 +12,7 @@ import {
   colordFromHct,
   hct,
   hctFromColord,
-} from './colors';
+} from './core/colors';
 
 import {
   type StandardDynamicSchemeKey,
