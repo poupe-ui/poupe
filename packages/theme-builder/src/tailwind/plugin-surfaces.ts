@@ -2,6 +2,7 @@ import {
   type Config,
   type PluginsConfig,
   type PluginCreator,
+  type PluginConfigAPI,
   type PluginThemeAPI,
 
   defaultColors,
@@ -38,15 +39,14 @@ export function withSurfaceComponents(config: Partial<Config> = {}, options: Par
 }
 
 export function surfaceComponentsPlugin(options: Partial<SurfaceComponentsOptions> = {}) {
-  return plugin(function ({ addComponents, theme }) {
-    const components: CSSRuleObject[] = makeSurfaceComponents(options, theme);
+  return plugin(function ({ addComponents, config, theme }) {
+    const components: CSSRuleObject[] = makeSurfaceComponents(options, config, theme);
     addComponents(components);
   } as PluginCreator);
 }
 
-function makeSurfaceComponents(options: Partial<SurfaceComponentsOptions>, theme: PluginThemeAPI): CSSRuleObject[] {
-  // TODO: consider tailwindcss prefix
-  const $options = defaultSurfaceComponentsOptions(options);
+function makeSurfaceComponents(options: Partial<SurfaceComponentsOptions>, config: PluginConfigAPI, theme: PluginThemeAPI): CSSRuleObject[] {
+  const $options = defaultSurfaceComponentsOptions(options, config);
 
   const components: CSSRuleObject[] = [];
 
@@ -110,10 +110,11 @@ function makeSurfaceName(colorName: string, prefix: string): string {
   return `${prefix}${colorName}`;
 }
 
-function defaultSurfaceComponentsOptions(options: Partial<SurfaceComponentsOptions>): SurfaceComponentsOptions {
+function defaultSurfaceComponentsOptions(options: Partial<SurfaceComponentsOptions>, config: PluginConfigAPI): SurfaceComponentsOptions {
+  const tw: string = config('prefix', '');
   return {
     surfacePrefix: options.surfacePrefix ?? 'surface-',
-    bgPrefix: options.bgPrefix ?? 'bg-',
-    textPrefix: options.textPrefix ?? 'text-',
+    bgPrefix: options.bgPrefix ?? `${tw}bg-`,
+    textPrefix: options.textPrefix ?? `${tw}text-`,
   };
 }

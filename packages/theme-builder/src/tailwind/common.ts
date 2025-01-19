@@ -20,6 +20,7 @@ export type SafelistConfig = PropType<Config, 'safelist'>;
 export type ThemeConfig = PropType<Config, 'theme'>;
 
 export type PluginThemeAPI = PropType<PluginAPI, 'theme'>;
+export type PluginConfigAPI = PropType<PluginAPI, 'config'>;
 
 /*
  * Data
