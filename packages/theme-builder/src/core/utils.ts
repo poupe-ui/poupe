@@ -4,8 +4,10 @@ export type Prettify<T> = {
   [K in keyof T]: T[K];
 };
 
+/** @returns the type of a property of the object */
 export type PropType<T, K extends keyof T> = T[K];
 
+/** @returns a given string converted to kebab-case */
 export function kebabCase(s: string): string {
   return s.replaceAll(/([a-z])([A-Z])/g, '$1-$2')
     .replaceAll(/[\s_]+/g, '-')
