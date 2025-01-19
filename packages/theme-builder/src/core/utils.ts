@@ -9,7 +9,12 @@ export type PropType<T, K extends keyof T> = T[K];
 
 /** @returns a given string converted to kebab-case */
 export function kebabCase(s: string): string {
-  return s.replaceAll(/([a-z])([A-Z])/g, '$1-$2')
+  return s
+    // handle multiple uppercase letters (e.g., XMLHttpRequest -> xml-http-request)
+    .replaceAll(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
+    // handle camelCase
+    .replaceAll(/([a-z])([A-Z])/g, '$1-$2')
+    // handle snakeCase
     .replaceAll(/[\s_]+/g, '-')
     .toLowerCase();
 }
