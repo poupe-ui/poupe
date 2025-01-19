@@ -1,6 +1,10 @@
 // imports
 //
-import { type Prettify } from './core/utils';
+import {
+  type Prettify,
+
+  unsafeKeys,
+} from './core/utils';
 
 import {
   type Color,
@@ -90,14 +94,10 @@ export function withShades<V extends string>(baseColor: string | Hct, shades: Sh
   type K = keyof typeof t;
   type T = Record<K, V>;
 
-  const keys = Object.keys(t) as K[];
   const out = {} as Partial<T>;
 
-  for (const shade of keys) {
-    const c = t[shade];
-    if (c !== undefined) {
-      out[shade] = stringify(c);
-    }
+  for (const shade of unsafeKeys(t)) {
+    out[shade] = stringify(t[shade]);
   }
 
   return out as T;

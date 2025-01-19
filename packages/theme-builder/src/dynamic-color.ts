@@ -18,6 +18,7 @@ import {
   type Prettify,
 
   kebabCase,
+  unsafeKeys,
 } from './core/utils';
 
 import {
@@ -123,7 +124,7 @@ export function makeCustomColors<K extends string>(source: Color, colors: Record
 
   return {
     source,
-    colors: Object.keys(colorOptions) as Array<keyof typeof colorOptions>,
+    colors: unsafeKeys(colorOptions),
     colorOptions: colorOptions,
     dark: darkColors as Prettify<customDynamicColors>,
     light: lightColors as Prettify<customDynamicColors>,
