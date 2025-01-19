@@ -95,11 +95,19 @@ function assembleSurfaceComponent(options: SurfaceComponentsOptions, colorName: 
   }
 
   // combine bg- and text-on-
+  const surfaceName = makeSurfaceName(colorName, surfacePrefix);
   return {
-    [`.${surfacePrefix}${colorName}`]: {
+    [`.${surfaceName}`]: {
       [`@apply ${bgPrefix}${colorName} ${textPrefix}${onColorName}`]: {},
     },
   };
+}
+
+function makeSurfaceName(colorName: string, prefix: string): string {
+  if (colorName.startsWith(prefix) || `${colorName}-` === prefix) {
+    return colorName;
+  }
+  return `${prefix}${colorName}`;
 }
 
 function defaultSurfaceComponentsOptions(options: Partial<SurfaceComponentsOptions>): SurfaceComponentsOptions {
