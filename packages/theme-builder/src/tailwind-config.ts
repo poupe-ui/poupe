@@ -26,6 +26,12 @@ import {
   makeColorConfig,
 } from './tailwind-theme';
 
+import {
+  type SurfaceComponentsOptions,
+
+  withSurfaceComponents,
+} from './tailwind/index';
+
 export * from './tailwind/index';
 
 // helpers
@@ -110,18 +116,31 @@ function withCSSTheme<K extends string>(config: Partial<Config>,
 interface MaterialColorOptions extends TailwindThemeOptions {
   /** @defaultValue `false` */
   omitTheme?: boolean
+
+  /** @defaultValue `true` */
+  surfaceComponents?: boolean | Partial<SurfaceComponentsOptions>
 }
 
 export function withMaterialColors<K extends string>(config: Partial<Config>,
   colors: ThemeColors<K> | ThemeColorOptions<K>,
   options: MaterialColorOptions = {},
 ): Partial<Config> {
-  const { omitTheme = false } = options;
+  const {
+    omitTheme = false,
+    surfaceComponents = true,
+  } = options;
+
   if (!omitTheme) {
     const $colors = flattenThemeColors<K>(colors);
     config = withCSSTheme(config, $colors, options);
   }
 
   config = withColorConfig(config, colors, options);
+
+  if (surfaceComponents !== false) {
+    const $options = typeof surfaceComponents === 'object' ? surfaceComponents : {};
+    config = withSurfaceComponents(config, $options);
+  }
+
   return config;
 }

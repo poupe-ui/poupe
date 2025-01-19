@@ -4,7 +4,5 @@ export {
   defaultColors,
 } from './common';
 
-export {
-  darkStyleNotPrintPlugin,
-  withPrintMode,
-} from './plugin-print-mode';
+export * from './plugin-print-mode';
+export * from './plugin-surfaces';
