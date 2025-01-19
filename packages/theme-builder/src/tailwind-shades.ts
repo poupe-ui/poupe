@@ -77,18 +77,13 @@ export function makeShades(color: Color, shades: Shades = true) {
   return out as Prettify<typeof out>;
 }
 
-function hexStringify<V extends string>(c: Hct): V {
-  /* work around HexColor return value */
-  return hexFromHct(c) as V;
-}
-
 /** @returns a map of shades of the baseColor to be used in tailwind.config.
  *
  * @param baseColor - color used as reference for hue and chroma.
  * @param shades - optional array of shades to use, {@link defaultShades} by default.
- * @param stringify - optional {@link Hct} to `string` convertor.
+ * @param stringify - function to convert {@link Hct} to `string`.
  */
-export function withShades<V extends string>(baseColor: string | Hct, shades: Shades = true, stringify: ((c: Hct) => V) = hexStringify) {
+export function withShades<C extends Color, V extends string>(baseColor: C, shades: Shades = true, stringify: ((c: Hct) => V)) {
   const t = makeShades(hct(baseColor), shades);
 
   type K = keyof typeof t;
@@ -101,4 +96,9 @@ export function withShades<V extends string>(baseColor: string | Hct, shades: Sh
   }
 
   return out as T;
+}
+
+/** variant of {@link withShades} that uses hex strings as output */
+export function withHexShades<C extends Color>(baseColor: C, shades: Shades = true) {
+  return withShades(baseColor, shades, hexFromHct);
 }

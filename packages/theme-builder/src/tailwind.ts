@@ -29,6 +29,7 @@ export {
 
   makeShades,
   withShades,
+  withHexShades,
 } from './tailwind-shades';
 
 export {
