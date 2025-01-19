@@ -19,5 +19,11 @@ export function kebabCase(s: string): string {
     .toLowerCase();
 }
 
+/** Converts a number to an unsigned 32-bit integer */
+export const uint32 = (n: number) => n >>> 0;
+
+/** Converts a number to an unsigned 8-bit integer */
+export const uint8 = (n: number) => (n >>> 0) & 0xFF;
+
 /** @returns a typed array of keys of the object */
 export const unsafeKeys = Object.keys as <T>(object: T) => Array<keyof T>;

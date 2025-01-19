@@ -1,3 +1,8 @@
+import {
+  uint32,
+  uint8,
+} from './utils';
+
 /*
  * colord
  */
@@ -74,9 +79,13 @@ export const argbFromHct = (c: Hct) => c.toInt();
 
 /** @returns the ARGB number corresponding to the given {@link RgbaColor} */
 export const argbFromRgbaColor = (c: RgbaColor): number => {
-  const a = c.a === undefined ? 1 : c.a;
-  const a255 = Math.round(a * 255) & 0xFF;
-  return a255 << 24 | (c.r << 16) | (c.g << 8) | c.b;
+  const a = c.a === undefined ? 1 : (c.a > 1 ? c.a / 255 : c.a);
+  const a255 = uint8(Math.round(a * 255));
+  const r255 = uint8(c.r);
+  const g255 = uint8(c.g);
+  const b255 = uint8(c.b);
+
+  return uint32(a255 << 24 | r255 << 16 | g255 << 8 | b255);
 };
 
 /** @returns the ARGB number corresponding to the given {@link HctColor} */
@@ -86,8 +95,8 @@ export const argbFromHctColor = (c: HctColor): number => {
     return argb;
   }
 
-  const a255 = Math.round(c.a * 255) & 0xFF;
-  return a255 << 24 | (argb & 0xFF_FF_FF);
+  const a255 = uint8(c.a > 1 ? c.a : Math.round(c.a * 255));
+  return uint32(a255 << 24 | (argb & 0xFF_FF_FF));
 };
 
 /** @returns the ARGB number corresponding to the given {@link Colord} */
