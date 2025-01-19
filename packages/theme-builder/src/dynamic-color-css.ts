@@ -1,4 +1,8 @@
 import {
+  unsafeKeys,
+} from './core/utils';
+
+import {
   type ColorMap,
   type CSSRuleObject,
   type Hct,
@@ -116,8 +120,7 @@ function generateCSSColorVariables<K extends string>(dark: ColorMap<K>, light: C
   const lightValues: CSSRuleObject = {};
   const vars: Record<K, string> = {} as Record<K, string>;
 
-  const keys = Object.keys(dark) as K[];
-  for (const k of keys) {
+  for (const k of unsafeKeys(dark)) {
     const k0 = `--${prefix}${k}`;
     const k1 = `${k0}${darkSuffix}`;
     const k2 = `${k0}${lightSuffix}`;
@@ -137,10 +140,10 @@ function generateCSSColorVariables<K extends string>(dark: ColorMap<K>, light: C
     }
   }
 
-  if (Object.keys(darkVars).length === 0) {
+  if (unsafeKeys(darkVars).length === 0) {
     darkVars = undefined;
   }
-  if (Object.keys(lightVars).length === 0) {
+  if (unsafeKeys(lightVars).length === 0) {
     lightVars = undefined;
   }
 

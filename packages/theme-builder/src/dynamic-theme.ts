@@ -2,6 +2,7 @@ import {
   type KebabCase,
 
   kebabCase,
+  unsafeKeys,
 } from './core/utils';
 
 import {
@@ -89,9 +90,8 @@ export type FlatThemeColors<K extends string> = { primary: ColorOptions } & Reco
 /** flattens a ThemeColorOptions */
 export function flattenPartialThemeColors<K extends string>(colors: ThemeColorOptions<K> | ThemeColors<K>) {
   const out = {} as Record<keyof typeof colors, Partial<ColorOptions>>;
-  const keys = Object.keys(colors) as Array<keyof typeof colors>;
 
-  for (const c of keys) {
+  for (const c of unsafeKeys(colors)) {
     out[c] = flattenPartialColorOptions(colors[c]);
   }
 
@@ -101,9 +101,8 @@ export function flattenPartialThemeColors<K extends string>(colors: ThemeColorOp
 /** flattens a ThemeColors */
 export function flattenThemeColors<K extends string>(colors: ThemeColorOptions<K> | ThemeColors<K>) {
   const out = {} as Record<keyof typeof colors, ColorOptions>;
-  const keys = Object.keys(colors) as Array<keyof typeof colors>;
 
-  for (const c of keys) {
+  for (const c of unsafeKeys(colors)) {
     out[c] = flattenColorOptions(colors[c]);
   }
 
@@ -122,8 +121,7 @@ export function makeThemeKeys<K extends string>(colors: ThemeColorOptions<K> | T
   const paletteKeys: PaletteKey[] = [...standardPaletteKeys];
   const keys: ColorKey[] = [...standardDynamicColorKeys];
 
-  const $colors = Object.keys(colors) as Array<keyof typeof colors>;
-  for (const name of $colors) {
+  for (const name of unsafeKeys(colors)) {
     const kebabName = kebabCase(name) as KebabCase<K>;
 
     // preserve config
@@ -246,8 +244,7 @@ export function makeColorMix<K extends string>(base: Hct, other: Hct, ratios: nu
 
   // named
   const out = {} as Record<K, Hct>;
-  const keys = Object.keys(ratios) as Array<K>;
-  for (const k of keys) {
+  for (const k of unsafeKeys(ratios)) {
     const c = c0.mix(c1, ratios[k]);
     out[k] = hctFromColord(c);
   }

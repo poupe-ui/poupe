@@ -1,4 +1,5 @@
 import {
+  unsafeKeys,
   type Prettify,
 } from './core/utils';
 
@@ -90,15 +91,13 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
     ...light,
   };
 
-  const keys = Object.keys(darkPalette) as Array<keyof typeof darkPalette>;
-  for (const key of keys) {
+  for (const key of unsafeKeys(darkPalette)) {
     const $shades = getColorShadesOption(key, options.shades, colorOptions);
 
     const darkShades = makeShades(darkPalette[key], $shades);
     const lightShades = makeShades(lightPalette[key], $shades);
 
-    const shades = Object.keys(darkShades) as Array<keyof typeof darkShades>;
-    for (const shade of shades) {
+    for (const shade of unsafeKeys(darkShades)) {
       if (shade !== 'DEFAULT') {
         darkColors[`${key}-${shade}`] = darkShades[shade];
         lightColors[`${key}-${shade}`] = lightShades[shade];
