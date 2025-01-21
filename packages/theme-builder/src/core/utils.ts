@@ -5,7 +5,7 @@ export type Prettify<T> = {
 };
 
 /** @returns the type of a property of the object */
-export type PropType<T, K extends keyof T> = T[K];
+export type PropertyType<T, K extends keyof T> = T[K];
 
 /** @returns a given string converted to kebab-case */
 export function kebabCase(s: string): string {

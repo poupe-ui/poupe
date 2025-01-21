@@ -1,5 +1,5 @@
 import {
-  type PropType,
+  type PropertyType,
 } from '../core/utils';
 
 import {
@@ -15,12 +15,12 @@ export {
   type PluginCreator,
 } from 'tailwindcss/types/config';
 
-export type PluginsConfig = PropType<Config, 'plugins'>;
-export type SafelistConfig = PropType<Config, 'safelist'>;
-export type ThemeConfig = PropType<Config, 'theme'>;
+export type PluginsConfig = PropertyType<Config, 'plugins'>;
+export type SafelistConfig = PropertyType<Config, 'safelist'>;
+export type ThemeConfig = PropertyType<Config, 'theme'>;
 
-export type PluginThemeAPI = PropType<PluginAPI, 'theme'>;
-export type PluginConfigAPI = PropType<PluginAPI, 'config'>;
+export type PluginThemeAPI = PropertyType<PluginAPI, 'theme'>;
+export type PluginConfigAPI = PropertyType<PluginAPI, 'config'>;
 
 /*
  * Data

@@ -1,6 +1,6 @@
 {
   "name": "@poupe/theme-builder",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "type": "module",
   "description": "",
   "author": "Alejandro Mery <amery@apptly.co>",
@@ -21,6 +21,11 @@
         "types": "./dist/index.d.cts",
         "require": "./dist/index.cjs"
       }
+    },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.mjs",
+      "require": "./dist/utils.cjs"
     },
     "./core": {
       "types": "./dist/core.d.ts",
