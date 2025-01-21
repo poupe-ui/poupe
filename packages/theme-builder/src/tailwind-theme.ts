@@ -29,7 +29,7 @@ import {
 
 import {
   rgbFromHct,
-} from './tailwind-common';
+} from './tailwind/index';
 
 import {
   type Shade,
