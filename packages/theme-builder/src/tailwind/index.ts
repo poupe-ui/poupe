@@ -6,3 +6,4 @@ export {
 
 export * from './plugin-print-mode';
 export * from './plugin-surfaces';
+export * from './rgb';

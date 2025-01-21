@@ -16,10 +16,6 @@ export {
 } from './dynamic-color-data';
 
 export {
-  rgbFromHct,
-} from './tailwind-common';
-
-export {
   type Shade,
   type Shades,
 
