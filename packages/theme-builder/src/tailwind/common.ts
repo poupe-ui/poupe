@@ -26,6 +26,7 @@ export type PluginConfigAPI = PropertyType<PluginAPI, 'config'>;
  * Data
  */
 export { default as defaultColors } from 'tailwindcss/colors.js';
+export { default as defaultTheme } from 'tailwindcss/defaultTheme.js';
 
 /*
  * Functions
