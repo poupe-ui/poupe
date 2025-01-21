@@ -22,6 +22,11 @@
         "require": "./dist/index.cjs"
       }
     },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.mjs",
+      "require": "./dist/utils.cjs"
+    },
     "./core": {
       "types": "./dist/core.d.ts",
       "import": "./dist/core.mjs",

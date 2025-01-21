@@ -1,8 +1,4 @@
 export {
-  type PropType,
-} from './core/utils';
-
-export {
   type Color,
   type HexColor,
   Hct,
