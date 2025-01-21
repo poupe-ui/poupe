@@ -5,6 +5,7 @@ export const components = [
   'Button',
   'Card',
   'Placeholder',
+  'ThemeScheme',
 ] as const;
 
 export type ComponentName = typeof components[number];
