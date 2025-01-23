@@ -8,11 +8,11 @@
   "exports": {
     ".": {
       "types": "./dist/types.d.ts",
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     }
   },
-  "main": "./dist/module.cjs",
+  "main": "./dist/index.cjs",
   "types": "./dist/types.d.ts",
   "files": [
     "dist"
@@ -31,18 +31,22 @@
   "devDependencies": {
     "@nuxt/devtools": "^1.7.0",
     "@nuxt/eslint-config": "^0.7.5",
-    "@nuxt/kit": "^3.15.1",
+    "@nuxt/kit": "^3.15.2",
     "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/schema": "^3.15.1",
-    "@nuxt/test-utils": "^3.15.3",
+    "@nuxt/schema": "^3.15.2",
+    "@nuxt/test-utils": "^3.15.4",
     "@poupe/eslint-config": "^0.4.13",
-    "@types/node": "^22.10.5",
+    "@types/node": "^22.10.9",
     "changelogen": "^0.5.7",
     "eslint": "^9.18.0",
-    "nuxt": "^3.15.1",
+    "nuxt": "^3.15.2",
     "typescript": "^5.7.3",
-    "vite": "^6.0.7",
+    "vite": "^6.0.11",
     "vitest": "^2.1.8",
     "vue-tsc": "^2.2.0"
+  },
+  "dependencies": {
+    "@poupe/theme-builder": "workspace:",
+    "@poupe/vue": "workspace:"
   }
 }
