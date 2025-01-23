@@ -1,4 +1,9 @@
 {
+  // editor
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "always"
+  },
+
   // explorer
   "files.exclude": {
     "**/.git": true,
@@ -14,10 +19,5 @@
     "nuxi",
     "Nuxt",
     "poupe"
-  ],
-
-  // ESLint
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "always"
-  }
+  ]
 }
