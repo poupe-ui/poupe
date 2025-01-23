@@ -8,7 +8,7 @@
   "keywords": [],
   "scripts": {
     "build": "pnpm -r build",
-    "clean": "(ls -1d node_modules 2> /dev/null; find packages -name dist -o -name node_modules -o -name .nuxt) | xargs -rt -n1 rm -rf",
+    "clean": "(ls -1d node_modules 2> /dev/null; find packages -name dist -o -name node_modules -o -name .nuxt -o -name .output) | xargs -rt -n1 rm -rf",
     "lint": "env DEBUG=eslint:eslint eslint --fix --ignore-pattern 'packages/*' . && pnpm -r lint",
     "prepare": "pnpm -r dev:prepare"
   },

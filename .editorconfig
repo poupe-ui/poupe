@@ -10,11 +10,7 @@ indent_size = 8
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.{yaml,yml,js,cjs,mjs,ts,vue}]
-indent_style = space
-indent_size = 2
-
-[{package,renovate,tsconfig}.json]
+[*.{json,yaml,yml,js,cjs,mjs,ts,vue}]
 indent_style = space
 indent_size = 2
 
