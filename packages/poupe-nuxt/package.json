@@ -8,11 +8,11 @@
   "exports": {
     ".": {
       "types": "./dist/types.d.ts",
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     }
   },
-  "main": "./dist/module.cjs",
+  "main": "./dist/index.cjs",
   "types": "./dist/types.d.ts",
   "files": [
     "dist"
