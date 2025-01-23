@@ -16,6 +16,13 @@ importers:
         version: 9.18.0(jiti@2.4.2)
 
   packages/poupe-nuxt:
+    dependencies:
+      '@poupe/theme-builder':
+        specifier: 'workspace:'
+        version: link:../theme-builder
+      '@poupe/vue':
+        specifier: 'workspace:'
+        version: link:../poupe-vue
     devDependencies:
       '@nuxt/devtools':
         specifier: ^1.7.0
@@ -65,6 +72,9 @@ importers:
 
   packages/poupe-vue:
     dependencies:
+      '@poupe/theme-builder':
+        specifier: 'workspace:'
+        version: link:../theme-builder
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.7.3)

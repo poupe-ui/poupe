@@ -12,6 +12,7 @@
     "lint": "env DEBUG=eslint:eslint eslint --fix ."
   },
   "dependencies": {
+    "@poupe/theme-builder": "workspace:",
     "vue": "^3.5.13"
   },
   "devDependencies": {
