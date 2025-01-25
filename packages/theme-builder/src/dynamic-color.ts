@@ -22,12 +22,12 @@ import {
 } from './core/utils';
 
 import {
-  StandardDynamicColorKey,
-  CustomDynamicColorKey,
+  type CustomDynamicColorKey,
+  type StandardDynamicColorKey,
+  type StandardPaletteKey,
 
   standardDynamicColors,
   customDynamicColors,
-  StandardPaletteKey,
   standardPaletteKeyColors,
 } from './dynamic-color-data';
 

@@ -1,5 +1,5 @@
 import {
-  ColorGroup,
+  type ColorGroup,
   MaterialDynamicColors,
   SchemeContent,
   SchemeExpressive,
@@ -11,8 +11,8 @@ import {
 } from '@material/material-color-utilities';
 
 import {
+  type standardDynamicSchemeFactory,
   hct,
-  standardDynamicSchemeFactory,
 } from './core';
 
 // CustomDynamicColor

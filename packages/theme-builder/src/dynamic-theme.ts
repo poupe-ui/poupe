@@ -17,14 +17,14 @@ import {
 
 import {
   type StandardDynamicSchemeKey,
+  type StandardDynamicColorKey,
+  type StandardPaletteKey,
   type CustomDynamicColorKey,
 
   customDynamicColors,
   standardDynamicColorKeys,
-  StandardDynamicColorKey,
   standardDynamicSchemes,
   standardPaletteKeys,
-  StandardPaletteKey,
 } from './dynamic-color-data';
 
 import {
