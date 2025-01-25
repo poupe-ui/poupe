@@ -71,6 +71,9 @@ importers:
       '@unhead/vue':
         specifier: ^1.11.18
         version: 1.11.18(vue@3.5.13(typescript@5.7.3))
+      tailwind-variants:
+        specifier: ^0.3.1
+        version: 0.3.1(tailwindcss@3.4.17)
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.7.3)
@@ -4335,6 +4338,15 @@ packages:
   system-architecture@0.1.0:
     resolution: {integrity: sha512-ulAk51I9UVUyJgxlv9M6lFot2WP3e7t8Kz9+IS6D4rVba1tR9kON+Ey69f+1R4Q8cd45Lod6a4IcJIxnzGc/zA==}
     engines: {node: '>=18'}
+
+  tailwind-merge@2.5.4:
+    resolution: {integrity: sha512-0q8cfZHMu9nuYP/b5Shb7Y7Sh1B7Nnl5GqNr1U+n2p6+mybvRtayrQ+0042Z5byvTA8ihjlP8Odo8/VnHbZu4Q==}
+
+  tailwind-variants@0.3.1:
+    resolution: {integrity: sha512-krn67M3FpPwElg4FsZrOQd0U26o7UDH/QOkK8RNaiCCrr052f6YJPBUfNKnPo/s/xRzNPtv1Mldlxsg8Tb46BQ==}
+    engines: {node: '>=16.x', pnpm: '>=7.x'}
+    peerDependencies:
+      tailwindcss: '*'
 
   tailwindcss@3.4.17:
     resolution: {integrity: sha512-w33E2aCvSDP0tW9RZuNXadXlkHXqFzSkQew/aIa2i/Sj8fThxwovwlXHSPXTbAHwEIhBFXAedUhP2tueAKP8Og==}
@@ -9643,6 +9655,13 @@ snapshots:
       tslib: 2.8.1
 
   system-architecture@0.1.0: {}
+
+  tailwind-merge@2.5.4: {}
+
+  tailwind-variants@0.3.1(tailwindcss@3.4.17):
+    dependencies:
+      tailwind-merge: 2.5.4
+      tailwindcss: 3.4.17
 
   tailwindcss@3.4.17:
     dependencies:
