@@ -2,6 +2,7 @@ import { dirname } from 'pathe';
 import type { ComponentResolverObject } from 'unplugin-vue-components';
 
 export const components = [
+  'Button',
   'Card',
   'Placeholder',
 ] as const;

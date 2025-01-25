@@ -16,6 +16,16 @@ export const onSlot = <K extends string> (slot: string, variants: Record<K, Clas
   return out as Record<K, T>;
 };
 
+export const borderVariants = {
+  none: 'border-none',
+  current: 'border-solid border',
+  primary: 'border-solid border border-primary',
+  secondary: 'border-solid border border-secondary',
+  tertiary: 'border-solid border border-tertiary',
+  error: 'border-solid border border-error',
+  outline: 'border-solid border border-outline',
+};
+
 export const roundedVariants = {
   full: 'rounded-full',
   none: 'rounded-none',
@@ -63,4 +73,19 @@ export const surfaceVariants = {
   base: 'bg-surface text-on-surface border-on-surface',
   bright: 'bg-surface-bright text-on-surface-bright border-on-surface-bright',
   variant: 'bg-surface-variant text-on-surface-variant border-on-surface-variant',
+};
+
+export const containerVariants = {
+  ...colorSurfaceVariants,
+
+  ['primary-container']: 'bg-primary-container text-on-primary-container border-on-primary-container',
+  ['secondary-container']: 'bg-secondary-container text-on-secondary-container border-on-secondary-container',
+  ['tertiary-container']: 'bg-tertiary-container text-on-tertiary-container border-on-tertiary-container',
+  ['error-container']: 'bg-error-container text-on-error-container border-on-error-container',
+
+  lowest: 'bg-surface-container-lowest text-on-surface-container-lowest border-on-surface-container-lowest',
+  low: 'bg-surface-container-low text-on-surface-container-low border-on-surface-container-low',
+  base: 'bg-surface-container text-on-surface-container border-on-surface-container',
+  high: 'bg-surface-container-high text-on-surface-container-high border-on-surface-container-high',
+  highest: 'bg-surface-container-highest text-on-surface-container-highest border-on-surface-container-highest',
 };
