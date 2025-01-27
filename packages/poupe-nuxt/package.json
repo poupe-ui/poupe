@@ -1,10 +1,15 @@
 {
   "name": "@poupe/nuxt",
   "version": "0.0.0",
-  "description": "Poupe's Nuxt module",
-  "repository": "poupe-ui/poupe",
-  "license": "MIT",
   "type": "module",
+  "description": "Poupe's Nuxt module",
+  "author": "Alejandro Mery <amery@apptly.co>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/poupe-ui/poupe",
+    "directory": "packages/poupe-nuxt"
+  },
   "exports": {
     ".": {
       "types": "./dist/types.d.ts",
