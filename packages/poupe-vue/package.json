@@ -2,6 +2,14 @@
   "name": "@poupe/vue",
   "version": "0.0.0",
   "type": "module",
+  "description": "",
+  "author": "Alejandro Mery <amery@apptly.co>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/poupe-ui/poupe",
+    "directory": "packages/poupe-vue"
+  },
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
