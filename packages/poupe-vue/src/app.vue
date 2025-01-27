@@ -2,6 +2,8 @@
 import { useHead } from '@unhead/vue';
 
 import {
+  Card,
+
   Placeholder,
 } from './components';
 
@@ -13,12 +15,17 @@ useHead({
 </script>
 
 <template>
-  <div class="flex h-screen items-center justify-center">
-    <div class="w-full max-w-2xl">
-      <placeholder
-        class="opacity-50"
-        rounded="xl"
-      />
+  <div class="flex flex-1 h-screen justify-center">
+    <div class="flex container justify-center">
+      <card
+        class="m-auto w-full max-w-md"
+        title="@poupe/vue"
+      >
+        <placeholder
+          class="opacity-50 mb-2 p-1"
+          rounded="md"
+        />
+      </card>
     </div>
   </div>
 </template>
