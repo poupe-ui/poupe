@@ -65,7 +65,7 @@
     "@poupe/eslint-config": "^0.4.14",
     "eslint": "^9.19.0",
     "typescript": "~5.7.3",
-    "vitest": "^2.1.8"
+    "vitest": "^3.0.4"
   },
   "engines": {
     "node": ">= 18.20.6",
