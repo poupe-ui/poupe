@@ -2,7 +2,17 @@
 import {
   tv,
   type VariantProps,
+
+  onSlot,
+  roundedVariants,
+  shadowVariants,
 } from './variants';
+
+const borderVariants = {
+  solid: 'border-solid border',
+  none: 'border-none',
+  dashed: 'border-dashed border',
+};
 
 const placeholder = tv({
   slots: {
@@ -10,17 +20,7 @@ const placeholder = tv({
     pattern: 'w-full h-full',
   },
   variants: {
-    border: {
-      solid: {
-        wrapper: 'border-solid border',
-      },
-      none: {
-        wrapper: 'border-none',
-      },
-      dashed: {
-        wrapper: 'border-dashed border',
-      },
-    },
+    border: onSlot('wrapper', borderVariants),
     color: {
       current: {
         wrapper: 'border-current',
@@ -51,6 +51,8 @@ const placeholder = tv({
         pattern: 'stroke-error',
       },
     },
+    rounded: onSlot('wrapper', roundedVariants),
+    shadow: onSlot('wrapper', shadowVariants),
   },
 });
 
@@ -67,6 +69,10 @@ export type PlaceholderProps = {
   border?: PlaceholderVariantProps['border']
   /** pattern and border color. @defaultValue '`outline-variant`' */
   color?: PlaceholderVariantProps['color']
+  /** rounded corners. @defaultValue `'xl'` */
+  rounded?: PlaceholderVariantProps['rounded']
+  /** shadow. @defaultValue `'none'` */
+  shadow?: PlaceholderVariantProps['shadow']
 };
 </script>
 
@@ -78,12 +84,16 @@ const props = withDefaults(defineProps<PlaceholderProps>(), {
   rh: 20,
   border: 'dashed' as const,
   color: 'outline-variant' as const,
+  rounded: 'xl' as const,
+  shadow: 'none' as const,
 });
 
 const id = useId();
 const variants = computed(() => placeholder({
   border: props.border,
   color: props.color,
+  rounded: props.rounded,
+  shadow: props.shadow,
 }));
 
 </script>

@@ -15,3 +15,29 @@ export const onSlot = <K extends string> (slot: string, variants: Record<K, Clas
   }
   return out as Record<K, T>;
 };
+
+export const roundedVariants = {
+  full: 'rounded-full',
+  none: 'rounded-none',
+
+  xs: 'rounded-sm',
+  sm: 'rounded',
+  md: 'rounded-md',
+  lg: 'rounded-lg',
+  xl: 'rounded-xl',
+  ['2xl']: 'rounded-2xl',
+  ['3xl']: 'rounded-3xl',
+};
+
+export const shadowVariants = {
+  current: 'shadow-shadow shadow',
+  none: 'shadow-none',
+
+  xs: 'shadow-shadow shadow-sm',
+  sm: 'shadow-shadow shadow',
+  md: 'shadow-shadow shadow-md',
+  lg: 'shadow-shadow shadow-lg',
+  xl: 'shadow-shadow shadow-xl',
+  ['2xl']: 'shadow-shadow shadow-2xl',
+  inner: 'shadow-shadow shadow-inner',
+};
