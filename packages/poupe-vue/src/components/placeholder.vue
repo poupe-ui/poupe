@@ -90,7 +90,10 @@ const variants = computed(() => placeholder({
 
 <template>
   <div :class="variants.wrapper()">
-    <svg :class="variants.pattern()">
+    <svg
+      :class="variants.pattern()"
+      aria-hidden="true"
+    >
       <defs>
         <pattern
           :id="id"
@@ -103,6 +106,7 @@ const variants = computed(() => placeholder({
           <path
             :d="`M0 0 ${rw} ${rh} M${rw} 0 0 ${rh}`"
             stroke-width="1px"
+            vector-effect="non-scaling-stroke"
           />
         </pattern>
       </defs>
