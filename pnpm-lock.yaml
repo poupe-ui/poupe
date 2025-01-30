@@ -9,13 +9,6 @@ importers:
   .: {}
 
   packages/poupe-nuxt:
-    dependencies:
-      '@poupe/theme-builder':
-        specifier: 'workspace:'
-        version: link:../theme-builder
-      '@poupe/vue':
-        specifier: 'workspace:'
-        version: link:../poupe-vue
     devDependencies:
       '@nuxt/devtools':
         specifier: ^1.7.0
@@ -38,6 +31,12 @@ importers:
       '@poupe/eslint-config':
         specifier: ^0.4.14
         version: 0.4.14(jiti@2.4.2)
+      '@poupe/theme-builder':
+        specifier: 'workspace:'
+        version: link:../theme-builder
+      '@poupe/vue':
+        specifier: 'workspace:'
+        version: link:../poupe-vue
       '@types/node':
         specifier: ^22.10.10
         version: 22.10.10

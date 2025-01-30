@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/poupe-ui/poupe",
+    "url": "git+https://github.com/poupe-ui/poupe.git",
     "directory": "packages/poupe-nuxt"
   },
   "exports": {
@@ -23,15 +23,21 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "nuxt-module-build build",
+    "prepack": "run-s lint build:stub type-check test build publint",
+    "type-check": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
+    "lint": "env DEBUG=eslint:eslint eslint --fix .",
+    "publint": "pnpx publint",
+    "build:stub": "nuxt-module-build build --stub",
+    "build": "nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
-    "lint": "env DEBUG=eslint:eslint eslint --fix .",
     "test": "vitest run",
     "test:watch": "vitest watch",
-    "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
+    "clean:root": "rm -rf dist node_modules .nuxt",
+    "clean:playground": "rm -rf playground/dist playground/node_modules playground/.nuxt",
+    "clean": "run-s clean:root clean:playground"
   },
   "devDependencies": {
     "@nuxt/devtools": "^1.7.0",
@@ -41,6 +47,8 @@
     "@nuxt/schema": "^3.15.4",
     "@nuxt/test-utils": "^3.15.4",
     "@poupe/eslint-config": "^0.4.14",
+    "@poupe/theme-builder": "workspace:",
+    "@poupe/vue": "workspace:",
     "@types/node": "^22.10.10",
     "changelogen": "^0.5.7",
     "eslint": "^9.19.0",
@@ -50,8 +58,8 @@
     "vitest": "^3.0.4",
     "vue-tsc": "^2.2.0"
   },
-  "dependencies": {
-    "@poupe/theme-builder": "workspace:",
-    "@poupe/vue": "workspace:"
+  "peerDependencies": {
+    "@poupe/theme-builder": "^0.5.6",
+    "@poupe/vue": "^0.1.0"
   }
 }
