@@ -7,6 +7,8 @@ import {
   defaultModuleOptions,
 } from './config';
 
+import { setupComponents } from './components';
+
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: '@poupe/nuxt',
@@ -14,8 +16,10 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults: defaultModuleOptions,
 
-  setup(_options: ModuleOptions, _nuxt: Nuxt) {
+  setup(options: ModuleOptions, _nuxt: Nuxt) {
     const { resolve } = createResolver(import.meta.url);
+
+    setupComponents(options);
 
     addPlugin(resolve('./runtime/plugin'));
   },
