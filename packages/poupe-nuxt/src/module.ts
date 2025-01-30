@@ -1,25 +1,26 @@
 import { defineNuxtModule, addPlugin, createResolver } from '@nuxt/kit';
-import type { StandardDynamicSchemeKey } from '@poupe/theme-builder';
 
-// Module options TypeScript interface definition
-export interface ModuleOptions {
-  scheme: StandardDynamicSchemeKey
-};
+import {
+  type ModuleOptions,
+  type Nuxt,
+
+  defaultModuleOptions,
+} from './config';
+
+import { setupComponents } from './components';
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: '@poupe/nuxt',
     configKey: 'poupe',
   },
-  // Default configuration options of the Nuxt module
-  defaults: {
-    scheme: 'content',
-  },
+  defaults: defaultModuleOptions,
 
-  setup(_options, _nuxt) {
-    const resolver = createResolver(import.meta.url);
+  setup(options: ModuleOptions, _nuxt: Nuxt) {
+    const { resolve } = createResolver(import.meta.url);
 
-    // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin(resolver.resolve('./runtime/plugin'));
+    setupComponents(options);
+
+    addPlugin(resolve('./runtime/plugin'));
   },
 });
