@@ -57,6 +57,9 @@
     "vue-tsc": "^2.1.10"
   },
   "dependencies": {
+    "@nuxt/icon": "^1.10.3",
+    "@nuxtjs/color-mode": "^3.5.2",
+    "@nuxtjs/tailwindcss": "^6.13.1",
     "@poupe/theme-builder": "^0.5.8",
     "@poupe/vue": "^0.1.0"
   }
