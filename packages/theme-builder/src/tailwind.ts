@@ -25,6 +25,8 @@ export {
 } from './tailwind-shades';
 
 export {
+  type TailwindThemeOptions,
+
   makeColorConfig,
   makeCSSTheme,
 } from './tailwind-theme';
