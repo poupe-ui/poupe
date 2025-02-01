@@ -5,7 +5,7 @@ import type { ModuleOptions, Nuxt } from './config';
 import { installTailwindModule } from './tailwind';
 import { createDefaultResolver } from './utils';
 
-export const setup = async (options: ModuleOptions, _nuxt: Nuxt) => {
+export const setup = async (options: ModuleOptions, nuxt: Nuxt) => {
   const resolve = createDefaultResolver();
 
   // Modules
@@ -13,7 +13,7 @@ export const setup = async (options: ModuleOptions, _nuxt: Nuxt) => {
   await installModule('@nuxtjs/color-mode', {
     classSuffix: '',
   });
-  await installTailwindModule();
+  await installTailwindModule(options, nuxt, resolve);
 
   // Components
   setupComponents(options);
