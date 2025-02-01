@@ -32,3 +32,11 @@ export { default as defaultTheme } from 'tailwindcss/defaultTheme.js';
  * Functions
  */
 export { default as plugin } from 'tailwindcss/plugin.js';
+
+/** @returns a Tailwind config object */
+export const defineConfig = (c: Partial<Config> = {}): Config => {
+  return {
+    content: [],
+    ...c,
+  };
+};
