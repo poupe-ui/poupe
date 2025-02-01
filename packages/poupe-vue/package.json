@@ -14,6 +14,7 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
+
     },
     "./resolver": {
       "types": "./dist/resolver.d.ts",
@@ -24,11 +25,12 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "prepack": "run-s lint type-check test build publint",
+    "dev:prepare": "unbuild --stub",
     "type-check": "vue-tsc --build --force",
     "lint": "env DEBUG=eslint:eslint eslint --fix .",
     "publint": "pnpx publint",
     "build": "run-p type-check \"build-only {@}\" --",
-    "build-only": "vite build",
+    "build-only": "unbuild",
     "test": "vitest run",
     "dev": "vite",
     "preview": "vite preview",

@@ -6,7 +6,6 @@ import tailwind from 'tailwindcss';
 
 import Vue from '@vitejs/plugin-vue';
 import VueDevTools from 'vite-plugin-vue-devtools';
-import Dts from 'vite-plugin-dts';
 
 const resolve = (path: string) => fileURLToPath(new URL(path, import.meta.url));
 
@@ -15,34 +14,7 @@ export default defineConfig({
   plugins: [
     Vue(),
     VueDevTools(),
-    Dts({
-      tsconfigPath: resolve('tsconfig.app.json'),
-      rollupTypes: true,
-    }),
   ],
-  build: {
-    lib: {
-      formats: ['es'],
-      name: '@poupe/vue',
-      fileName: (_, name) => `${name}.mjs`,
-      entry: {
-        index: resolve('src/index.ts'),
-        resolver: resolve('src/resolver.ts'),
-      },
-    },
-    rollupOptions: {
-      external: [
-        'vue',
-        'tailwind-variants',
-      ],
-      output: {
-        globals: {
-          vue: 'Vue',
-          ['tailwind-variants']: 'tailwindVariants',
-        },
-      },
-    },
-  },
   resolve: {
     alias: {
       '@': resolve('src'),
