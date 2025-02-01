@@ -47,19 +47,17 @@
     "@nuxt/schema": "^3.15.4",
     "@nuxt/test-utils": "^3.15.4",
     "@poupe/eslint-config": "^0.4.14",
-    "@poupe/theme-builder": "workspace:",
-    "@poupe/vue": "workspace:",
-    "@types/node": "^22.10.10",
+    "@types/node": "^22.13.0",
     "changelogen": "^0.5.7",
     "eslint": "^9.19.0",
     "nuxt": "^3.15.4",
     "typescript": "^5.6.3",
     "vite": "^6.0.11",
     "vitest": "^3.0.4",
-    "vue-tsc": "^2.2.0"
+    "vue-tsc": "^2.1.10"
   },
-  "peerDependencies": {
-    "@poupe/theme-builder": "^0.5.7",
+  "dependencies": {
+    "@poupe/theme-builder": "^0.5.8",
     "@poupe/vue": "^0.1.0"
   }
 }
