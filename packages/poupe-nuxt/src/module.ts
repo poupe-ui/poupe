@@ -1,4 +1,4 @@
-import { defineNuxtModule, addPlugin, createResolver } from '@nuxt/kit';
+import { defineNuxtModule, addPlugin } from '@nuxt/kit';
 
 import {
   type ModuleOptions,
@@ -8,6 +8,7 @@ import {
 } from './config';
 
 import { setupComponents } from './components';
+import { createDefaultResolver } from './utils';
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -17,7 +18,7 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: defaultModuleOptions,
 
   setup(options: ModuleOptions, _nuxt: Nuxt) {
-    const { resolve } = createResolver(import.meta.url);
+    const resolve = createDefaultResolver();
 
     setupComponents(options);
 
