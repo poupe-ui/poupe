@@ -18,4 +18,7 @@ export const defaultModuleOptions: Readonly<ModuleOptions> = {
   colors: {
     primary: DEFAULT_PRIMARY_COLOR,
   },
+  darkSuffix: '',
+  lightSuffix: '',
+  extend: false,
 };
