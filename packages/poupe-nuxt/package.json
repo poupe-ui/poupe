@@ -23,11 +23,10 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "run-s lint build:stub type-check test build publint",
+    "prepack": "run-s lint type-check test build publint",
     "type-check": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
     "lint": "env DEBUG=eslint:eslint eslint --fix .",
     "publint": "pnpx publint",
-    "build:stub": "nuxt-module-build build --stub",
     "build": "nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",

@@ -8,6 +8,7 @@
     "generate": "nuxi generate"
   },
   "dependencies": {
+    "@poupe/nuxt": "link:..",
     "nuxt": "^3.15.4"
   }
 }

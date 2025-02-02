@@ -8,13 +8,13 @@ import { COMPONENTS_PACKAGE } from './components';
 
 const POUPE_TAILWIND_CONFIG_FILENAME = 'poupe-tailwind.config.ts';
 
+const vueComponents = resolvePackage(COMPONENTS_PACKAGE);
+
 const getConfigContents = (
   options: ModuleOptions,
   resolve: (...path: string[]) => string = createDefaultResolver(),
 ): string => {
   const { colors, prefix: _prefix, ...extra } = options;
-  const vueComponents = resolvePackage(COMPONENTS_PACKAGE);
-
   const content = [
     resolve(vueComponents),
     resolve('runtime/components/**/*.{vue,mjs,cjs,ts,js}'),
