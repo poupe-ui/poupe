@@ -23,8 +23,8 @@ importers:
         specifier: ^0.5.8
         version: 0.5.8
       '@poupe/vue':
-        specifier: ^0.1.0
-        version: 0.1.0(@poupe/theme-builder@0.5.8)(tailwindcss@3.4.17)(typescript@5.6.3)
+        specifier: ^0.1.1
+        version: 0.1.1(typescript@5.6.3)
       stringify-object:
         specifier: ^5.0.0
         version: 5.0.0
@@ -1074,11 +1074,8 @@ packages:
     resolution: {integrity: sha512-m8rnk8jVfXx6fZk3tWjiFJb5TqzWv+Ee0UGz4EstXeBJucynJhPTzG5oesTUwnUR5wT5sDk/GjGJkj3t2CaF2Q==}
     engines: {node: '>= 18.20.6', pnpm: '>= 9.15.4'}
 
-  '@poupe/vue@0.1.0':
-    resolution: {integrity: sha512-t2WpWjJAXUTt33AkYljxBLL/VsG0W8RpUecZh5immX1vV37iklqnN3WTtMUr4SuxXVUrcuNqP+g7t9IXng8vMg==}
-    peerDependencies:
-      '@poupe/theme-builder': ^0.5.6
-      tailwindcss: ^3.4.17
+  '@poupe/vue@0.1.1':
+    resolution: {integrity: sha512-5CZ0/29M0Runm9iWPQJle/AYF12hULUfp9Wz0Qiyu4w0zvCEjnRgffD+C/+Lo86LBC0TWkRByheh41rRJIBG0A==}
 
   '@redocly/ajv@8.11.2':
     resolution: {integrity: sha512-io1JpnwtIcvojV7QKDUSIuMN/ikdOUd1ReEnUnMKGfDVridQZ31J0MmIuqwuRjWDZfmvr+Q0MqCcfHM2gTivOg==}
@@ -6308,7 +6305,7 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
-  '@poupe/vue@0.1.0(@poupe/theme-builder@0.5.8)(tailwindcss@3.4.17)(typescript@5.6.3)':
+  '@poupe/vue@0.1.1(typescript@5.6.3)':
     dependencies:
       '@poupe/theme-builder': 0.5.8
       '@unhead/vue': 1.11.18(vue@3.5.13(typescript@5.6.3))
@@ -6316,6 +6313,7 @@ snapshots:
       tailwindcss: 3.4.17
       vue: 3.5.13(typescript@5.6.3)
     transitivePeerDependencies:
+      - ts-node
       - typescript
 
   '@redocly/ajv@8.11.2':

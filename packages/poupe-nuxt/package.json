@@ -61,7 +61,7 @@
     "@nuxtjs/color-mode": "^3.5.2",
     "@nuxtjs/tailwindcss": "^6.13.1",
     "@poupe/theme-builder": "^0.5.8",
-    "@poupe/vue": "^0.1.0",
+    "@poupe/vue": "^0.1.1",
     "stringify-object": "^5.0.0"
   }
 }
