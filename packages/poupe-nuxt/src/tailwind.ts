@@ -3,12 +3,10 @@ import { addTemplate, installModule } from '@nuxt/kit';
 import type { ModuleOptions as TailwindModuleOptions } from '@nuxtjs/tailwindcss';
 
 import type { ModuleOptions, Nuxt } from './config';
-import { createDefaultResolver, resolvePackage, stringify } from './utils';
-import { COMPONENTS_PACKAGE } from './components';
+import { createDefaultResolver, stringify } from './utils';
+import { contentGlobs } from './components';
 
 const POUPE_TAILWIND_CONFIG_FILENAME = 'poupe-tailwind.config.ts';
-
-const vueComponents = resolvePackage(COMPONENTS_PACKAGE);
 
 const getConfigContents = (
   options: ModuleOptions,
@@ -16,7 +14,7 @@ const getConfigContents = (
 ): string => {
   const { colors, prefix: _prefix, ...extra } = options;
   const content = [
-    resolve(vueComponents),
+    ...contentGlobs(),
     resolve('runtime/components/**/*.{vue,mjs,cjs,ts,js}'),
   ];
 

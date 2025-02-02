@@ -6,8 +6,6 @@ export const createDefaultResolver = () => {
   return resolve;
 };
 
-export const resolvePackage = (pkg: string): string => new URL(import.meta.resolve(pkg)).pathname;
-
 export const stringify = (input: unknown): string => stringifyObject(input, {
   indent: '  ',
   singleQuotes: true,
