@@ -1,7 +1,7 @@
 <script lang="ts">
 import {
-  tv,
   type VariantProps,
+  tv,
 
   onSlot,
   roundedVariants,
@@ -95,7 +95,6 @@ const variants = computed(() => placeholder({
   rounded: props.rounded,
   shadow: props.shadow,
 }));
-
 </script>
 
 <template>
