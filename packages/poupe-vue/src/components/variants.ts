@@ -29,6 +29,7 @@ export const roundedVariants = {
   ['3xl']: 'rounded-3xl',
 };
 
+// TODO: turn into elevation values
 export const shadowVariants = {
   current: 'shadow-shadow shadow',
   none: 'shadow-none',
@@ -40,4 +41,26 @@ export const shadowVariants = {
   xl: 'shadow-shadow shadow-xl',
   ['2xl']: 'shadow-shadow shadow-2xl',
   inner: 'shadow-shadow shadow-inner',
+};
+
+export const colorSurfaceVariants = {
+  primary: 'bg-primary text-on-primary border-on-primary',
+  secondary: 'bg-secondary text-on-secondary border-on-secondary',
+  tertiary: 'bg-tertiary text-on-tertiary border-on-tertiary',
+  error: 'bg-error text-on-error border-on-error',
+
+  ['primary-fixed']: 'bg-primary-fixed text-on-primary-fixed border-on-primary-fixed',
+  ['secondary-fixed']: 'bg-secondary-fixed text-on-secondary-fixed border-on-secondary-fixed',
+  ['tertiary-fixed']: 'bg-tertiary-fixed text-on-tertiary-fixed border-on-tertiary-fixed',
+
+  inverse: 'bg-inverse-surface text-on-inverse-surface border-on-inverse-surface',
+};
+
+export const surfaceVariants = {
+  ...colorSurfaceVariants,
+
+  dim: 'bg-surface-dim text-on-surface-dim border-on-surface-dim',
+  base: 'bg-surface text-on-surface border-on-surface',
+  bright: 'bg-surface-bright text-on-surface-bright border-on-surface-bright',
+  variant: 'bg-surface-variant text-on-surface-variant border-on-surface-variant',
 };
