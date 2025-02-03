@@ -10,6 +10,8 @@ export const components = [
 
 export type ComponentName = typeof components[number];
 
+export const DEFAULT_PREFIX = 'P';
+
 export interface ResolverOptions {
   /** @defaultValue 'P' */
   prefix?: string
@@ -24,7 +26,7 @@ export const normalizedComponentPrefix = (s: string): string => {
 };
 
 export const createResolver = (options: ResolverOptions = {}): ComponentResolverObject => {
-  const { prefix: $prefix = 'P' } = options;
+  const { prefix: $prefix = DEFAULT_PREFIX } = options;
   const prefix = normalizedComponentPrefix($prefix);
 
   return {
