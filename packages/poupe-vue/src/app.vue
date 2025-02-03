@@ -4,7 +4,7 @@ import { useHead } from '@unhead/vue';
 import {
   Card,
 
-  Placeholder,
+  ThemeScheme,
 } from './components';
 
 useHead({
@@ -18,13 +18,10 @@ useHead({
   <div class="flex flex-1 h-screen justify-center">
     <div class="flex container justify-center">
       <card
-        class="m-auto w-full max-w-md"
+        class="m-auto w-full max-w-2xl"
         title="@poupe/vue"
       >
-        <placeholder
-          class="opacity-50 mb-2 p-1"
-          rounded="md"
-        />
+        <theme-scheme class="pb-2" />
       </card>
     </div>
   </div>

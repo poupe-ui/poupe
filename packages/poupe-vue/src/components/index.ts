@@ -12,3 +12,7 @@ export {
   default as Placeholder,
   type PlaceholderProps,
 } from './placeholder.vue';
+
+export {
+  default as ThemeScheme,
+} from './theme/scheme.vue';
