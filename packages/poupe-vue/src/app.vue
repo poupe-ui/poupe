@@ -20,6 +20,7 @@ useHead({
       <card
         class="m-auto w-full max-w-2xl"
         title="@poupe/vue"
+        shadow="md"
       >
         <theme-scheme class="pb-2" />
       </card>
