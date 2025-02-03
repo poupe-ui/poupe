@@ -32,6 +32,8 @@ dist-ssr
 
 # Dependencies
 node_modules
+pnpm-lock.yaml
+pnpm-workspace.yaml
 
 # Env
 .env
