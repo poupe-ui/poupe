@@ -135,6 +135,9 @@ importers:
       npm-run-all2:
         specifier: ^7.0.2
         version: 7.0.2
+      pathe:
+        specifier: ^2.0.2
+        version: 2.0.2
       postcss:
         specifier: ^8.5.1
         version: 8.5.1
