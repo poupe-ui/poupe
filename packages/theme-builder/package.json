@@ -67,7 +67,7 @@
     "type-fest": "^4.39.0"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "^0.5.1",
+    "@poupe/eslint-config": "workspace:^",
     "eslint": "^9.23.0",
     "typescript": "~5.8.2",
     "unbuild": "3.5.0",
