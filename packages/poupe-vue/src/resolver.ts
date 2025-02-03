@@ -2,9 +2,12 @@ import { dirname } from 'pathe';
 import type { ComponentResolverObject } from 'unplugin-vue-components';
 
 export const components = [
+  'Button',
   'Card',
   'Placeholder',
-];
+] as const;
+
+export type ComponentName = typeof components[number];
 
 export interface ResolverOptions {
   /** @defaultValue 'P' */
@@ -17,7 +20,7 @@ export const createResolver = (options: ResolverOptions = {}): ComponentResolver
     type: 'component',
     resolve: (name: string) => {
       const componentName = prefix ? deprefix(name, prefix) : name;
-      if (componentName && components.includes(componentName)) {
+      if (componentName && components.includes(componentName as ComponentName)) {
         return {
           name: componentName,
           from: '@poupe/vue',

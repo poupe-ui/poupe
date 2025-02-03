@@ -16,7 +16,7 @@ export default withMaterialColors({
   },
   blue: {
     // light blue for tailwindcss
-    value: '#63b0ee',
+    value: '#00a7e1',
     harmonize: false,
   },
   darkBlue: {
