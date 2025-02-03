@@ -65,6 +65,7 @@
     "@poupe/eslint-config": "^0.4.14",
     "eslint": "^9.19.0",
     "typescript": "~5.6.3",
+    "unbuild": "3.3.1",
     "vitest": "^3.0.4"
   },
   "engines": {
