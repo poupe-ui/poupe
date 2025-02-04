@@ -10,13 +10,25 @@ export const components = [
 
 export type ComponentName = typeof components[number];
 
+export const DEFAULT_PREFIX = 'P';
+
 export interface ResolverOptions {
   /** @defaultValue 'P' */
   prefix?: string
 }
 
+/** @returns kebab-case and snake_case to CamelCase to be used
+ * as component prefix
+ */
+export const normalizedComponentPrefix = (s: string): string => {
+  return s.replaceAll(/^[-_]+|[-_]+$/g, '')
+    .replaceAll(/(^|[-_]+)([a-z])/g, (_, prefix, char) => char.toUpperCase());
+};
+
 export const createResolver = (options: ResolverOptions = {}): ComponentResolverObject => {
-  const { prefix = 'P' } = options;
+  const { prefix: $prefix = DEFAULT_PREFIX } = options;
+  const prefix = normalizedComponentPrefix($prefix);
+
   return {
     type: 'component',
     resolve: (name: string) => {
