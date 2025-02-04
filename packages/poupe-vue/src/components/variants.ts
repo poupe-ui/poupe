@@ -5,6 +5,7 @@ import {
 } from 'tailwind-variants';
 
 export { tv, type VariantProps } from 'tailwind-variants';
+export { twMerge } from 'tailwind-merge';
 
 /** @returns a variant applied to the specified slot */
 export const onSlot = <K extends string> (slot: string, variants: Record<K, ClassValue>) => {
