@@ -19,6 +19,8 @@ export const setupComponents = (options: ModuleOptions): void => {
         export: name,
         filePath: COMPONENTS_PACKAGE,
       });
+
+      console.log(COMPONENTS_PACKAGE, fullName, 'registered');
     } catch (error) {
       console.error(COMPONENTS_PACKAGE, fullName, error);
     }
