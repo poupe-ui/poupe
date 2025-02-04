@@ -10,12 +10,10 @@ const POUPE_TAILWIND_CONFIG_FILENAME = 'poupe-tailwind.config.ts';
 
 const getConfigContents = (
   options: ModuleOptions,
-  resolve: (...path: string[]) => string = createDefaultResolver(),
 ): string => {
   const { colors, prefix: _prefix, ...extra } = options;
   const content = [
     ...contentGlobs(),
-    resolve('runtime/components/**/*.{vue,mjs,cjs,ts,js}'),
   ];
 
   return /* ts */`import { withMaterialColors, withPrintMode } from '@poupe/theme-builder/tailwind';
@@ -40,7 +38,7 @@ export const installTailwindModule = async (
   const generatedConfig = addTemplate({
     filename: POUPE_TAILWIND_CONFIG_FILENAME,
     write: true,
-    getContents: () => getConfigContents(options, resolve),
+    getContents: () => getConfigContents(options),
   });
 
   // config files
