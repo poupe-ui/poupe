@@ -7,7 +7,7 @@ import {
   borderVariants,
   roundedVariants,
   shadowVariants,
-  surfaceVariants,
+  containerVariants,
 } from './variants';
 
 const defaultVariantProps = {
@@ -32,7 +32,7 @@ const button = tv({
     wrapper: '',
   },
   variants: {
-    surface: onSlot('wrapper', surfaceVariants),
+    surface: onSlot('wrapper', containerVariants),
     border: onSlot('wrapper', borderVariants),
     rounded: onSlot('wrapper', roundedVariants),
     shadow: onSlot('wrapper', shadowVariants),
@@ -68,10 +68,10 @@ import { computed } from 'vue';
 const props = defineProps<ButtonProps>();
 
 const variants = computed(() => button({
+  surface: props.surface,
   border: props.border,
   rounded: props.rounded,
   shadow: props.shadow,
-  surface: props.surface,
   size: props.size,
   expand: props.expand,
 }));
