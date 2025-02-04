@@ -13,10 +13,16 @@ export const setupComponents = (options: ModuleOptions): void => {
   const prefix = normalizedComponentPrefix($prefix);
 
   for (const name of components) {
-    addComponent({
-      name: `${prefix}${name}`,
-      export: name,
-      filePath: COMPONENTS_PACKAGE,
-    });
+    const fullName = `${prefix}${name}`;
+
+    try {
+      addComponent({
+        name: fullName,
+        export: name,
+        filePath: COMPONENTS_PACKAGE,
+      });
+    } catch (error) {
+      console.error(COMPONENTS_PACKAGE, fullName, error);
+    }
   }
 };
