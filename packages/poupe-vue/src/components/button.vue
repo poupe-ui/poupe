@@ -2,6 +2,7 @@
 import {
   type VariantProps,
   tv,
+  twMerge,
 
   onSlot,
   borderVariants,
@@ -40,7 +41,7 @@ const button = tv({
 
     expand: {
       true: {
-        wrapper: 'w-full',
+        wrapper: 'w-full mx-0',
       },
     },
   },
@@ -63,9 +64,10 @@ export type ButtonProps = {
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, useAttrs } from 'vue';
 
 const props = defineProps<ButtonProps>();
+const $attributes = useAttrs();
 
 const variants = computed(() => button({
   surface: props.surface,
@@ -80,10 +82,19 @@ const label = computed(() => {
   const s = props.label || 'Button';
   return props.ellipsis ? `${s}…` : s;
 });
+
+const wrapperClasses = computed(() => twMerge(variants.value.wrapper(), $attributes?.class as string));
+const wrapperAttributes = computed(() => {
+  const { class: _class, ...extraAttrs } = $attributes;
+  return extraAttrs;
+});
 </script>
 
 <template>
-  <button :class="variants.wrapper()">
+  <button
+    :class="wrapperClasses"
+    v-bind="wrapperAttributes"
+  >
     <span
       v-if="$props.label || !$slots.default"
       v-text="label"
