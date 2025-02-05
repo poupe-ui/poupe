@@ -3,13 +3,6 @@
   "exclude": [
     "dist",
     "node_modules",
-    "playground",
-  ],
-  "compilerOptions": {
-    "types": ["stringify-object"],
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/types",
-    ],
-  }
+    "playground"
+  ]
 }
