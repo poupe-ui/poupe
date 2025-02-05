@@ -8,13 +8,22 @@ export { tv, type VariantProps } from 'tailwind-variants';
 export { twMerge } from 'tailwind-merge';
 
 /** @returns a variant applied to the specified slot */
-export const onSlot = <K extends string> (slot: string, variants: Record<K, ClassValue>) => {
-  type T = { [slot: string]: ClassValue };
+export const onSlot = <K extends string> (slot: string | string[], variants: Record<K, ClassValue>) => {
+  const slots = Array.isArray(slot) ? slot : [slot];
+
+  type S = typeof slots[number];
+  type T = { [slot in S]: ClassValue };
+
   const out: Partial<Record<K, T>> = {};
   for (const name of unsafeKeys(variants)) {
-    out[name] = { [slot]: variants[name] };
+    const v: Record<S, ClassValue> = {};
+    for (const s of slots) {
+      v[s] = variants[name];
+    }
+    out[name] = v;
   }
-  return out as Record<K, T>;
+
+  return out as { [slot in K]: T };
 };
 
 export const borderVariants = {
