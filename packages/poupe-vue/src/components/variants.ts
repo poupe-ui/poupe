@@ -63,6 +63,11 @@ export const colorSurfaceVariants = {
   ['secondary-fixed']: 'bg-secondary-fixed text-on-secondary-fixed border-on-secondary-fixed',
   ['tertiary-fixed']: 'bg-tertiary-fixed text-on-tertiary-fixed border-on-tertiary-fixed',
 
+  ['primary-container']: 'bg-primary-container text-on-primary-container border-on-primary-container',
+  ['secondary-container']: 'bg-secondary-container text-on-secondary-container border-on-secondary-container',
+  ['tertiary-container']: 'bg-tertiary-container text-on-tertiary-container border-on-tertiary-container',
+  ['error-container']: 'bg-error-container text-on-error-container border-on-error-container',
+
   inverse: 'bg-inverse-surface text-on-inverse-surface border-on-inverse-surface',
 };
 
@@ -77,11 +82,6 @@ export const surfaceVariants = {
 
 export const containerVariants = {
   ...colorSurfaceVariants,
-
-  ['primary-container']: 'bg-primary-container text-on-primary-container border-on-primary-container',
-  ['secondary-container']: 'bg-secondary-container text-on-secondary-container border-on-secondary-container',
-  ['tertiary-container']: 'bg-tertiary-container text-on-tertiary-container border-on-tertiary-container',
-  ['error-container']: 'bg-error-container text-on-error-container border-on-error-container',
 
   lowest: 'bg-surface-container-lowest text-on-surface-container-lowest border-on-surface-container-lowest',
   low: 'bg-surface-container-low text-on-surface-container-low border-on-surface-container-low',
