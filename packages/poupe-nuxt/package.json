@@ -73,7 +73,7 @@
     "stringify-object": "^5.0.0"
   },
   "peerDependencies": {
-    "@poupe/theme-builder": "^0.5.8",
+    "@poupe/theme-builder": "^0.5.9",
     "@poupe/vue": "^0.1.4"
   }
 }

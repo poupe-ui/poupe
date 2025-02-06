@@ -70,6 +70,6 @@
     "vue-tsc": "^2.2.0"
   },
   "peerDependencies": {
-    "@poupe/theme-builder": "^0.5.8"
+    "@poupe/theme-builder": "^0.5.9"
   }
 }
