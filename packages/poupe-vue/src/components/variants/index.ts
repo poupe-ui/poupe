@@ -2,6 +2,7 @@ export { tv, type VariantProps } from 'tailwind-variants';
 export { twMerge } from 'tailwind-merge';
 
 export * from './on-slot';
+export * from './on-variant';
 
 export const borderVariants = {
   none: 'border-none',
