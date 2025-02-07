@@ -1,30 +1,7 @@
-import { unsafeKeys } from '../../utils/utils';
-
-import {
-  type ClassValue,
-} from 'tailwind-variants';
-
 export { tv, type VariantProps } from 'tailwind-variants';
 export { twMerge } from 'tailwind-merge';
 
-/** @returns a variant applied to the specified slot */
-export const onSlot = <K extends string> (slot: string | string[], variants: Record<K, ClassValue>) => {
-  const slots = Array.isArray(slot) ? slot : [slot];
-
-  type S = typeof slots[number];
-  type T = { [slot in S]: ClassValue };
-
-  const out: Partial<Record<K, T>> = {};
-  for (const name of unsafeKeys(variants)) {
-    const v: Record<S, ClassValue> = {};
-    for (const s of slots) {
-      v[s] = variants[name];
-    }
-    out[name] = v;
-  }
-
-  return out as { [slot in K]: T };
-};
+export * from './on-slot';
 
 export const borderVariants = {
   none: 'border-none',
