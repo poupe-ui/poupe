@@ -27,6 +27,7 @@ export default defineConfig({
       fileName: (_, name) => `${name}.mjs`,
       entry: {
         index: resolve('src/index.ts'),
+        config: resolve('src/config.ts'),
         resolver: resolve('src/resolver.ts'),
       },
     },
