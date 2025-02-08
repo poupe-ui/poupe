@@ -33,13 +33,21 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
-        'vue',
+        '@poupe/theme-builder',
+        '@tailwindcss/forms',
         'tailwind-variants',
+        'tailwind-scrollbar',
+        'tailwindcss',
+        'vue',
       ],
       output: {
         globals: {
+          ['@poupe/theme-builder']: 'PoupeThemeBuilder',
+          ['@tailwindcss/forms']: 'TailwindcssForms',
+          ['tailwind-variants']: 'TailwindVariants',
+          ['tailwind-scrollbar']: 'TailwindScrollbar',
+          tailwindcss: 'Tailwindcss',
           vue: 'Vue',
-          ['tailwind-variants']: 'tailwindVariants',
         },
       },
     },
