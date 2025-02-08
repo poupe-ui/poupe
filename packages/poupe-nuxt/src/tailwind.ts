@@ -2,9 +2,10 @@ import { defu } from 'defu';
 import { addTemplate, installModule } from '@nuxt/kit';
 import type { ModuleOptions as TailwindModuleOptions } from '@nuxtjs/tailwindcss';
 
+import { contentGlobs } from '@poupe/vue/config';
+
 import type { ModuleOptions, Nuxt } from './config';
 import { createDefaultResolver, stringify } from './utils';
-import { contentGlobs } from './components';
 
 const POUPE_TAILWIND_CONFIG_FILENAME = 'poupe-tailwind.config.ts';
 

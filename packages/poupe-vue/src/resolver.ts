@@ -1,4 +1,3 @@
-import { dirname } from 'pathe';
 import type { ComponentResolverObject } from 'unplugin-vue-components';
 
 export const components = [
@@ -44,17 +43,5 @@ export const createResolver = (options: ResolverOptions = {}): ComponentResolver
 };
 
 export default createResolver;
-
-/** @returns the directory path to the `@poupe/vue` package */
-export const contentPath = () => dirname(new URL(import.meta.url).pathname);
-
-/** @returns the glob patterns needed by tailwindcss to scan classes */
-export const contentGlobs = (): string[] => {
-  const path = contentPath();
-  return [
-    `${path}/index.mjs`,
-    `${path}/**/*.vue`,
-  ];
-};
 
 const deprefix = (name: string, prefix: string) => name.startsWith(prefix) ? name.slice(prefix.length) : undefined;

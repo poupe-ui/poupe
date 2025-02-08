@@ -6,8 +6,6 @@ import type { ModuleOptions } from './config';
 
 export const COMPONENTS_PACKAGE = '@poupe/vue';
 
-export { contentGlobs } from '@poupe/vue/resolver';
-
 export const setupComponents = (options: ModuleOptions): void => {
   const { prefix: $prefix = DEFAULT_PREFIX } = options;
   const prefix = normalizedComponentPrefix($prefix);
