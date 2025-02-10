@@ -1,3 +1,1 @@
-export {
-  default as ThemeScheme,
-} from './scheme.vue';
+export { default as ThemeScheme } from './scheme.vue';
