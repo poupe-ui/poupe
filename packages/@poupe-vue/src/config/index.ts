@@ -17,3 +17,5 @@ export const contentGlobs = (): string[] => {
     `${path}/index.mjs`,
   ];
 };
+
+export { usePoupeConfig } from '../composables/use-config';
