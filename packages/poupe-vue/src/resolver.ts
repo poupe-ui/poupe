@@ -4,6 +4,7 @@ export const components = [
   'Button',
   'Card',
   'Icon',
+  'Input',
   'InputLayout',
   'InputWrapper',
   'Placeholder',
