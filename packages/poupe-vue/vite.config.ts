@@ -34,7 +34,6 @@ export default defineConfig({
     rollupOptions: {
       external: [
         '@poupe/theme-builder',
-        '@tailwindcss/forms',
         'tailwind-variants',
         'tailwind-scrollbar',
         'tailwindcss',
@@ -43,7 +42,6 @@ export default defineConfig({
       output: {
         globals: {
           ['@poupe/theme-builder']: 'PoupeThemeBuilder',
-          ['@tailwindcss/forms']: 'TailwindcssForms',
           ['tailwind-variants']: 'TailwindVariants',
           ['tailwind-scrollbar']: 'TailwindScrollbar',
           tailwindcss: 'Tailwindcss',
