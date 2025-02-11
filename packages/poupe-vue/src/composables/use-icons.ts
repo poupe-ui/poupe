@@ -22,6 +22,9 @@ const blankIcon: IconValue = {
 const defaultIcons = {
   blankIcon,
   unknownIcon,
+  // input[type=password]
+  showPassword: 'heroicons:eye',
+  hidePassword: 'heroicons:eye-slash',
 };
 
 type IconNames = keyof typeof defaultIcons;
