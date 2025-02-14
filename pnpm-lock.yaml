@@ -109,6 +109,9 @@ importers:
 
   packages/poupe-vue:
     dependencies:
+      '@iconify-json/svg-spinners':
+        specifier: ^1.2.2
+        version: 1.2.2
       '@iconify/vue':
         specifier: ^4.3.0
         version: 4.3.0(vue@3.5.13(typescript@5.6.3))
@@ -969,6 +972,9 @@ packages:
   '@humanwhocodes/retry@0.4.2':
     resolution: {integrity: sha512-xeO57FpIu4p1Ri3Jq/EXq4ClRm86dVF2z/+kvFnyqVYRavTZmaFaUBbWCOuuTh0o/g7DSsk6kc2vrS4Vl5oPOQ==}
     engines: {node: '>=18.18'}
+
+  '@iconify-json/svg-spinners@1.2.2':
+    resolution: {integrity: sha512-DIErwfBWWzLfmAG2oQnbUOSqZhDxlXvr8941itMCrxQoMB0Hiv8Ww6Bln/zIgxwjDvSem2dKJtap+yKKwsB/2A==}
 
   '@iconify/collections@1.0.519':
     resolution: {integrity: sha512-XAPskD6bgLzdjaZBn2fUZn5Q73gSqhEqi1k5P9iDKjV+WnPIUvvHPsrUjNcwEAIgtuv0UhsPMD++1/U6O1Uvjg==}
@@ -6332,6 +6338,10 @@ snapshots:
   '@humanwhocodes/retry@0.3.1': {}
 
   '@humanwhocodes/retry@0.4.2': {}
+
+  '@iconify-json/svg-spinners@1.2.2':
+    dependencies:
+      '@iconify/types': 2.0.0
 
   '@iconify/collections@1.0.519':
     dependencies:
