@@ -23,6 +23,7 @@ const blankIcon: IconValue = {
 const defaultIcons = {
   blankIcon,
   unknownIcon,
+  spinner: 'svg-spinners:6-dots-scale',
   // input[type=password]
   showPassword: 'heroicons:eye',
   hidePassword: 'heroicons:eye-slash',
