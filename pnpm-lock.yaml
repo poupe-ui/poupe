@@ -109,6 +109,9 @@ importers:
 
   packages/poupe-vue:
     dependencies:
+      '@iconify/vue':
+        specifier: ^4.3.0
+        version: 4.3.0(vue@3.5.13(typescript@5.6.3))
       '@unhead/vue':
         specifier: ^1.11.18
         version: 1.11.18(vue@3.5.13(typescript@5.6.3))

@@ -39,6 +39,7 @@
     "clean": "rm -rf dist node_modules"
   },
   "dependencies": {
+    "@iconify/vue": "^4.3.0",
     "@unhead/vue": "^1.11.18",
     "reka-ui": "1.0.0-alpha.9",
     "tailwind-merge": "^3.0.1",
