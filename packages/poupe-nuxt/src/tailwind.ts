@@ -19,13 +19,11 @@ const getConfigContents = (
 
   return /* ts */`import { withMaterialColors, withPrintMode } from '@poupe/theme-builder/tailwind';
 
-import FormsPlugin from '@tailwindcss/forms';
 import ScrollbarPlugin from 'tailwind-scrollbar';
 
 const content = ${stringify(content)};
 
 const plugins = [
-  FormsPlugin,
   ScrollbarPlugin,
 ];
 

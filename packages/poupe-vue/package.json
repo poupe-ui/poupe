@@ -39,7 +39,6 @@
     "clean": "rm -rf dist node_modules"
   },
   "dependencies": {
-    "@tailwindcss/forms": "^0.5.10",
     "@unhead/vue": "^1.11.18",
     "reka-ui": "1.0.0-alpha.9",
     "tailwind-merge": "^3.0.1",
