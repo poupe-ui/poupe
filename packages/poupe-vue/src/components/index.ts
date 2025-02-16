@@ -1,16 +1,6 @@
-export {
-  default as Button,
-  type ButtonProps,
-} from './button.vue';
-
-export {
-  default as Card,
-  type CardProps,
-} from './card.vue';
-
-export {
-  default as Placeholder,
-  type PlaceholderProps,
-} from './placeholder.vue';
+export { type ButtonProps, default as Button } from './button.vue';
+export { type CardProps, default as Card } from './card.vue';
+export { type IconProps, default as Icon } from './icon.vue';
+export { type PlaceholderProps, default as Placeholder } from './placeholder.vue';
 
 export * from './theme';
