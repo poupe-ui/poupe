@@ -1,6 +1,7 @@
 export { tv, type VariantProps } from 'tailwind-variants';
 export { twMerge } from 'tailwind-merge';
 
+export * from './consts';
 export * from './on-slot';
 export * from './on-variant';
 
