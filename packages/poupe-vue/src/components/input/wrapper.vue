@@ -52,7 +52,11 @@ function usePasswordToggle() {
       :class="variants.start()"
       :padding="$props.padding"
     >
-      <div :class="variants.start()">
+      <div
+        :class="variants.start()"
+        role="presentation"
+        aria-hidden="true"
+      >
         <icon
           :icon="$props.iconStart"
         />
@@ -85,6 +89,8 @@ function usePasswordToggle() {
     >
       <div
         :class="variants.unit()"
+        role="note"
+        :aria-label="$props.unit"
         v-text="$props.unit"
       />
     </slot>
@@ -98,6 +104,8 @@ function usePasswordToggle() {
       <div
         v-if="$props.iconEnd !== undefined"
         :class="variants.end()"
+        role="presentation"
+        aria-hidden="true"
       >
         <icon
           :icon="$props.iconEnd"
