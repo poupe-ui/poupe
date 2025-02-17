@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useForwardExpose, Toggle as RekaToggle } from 'reka-ui';
 import { twMerge } from '../variants';
 
-import { usePoupeIcons } from '@/composables/use-icons';
+import { usePasswordToggle } from '@/composables/use-password';
 
 import Icon from '../icon.vue';
 
@@ -26,19 +26,7 @@ const variants = computed(() => inputWrapperVariants(props));
 const wrapperClasses = computed(() => twMerge(variants.value.wrapper(), props.class));
 
 const { forwardRef } = useForwardExpose();
-
-const { poupe: icons } = usePoupeIcons().icons;
-const { showPassword, passwordToggleIcon, typeAttr } = usePasswordToggle();
-
-function usePasswordToggle() {
-  const showPassword = ref(false);
-
-  return {
-    showPassword,
-    passwordToggleIcon: computed(() => showPassword.value ? icons.hidePassword : icons.showPassword),
-    typeAttr: computed(() => showPassword.value ? 'text' : props.type),
-  };
-}
+const { showPassword, passwordToggleIcon, typeAttr } = usePasswordToggle(props.type);
 </script>
 
 <template>
