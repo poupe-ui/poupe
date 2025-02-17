@@ -37,10 +37,10 @@ export const inputWrapperVariants = tv({
   slots: {
     wrapper: 'flex flex-1 flex-nowrap rtl:flex-row-reverse overflow-hidden',
     field: 'flex-1',
-    start: '',
+    start: 'flex items-center',
     input: 'w-full focus:outline-none',
     unit: 'text-xs font-medium justify-end',
-    end: '',
+    end: 'flex items-center',
   },
   variants: {
     surface: onSlot(['wrapper', 'input'], containerVariants),
@@ -82,6 +82,10 @@ export interface InputWrapperProps {
 
   modelValue?: InputValue
   value?: never
+
+  iconStart?: string
+  iconEnd?: string
+  unit?: string
 
   surface?: InputWrapperVariantProps['surface']
   border?: InputWrapperVariantProps['border']

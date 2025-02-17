@@ -47,10 +47,17 @@ function usePasswordToggle() {
   >
     <!-- [[ start ][ input ][ unit ][ end ]] -->
     <slot
+      v-if="$slots.start || $props.iconStart !== undefined"
       name="start"
       :class="variants.start()"
       :padding="$props.padding"
-    />
+    >
+      <div :class="variants.start()">
+        <icon
+          :icon="$props.iconStart"
+        />
+      </div>
+    </slot>
 
     <div :class="variants.field()">
       <slot
@@ -71,18 +78,34 @@ function usePasswordToggle() {
     </div>
 
     <slot
+      v-if="$slots.unit || $props.unit"
       name="unit"
       :class="variants.unit()"
       :padding="$props.padding"
-    />
+    >
+      <div
+        :class="variants.unit()"
+        v-text="$props.unit"
+      />
+    </slot>
 
     <slot
+      v-if="$slots.end || $props.iconEnd !== undefined || $props.type === 'password'"
       name="end"
       :class="variants.end()"
       :padding="$props.padding"
     >
+      <div
+        v-if="$props.iconEnd !== undefined"
+        :class="variants.end()"
+      >
+        <icon
+          :icon="$props.iconEnd"
+        />
+      </div>
+
       <reka-toggle
-        v-if="props.type === 'password'"
+        v-else-if="props.type === 'password'"
         v-model="showPassword"
         :class="variants.end()"
       >
