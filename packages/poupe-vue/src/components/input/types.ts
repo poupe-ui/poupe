@@ -14,7 +14,7 @@ import {
   containerVariants,
   roundedVariants,
 
-  px, py,
+  ps, pe, px, py,
 } from '../variants';
 
 export type InputValue = InputHTMLAttributes['value'];
@@ -25,7 +25,10 @@ export const padding = (n: number) => `${px[n]} ${py[n]}`;
 const paddingSlot = (n: number) => {
   return {
     [n]: {
+      start: padding(n),
       field: padding(n),
+      unit: `${ps[n + 1]} ${pe[n]} ${py[n]}`,
+      end: padding(n),
     },
   };
 };
@@ -34,7 +37,10 @@ export const inputWrapperVariants = tv({
   slots: {
     wrapper: 'flex flex-1 flex-nowrap rtl:flex-row-reverse overflow-hidden',
     field: 'flex-1',
+    start: '',
     input: 'w-full focus:outline-none',
+    unit: 'text-xs font-medium justify-end',
+    end: '',
   },
   variants: {
     surface: onSlot(['wrapper', 'input'], containerVariants),

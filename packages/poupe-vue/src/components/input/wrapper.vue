@@ -45,14 +45,19 @@ function usePasswordToggle() {
   <div
     :class="wrapperClasses"
   >
-    <!-- [[ start ][ field ][ end ]] -->
-    <slot name="start" />
+    <!-- [[ start ][ input ][ unit ][ end ]] -->
+    <slot
+      name="start"
+      :class="variants.start()"
+      :padding="$props.padding"
+    />
 
     <div :class="variants.field()">
       <slot
         :ref="forwardRef"
         name="field"
         :class="variants.input()"
+        :padding="$props.padding"
       >
         <input
           v-bind="$attrs"
@@ -65,11 +70,21 @@ function usePasswordToggle() {
       </slot>
     </div>
 
-    <slot name="end">
+    <slot
+      name="unit"
+      :class="variants.unit()"
+      :padding="$props.padding"
+    />
+
+    <slot
+      name="end"
+      :class="variants.end()"
+      :padding="$props.padding"
+    >
       <reka-toggle
         v-if="props.type === 'password'"
         v-model="showPassword"
-        class="p-2"
+        :class="variants.end()"
       >
         <icon :icon="passwordToggleIcon" />
       </reka-toggle>
