@@ -1,6 +1,7 @@
 export { tv, type VariantProps } from 'tailwind-variants';
 export { twMerge } from 'tailwind-merge';
 
+export * from './consts';
 export * from './on-slot';
 export * from './on-variant';
 
@@ -12,6 +13,16 @@ export const borderVariants = {
   tertiary: 'border-solid border border-tertiary',
   error: 'border-solid border border-error',
   outline: 'border-solid border border-outline',
+};
+
+export const borderInFocusVariants = {
+  none: 'focus-within:border-none',
+  current: 'focus-within:border-solid focus-within:border',
+  primary: 'focus-within:border-solid focus-within:border focus-within:border-primary',
+  secondary: 'focus-within:border-solid focus-within:border focus-within:border-secondary',
+  tertiary: 'focus-within:border-solid focus-within:border focus-within:border-tertiary',
+  error: 'focus-within:border-solid focus-within:border focus-within:border-error',
+  outline: 'focus-within:border-solid focus-within:border focus-within:border-outline',
 };
 
 export const roundedVariants = {
