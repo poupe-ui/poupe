@@ -13,15 +13,27 @@ import {
   borderInFocusVariants,
   containerVariants,
   roundedVariants,
+
+  px, py,
 } from '../variants';
 
 export type InputValue = InputHTMLAttributes['value'];
 export type InputType = InputTypeHTMLAttribute;
 
+export const padding = (n: number) => `${px[n]} ${py[n]}`;
+
+const paddingSlot = (n: number) => {
+  return {
+    [n]: {
+      field: padding(n),
+    },
+  };
+};
+
 export const inputWrapperVariants = tv({
   slots: {
     wrapper: 'flex flex-1 flex-nowrap rtl:flex-row-reverse overflow-hidden',
-    field: 'flex-1 py-2 px-2',
+    field: 'flex-1',
     input: 'w-full focus:outline-none',
   },
   variants: {
@@ -32,6 +44,13 @@ export const inputWrapperVariants = tv({
       ...roundedVariants,
       full: `${roundedVariants.full} px-4`,
     }),
+    padding: {
+      ...paddingSlot(0),
+      ...paddingSlot(1),
+      ...paddingSlot(2),
+      ...paddingSlot(3),
+      ...paddingSlot(4),
+    },
     expand: {
       true: {
         wrapper: 'w-full',
@@ -43,6 +62,7 @@ export const inputWrapperVariants = tv({
     border: 'outline',
     outline: 'current',
     rounded: 'full',
+    padding: 2,
     expand: false,
   },
 });
@@ -61,6 +81,7 @@ export interface InputWrapperProps {
   border?: InputWrapperVariantProps['border']
   outline?: InputWrapperVariantProps['outline']
   rounded?: InputWrapperVariantProps['rounded']
+  padding?: InputWrapperVariantProps['padding']
   expand?: InputWrapperVariantProps['expand']
 }
 
