@@ -6,7 +6,8 @@ import {
   toValue,
 } from 'vue';
 
-import { type IconifyIcon } from '@iconify/types';
+import { type IconifyIcon } from '@iconify/vue';
+
 type IconValue = IconifyIcon | string;
 
 const blankIcon: IconValue = {
