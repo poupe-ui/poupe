@@ -63,7 +63,7 @@
     "unbuild": "3.3.1",
     "vite": "^6.1.0",
     "vitest": "^3.0.6",
-    "vue-tsc": "^2.1.10"
+    "vue-tsc": "^2.2.2"
   },
   "dependencies": {
     "@nuxt/icon": "^1.10.3",
