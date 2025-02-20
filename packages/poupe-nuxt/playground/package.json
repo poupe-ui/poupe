@@ -12,6 +12,6 @@
     "nuxt": "^3.15.4"
   },
   "devDependencies": {
-    "nuxi": "^3.21.1"
+    "nuxi": "^3.22.2"
   }
 }
