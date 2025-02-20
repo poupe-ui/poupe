@@ -41,7 +41,7 @@
   "dependencies": {
     "@iconify/vue": "^4.3.0",
     "@unhead/vue": "^1.11.19",
-    "reka-ui": "1.0.0-alpha.11",
+    "reka-ui": "2.0.0",
     "tailwind-merge": "^3.0.1",
     "tailwind-scrollbar": "^4.0.0",
     "tailwind-variants": "^0.3.1",
