@@ -15,9 +15,9 @@ const blankIcon: IconValue = {
     width: 24,
     height: 24,
   }, unknownIcon: IconValue = {
-    body: '<path d="M6 19h12v-4h-12v4zm0-6h12V9H6v4zm0-6h12V5H6v4z" fill="currentColor" />',
-    width: 24,
-    height: 24,
+    body: '<text y=".9em" font-size="90">�</text>',
+    width: 100,
+    height: 100,
   };
 
 const defaultIcons = {
