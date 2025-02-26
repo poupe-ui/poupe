@@ -58,7 +58,10 @@ const toIcon = (icon: MaybeRefOrGetter<IconifyIcon | string | undefined>): Iconi
     return toIcon(icons[name]);
 
   const camelCase = name.replaceAll(/[-_]([a-z])/g, (_, c) => c.toUpperCase());
-  return toIcon(icons[camelCase]) || globalIcons.poupe.unknownIcon;
+  if (icons[camelCase])
+    return toIcon(icons[camelCase]);
+
+  return globalIcons.poupe.unknownIcon;
 };
 
 export const usePoupeIcons = () => {
