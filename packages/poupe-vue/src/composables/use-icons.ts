@@ -15,7 +15,7 @@ const blankIcon: IconValue = {
     width: 24,
     height: 24,
   }, unknownIcon: IconValue = {
-    body: '<text y=".9em" font-size="90">�</text>',
+    body: '<text y=".9em" font-size="90" fill="currentColor">�</text>',
     width: 100,
     height: 100,
   };
