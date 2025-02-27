@@ -74,7 +74,7 @@
     "tailwind-scrollbar": "^4.0.1"
   },
   "peerDependencies": {
-    "@poupe/theme-builder": "^0.5.11",
+    "@poupe/theme-builder": "^0.5.12",
     "@poupe/vue": "^0.3.0"
   }
 }
