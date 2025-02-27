@@ -9,6 +9,9 @@ import {
 
   onSlot,
 
+  borderVariantsBase,
+  borderInFocusVariantsBase,
+
   borderVariants,
   borderInFocusVariants,
   containerVariants,
@@ -35,7 +38,11 @@ const paddingSlot = (n: number) => {
 
 export const inputWrapperVariants = tv({
   slots: {
-    wrapper: 'flex flex-1 flex-nowrap rtl:flex-row-reverse overflow-hidden',
+    wrapper: [
+      'flex flex-1 flex-nowrap rtl:flex-row-reverse overflow-hidden',
+      borderVariantsBase,
+      borderInFocusVariantsBase,
+    ],
     field: 'flex-1',
     start: 'flex items-center',
     input: 'w-full focus:outline-none',

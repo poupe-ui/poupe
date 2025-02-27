@@ -5,6 +5,9 @@ import {
   twMerge,
 
   onSlot,
+
+  borderVariantsBase,
+
   borderVariants,
   roundedVariants,
   shadowVariants,
@@ -31,7 +34,10 @@ const sizeVariantProps = {
 
 const button = tv({
   slots: {
-    wrapper: 'flex flex-row rtl:flex-row-reverse items-center justify-center',
+    wrapper: [
+      'flex flex-row rtl:flex-row-reverse items-center justify-center',
+      borderVariantsBase,
+    ],
   },
   variants: {
     surface: onSlot('wrapper', containerVariants),
