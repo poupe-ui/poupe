@@ -18,6 +18,7 @@ const defaultVariantProps = {
   surface: 'base' as const,
   size: 'base' as const,
   expand: false,
+  disabled: false,
 };
 
 const sizeVariantProps = {
@@ -30,7 +31,7 @@ const sizeVariantProps = {
 
 const button = tv({
   slots: {
-    wrapper: '',
+    wrapper: 'flex flex-row rtl:flex-row-reverse items-center justify-center',
   },
   variants: {
     surface: onSlot('wrapper', containerVariants),
@@ -38,6 +39,14 @@ const button = tv({
     rounded: onSlot('wrapper', roundedVariants),
     shadow: onSlot('wrapper', shadowVariants),
     size: onSlot('wrapper', sizeVariantProps),
+    disabled: {
+      true: {
+        wrapper: 'cursor-not-allowed',
+      },
+      false: {
+        wrapper: 'cursor-pointer',
+      },
+    },
 
     expand: {
       true: {
@@ -53,6 +62,10 @@ type ButtonVariantProps = VariantProps<typeof button>;
 export type ButtonProps = {
   label?: string
   ellipsis?: boolean
+  loading?: boolean
+  disabled?: boolean
+
+  class?: string
 
   surface?: ButtonVariantProps['surface']
   border?: ButtonVariantProps['border']
@@ -64,18 +77,14 @@ export type ButtonProps = {
 </script>
 
 <script setup lang="ts">
-import { computed, useAttrs } from 'vue';
+import { computed } from 'vue';
+import { default as Icon } from './icon.vue';
 
 const props = defineProps<ButtonProps>();
-const $attributes = useAttrs();
 
 const variants = computed(() => button({
-  surface: props.surface,
-  border: props.border,
-  rounded: props.rounded,
-  shadow: props.shadow,
-  size: props.size,
-  expand: props.expand,
+  ...props,
+  disabled: props.disabled || props.loading,
 }));
 
 const label = computed(() => {
@@ -83,17 +92,14 @@ const label = computed(() => {
   return props.ellipsis ? `${s}…` : s;
 });
 
-const wrapperClasses = computed(() => twMerge(variants.value.wrapper(), $attributes?.class as string));
-const wrapperAttributes = computed(() => {
-  const { class: _class, ...extraAttrs } = $attributes;
-  return extraAttrs;
-});
 </script>
 
 <template>
   <button
-    :class="wrapperClasses"
-    v-bind="wrapperAttributes"
+    :class="[
+      twMerge(variants.wrapper(), $props.class),
+    ]"
+    :disabled="disabled || loading"
   >
     <span
       v-if="$props.label || !$slots.default"
@@ -101,6 +107,16 @@ const wrapperAttributes = computed(() => {
     />
     <slot v-else>
       {{ label }}
+    </slot>
+
+    <slot
+      v-if="loading"
+      name="loading"
+    >
+      <icon
+        icon="spinner"
+        class="ms-2"
+      />
     </slot>
   </button>
 </template>
