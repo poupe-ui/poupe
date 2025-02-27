@@ -65,7 +65,7 @@
     "@poupe/eslint-config": "^0.4.20",
     "eslint": "^9.21.0",
     "typescript": "~5.6.3",
-    "unbuild": "3.3.1",
+    "unbuild": "3.5.0",
     "vitest": "^3.0.7",
     "vue-tsc": "~2.1.10"
   },
