@@ -16,13 +16,13 @@ export const borderVariants = {
 };
 
 export const borderInFocusVariants = {
-  none: 'focus-within:border-none',
-  current: 'focus-within:border-solid focus-within:border',
-  primary: 'focus-within:border-solid focus-within:border focus-within:border-primary',
-  secondary: 'focus-within:border-solid focus-within:border focus-within:border-secondary',
-  tertiary: 'focus-within:border-solid focus-within:border focus-within:border-tertiary',
-  error: 'focus-within:border-solid focus-within:border focus-within:border-error',
-  outline: 'focus-within:border-solid focus-within:border focus-within:border-outline',
+  none: 'focus-within:ring-transparent',
+  current: 'focus-within:ring-solid focus-within:ring-2',
+  primary: 'focus-within:ring-solid focus-within:ring-2 focus-within:ring-primary',
+  secondary: 'focus-within:ring-solid focus-within:ring-2 focus-within:ring-secondary',
+  tertiary: 'focus-within:ring-solid focus-within:ring-2 focus-within:ring-tertiary',
+  error: 'focus-within:ring-solid focus-within:ring-2 focus-within:ring-error',
+  outline: 'focus-within:ring-solid focus-within:ring-2 focus-within:ring-outline',
 };
 
 export const roundedVariants = {
