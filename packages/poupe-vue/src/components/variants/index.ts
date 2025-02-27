@@ -5,24 +5,28 @@ export * from './consts';
 export * from './on-slot';
 export * from './on-variant';
 
+export const borderVariantsBase = 'border-solid border';
+
 export const borderVariants = {
-  none: 'border-none',
-  current: 'border-solid border',
-  primary: 'border-solid border border-primary',
-  secondary: 'border-solid border border-secondary',
-  tertiary: 'border-solid border border-tertiary',
-  error: 'border-solid border border-error',
-  outline: 'border-solid border border-outline',
+  none: 'border-transparent',
+  current: 'border-current',
+  primary: 'border-primary',
+  secondary: 'border-secondary',
+  tertiary: 'border-tertiary',
+  error: 'border-error',
+  outline: 'border-outline',
 };
 
+export const borderInFocusVariantsBase = 'ring-solid ring-2 ring-transparent';
+
 export const borderInFocusVariants = {
-  none: 'focus-within:ring-transparent',
-  current: 'focus-within:ring-solid focus-within:ring-2',
-  primary: 'focus-within:ring-solid focus-within:ring-2 focus-within:ring-primary',
-  secondary: 'focus-within:ring-solid focus-within:ring-2 focus-within:ring-secondary',
-  tertiary: 'focus-within:ring-solid focus-within:ring-2 focus-within:ring-tertiary',
-  error: 'focus-within:ring-solid focus-within:ring-2 focus-within:ring-error',
-  outline: 'focus-within:ring-solid focus-within:ring-2 focus-within:ring-outline',
+  none: '',
+  current: 'focus-within:ring-current',
+  primary: 'focus-within:ring-primary',
+  secondary: 'focus-within:ring-secondary',
+  tertiary: 'focus-within:ring-tertiary',
+  error: 'focus-within:ring-error',
+  outline: 'focus-within:ring-outline',
 };
 
 export const roundedVariants = {
