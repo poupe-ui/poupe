@@ -14,16 +14,6 @@ import {
   containerVariants,
 } from './variants';
 
-const defaultVariantProps = {
-  border: 'none' as const,
-  rounded: 'md' as const,
-  shadow: 'md' as const,
-  surface: 'base' as const,
-  size: 'base' as const,
-  expand: false,
-  disabled: false,
-};
-
 const sizeVariantProps = {
   xs: 'text-xs font-light m-1 p-1',
   sm: 'text-sm m-2 font-light px-2 py-1',
@@ -45,6 +35,7 @@ const button = tv({
     rounded: onSlot('wrapper', roundedVariants),
     shadow: onSlot('wrapper', shadowVariants),
     size: onSlot('wrapper', sizeVariantProps),
+
     disabled: {
       true: {
         wrapper: 'cursor-not-allowed',
@@ -60,7 +51,15 @@ const button = tv({
       },
     },
   },
-  defaultVariants: defaultVariantProps,
+  defaultVariants: {
+    border: 'none',
+    rounded: 'md',
+    shadow: 'none',
+    surface: 'base',
+    size: 'base',
+    expand: false,
+    disabled: false,
+  },
 });
 
 type ButtonVariantProps = VariantProps<typeof button>;
