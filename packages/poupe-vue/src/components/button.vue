@@ -54,7 +54,7 @@ const button = tv({
   defaultVariants: {
     border: 'none',
     rounded: 'md',
-    shadow: 'md',
+    shadow: 'none',
     surface: 'base',
     size: 'base',
     expand: false,
