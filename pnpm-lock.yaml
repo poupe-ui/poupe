@@ -119,8 +119,8 @@ importers:
         specifier: ^1.11.20
         version: 1.11.20(vue@3.5.13(typescript@5.6.3))
       reka-ui:
-        specifier: 2.0.0
-        version: 2.0.0(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))
+        specifier: 2.0.2
+        version: 2.0.2(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))
       tailwind-merge:
         specifier: ^3.0.2
         version: 3.0.2
@@ -4628,8 +4628,8 @@ packages:
     resolution: {integrity: sha512-cnE+y8bz4NhMjISKbgeVJtqNbtf5QpjZP+Bslo+UqkIt9QPnX9q095eiRRASJG1/tz6dlNr6Z5NsBiWYokp6EQ==}
     hasBin: true
 
-  reka-ui@2.0.0:
-    resolution: {integrity: sha512-/1amDDvTnDIkSFbTZnUkiFWkxlc/UEe0pZsgvz3nDI15R9+yspQv/gIbM62Mo9LALK6A76NsgMNlXie04kv7PA==}
+  reka-ui@2.0.2:
+    resolution: {integrity: sha512-pC2UF6Z+kJF96aJvIErhkSO4DJYIeq9pgvh3pntNqcZb3zFGMzw8h2uny+GnLX2CKiQV54kZNYXxecYIiPMGyg==}
     peerDependencies:
       vue: '>= 3.2.0'
 
@@ -11232,7 +11232,7 @@ snapshots:
     dependencies:
       jsesc: 3.0.2
 
-  reka-ui@2.0.0(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3)):
+  reka-ui@2.0.2(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3)):
     dependencies:
       '@floating-ui/dom': 1.6.13
       '@floating-ui/vue': 1.1.6(vue@3.5.13(typescript@5.6.3))
