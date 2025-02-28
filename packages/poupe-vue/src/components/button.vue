@@ -49,6 +49,9 @@ const button = tv({
       true: {
         wrapper: 'w-full mx-0',
       },
+      false: {
+        wrapper: 'mx-2',
+      },
     },
   },
   defaultVariants: {
@@ -93,10 +96,9 @@ const variants = computed(() => button({
 }));
 
 const label = computed(() => {
-  const s = props.label || 'Button';
+  const s = props.label || 'Click me';
   return props.ellipsis ? `${s}…` : s;
 });
-
 </script>
 
 <template>
