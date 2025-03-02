@@ -67,7 +67,7 @@
     "typescript": "~5.6.3",
     "unbuild": "3.5.0",
     "vitest": "^3.0.7",
-    "vue-tsc": "~2.1.10"
+    "vue-tsc": "~2.2.8"
   },
   "engines": {
     "node": ">= 22.13.1",
