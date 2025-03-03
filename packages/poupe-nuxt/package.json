@@ -54,7 +54,7 @@
     "@poupe/theme-builder": "workspace:^",
     "@poupe/vue": "workspace:^",
     "@types/node": "^22.13.4",
-    "changelogen": "^0.5.7",
+    "changelogen": "^0.6.1",
     "defu": "^6.1.4",
     "eslint": "^9.21.0",
     "npm-run-all2": "^7.0.2",
