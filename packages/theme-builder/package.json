@@ -59,15 +59,15 @@
     "@material/material-color-utilities": "^0.3.0",
     "colord": "^2.9.3",
     "tailwindcss": "^3.4.17",
-    "type-fest": "^4.35.0"
+    "type-fest": "^4.38.0"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "^0.4.20",
-    "eslint": "^9.21.0",
-    "typescript": "~5.6.3",
+    "@poupe/eslint-config": "^0.5.1",
+    "eslint": "^9.23.0",
+    "typescript": "~5.8.2",
     "unbuild": "3.5.0",
-    "vitest": "^3.0.7",
-    "vue-tsc": "~2.1.10"
+    "vitest": "^3.1.1",
+    "vue-tsc": "~2.2.8"
   },
   "engines": {
     "node": ">= 22.13.1",
