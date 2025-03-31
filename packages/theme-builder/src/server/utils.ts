@@ -2,7 +2,10 @@
 import { random } from 'colord';
 
 import {
+  type Color,
   type HexColor,
+
+  hex,
 } from '../core';
 
 import {
@@ -53,4 +56,14 @@ export const getRandomColor = (): HexColor => {
   }
 
   return c.toHex() as HexColor;
+};
+
+/** Converts a color to a URL-friendly hex string, generating a random color if none is provided.
+ * It uses `colord` to generate the random color.
+ * @param c - Optional color to convert
+ * @returns A hex color string without the leading '#'
+ */
+export const colorToURL = (c?: Color): string => {
+  const s = c ? hex(c) : getRandomColor();
+  return s.slice(1);
 };
