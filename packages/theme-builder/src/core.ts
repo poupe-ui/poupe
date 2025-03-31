@@ -1,4 +1,4 @@
-// imports
+// dependencies
 //
 import {
   type CustomColor,

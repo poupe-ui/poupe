@@ -32,6 +32,11 @@
       "import": "./dist/core.mjs",
       "require": "./dist/core.cjs"
     },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.mjs",
+      "require": "./dist/server.cjs"
+    },
     "./tailwind": {
       "types": "./dist/tailwind.d.ts",
       "import": "./dist/tailwind.mjs",
