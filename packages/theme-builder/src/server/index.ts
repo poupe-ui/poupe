@@ -1,11 +1,8 @@
 // dependencies
 import {
-  colord,
-  random,
-} from 'colord';
-
-import {
   type HexColor,
+
+  colord,
 } from '../core';
 
 import {
@@ -63,19 +60,6 @@ export const getColorParam = (param?: string | string[]): {
   }
 
   return { param: s };
-};
-
-/** @returns a random hex color value, throwing an error if generation fails */
-export const getRandomColor = (): {
-  color: HexColor
-} => {
-  const c = random();
-
-  if (!c.isValid()) {
-    throw new Error('Failed to generate random color');
-  }
-
-  return { color: c.toHex() as HexColor };
 };
 
 /** Attempts to convert a parameter to a valid StandardDynamicSchemeKey.
