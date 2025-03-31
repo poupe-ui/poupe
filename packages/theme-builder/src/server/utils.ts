@@ -1,3 +1,6 @@
+// dependencies
+import { random } from 'colord';
+
 import {
   type HexColor,
 } from '../core';
@@ -36,4 +39,18 @@ export const getParam = (param?: string | string[]): (string | undefined) => {
   } else {
     return undefined;
   }
+};
+
+/**
+ * @returns a random hex color value, throwing an error if generation fails
+ * It uses `colord` to generate the random color.
+ * */
+export const getRandomColor = (): HexColor => {
+  const c = random();
+
+  if (!c.isValid()) {
+    throw new Error('Failed to generate random color');
+  }
+
+  return c.toHex() as HexColor;
 };
