@@ -1,6 +1,6 @@
 {
   "name": "@poupe/vue",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "type": "module",
   "description": "",
   "author": "Alejandro Mery <amery@apptly.co>",
@@ -76,6 +76,6 @@
     "vue-tsc": "^2.2.8"
   },
   "peerDependencies": {
-    "@poupe/theme-builder": "^0.5.13"
+    "@poupe/theme-builder": "^0.6.0"
   }
 }
