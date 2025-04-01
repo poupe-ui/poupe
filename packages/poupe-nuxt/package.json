@@ -75,6 +75,6 @@
   },
   "peerDependencies": {
     "@poupe/theme-builder": "^0.6.0",
-    "@poupe/vue": "^0.3.2"
+    "@poupe/vue": "^0.3.3"
   }
 }
