@@ -34,16 +34,18 @@ export {
 // normalization utils and type checking
 export * from './utils';
 
-/**
-+ * @returns the color and hex value from the given string, if it is a valid color
-+ * @remarks Supports hex values directly, as well as other color formats supported by colord
-+ * (including RGB, HSL, HSV, LAB, LCH, CMYK and color names if the colord plugin has been enabled)
-+ */
-export const getColorParam = (param?: string | string[]): {
+/** Attempts to convert a parameter to a valid hex color.
+ * @param param - An optional string or string array representing a color
+ * @param filter - Optional function to pre-process the parameter before validation
+ * @returns An object containing the original parameter and a validated hex color, if applicable
+ * @remarks Supports hex values directly, as well as other color formats supported by colord
+ * (including RGB, HSL, HSV, LAB, LCH, CMYK and color names if the colord plugin has been enabled)
+ */
+export const getColorParam = (param?: string | string[], filter?: (s?: string)=>(string | undefined)): {
   param?: string
   color?: HexColor
 } => {
-  const s = getParam(param);
+  const s = filter ? filter(getParam(param)) : getParam(param);
   if (s === undefined || s === '') {
     return { param: s };
   }
@@ -64,13 +66,14 @@ export const getColorParam = (param?: string | string[]): {
 
 /** Attempts to convert a parameter to a valid StandardDynamicSchemeKey.
  * @param param - An optional string or string array representing a theme scheme key
+ * @param filter - Optional function to pre-process the parameter before validation
  * @returns An object containing the original parameter and a validated theme scheme key, if applicable
  */
-export const getThemeSchemeParam = (param?: string | string[]): {
+export const getThemeSchemeParam = (param?: string | string[], filter?: (s?: string)=>(string | undefined)): {
   param?: string
   scheme?: StandardDynamicSchemeKey
 } => {
-  const key = getParam(param);
+  const key = filter ? filter(getParam(param)) : getParam(param);
 
   return {
     param: key,
