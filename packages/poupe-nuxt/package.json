@@ -51,7 +51,7 @@
     "@poupe/eslint-config": "^0.5.1",
     "@poupe/theme-builder": "workspace:^",
     "@poupe/vue": "workspace:^",
-    "@types/node": "^22.13.14",
+    "@types/node": "^22.13.17",
     "changelogen": "^0.6.1",
     "defu": "^6.1.4",
     "eslint": "^9.23.0",
