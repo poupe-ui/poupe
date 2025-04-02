@@ -1,6 +1,6 @@
 {
   "name": "@poupe/nuxt",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "type": "module",
   "description": "Poupe's Nuxt module",
   "author": "Alejandro Mery <amery@apptly.co>",
@@ -16,7 +16,7 @@
       "default": "./dist/module.mjs"
     }
   },
-  "types": "./dist/types.d.mts",
+  "main": "./dist/module.mjs",
   "files": [
     "dist"
   ],
