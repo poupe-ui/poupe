@@ -16,7 +16,7 @@
       "default": "./dist/module.mjs"
     }
   },
-  "types": "./dist/types.d.mts",
+  "main": "./dist/module.mjs",
   "files": [
     "dist"
   ],
