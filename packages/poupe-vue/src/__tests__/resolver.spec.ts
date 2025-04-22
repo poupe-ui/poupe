@@ -3,7 +3,7 @@ import { components, createResolver } from '../resolver';
 import * as Poupe from '../index';
 
 it('should export only the components', () => {
-  expect(Object.keys(Poupe)).toEqual(components);
+  expect(new Set(Object.keys(Poupe))).toEqual(new Set(components));
 });
 
 it('should resolve component with default prefix', () => {
