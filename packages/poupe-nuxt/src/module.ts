@@ -1,3 +1,5 @@
+// dependencies
+
 import { defineNuxtModule } from '@nuxt/kit';
 
 import {
@@ -8,6 +10,10 @@ import {
 
 import { setup } from './setup';
 
+// re-export
+export type { ModuleOptions } from './config';
+
+// module
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: '@poupe/nuxt',

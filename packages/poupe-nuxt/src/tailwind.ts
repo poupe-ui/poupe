@@ -30,7 +30,7 @@ const plugins = [
 export default withMaterialColors(withPrintMode({
   content,
   plugins,
-}), ${stringify(colors)}, ${stringify(extra)});
+}), ${stringify(colors)}, ${stringify({ ...extra, omitTheme: true })});
 `;
 };
 
