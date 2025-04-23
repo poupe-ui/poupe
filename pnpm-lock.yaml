@@ -61,7 +61,7 @@ importers:
         specifier: workspace:^
         version: link:../poupe-vue
       '@types/node':
-        specifier: ^22.13.17
+        specifier: ^22.14.1
         version: 22.14.1
       changelogen:
         specifier: ^0.6.1
@@ -150,7 +150,7 @@ importers:
         specifier: ^21.1.7
         version: 21.1.7
       '@types/node':
-        specifier: ^22.13.17
+        specifier: ^22.14.1
         version: 22.14.1
       '@vitejs/plugin-vue':
         specifier: ^5.2.3
