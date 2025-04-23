@@ -26,6 +26,14 @@ import {
 } from './dynamic-color-data';
 
 import {
+  type InteractiveStateKey,
+  type SurfaceKey,
+
+  makeInteractiveKeys,
+  makeInteractiveColors,
+} from './dynamic-color-interactive';
+
+import {
   type ColorOptions,
 
   makeCustomColors,
@@ -145,11 +153,15 @@ export function makeThemeKeys<K extends string>(colors: ThemeColorOptions<K> | T
   }
 
   return {
-    keys,
+    keys: {
+      ...keys,
+      ...makeInteractiveKeys(keys),
+    },
     paletteKeys,
     colorOptions,
   };
 }
+
 /**
  * @param colors - base colors of the theme.
  * @param scheme - Material color scheme to use.
@@ -174,24 +186,24 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
 
   const { colors: customPaletteKeys, dark: darkCustomColors, light: lightCustomColors, colorOptions: customColorOptions } = makeCustomColors(source, extraColors);
 
-  type ColorKey = keyof typeof darkPalette & keyof typeof darkStandardColors & keyof typeof darkCustomColors;
-  type PaletteKey = keyof typeof darkPalette & typeof customPaletteKeys[0];
+  type ColorKey = StandardPaletteKey & StandardDynamicColorKey & keyof typeof darkCustomColors;
+  type PaletteKey = StandardPaletteKey & typeof customPaletteKeys[number];
+
+  const dark = makeMixColors<ColorKey>({
+    ...darkPalette,
+    ...darkStandardColors,
+    ...darkCustomColors,
+  });
+
+  const light = makeMixColors<ColorKey>({
+    ...lightPalette,
+    ...lightStandardColors,
+    ...lightCustomColors,
+  });
 
   const colorOptions: { [P in PaletteKey]: ColorOptions } = {
     primary,
     ...customColorOptions,
-  };
-
-  const dark: { [P in ColorKey]: Hct } = {
-    ...darkPalette,
-    ...darkStandardColors,
-    ...darkCustomColors,
-  };
-
-  const light: { [P in ColorKey]: Hct } = {
-    ...lightPalette,
-    ...lightStandardColors,
-    ...lightCustomColors,
   };
 
   const darkCustomPalette: Record<string, Hct> = {
@@ -217,4 +229,13 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
     dark,
     light,
   };
+}
+
+function makeMixColors<K extends string>(
+  colors: Record<K, Hct>,
+): Record<K | InteractiveStateKey<SurfaceKey<K>>, Hct> {
+  return {
+    ...colors,
+    ...makeInteractiveColors(colors),
+  } as Record<K | InteractiveStateKey<SurfaceKey<K>>, Hct>;
 }

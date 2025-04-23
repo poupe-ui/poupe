@@ -38,7 +38,7 @@ export type ColorMap<K extends string> = Record<K, Hct>;
 export const customColorFromHct = (source: Hct, color: CustomColor) => customColorFromArgb(source.toInt(), color);
 
 export const hexColorPattern = /^#([\da-f]{3}|[\da-f]{6}|[\da-f]{8})$/i;
-export const isHexColor = (s: string = '') => !!hexColorPattern.test(s || '');
+export const isHexColor = (s: string = '') => !!hexColorPattern.test(s);
 
 export const rgbFromArgb = (argb: number) => {
   const { r, g, b } = splitArgb(argb);
