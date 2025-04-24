@@ -75,8 +75,8 @@ export type Color = Hct | Colord | number | AnyColor | HctColor;
  * @param a - Optional alpha value to normalize
  * @returns Normalized alpha value or undefined if input is undefined
  */
-export function normalizeAlpha(a: undefined): undefined;
 export function normalizeAlpha(a: number): number;
+export function normalizeAlpha(a?: number): number | undefined;
 export function normalizeAlpha(a?: number): number | undefined {
   if (a === undefined) {
     return undefined;
@@ -96,7 +96,7 @@ export function normalizeColor(s: string): string;
 export function normalizeColor(c: Colord): Colord;
 export function normalizeColor(c: Hct): Hct;
 export function normalizeColor(c: HctColor): HctColor;
-export function normalizeColor<T = Exclude<string, AnyColor>>(c: T): T;
+export function normalizeColor<T = Exclude<AnyColor, string>>(c: T): T;
 export function normalizeColor(c: Color): Color {
   // Already normalized types (pass through)
   if (c instanceof Hct || c instanceof Colord) {
@@ -124,7 +124,7 @@ export const argbFromHct = (c: Hct) => c.toInt();
 
 /** @returns the ARGB number corresponding to the given {@link RgbaColor} */
 export const argbFromRgbaColor = (c: RgbaColor): number => {
-  const a = normalizeAlpha(c.a ?? 1);
+  const a = normalizeAlpha(c.a) ?? 1;
   const a255 = uint8(Math.round(a * 255));
   const r255 = uint8(c.r);
   const g255 = uint8(c.g);
@@ -140,7 +140,7 @@ export const argbFromHctColor = (c: HctColor): number => {
     return argb;
   }
 
-  const a = normalizeAlpha(c.a) ?? 1;
+  const a = normalizeAlpha(c.a);
   const a255 = uint8(Math.round(a * 255));
   return uint32(a255 << 24 | (argb & 0xFF_FF_FF));
 };
