@@ -70,6 +70,51 @@ export interface HctColor {
 /** Color is any accepted color representation */
 export type Color = Hct | Colord | number | AnyColor | HctColor;
 
+/**
+ * Normalizes an alpha value to a consistent representation between 0 and 1.
+ * @param a - Optional alpha value to normalize
+ * @returns Normalized alpha value or undefined if input is undefined
+ */
+export function normalizeAlpha(a: undefined): undefined;
+export function normalizeAlpha(a: number): number;
+export function normalizeAlpha(a?: number): number | undefined {
+  if (a === undefined) {
+    return undefined;
+  }
+  // Convert 0..255 to 0..1
+  const n = a > 1 ? a / 255 : a;
+  // Ensure the value is in range [0, 1]
+  return Math.min(Math.max(n, 0), 1);
+}
+
+/**
+ * Normalizes any Color input, especially handling alpha values consistently.
+ * @returns Normalized color object that can be safely used in other factory functions
+ */
+export function normalizeColor(argb: number): number;
+export function normalizeColor(s: string): string;
+export function normalizeColor(c: Colord): Colord;
+export function normalizeColor(c: Hct): Hct;
+export function normalizeColor(c: HctColor): HctColor;
+export function normalizeColor<T = Exclude<string, AnyColor>>(c: T): T;
+export function normalizeColor(c: Color): Color {
+  // Already normalized types (pass through)
+  if (c instanceof Hct || c instanceof Colord) {
+    return c;
+  }
+
+  // Object types that may need alpha normalization
+  if (typeof c === 'object' && 'a' in c && c.a !== undefined) {
+    return {
+      ...c,
+      a: normalizeAlpha(c.a),
+    };
+  }
+
+  // String or number (pass through)
+  return c;
+};
+
 /*
  * ARGB factories
  */
@@ -79,7 +124,7 @@ export const argbFromHct = (c: Hct) => c.toInt();
 
 /** @returns the ARGB number corresponding to the given {@link RgbaColor} */
 export const argbFromRgbaColor = (c: RgbaColor): number => {
-  const a = c.a === undefined ? 1 : (c.a > 1 ? c.a / 255 : c.a);
+  const a = normalizeAlpha(c.a ?? 1);
   const a255 = uint8(Math.round(a * 255));
   const r255 = uint8(c.r);
   const g255 = uint8(c.g);
@@ -95,7 +140,8 @@ export const argbFromHctColor = (c: HctColor): number => {
     return argb;
   }
 
-  const a255 = uint8(c.a > 1 ? c.a : Math.round(c.a * 255));
+  const a = normalizeAlpha(c.a) ?? 1;
+  const a255 = uint8(Math.round(a * 255));
   return uint32(a255 << 24 | (argb & 0xFF_FF_FF));
 };
 
@@ -127,9 +173,13 @@ export const argb = (c: Color): number => {
   } else if (typeof c === 'object' && 't' in c) {
     return argbFromHctColor(c);
   } else {
-    return argbFromColord(origColord(c));
+    const c1 = origColord(normalizeColor(c));
+    return argbFromColord(c1);
   }
 };
+
+/** @returns the decomposed {@link RgbaColor} corresponding to the given {@link HctColor} */
+export const splitHctColor = (c: HctColor): RgbaColor => splitArgb(argbFromHctColor(c));
 
 /*
  * Colord factories
@@ -150,9 +200,11 @@ export const colord = (c: Color): Colord => {
   } else if (typeof c === 'number') {
     return colordFromArgb(c);
   } else if (typeof c === 'object' && 't' in c) {
-    return colordFromArgb(argbFromHctColor(c));
+    const c1 = argbFromHctColor(c);
+    return colordFromArgb(c1);
   } else {
-    return origColord(c);
+    const c1 = normalizeColor(c);
+    return origColord(c1);
   }
 };
 
@@ -188,7 +240,8 @@ export const hct = (c: Color): Hct => {
   } else if (typeof c === 'object' && 't' in c) {
     return Hct.from(c.h, c.c, c.t);
   } else {
-    return hctFromColord(origColord(c));
+    const c1 = origColord(normalizeColor(c));
+    return hctFromColord(c1);
   }
 };
 
@@ -218,6 +271,9 @@ export const hexFromArgb = (argb: number) => hexFromColord(colord(splitArgb(argb
 /** @returns the Hex RGB Color string for the given {@link Hct} */
 export const hexFromHct = (c: Hct) => hexFromArgb(argbFromHct(c));
 
+/** @returns the Hex RGB Color string for the given {@link HctColor} */
+export const hexFromHctColor = (c: HctColor): HexColor => hexFromColord(colord(splitHctColor(c)));
+
 /** @returns the Hex RGB Color string for the given {@link Color} */
 export const hex = (c: Color): HexColor => {
   if (c instanceof Hct) {
@@ -227,8 +283,9 @@ export const hex = (c: Color): HexColor => {
   } else if (typeof c === 'number') {
     return hexFromArgb(c);
   } else if (typeof c === 'object' && 't' in c) {
-    return hexFromHct(Hct.from(c.h, c.c, c.t));
+    return hexFromHctColor(c);
   } else {
-    return hexFromColord(origColord(c));
+    const c1 = origColord(normalizeColor(c));
+    return hexFromColord(c1);
   }
 };
