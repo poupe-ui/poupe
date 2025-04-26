@@ -1,6 +1,5 @@
 import {
   unsafeKeys,
-  type Prettify,
 } from './core/utils';
 
 import {
@@ -91,6 +90,8 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
     ...light,
   };
 
+  const names: string[] = [];
+
   for (const key of unsafeKeys(darkPalette)) {
     const $shades = getColorShadesOption(key, options.shades, colorOptions);
 
@@ -101,14 +102,16 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
       if (shade !== 'DEFAULT') {
         darkColors[`${key}-${shade}`] = darkShades[shade];
         lightColors[`${key}-${shade}`] = lightShades[shade];
+        names.push(`${key}-${shade}`);
       } else if (!(key in dark)) {
         darkColors[key] = darkPalette[key];
         lightColors[key] = lightPalette[key];
+        names.push(key);
       }
     };
   }
 
-  return assembleCSSColors(darkColors, lightColors, {
+  return assembleCSSColors<typeof names[number]>(darkColors, lightColors, {
     stringify: rgbFromHct,
     ...options,
   });
@@ -124,7 +127,8 @@ export function makeColorConfig<K extends string>(colors: ThemeColorOptions<K> |
 ) {
   const { prefix = 'md-' } = options;
   const { keys, paletteKeys, colorOptions } = makeThemeKeys(colors);
-  const theme = {} as Record<string, string | Record<Shade, string>>;
+
+  const theme: Partial<Record<string, string | Record<Shade, string>>> = {};
 
   // palette colors with shades
   for (const color of paletteKeys) {
@@ -154,5 +158,7 @@ export function makeColorConfig<K extends string>(colors: ThemeColorOptions<K> |
     }
   }
 
-  return theme as Prettify<typeof theme>;
+  type ColorKey = keyof typeof theme;
+
+  return theme as Record<ColorKey, string | Record<Shade, string>>;
 }
