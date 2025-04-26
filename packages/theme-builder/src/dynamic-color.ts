@@ -15,7 +15,6 @@ import {
 
 import {
   type KebabCase,
-  type Prettify,
 
   kebabCase,
   unsafeKeys,
@@ -102,11 +101,9 @@ function customColor(source: Hct, name: string, option: ColorOptions) {
 export function makeCustomColors<K extends string>(source: Color, colors: Record<K, ColorOptions>) {
   const $source = hct(source);
 
-  type customDynamicColors = CustomDynamicColors<K>;
-
   const colorOptions = {} as Record<KebabCase<K>, ColorOptions>;
-  const darkColors: Partial<customDynamicColors> = {};
-  const lightColors: Partial<customDynamicColors> = {};
+  const darkColors: Partial<CustomDynamicColors<K>> = {};
+  const lightColors: Partial<CustomDynamicColors<K>> = {};
 
   for (const color in colors) {
     const kebabName = kebabCase(color) as KebabCase<K>;
@@ -115,7 +112,7 @@ export function makeCustomColors<K extends string>(source: Color, colors: Record
     colorOptions[kebabName] = colors[color];
 
     for (const [pattern, fn] of Object.entries(customDynamicColors)) {
-      const name = pattern.replace('{}', kebabName) as keyof customDynamicColors;
+      const name = pattern.replace('{}', kebabName) as keyof CustomDynamicColors<K>;
 
       darkColors[name] = Hct.fromInt(fn(dark));
       lightColors[name] = Hct.fromInt(fn(light));
@@ -126,7 +123,7 @@ export function makeCustomColors<K extends string>(source: Color, colors: Record
     source,
     colors: unsafeKeys(colorOptions),
     colorOptions: colorOptions,
-    dark: darkColors as Prettify<customDynamicColors>,
-    light: lightColors as Prettify<customDynamicColors>,
+    dark: darkColors as CustomDynamicColors<K>,
+    light: lightColors as CustomDynamicColors<K>,
   };
 }

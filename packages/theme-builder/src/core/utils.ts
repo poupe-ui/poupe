@@ -1,11 +1,7 @@
-export type { KebabCase } from 'type-fest';
-
-export type Prettify<T> = {
-  [K in keyof T]: T[K];
-};
-
-/** @returns the type of a property of the object */
-export type PropertyType<T, K extends keyof T> = T[K];
+export type {
+  KebabCase,
+  Simplify,
+} from 'type-fest';
 
 /** @returns a given string converted to kebab-case */
 export function kebabCase(s: string): string {

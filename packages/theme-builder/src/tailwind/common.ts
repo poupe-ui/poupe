@@ -1,8 +1,4 @@
 import {
-  type PropertyType,
-} from '../core/utils';
-
-import {
   type Config,
   type PluginAPI,
 } from 'tailwindcss/types/config';
@@ -15,12 +11,12 @@ export {
   type PluginCreator,
 } from 'tailwindcss/types/config';
 
-export type PluginsConfig = PropertyType<Config, 'plugins'>;
-export type SafelistConfig = PropertyType<Config, 'safelist'>;
-export type ThemeConfig = PropertyType<Config, 'theme'>;
+export type PluginsConfig = Config['plugins'];
+export type SafelistConfig = Config['safelist'];
+export type ThemeConfig = Config['theme'];
 
-export type PluginThemeAPI = PropertyType<PluginAPI, 'theme'>;
-export type PluginConfigAPI = PropertyType<PluginAPI, 'config'>;
+export type PluginThemeAPI = PluginAPI['theme'];
+export type PluginConfigAPI = PluginAPI['config'];
 
 /*
  * Data
