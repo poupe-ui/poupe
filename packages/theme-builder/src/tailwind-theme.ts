@@ -123,12 +123,16 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
  * @returns tailwindcss Config theme colors using the CSS variables associated with the theme.
  */
 export function makeColorConfig<K extends string>(colors: ThemeColorOptions<K> | ThemeColors<K>,
-  options: TailwindThemeOptions = {},
+  options: TailwindThemeOptions & {
+    forV3?: boolean
+  } = {},
 ) {
-  const { prefix = 'md-' } = options;
+  const { prefix = 'md-', forV3 = false } = options;
   const { keys, paletteKeys, colorOptions } = makeThemeKeys(colors);
 
   const theme: Partial<Record<string, string | Record<Shade, string>>> = {};
+
+  const rgb = forV3 ? rgbV3 : rgbV4;
 
   // palette colors with shades
   for (const color of paletteKeys) {
@@ -143,10 +147,10 @@ export function makeColorConfig<K extends string>(colors: ThemeColorOptions<K> |
 
     for (const shade of shades) {
       const k1 = `${k0}-${shade}`;
-      colorShades[shade] = `rgb(var(${k1}) / <alpha-value>)`;
+      colorShades[shade] = rgb(k1);
     }
 
-    colorShades['DEFAULT'] = `rgb(var(${k0}) / <alpha-value>)`;
+    colorShades['DEFAULT'] = rgb(k0);
     theme[colorName] = colorShades;
   }
 
@@ -154,11 +158,19 @@ export function makeColorConfig<K extends string>(colors: ThemeColorOptions<K> |
   for (const color of keys) {
     if (!(color in theme)) {
       const k0 = `--${prefix}${color}`;
-      theme[color] = `rgb(var(${k0}) / <alpha-value>)`;
+      theme[color] = rgb(k0);
     }
   }
 
   type ColorKey = keyof typeof theme;
 
   return theme as Record<ColorKey, string | Record<Shade, string>>;
+}
+
+function rgbV4(key: string): string {
+  return `rgb(var(${key}))`;
+}
+
+function rgbV3(key: string): string {
+  return `rgb(var(${key}) / <alpha-value>)`;
 }

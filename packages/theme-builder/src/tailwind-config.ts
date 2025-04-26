@@ -43,7 +43,7 @@ function withColorConfig<K extends string>(config: Partial<Config>,
 ): Partial<Config> {
   //
   const { extend = true } = options;
-  const tailwindColors = makeColorConfig(colors, options);
+  const tailwindColors = makeColorConfig(colors, { forV3: true, ...options });
   const theme: ThemeConfig = {
     ...config?.theme,
   };
