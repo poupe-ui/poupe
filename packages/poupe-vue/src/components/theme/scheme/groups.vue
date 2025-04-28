@@ -1,5 +1,4 @@
 <script lang="ts">
-import type { PropertyType } from '@poupe/theme-builder/utils';
 import type { ThemeSchemeGroupProps } from './group.vue';
 
 export {
@@ -8,7 +7,7 @@ export {
 
 export interface ThemeSchemeGroupsProps {
   ariaLabel?: string
-  groups: Array<PropertyType<ThemeSchemeGroupProps, 'entries'>>
+  groups: Array<ThemeSchemeGroupProps['entries']>
 }
 </script>
 

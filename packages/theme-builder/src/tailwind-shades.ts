@@ -1,8 +1,6 @@
 // imports
 //
 import {
-  type Prettify,
-
   unsafeKeys,
 } from './core/utils';
 
@@ -74,7 +72,7 @@ export function makeShades(color: Color, shades: Shades = true) {
     }
   }
 
-  return out as Prettify<typeof out>;
+  return out;
 }
 
 /** @returns a map of shades of the baseColor to be used in tailwind.config.
