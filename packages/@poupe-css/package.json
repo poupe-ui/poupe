@@ -54,7 +54,7 @@
     "clean": "rm -rf dist node_modules"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "^0.6.3",
+    "@poupe/eslint-config": "workspace:^",
     "@types/node": "^20.17.47",
     "eslint": "^9.26.0",
     "npm-run-all2": "^8.0.1",
