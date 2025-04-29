@@ -73,11 +73,15 @@ function withCSSTheme<K extends string>(config: Partial<Config>,
   colors: ThemeColors<K>,
   options: TailwindThemeOptions = {},
 ): Partial<Config> {
-  const { styles } = makeCSSTheme(colors, options);
+  const { styles } = makeCSSTheme(colors, { forV3: true, ...options });
 
   const plugins: PluginsConfig = [
     ...(config.plugins || []),
-    plugin(({ addBase }) => addBase(styles)),
+    plugin(({ addBase }) => {
+      for (const style of styles) {
+        addBase(style);
+      }
+    }),
   ];
 
   config = {

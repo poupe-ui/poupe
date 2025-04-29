@@ -77,7 +77,9 @@ export interface TailwindThemeOptions extends Partial<MakeCSSThemeOptions> {
  * @returns  CSSRuleObjects to set up dark/light themes.
  */
 export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
-  options: TailwindThemeOptions = {},
+  options: TailwindThemeOptions & {
+    forV3?: boolean
+  } = {},
 ) {
   const { dark, light, darkPalette, lightPalette, colorOptions } = makeTheme(colors, options.scheme, options.contrastLevel);
 
@@ -112,7 +114,7 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
   }
 
   return assembleCSSColors<typeof names[number]>(darkColors, lightColors, {
-    stringify: rgbFromHct,
+    stringify: options.forV3 ? rgbFromHct : undefined,
     ...options,
   });
 }
