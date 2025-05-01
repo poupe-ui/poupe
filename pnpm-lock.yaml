@@ -116,8 +116,8 @@ importers:
         specifier: ^2.9.3
         version: 2.9.3
       tailwindcss:
-        specifier: ^3.4.17
-        version: 3.4.17
+        specifier: ^4.1.5
+        version: 4.1.5
       type-fest:
         specifier: ^4.40.1
         version: 4.40.1
@@ -160,13 +160,13 @@ importers:
         version: 3.2.0
       tailwind-scrollbar:
         specifier: ^4.0.2
-        version: 4.0.2(react@19.0.0)(tailwindcss@3.4.17)
+        version: 4.0.2(react@19.0.0)(tailwindcss@4.1.5)
       tailwind-variants:
         specifier: ^1.0.0
-        version: 1.0.0(tailwindcss@3.4.17)
+        version: 1.0.0(tailwindcss@4.1.5)
       tailwindcss:
-        specifier: ^3.4.17
-        version: 3.4.17
+        specifier: ^4.1.5
+        version: 4.1.5
       vue:
         specifier: ^3.5.13
         version: 3.5.13(typescript@5.8.3)
@@ -5331,6 +5331,9 @@ packages:
     resolution: {integrity: sha512-w33E2aCvSDP0tW9RZuNXadXlkHXqFzSkQew/aIa2i/Sj8fThxwovwlXHSPXTbAHwEIhBFXAedUhP2tueAKP8Og==}
     engines: {node: '>=14.0.0'}
     hasBin: true
+
+  tailwindcss@4.1.5:
+    resolution: {integrity: sha512-nYtSPfWGDiWgCkwQG/m+aX83XCwf62sBgg3bIlNiiOcggnS1x3uVRDAuyelBFL+vJdOPPCGElxv9DjHJjRHiVA==}
 
   tapable@2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
@@ -11859,10 +11862,17 @@ snapshots:
     transitivePeerDependencies:
       - react
 
-  tailwind-variants@1.0.0(tailwindcss@3.4.17):
+  tailwind-scrollbar@4.0.2(react@19.0.0)(tailwindcss@4.1.5):
+    dependencies:
+      prism-react-renderer: 2.4.1(react@19.0.0)
+      tailwindcss: 4.1.5
+    transitivePeerDependencies:
+      - react
+
+  tailwind-variants@1.0.0(tailwindcss@4.1.5):
     dependencies:
       tailwind-merge: 3.0.2
-      tailwindcss: 3.4.17
+      tailwindcss: 4.1.5
 
   tailwindcss@3.4.17:
     dependencies:
@@ -11890,6 +11900,8 @@ snapshots:
       sucrase: 3.35.0
     transitivePeerDependencies:
       - ts-node
+
+  tailwindcss@4.1.5: {}
 
   tapable@2.2.1: {}
 
