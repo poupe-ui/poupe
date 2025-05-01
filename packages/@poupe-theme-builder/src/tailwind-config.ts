@@ -1,17 +1,11 @@
 import {
   type Config,
   type PluginsConfig,
-  type SafelistConfig,
   type ThemeConfig,
 
   defaultColors,
   plugin,
 } from './tailwind/common';
-
-import {
-  defaultDarkSelector,
-  defaultLightSelector,
-} from './dynamic-color-css';
 
 import {
   type ThemeColors,
@@ -75,19 +69,6 @@ function withColorConfig<K extends string>(config: Partial<Config>,
   };
 }
 
-function generateSafeList(options: TailwindThemeOptions) {
-  const safelist: SafelistConfig = [];
-  const darkSelector = defaultDarkSelector(options);
-  const lightSelector = defaultLightSelector(options);
-
-  if (darkSelector.charAt(0) === '.')
-    safelist.push(darkSelector.slice(1));
-  if (lightSelector?.charAt(0) === '.')
-    safelist.push(lightSelector.slice(1));
-
-  return safelist;
-}
-
 function withCSSTheme<K extends string>(config: Partial<Config>,
   colors: ThemeColors<K>,
   options: TailwindThemeOptions = {},
@@ -99,15 +80,9 @@ function withCSSTheme<K extends string>(config: Partial<Config>,
     plugin(({ addBase }) => addBase(styles)),
   ];
 
-  const safelist: SafelistConfig = [
-    ...(config?.safelist || []),
-    ...generateSafeList(options),
-  ];
-
   config = {
     ...config,
     plugins,
-    safelist,
   };
 
   return config;
