@@ -12,7 +12,6 @@ export {
 } from 'tailwindcss/types/config';
 
 export type PluginsConfig = Config['plugins'] & {};
-export type SafelistConfig = Config['safelist'] & {};
 export type ThemeConfig = Config['theme'] & {};
 
 export type PluginThemeAPI = PluginAPI['theme'];
