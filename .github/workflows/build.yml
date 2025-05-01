@@ -41,4 +41,4 @@ jobs:
       - name: pnpm build
         run: pnpm build
       - name: publish preview
-        run: pnpm pkg-pr-new publish --package-manager=pnpm --pnpm packages/theme-builder packages/poupe-vue packages/poupe-nuxt
+        run: pnpm pkg-pr-new publish --package-manager=pnpm --pnpm packages/@poupe-*
