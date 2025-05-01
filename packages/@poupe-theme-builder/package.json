@@ -8,8 +8,8 @@
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "https://github.com/poupe-ui/poupe",
-    "directory": "packages/theme-builder"
+    "url": "git+https://github.com/poupe-ui/poupe",
+    "directory": "packages/@poupe-theme-builder"
   },
   "exports": {
     ".": {

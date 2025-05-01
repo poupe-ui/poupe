@@ -8,7 +8,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/poupe-ui/poupe.git",
-    "directory": "packages/poupe-nuxt"
+    "directory": "packages/@poupe-nuxt"
   },
   "exports": {
     ".": {

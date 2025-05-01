@@ -12,7 +12,7 @@ importers:
         specifier: ^0.0.43
         version: 0.0.43
 
-  packages/poupe-nuxt:
+  packages/@poupe-nuxt:
     dependencies:
       '@nuxt/icon':
         specifier: ^1.12.0
@@ -56,10 +56,10 @@ importers:
         version: 0.5.2(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.1(eslint@9.25.1(jiti@2.4.2)))
       '@poupe/theme-builder':
         specifier: workspace:^
-        version: link:../theme-builder
+        version: link:../@poupe-theme-builder
       '@poupe/vue':
         specifier: workspace:^
-        version: link:../poupe-vue
+        version: link:../@poupe-vue
       '@types/node':
         specifier: ^22.15.3
         version: 22.15.3
@@ -94,7 +94,7 @@ importers:
         specifier: ^2.2.10
         version: 2.2.10(typescript@5.8.3)
 
-  packages/poupe-nuxt/playground:
+  packages/@poupe-nuxt/playground:
     dependencies:
       '@poupe/nuxt':
         specifier: workspace:^
@@ -107,7 +107,41 @@ importers:
         specifier: ^3.25.0
         version: 3.25.0
 
-  packages/poupe-vue:
+  packages/@poupe-theme-builder:
+    dependencies:
+      '@material/material-color-utilities':
+        specifier: ^0.3.0
+        version: 0.3.0
+      colord:
+        specifier: ^2.9.3
+        version: 2.9.3
+      tailwindcss:
+        specifier: ^3.4.17
+        version: 3.4.17
+      type-fest:
+        specifier: ^4.40.1
+        version: 4.40.1
+    devDependencies:
+      '@poupe/eslint-config':
+        specifier: ^0.5.2
+        version: 0.5.2(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.1(eslint@9.25.1(jiti@2.4.2)))
+      eslint:
+        specifier: ^9.25.1
+        version: 9.25.1(jiti@2.4.2)
+      typescript:
+        specifier: ~5.8.3
+        version: 5.8.3
+      unbuild:
+        specifier: 3.5.0
+        version: 3.5.0(typescript@5.8.3)(vue-sfc-transformer@0.1.10(esbuild@0.25.3)(vue@3.5.13(typescript@5.8.3)))(vue-tsc@2.2.10(typescript@5.8.3))(vue@3.5.13(typescript@5.8.3))
+      vitest:
+        specifier: ^3.1.2
+        version: 3.1.2(@types/node@22.15.3)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.1)(terser@5.39.0)(yaml@2.7.1)
+      vue-tsc:
+        specifier: ~2.2.10
+        version: 2.2.10(typescript@5.8.3)
+
+  packages/@poupe-vue:
     dependencies:
       '@iconify-json/svg-spinners':
         specifier: ^1.2.2
@@ -142,7 +176,7 @@ importers:
         version: 0.5.2(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.1(eslint@9.25.1(jiti@2.4.2)))
       '@poupe/theme-builder':
         specifier: workspace:^
-        version: link:../theme-builder
+        version: link:../@poupe-theme-builder
       '@tsconfig/node20':
         specifier: ^20.1.5
         version: 20.1.5
@@ -208,40 +242,6 @@ importers:
         version: 3.1.2(@types/node@22.15.3)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.1)(terser@5.39.0)(yaml@2.7.1)
       vue-tsc:
         specifier: ^2.2.10
-        version: 2.2.10(typescript@5.8.3)
-
-  packages/theme-builder:
-    dependencies:
-      '@material/material-color-utilities':
-        specifier: ^0.3.0
-        version: 0.3.0
-      colord:
-        specifier: ^2.9.3
-        version: 2.9.3
-      tailwindcss:
-        specifier: ^3.4.17
-        version: 3.4.17
-      type-fest:
-        specifier: ^4.40.1
-        version: 4.40.1
-    devDependencies:
-      '@poupe/eslint-config':
-        specifier: ^0.5.2
-        version: 0.5.2(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.1(eslint@9.25.1(jiti@2.4.2)))
-      eslint:
-        specifier: ^9.25.1
-        version: 9.25.1(jiti@2.4.2)
-      typescript:
-        specifier: ~5.8.3
-        version: 5.8.3
-      unbuild:
-        specifier: 3.5.0
-        version: 3.5.0(typescript@5.8.3)(vue-sfc-transformer@0.1.10(esbuild@0.25.3)(vue@3.5.13(typescript@5.8.3)))(vue-tsc@2.2.10(typescript@5.8.3))(vue@3.5.13(typescript@5.8.3))
-      vitest:
-        specifier: ^3.1.2
-        version: 3.1.2(@types/node@22.15.3)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.1)(terser@5.39.0)(yaml@2.7.1)
-      vue-tsc:
-        specifier: ~2.2.10
         version: 2.2.10(typescript@5.8.3)
 
 packages:
