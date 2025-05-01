@@ -1,7 +1,6 @@
 import {
   type Config,
   type PluginsConfig,
-  type PluginCreator,
   type PluginConfigAPI,
   type PluginThemeAPI,
 
@@ -42,7 +41,7 @@ export function surfaceComponentsPlugin(options: Partial<SurfaceComponentsOption
   return plugin(function ({ addComponents, config, theme }) {
     const components: CSSRuleObject[] = makeSurfaceComponents(options, config, theme);
     addComponents(components);
-  } as PluginCreator);
+  });
 }
 
 function makeSurfaceComponents(options: Partial<SurfaceComponentsOptions>, config: PluginConfigAPI, theme: PluginThemeAPI): CSSRuleObject[] {
