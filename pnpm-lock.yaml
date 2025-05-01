@@ -208,7 +208,7 @@ importers:
         specifier: 0.4.2
         version: 0.4.2(eslint@9.25.1(jiti@2.4.2))(typescript@5.8.3)
       eslint-plugin-vue:
-        specifier: ^10.0.0
+        specifier: ^10.1.0
         version: 10.1.0(eslint@9.25.1(jiti@2.4.2))(vue-eslint-parser@10.1.1(eslint@9.25.1(jiti@2.4.2)))
       jsdom:
         specifier: ^26.1.0
@@ -9215,7 +9215,7 @@ snapshots:
 
   eslint-plugin-vue@10.1.0(eslint@9.25.1(jiti@2.4.2))(vue-eslint-parser@10.1.1(eslint@9.25.1(jiti@2.4.2))):
     dependencies:
-      '@eslint-community/eslint-utils': 4.5.1(eslint@9.25.1(jiti@2.4.2))
+      '@eslint-community/eslint-utils': 4.6.1(eslint@9.25.1(jiti@2.4.2))
       eslint: 9.25.1(jiti@2.4.2)
       natural-compare: 1.4.0
       nth-check: 2.1.1

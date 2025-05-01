@@ -62,7 +62,7 @@
     "autoprefixer": "^10.4.21",
     "eslint": "^9.25.1",
     "eslint-config-unjs": "0.4.2",
-    "eslint-plugin-vue": "^10.0.0",
+    "eslint-plugin-vue": "^10.1.0",
     "jsdom": "^26.1.0",
     "npm-run-all2": "^7.0.2",
     "pathe": "^2.0.3",
