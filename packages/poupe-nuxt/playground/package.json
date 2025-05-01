@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@poupe/nuxt": "workspace:^",
-    "nuxt": "^3.17.0"
+    "nuxt": "^3.17.1"
   },
   "devDependencies": {
     "nuxi": "^3.25.0"
