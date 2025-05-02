@@ -2,7 +2,7 @@
  * CSSRuleObject inspired by tailwindcss/types/config's
  */
 export interface CSSRuleObject {
-  [key: string]: null | string | string[] | CSSRuleObject
+  [key: string]: string | string[] | CSSRuleObject
 };
 
 function formatCSSRuleObject(rule: CSSRuleObject, indent: string, newLine: string, prefix: string): string {
@@ -13,15 +13,9 @@ function formatCSSRuleObject(rule: CSSRuleObject, indent: string, newLine: strin
     // TODO: validate key;
     const value = rule[key];
 
-    if (typeof value === 'object') {
-      // nested CSSRuleObject
-      const s1 = formatCSSRuleObject(value as CSSRuleObject, indent, newLine, nextPrefix);
-      if (s1 !== '') {
-        out.push(`${prefix}${key} {${newLine}${s1}${newLine}${prefix}}`);
-      }
-    } else if (typeof value === 'string') {
+    if (typeof value === 'string') {
       // string
-      if (value !== '') {
+      if (value) {
         out.push(`${prefix}${key}: ${value};`);
       }
     } else if (Array.isArray(value)) {
@@ -42,6 +36,12 @@ function formatCSSRuleObject(rule: CSSRuleObject, indent: string, newLine: strin
 
       if (s !== '') {
         out.push(`${prefix}${key} {${newLine}${nextPrefix}${s};${newLine}${prefix}}`);
+      }
+    } else if (typeof value === 'object') {
+      // nested CSSRuleObject
+      const s1 = formatCSSRuleObject(value as CSSRuleObject, indent, newLine, nextPrefix);
+      if (s1 !== '') {
+        out.push(`${prefix}${key} {${newLine}${s1}${newLine}${prefix}}`);
       }
     }
   }
