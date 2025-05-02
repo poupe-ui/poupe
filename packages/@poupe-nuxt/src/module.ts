@@ -8,6 +8,10 @@ import {
 
 import { setup } from './setup';
 
+export {
+  type ModuleOptions,
+} from './config';
+
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: '@poupe/nuxt',

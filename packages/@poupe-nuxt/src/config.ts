@@ -1,25 +1,24 @@
-import type { ThemeColors } from '@poupe/theme-builder';
-import type { TailwindThemeOptions } from '@poupe/theme-builder/tailwind';
+import type { ThemeOptions } from '@poupe/tailwindcss/theme';
 
 import { DEFAULT_PREFIX } from '@poupe/vue/resolver';
 
 export type { Nuxt } from '@nuxt/schema';
 
-export interface ModuleOptions<K extends string = string> extends TailwindThemeOptions {
+export interface ModuleOptions<K extends string = string> {
   /** @defaultValue 'P' */
   prefix?: string
-  /** @defaultValue `{ primary: '#2a364b' }` */
-  colors: ThemeColors<K>
+
+  /** @defaultValue `{ color: { primary: '#2a364b' }}` */
+  theme?: Partial<ThemeOptions<K>>
 }
 
 export const DEFAULT_PRIMARY_COLOR = '#2a364b';
 
 export const defaultModuleOptions: Readonly<ModuleOptions> = {
   prefix: DEFAULT_PREFIX,
-  colors: {
-    primary: DEFAULT_PRIMARY_COLOR,
+  theme: {
+    colors: {
+      primary: DEFAULT_PRIMARY_COLOR,
+    },
   },
-  darkSuffix: '',
-  lightSuffix: '',
-  extend: false,
 };

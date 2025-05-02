@@ -4,7 +4,7 @@ import type { ModuleOptions as ColorModeModuleOptions } from '@nuxtjs/color-mode
 
 import { setupComponents } from './components';
 import type { ModuleOptions, Nuxt } from './config';
-import { installTailwindModule } from './tailwind';
+import { installTailwindPlugin } from './tailwind';
 import { createDefaultResolver } from './utils';
 
 const installIconModule = async (nuxt: Nuxt) => {
@@ -28,7 +28,7 @@ export const setup = async (options: ModuleOptions, nuxt: Nuxt) => {
   // Modules
   await installIconModule(nuxt);
   await installColorModeModule(nuxt);
-  await installTailwindModule(options, nuxt, resolve);
+  await installTailwindPlugin(options, [], [], resolve);
 
   // Components
   setupComponents(options);
