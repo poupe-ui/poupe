@@ -46,15 +46,18 @@
     "tailwind-merge": "^3.2.0",
     "tailwind-scrollbar": "^4.0.2",
     "tailwind-variants": "^1.0.0",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.1.6",
     "vue": "^3.5.13"
   },
   "devDependencies": {
     "@poupe/eslint-config": "^0.6.3",
+    "@poupe/tailwindcss": "workspace:^",
     "@poupe/theme-builder": "workspace:^",
+    "@tailwindcss/postcss": "^4.1.6",
+    "@tailwindcss/vite": "^4.1.6",
     "@tsconfig/node20": "^20.1.5",
     "@types/jsdom": "^21.1.7",
-    "@types/node": "^22.15.3",
+    "@types/node": "^22.15.17",
     "@vitejs/plugin-vue": "^5.2.4",
     "@vue/eslint-config-typescript": "^14.5.0",
     "@vue/test-utils": "^2.4.6",
@@ -77,6 +80,7 @@
     "vue-tsc": "^2.2.10"
   },
   "peerDependencies": {
-    "@poupe/theme-builder": "^0.6.10"
+    "@poupe/tailwindcss": "^0.2.4",
+    "@poupe/theme-builder": "^0.7.0"
   }
 }
