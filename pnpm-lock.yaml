@@ -31,7 +31,10 @@ importers:
         version: 5.0.0
       tailwind-scrollbar:
         specifier: ^4.0.2
-        version: 4.0.2(react@19.0.0)(tailwindcss@3.4.17)
+        version: 4.0.2(react@19.0.0)(tailwindcss@4.1.5)
+      tailwindcss:
+        specifier: ^4.1.5
+        version: 4.1.5
     devDependencies:
       '@nuxt/devtools':
         specifier: ^2.4.0
@@ -12314,13 +12317,6 @@ snapshots:
   tailwind-merge@3.0.2: {}
 
   tailwind-merge@3.2.0: {}
-
-  tailwind-scrollbar@4.0.2(react@19.0.0)(tailwindcss@3.4.17):
-    dependencies:
-      prism-react-renderer: 2.4.1(react@19.0.0)
-      tailwindcss: 3.4.17
-    transitivePeerDependencies:
-      - react
 
   tailwind-scrollbar@4.0.2(react@19.0.0)(tailwindcss@4.1.5):
     dependencies:
