@@ -52,6 +52,8 @@
   "devDependencies": {
     "@poupe/eslint-config": "^0.6.3",
     "@poupe/theme-builder": "workspace:^",
+    "@tailwindcss/postcss": "^4.1.5",
+    "@tailwindcss/vite": "^4.1.5",
     "@tsconfig/node20": "^20.1.5",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^22.15.3",
