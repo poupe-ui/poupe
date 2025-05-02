@@ -54,7 +54,7 @@
     "@types/node": "^22.15.3",
     "changelogen": "^0.6.1",
     "defu": "^6.1.4",
-    "eslint": "^9.25.1",
+    "eslint": "^9.26.0",
     "npm-run-all2": "^7.0.2",
     "nuxt": "^3.17.1",
     "typescript": "^5.8.3",

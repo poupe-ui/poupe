@@ -70,7 +70,7 @@ importers:
         specifier: ^6.1.4
         version: 6.1.4
       eslint:
-        specifier: ^9.25.1
+        specifier: ^9.26.0
         version: 9.26.0(jiti@2.4.2)
       npm-run-all2:
         specifier: ^7.0.2
@@ -126,7 +126,7 @@ importers:
         specifier: ^0.6.3
         version: 0.6.3(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.1(eslint@9.26.0(jiti@2.4.2)))
       eslint:
-        specifier: ^9.25.1
+        specifier: ^9.26.0
         version: 9.26.0(jiti@2.4.2)
       typescript:
         specifier: ~5.8.3
@@ -202,7 +202,7 @@ importers:
         specifier: ^10.4.21
         version: 10.4.21(postcss@8.5.3)
       eslint:
-        specifier: ^9.25.1
+        specifier: ^9.26.0
         version: 9.26.0(jiti@2.4.2)
       eslint-config-unjs:
         specifier: 0.4.2
