@@ -15,4 +15,4 @@ export default createConfigForNuxt({
       './playground',
     ],
   },
-}, forNuxtModules());
+}, ...forNuxtModules());
