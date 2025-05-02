@@ -64,7 +64,7 @@
     "eslint-config-unjs": "0.4.2",
     "eslint-plugin-vue": "^10.1.0",
     "jsdom": "^26.1.0",
-    "npm-run-all2": "^7.0.2",
+    "npm-run-all2": "^8.0.1",
     "pathe": "^2.0.3",
     "postcss": "^8.5.3",
     "typescript": "~5.8.3",

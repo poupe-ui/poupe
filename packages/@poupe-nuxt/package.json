@@ -55,7 +55,7 @@
     "changelogen": "^0.6.1",
     "defu": "^6.1.4",
     "eslint": "^9.26.0",
-    "npm-run-all2": "^7.0.2",
+    "npm-run-all2": "^8.0.1",
     "nuxt": "^3.17.1",
     "typescript": "^5.8.3",
     "unbuild": "3.5.0",
