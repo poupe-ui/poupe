@@ -7,30 +7,30 @@ import { contentGlobs } from '@poupe/vue/config';
 import type { ModuleOptions, Nuxt } from './config';
 import { createDefaultResolver, stringify } from './utils';
 
-const POUPE_TAILWIND_CONFIG_FILENAME = 'poupe-tailwind.config.ts';
+const POUPE_TAILWIND_CSS_FILENAME = 'poupe-nuxt.css';
 
 const getConfigContents = (
   options: ModuleOptions,
+  cssPath: TailwindModuleOptions['cssPath'],
+  resolve: (...path: string[]) => string = createDefaultResolver(),
 ): string => {
-  const { colors, prefix: _prefix, ...extra } = options;
   const content = [
     ...contentGlobs(),
   ];
+  const prelude: string = '@import \'tailwindcss\';';
 
-  return /* ts */`import { withMaterialColors, withPrintMode } from '@poupe/theme-builder/tailwind';
+  if (cssPath) {
+    console.log('cssPath', cssPath, typeof cssPath === 'string' ? resolve(cssPath) : cssPath);
+  }
 
-import ScrollbarPlugin from 'tailwind-scrollbar';
+  return /* css */`${prelude}
 
-const content = ${stringify(content)};
+@plugin 'tailwind-scrollbar';
+@plugin '@poupe/tailwindcss' {
+  ${stringify(options)}
+}
 
-const plugins = [
-  ScrollbarPlugin,
-];
-
-export default withMaterialColors(withPrintMode({
-  content,
-  plugins,
-}), ${stringify(colors)}, ${stringify(extra)});
+@source ${stringify(content)};
 `;
 };
 
@@ -40,25 +40,18 @@ export const installTailwindModule = async (
   resolve: (...path: string[]) => string = createDefaultResolver(),
 ) => {
   // original @nuxtjs/tailwindcss' ModuleOptions
-  const { config: userConfig = [], ...tailwindModuleOptions } = nuxt.options.tailwindcss ?? {};
+  const { cssPath, ...tailwindModuleOptions } = nuxt.options.tailwindcss ?? {};
 
   // template
-  const generatedConfig = addTemplate({
-    filename: POUPE_TAILWIND_CONFIG_FILENAME,
+  const generatedCSS = addTemplate({
+    filename: POUPE_TAILWIND_CSS_FILENAME,
     write: true,
-    getContents: () => getConfigContents(options),
+    getContents: () => getConfigContents(options, cssPath, resolve),
   });
-
-  // config files
-  const config: TailwindModuleOptions['config'] = [
-    generatedConfig.dst,
-    resolve(nuxt.options.rootDir, 'tailwind.config'),
-    ...(Array.isArray(userConfig) ? userConfig : [userConfig]),
-  ];
 
   // install tailwindcss module
   await installModule('@nuxtjs/tailwindcss', defu({
     exposeConfig: true,
-    config,
+    cssPath: generatedCSS.dst,
   }, tailwindModuleOptions));
 };

@@ -23,18 +23,15 @@ importers:
       '@nuxtjs/tailwindcss':
         specifier: ^6.14.0
         version: 6.14.0(magicast@0.3.5)
-      '@types/stringify-object':
-        specifier: ^4.0.5
-        version: 4.0.5
-      stringify-object:
-        specifier: ^5.0.0
-        version: 5.0.0
+      '@poupe/tailwindcss':
+        specifier: ^0.2.4
+        version: 0.2.4(@poupe/theme-builder@packages+@poupe-theme-builder)
       tailwind-scrollbar:
         specifier: ^4.0.2
-        version: 4.0.2(react@19.0.0)(tailwindcss@3.4.17)
+        version: 4.0.2(react@19.0.0)(tailwindcss@4.1.6)
       tailwindcss:
-        specifier: ^3.4.17
-        version: 3.4.17
+        specifier: ^4.1.6
+        version: 4.1.6
     devDependencies:
       '@nuxt/devtools':
         specifier: ^2.4.0
@@ -1403,6 +1400,11 @@ packages:
     resolution: {integrity: sha512-EPTFBhMH4+VhpXQ808D6YjyqV1wb9t5TYXGiNliV4s4hJdQoUgHefnP7IvLGAgNden2sypAunxTfsfnTlrT9aA==}
     engines: {node: '>= 18.20.8', pnpm: '>= 10.10.0'}
 
+  '@poupe/tailwindcss@0.2.4':
+    resolution: {integrity: sha512-RRVGSZNCEDrh3jiazGTdd9K5q9UMupQyCuy4BpxWjvLvy0cZXTqhYKES4/qIiU4cfrEsdy+CeBttwnaDrvNyvQ==}
+    peerDependencies:
+      '@poupe/theme-builder': ^0.6.10
+
   '@publint/pack@0.1.2':
     resolution: {integrity: sha512-S+9ANAvUmjutrshV4jZjaiG8XQyuJIZ8a4utWmN/vW1sgQ9IfBnPndwkmQYw53QmouOIytT874u65HEmu6H5jw==}
     engines: {node: '>=18'}
@@ -1771,9 +1773,6 @@ packages:
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
-
-  '@types/stringify-object@4.0.5':
-    resolution: {integrity: sha512-TzX5V+njkbJ8iJ0mrj+Vqveep/1JBH4SSA3J2wYrE1eUrOhdsjTBCb0kao4EquSQ8KgPpqY4zSVP2vCPWKBElg==}
 
   '@types/tough-cookie@4.0.5':
     resolution: {integrity: sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==}
@@ -3401,10 +3400,6 @@ packages:
     resolution: {integrity: sha512-9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ==}
     engines: {node: '>= 0.4'}
 
-  get-own-enumerable-keys@1.0.0:
-    resolution: {integrity: sha512-PKsK2FSrQCyxcGHsGrLDcK0lx+0Ke+6e8KFFozA9/fIQLhQzPaRvJFdcz7+Axg3jUH/Mq+NI4xa5u/UT2tQskA==}
-    engines: {node: '>=14.16'}
-
   get-port-please@3.1.2:
     resolution: {integrity: sha512-Gxc29eLs1fbn6LQ4jSU4vXjlwyZhF5HsGuMAa7gqBP4Rw4yxxltyDUuF5MBclFzDTXO+ACchGQoeela4DSfzdQ==}
 
@@ -3745,10 +3740,6 @@ packages:
     resolution: {integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==}
     engines: {node: '>=0.12.0'}
 
-  is-obj@3.0.0:
-    resolution: {integrity: sha512-IlsXEHOjtKhpN8r/tRFj2nDyTmHvcfNeu/nrRIcXE17ROeatXchkojffa1SpdqW4cr/Fj6QkEf/Gn4zf6KKvEQ==}
-    engines: {node: '>=12'}
-
   is-path-inside@4.0.0:
     resolution: {integrity: sha512-lJJV/5dYS+RcL8uQdBDW9c9uWFLLBNRyFhnAKXw5tVqLlKZ4RMGZKv+YQ/IA3OhD+RpbJa1LLFM1FQPGyIXvOA==}
     engines: {node: '>=12'}
@@ -3773,10 +3764,6 @@ packages:
   is-regex@1.2.1:
     resolution: {integrity: sha512-MjYsKHO5O7mCsmRGxWcLWheFqN9DJ/2TmngvjKXihe6efViPqc274+Fx/4fYj/r03+ESvBdTXK0V6tA3rgez1g==}
     engines: {node: '>= 0.4'}
-
-  is-regexp@3.1.0:
-    resolution: {integrity: sha512-rbku49cWloU5bSMI+zaRaXdQHXnthP6DZ/vLnfdSKyL4zUzuWnomtOEiZZOd+ioQ+avFo/qau3KPTc7Fjy1uPA==}
-    engines: {node: '>=12'}
 
   is-ssh@1.4.1:
     resolution: {integrity: sha512-JNeu1wQsHjyHgn9NcWTaXq6zWSR6hqE0++zhfZlkFBbScNkyvxCdeV8sRkSBaeLKxmbpR21brail63ACNxJ0Tg==}
@@ -5485,10 +5472,6 @@ packages:
 
   string_decoder@1.3.0:
     resolution: {integrity: sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==}
-
-  stringify-object@5.0.0:
-    resolution: {integrity: sha512-zaJYxz2FtcMb4f+g60KsRNFOpVMUyuJgA51Zi5Z1DOTC3S59+OQiVOzE9GZt0x72uBGWKsQIuBKeF9iusmKFsg==}
-    engines: {node: '>=14.16'}
 
   strip-ansi@6.0.1:
     resolution: {integrity: sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==}
@@ -7783,6 +7766,11 @@ snapshots:
       - typescript
       - vue-eslint-parser
 
+  '@poupe/tailwindcss@0.2.4(@poupe/theme-builder@packages+@poupe-theme-builder)':
+    dependencies:
+      '@poupe/theme-builder': link:packages/@poupe-theme-builder
+      tailwindcss: 4.1.6
+
   '@publint/pack@0.1.2': {}
 
   '@rollup/plugin-alias@5.1.1(rollup@4.40.1)':
@@ -8092,8 +8080,6 @@ snapshots:
   '@types/prismjs@1.26.5': {}
 
   '@types/resolve@1.20.2': {}
-
-  '@types/stringify-object@4.0.5': {}
 
   '@types/tough-cookie@4.0.5': {}
 
@@ -10011,8 +9997,6 @@ snapshots:
       hasown: 2.0.2
       math-intrinsics: 1.1.0
 
-  get-own-enumerable-keys@1.0.0: {}
-
   get-port-please@3.1.2: {}
 
   get-proto@1.0.1:
@@ -10361,8 +10345,6 @@ snapshots:
 
   is-number@7.0.0: {}
 
-  is-obj@3.0.0: {}
-
   is-path-inside@4.0.0: {}
 
   is-plain-obj@2.1.0: {}
@@ -10383,8 +10365,6 @@ snapshots:
       gopd: 1.2.0
       has-tostringtag: 1.0.2
       hasown: 2.0.2
-
-  is-regexp@3.1.0: {}
 
   is-ssh@1.4.1:
     dependencies:
@@ -12293,12 +12273,6 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  stringify-object@5.0.0:
-    dependencies:
-      get-own-enumerable-keys: 1.0.0
-      is-obj: 3.0.0
-      is-regexp: 3.1.0
-
   strip-ansi@6.0.1:
     dependencies:
       ansi-regex: 5.0.1
@@ -12395,13 +12369,6 @@ snapshots:
   tailwind-merge@3.0.2: {}
 
   tailwind-merge@3.2.0: {}
-
-  tailwind-scrollbar@4.0.2(react@19.0.0)(tailwindcss@3.4.17):
-    dependencies:
-      prism-react-renderer: 2.4.1(react@19.0.0)
-      tailwindcss: 3.4.17
-    transitivePeerDependencies:
-      - react
 
   tailwind-scrollbar@4.0.2(react@19.0.0)(tailwindcss@4.1.6):
     dependencies:

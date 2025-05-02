@@ -68,13 +68,12 @@
     "@nuxt/icon": "^1.12.0",
     "@nuxtjs/color-mode": "^3.5.2",
     "@nuxtjs/tailwindcss": "^6.14.0",
-    "@types/stringify-object": "^4.0.5",
-    "stringify-object": "^5.0.0",
-    "tailwind-scrollbar": "^4.0.2",
-    "tailwindcss": "^3.4.17"
+    "tailwind-scrollbar": "^4.0.2"
   },
   "peerDependencies": {
-    "@poupe/theme-builder": "^0.6.10",
-    "@poupe/vue": "^0.3.6"
+    "@poupe/tailwindcss": "^0.2.4",
+    "@poupe/theme-builder": "^0.7.0",
+    "@poupe/vue": "^0.4.0",
+    "tailwindcss": "^4.1.6"
   }
 }
