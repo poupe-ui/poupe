@@ -1,6 +1,6 @@
 {
   "name": "@poupe/nuxt",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "type": "module",
   "description": "Poupe's Nuxt module",
   "author": "Alejandro Mery <amery@apptly.co>",
