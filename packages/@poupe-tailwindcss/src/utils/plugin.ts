@@ -1,6 +1,7 @@
 import {
   type Config,
   type PluginAPI,
+  type PluginCreator as PluginFn,
 
   default as origPlugin,
 } from 'tailwindcss/plugin';
@@ -14,6 +15,23 @@ export {
 
 export type PluginWithConfig = ReturnType<typeof origPlugin>;
 export type PluginWithOptions<O> = ReturnType<typeof origPlugin.withOptions<O>>;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type PluginsConfig = (PluginFn | PluginWithConfig | PluginWithOptions<any>)[];
+
+/**
+ * Wraps the original Tailwind plugin function providing a type-safe
+ * signature alias for the function.
+ *
+ * @param pluginFunction - A function that defines the Tailwind plugin's behavior using the PluginAPI
+ * @param config - Optional partial configuration for Tailwind as
+ *   companion of what's added using the `pluginFunction`.
+ * @returns A configured Tailwind plugin with the specified function and optional configuration
+ */
+export const plugin = origPlugin as (
+  pluginFunction: (api: PluginAPI) => void,
+  config?: Partial<Config>
+) => PluginWithConfig;
 
 /**
  * Creates a Tailwind plugin with configurable options.
