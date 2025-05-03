@@ -1,0 +1,52 @@
+{
+  "name": "@poupe/tailwindcss",
+  "version": "0.0.1",
+  "type": "module",
+  "description": "tailwindcss v4 plugin to use poupe theme builder",
+  "author": "Alejandro Mery <amery@apptly.co>",
+  "license": "MIT",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poupe-ui/poupe.git",
+    "directory": "packages/@poupe-tailwindcss"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
+    },
+    "./theme": {
+      "types": "./dist/theme.d.ts",
+      "import": "./dist/theme.mjs"
+    },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.mjs"
+    }
+  },
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "prepack": "run-s lint type-check test build publint",
+    "dev:prepare": "unbuild --stub",
+    "type-check": "tsc --noEmit",
+    "lint": "env DEBUG=eslint:eslint eslint --fix .",
+    "publint": "pnpx publint",
+    "build": "unbuild",
+    "test": "vitest run",
+    "dev": "vitest watch",
+    "clean": "rm -rf dist node_modules"
+  },
+  "devDependencies": {
+    "@poupe/eslint-config": "^0.6.3",
+    "eslint": "^9.25.1",
+    "typescript": "^5.8.3",
+    "unbuild": "3.5.0",
+    "vitest": "^3.1.2",
+    "vue-tsc": "^2.2.10"
+  },
+  "dependencies": {
+    "tailwindcss": "^4.1.5"
+  }
+}
