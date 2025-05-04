@@ -275,6 +275,24 @@ export const hslFromArgb = (argb: number) => hslFromColord(colord(splitArgb(argb
 /** @returns the {@link HslaColor} for the given {@link Hct} */
 export const hslFromHct = (c: Hct): HslaColor => hslFromArgb(argbFromHct(c));
 
+/** @returns the {@link HslaColor} for the given {@link HctColor} */
+export const hslFromHctColor = (c: HctColor): HslaColor => hslFromColord(toColord(rgbaFromHctColor(c)));
+
+/** @returns the {@link HslaColor} for the given {@link Color} */
+export const hsl = (c: Color): HslaColor => {
+  if (c instanceof Hct) {
+    return hslFromHct(c);
+  } else if (c instanceof Colord) {
+    return hslFromColord(c);
+  } else if (typeof c === 'number') {
+    return hslFromArgb(c);
+  } else if (typeof c === 'object' && 't' in c) {
+    return hslFromHctColor(c);
+  } else {
+    return hslFromColord(toColord(c));
+  }
+};
+
 /*
  * Hex factories
  */
