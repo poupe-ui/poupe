@@ -137,6 +137,9 @@ export const rgbFromRgbaColor = (c: RgbaColor): number => {
   return uint32(r255 << 16 | g255 << 8 | b255);
 };
 
+/** @returns the decomposed {@link RgbaColor} corresponding to the given {@link HctColor} */
+export const rgbaFromHctColor = (c: HctColor): RgbaColor => splitArgb(argbFromHctColor(c));
+
 /*
  * ARGB factories
  */
@@ -195,9 +198,6 @@ export const argb = (c: Color): number => {
     return argbFromColord(toColord(c));
   }
 };
-
-/** @returns the decomposed {@link RgbaColor} corresponding to the given {@link HctColor} */
-export const splitHctColor = (c: HctColor): RgbaColor => splitArgb(argbFromHctColor(c));
 
 /*
  * Colord factories
@@ -275,6 +275,24 @@ export const hslFromArgb = (argb: number) => hslFromColord(colord(splitArgb(argb
 /** @returns the {@link HslaColor} for the given {@link Hct} */
 export const hslFromHct = (c: Hct): HslaColor => hslFromArgb(argbFromHct(c));
 
+/** @returns the {@link HslaColor} for the given {@link HctColor} */
+export const hslFromHctColor = (c: HctColor): HslaColor => hslFromColord(toColord(rgbaFromHctColor(c)));
+
+/** @returns the {@link HslaColor} for the given {@link Color} */
+export const hsl = (c: Color): HslaColor => {
+  if (c instanceof Hct) {
+    return hslFromHct(c);
+  } else if (c instanceof Colord) {
+    return hslFromColord(c);
+  } else if (typeof c === 'number') {
+    return hslFromArgb(c);
+  } else if (typeof c === 'object' && 't' in c) {
+    return hslFromHctColor(c);
+  } else {
+    return hslFromColord(toColord(c));
+  }
+};
+
 /*
  * Hex factories
  */
@@ -289,7 +307,7 @@ export const hexFromArgb = (argb: number) => hexFromColord(colord(splitArgb(argb
 export const hexFromHct = (c: Hct) => hexFromArgb(argbFromHct(c));
 
 /** @returns the Hex RGB Color string for the given {@link HctColor} */
-export const hexFromHctColor = (c: HctColor): HexColor => hexFromColord(colord(splitHctColor(c)));
+export const hexFromHctColor = (c: HctColor): HexColor => hexFromColord(toColord(rgbaFromHctColor(c)));
 
 /** @returns the Hex RGB Color string for the given {@link Color} */
 export const hex = (c: Color): HexColor => {
