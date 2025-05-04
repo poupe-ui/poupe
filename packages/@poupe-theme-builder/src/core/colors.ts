@@ -137,6 +137,9 @@ export const rgbFromRgbaColor = (c: RgbaColor): number => {
   return uint32(r255 << 16 | g255 << 8 | b255);
 };
 
+/** @returns the decomposed {@link RgbaColor} corresponding to the given {@link HctColor} */
+export const rgbaFromHctColor = (c: HctColor): RgbaColor => splitArgb(argbFromHctColor(c));
+
 /*
  * ARGB factories
  */
@@ -195,9 +198,6 @@ export const argb = (c: Color): number => {
     return argbFromColord(toColord(c));
   }
 };
-
-/** @returns the decomposed {@link RgbaColor} corresponding to the given {@link HctColor} */
-export const splitHctColor = (c: HctColor): RgbaColor => splitArgb(argbFromHctColor(c));
 
 /*
  * Colord factories
@@ -289,7 +289,7 @@ export const hexFromArgb = (argb: number) => hexFromColord(colord(splitArgb(argb
 export const hexFromHct = (c: Hct) => hexFromArgb(argbFromHct(c));
 
 /** @returns the Hex RGB Color string for the given {@link HctColor} */
-export const hexFromHctColor = (c: HctColor): HexColor => hexFromColord(colord(splitHctColor(c)));
+export const hexFromHctColor = (c: HctColor): HexColor => hexFromColord(toColord(rgbaFromHctColor(c)));
 
 /** @returns the Hex RGB Color string for the given {@link Color} */
 export const hex = (c: Color): HexColor => {
