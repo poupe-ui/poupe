@@ -1,4 +1,4 @@
-import { expect, test, describe } from 'vitest';
+import { expect, test, it, describe } from 'vitest';
 import { Hct } from '@material/material-color-utilities';
 import { uint32 } from './utils';
 
@@ -25,6 +25,7 @@ import {
   hslFromColord,
   hslFromArgb,
   hslFromHct,
+  hslString,
   hexFromColord,
   hexFromArgb,
   hexFromHct,
@@ -272,5 +273,88 @@ describe('Edge Cases', () => {
     expect(hex('red')).eq('#ff0000');
     expect(hex('transparent')).eq('#00000000');
     expect(argb('transparent')).eq(uint32(0x00_00_00_00));
+  });
+});
+
+describe('hslString utility', () => {
+  // --- Tests with alpha = true (default) ---
+  describe('when alpha parameter is true (default)', () => {
+    it('should return HSL string for a color without alpha', () => {
+      const color: Color = '#ff0000'; // Red
+      // colord('#ff0000').toHsl() -> { h: 0, s: 100, l: 50, a: 1 }
+      expect(hslString(color)).toBe('hsl(0, 100%, 50%)');
+    });
+
+    it('should return HSL string for a color with alpha = 1', () => {
+      const color: Color = 'rgba(0, 0, 255, 1)'; // Blue with alpha 1
+      // colord('rgba(0, 0, 255, 1)').toHsl() -> { h: 240, s: 100, l: 50, a: 1 }
+      expect(hslString(color)).toBe('hsl(240, 100%, 50%)');
+    });
+
+    it('should return HSLA string for a color with alpha < 1 (RGB input)', () => {
+      const color: Color = 'rgba(0, 255, 0, 0.5)'; // Green with 50% alpha
+      // colord('rgba(0, 255, 0, 0.5)').toHsl() -> { h: 120, s: 100, l: 50, a: 0.5 }
+      expect(hslString(color)).toBe('hsla(120, 100%, 50%, 0.5)');
+    });
+
+    it('should return HSLA string for a color with alpha < 1 (HSL input)', () => {
+      const color: Color = { h: 300, s: 75, l: 60, a: 0.25 }; // Magenta-ish with 25% alpha
+      expect(hslString(color)).toBe('hsla(300, 75%, 60%, 0.25)');
+    });
+
+    it('should return HSLA string for a color with alpha < 1 (Hex input with alpha)', () => {
+      const color: Color = '#ff880080'; // Orange with 50% alpha (80 hex = 128 dec = 0.5)
+      // colord('#ff880080').toHsl() -> { h: 32, s: 100, l: 50, a: 0.5 }
+      expect(hslString(color)).toBe('hsla(32, 100%, 50%, 0.5)');
+    });
+
+    it('should handle black correctly', () => {
+      const color: Color = '#000000';
+      expect(hslString(color)).toBe('hsl(0, 0%, 0%)');
+    });
+
+    it('should handle white correctly', () => {
+      const color: Color = '#ffffff';
+      expect(hslString(color)).toBe('hsl(0, 0%, 100%)');
+    });
+  });
+
+  // --- Tests with alpha = false ---
+  describe('when alpha parameter is false', () => {
+    it('should return HSL string for a color without alpha', () => {
+      const color: Color = '#ffff00'; // Yellow
+      // colord('#ffff00').toHsl() -> { h: 60, s: 100, l: 50, a: 1 }
+      expect(hslString(color, false)).toBe('hsl(60, 100%, 50%)');
+    });
+
+    it('should return HSL string even for a color with alpha < 1 (RGB input)', () => {
+      const color: Color = 'rgba(0, 255, 0, 0.5)'; // Green with 50% alpha
+      // colord('rgba(0, 255, 0, 0.5)').toHsl() -> { h: 120, s: 100, l: 50, a: 0.5 }
+      // Alpha should be ignored
+      expect(hslString(color, false)).toBe('hsl(120, 100%, 50%)');
+    });
+
+    it('should return HSL string even for a color with alpha < 1 (HSL input)', () => {
+      const color: Color = { h: 300, s: 75, l: 60, a: 0.25 }; // Magenta-ish with 25% alpha
+      // Alpha should be ignored
+      expect(hslString(color, false)).toBe('hsl(300, 75%, 60%)');
+    });
+
+    it('should return HSL string even for a color with alpha < 1 (Hex input with alpha)', () => {
+      const color: Color = '#ff880080'; // Orange with 50% alpha
+      // colord('#ff880080').toHsl() -> { h: 32, s: 100, l: 50, a: 0.5 }
+      // Alpha should be ignored
+      expect(hslString(color, false)).toBe('hsl(32, 100%, 50%)');
+    });
+
+    it('should handle black correctly when alpha is false', () => {
+      const color: Color = 'rgba(0, 0, 0, 0.7)';
+      expect(hslString(color, false)).toBe('hsl(0, 0%, 0%)');
+    });
+
+    it('should handle white correctly when alpha is false', () => {
+      const color: Color = 'hsla(0, 0%, 100%, 0.1)';
+      expect(hslString(color, false)).toBe('hsl(0, 0%, 100%)');
+    });
   });
 });
