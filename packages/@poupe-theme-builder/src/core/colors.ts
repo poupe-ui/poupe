@@ -293,6 +293,17 @@ export const hsl = (c: Color): HslaColor => {
   }
 };
 
+/** @returns the HSL or HSLA color string representation of the given {@link Color}, with optional alpha control */
+export function hslString(c: Color, alpha: boolean = true): string {
+  const { h, s, l, a: a0 } = colord(c).toHsl();
+  const a = alpha === false ? 1 : a0;
+
+  if (a < 1) {
+    return `hsla(${h}, ${s}%, ${l}%, ${a})`;
+  }
+  return `hsl(${h}, ${s}%, ${l}%)`;
+}
+
 /*
  * Hex factories
  */
