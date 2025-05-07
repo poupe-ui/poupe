@@ -36,7 +36,8 @@ export function themePluginFunction(api: PluginAPI, theme: Theme): void {
   for (const base of makeThemeBases(theme, darkMode)) {
     api.addBase(base);
   }
-  api.addComponents(makeThemeComponents(theme));
+
+  api.addComponents(makeThemeComponents(theme, api.config('prefix', '')));
 }
 
 /** alias of makeConfig as companion for themePluginFunction */
