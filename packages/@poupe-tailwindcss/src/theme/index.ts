@@ -21,3 +21,7 @@ export {
   type Config,
   makeConfig,
 } from './config';
+
+export {
+  writeTheme,
+} from './css';

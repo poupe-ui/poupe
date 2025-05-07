@@ -12,4 +12,5 @@ export {
   hct,
   hslString,
   splitHct,
+  formatCSSRuleObjects,
 } from '@poupe/theme-builder/core';
