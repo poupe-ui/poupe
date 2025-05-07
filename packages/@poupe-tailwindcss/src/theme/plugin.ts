@@ -1,30 +1,52 @@
 import {
+  type DarkModeStrategy,
   type PluginAPI,
   type PluginWithOptions,
-  pluginWithPartialOptions,
-} from '../utils/plugin';
+  pluginWithOptions,
+} from '../utils';
 
-export type ThemeOptions = unknown & {};
+import {
+  type ThemeOptions,
+  withDefaultThemeOptions,
+} from './options';
+
+import {
+  type Theme,
+  makeTheme,
+  makeThemeBases,
+  makeThemeComponents,
+} from './theme';
+
+import {
+  makeConfig,
+} from './config';
 
 /** poupe plugin for tailwindcss v4 for config use */
-export const themePlugin: PluginWithOptions<ThemeOptions> = pluginWithPartialOptions(
-  pluginFunction,
-  configFunction,
-  defaultsFunction,
+export const themePlugin: PluginWithOptions<Partial<ThemeOptions>> = pluginWithOptions(
+  themePluginFunction,
+  makeConfig,
+  makeThemeFromPartialOptions,
 );
 
-function pluginFunction(api: PluginAPI, options: ThemeOptions): void {
-  console.log(`${logPrefix}:pluginFunction`, options, api);
+/** uses Tailwind CSS's PluginAPI to apply a Theme */
+export function themePluginFunction(api: PluginAPI, theme: Theme): void {
+  debugLog(theme.options.debug, 'plugin', theme);
+
+  const darkMode = api.config('darkMode', 'class') as DarkModeStrategy;
+  for (const base of makeThemeBases(theme, darkMode)) {
+    api.addBase(base);
+  }
+  api.addComponents(makeThemeComponents(theme));
+}
+
+/** alias of makeConfig as companion for themePluginFunction */
+export { makeConfig as themeConfigFunction } from './config';
+
+/** @returns a Theme built using the provided ThemeOptions. defaults are automatically applied */
+export function makeThemeFromPartialOptions(options: Partial<ThemeOptions> = {}): Theme {
+  debugLog(options.debug, 'makeThemeFromPartialOptions', options);
+
+  return makeTheme(withDefaultThemeOptions(options));
 };
 
-function configFunction(options: ThemeOptions): ThemeOptions {
-  console.log(`${logPrefix}:configFunction`, options);
-  return options;
-}
-
-function defaultsFunction(options: Partial<ThemeOptions> = {}): ThemeOptions {
-  console.log(`${logPrefix}:defaultsFunction`, options);
-  return options;
-}
-
-const logPrefix = '@poupe/tailwindcss';
+import { debugLog } from './utils';

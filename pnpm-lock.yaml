@@ -119,6 +119,9 @@ importers:
       '@poupe/eslint-config':
         specifier: ^0.6.3
         version: 0.6.3(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.1(eslint@9.26.0(jiti@2.4.2)))
+      '@poupe/theme-builder':
+        specifier: workspace:^
+        version: link:../@poupe-theme-builder
       eslint:
         specifier: ^9.25.1
         version: 9.26.0(jiti@2.4.2)
