@@ -53,6 +53,12 @@ export type ThemeOptions<K extends string = string> = {
   /** Prefix for theme-related class names, defaults to 'md-'.  @defaultValue `'md-'` */
   themePrefix: string
 
+  /** Prefix for surface class names, defaults to 'surface-'.
+   * Set to `false` to disable surface generation.
+   *  @defaultValue `'surface-'`
+   * */
+  surfacePrefix: string | false
+
   /** Flag to omit theme generation, @defaultValue `false` */
   omitTheme: boolean
 
@@ -117,3 +123,4 @@ export const defaultThemeDarkSuffix = '';
 export const defaultThemeLightSuffix = '';
 export const defaultThemeContrastLevel = 0;
 export const defaultThemeScheme: StandardDynamicSchemeKey = 'content';
+export const defaultSurfacePrefix = 'surface-';

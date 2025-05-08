@@ -22,6 +22,20 @@ export function getStringValue(value: unknown): string | undefined {
   return undefined;
 }
 
+export function getStringOrBooleanValue(value: unknown): string | boolean | undefined {
+  if (typeof value === 'boolean') {
+    return value;
+  } else if (typeof value !== 'string') {
+    return undefined;
+  } else if (value === 'true') {
+    return true;
+  } else if (value === 'false') {
+    return false;
+  } else {
+    return value;
+  }
+}
+
 export function getBooleanValue(value: unknown): boolean | undefined {
   if (typeof value === 'boolean') {
     return value;
