@@ -1,6 +1,16 @@
 export * from './core';
 export * from './dynamic-color';
-export * from './dynamic-color-css';
+
+export {
+  type CSSThemeOptions,
+  type MakeCSSThemeOptions,
+  defaultCSSThemeOptions,
+  defaultDarkSelector,
+  defaultLightSelector,
+  assembleCSSColors,
+  makeCSSTheme,
+} from './dynamic-color-css';
+
 export * from './dynamic-color-data';
 export * from './dynamic-color-mix';
 export * from './dynamic-theme';
