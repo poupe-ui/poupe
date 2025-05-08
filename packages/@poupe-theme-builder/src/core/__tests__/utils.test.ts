@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { kebabCase, uint32, uint8, unsafeKeys } from './utils';
+import { kebabCase, uint32, uint8, unsafeKeys } from '../utils';
 
 describe('kebabCase', () => {
   it('should convert camelCase to kebab-case', () => {

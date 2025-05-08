@@ -70,7 +70,7 @@ export function defaultLightSelector(options: Partial<CSSThemeOptions>) {
     return lightMode;
 }
 
-function defaultRootLightSelector(options: Partial<CSSThemeOptions>) {
+export function defaultRootLightSelector(options: Partial<CSSThemeOptions>) {
   const rootSelector = ':root';
   const lightSelector = defaultLightSelector(options);
   if (lightSelector) {
@@ -80,7 +80,7 @@ function defaultRootLightSelector(options: Partial<CSSThemeOptions>) {
 }
 
 /** creates resulting {@link CSSRuleObject} array */
-function assembleCSSRules(root: CSSRuleObject | undefined,
+export function assembleCSSRules(root: CSSRuleObject | undefined,
   light: CSSRuleObject, dark: CSSRuleObject,
   options: CSSThemeOptions): CSSRuleObject[] {
   /*
@@ -106,7 +106,7 @@ function assembleCSSRules(root: CSSRuleObject | undefined,
   return styles;
 }
 
-function generateCSSColorVariables<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: CSSThemeOptions) {
+export function generateCSSColorVariables<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: CSSThemeOptions) {
   const {
     prefix,
     darkSuffix,
@@ -137,6 +137,21 @@ function generateCSSColorVariables<K extends string>(dark: ColorMap<K>, light: C
 
     if (k2 !== k0) {
       lightVars[k0] = `var(${k2})`;
+    }
+  }
+
+  if (darkSuffix === lightSuffix) {
+    // deduplicate
+    for (const key of Object.keys(darkValues)) {
+      if (key in lightValues && darkValues[key] === lightValues[key]) {
+        delete darkValues[key];
+      }
+    }
+
+    for (const key of Object.keys(darkVars)) {
+      if (key in lightVars && darkVars[key] === lightVars[key]) {
+        delete darkVars[key];
+      }
     }
   }
 

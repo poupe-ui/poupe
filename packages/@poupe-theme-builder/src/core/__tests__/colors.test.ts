@@ -1,6 +1,6 @@
 import { expect, test, it, describe } from 'vitest';
 import { Hct } from '@material/material-color-utilities';
-import { uint32 } from './utils';
+import { uint32 } from '../utils';
 
 import {
   type Color,
@@ -30,7 +30,7 @@ import {
   hexFromArgb,
   hexFromHct,
   hexFromHctColor,
-} from './colors';
+} from '../colors';
 
 import { extend } from 'colord';
 import namesPlugin from 'colord/plugins/names';
