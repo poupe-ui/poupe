@@ -13,7 +13,9 @@ function formatCSSRuleObject(rule: CSSRuleObject, indent: string, newLine: strin
     // TODO: validate key;
     const value = rule[key];
 
-    if (typeof value === 'string') {
+    if (atRuleException(key, value)) {
+      out.push(`${prefix}${key};`);
+    } else if (typeof value === 'string') {
       // string
       if (value) {
         out.push(`${prefix}${key}: ${value};`);
@@ -46,6 +48,13 @@ function formatCSSRuleObject(rule: CSSRuleObject, indent: string, newLine: strin
     }
   }
   return out.join(newLine);
+}
+
+function atRuleException(key: string, value: unknown): boolean {
+  if (key.startsWith('@') && value !== null && typeof value === 'object') {
+    return Object.keys(value).length === 0;
+  }
+  return false;
 }
 
 export function formatCSSRuleObjects(rules: CSSRuleObject | CSSRuleObject[], indent: string = '\t', newLine: string = '\n', prefix: string = ''): string {
