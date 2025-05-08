@@ -63,7 +63,7 @@ export type ThemeOptions<K extends string = string> = {
   scheme: StandardDynamicSchemeKey
 
   /** Theme contrast level, @defaultValue `0` */
-  contrast: number
+  contrastLevel: number
 
   /** Suffix for dark theme variants, @defaultValue `''` */
   darkSuffix: string
@@ -115,5 +115,5 @@ export const defaultPrimaryColor = '#74bef5'; // blue from Tailwind CSS's logo
 export const defaultThemePrefix = 'md-';
 export const defaultThemeDarkSuffix = '';
 export const defaultThemeLightSuffix = '';
-export const defaultThemeContrast = 0;
+export const defaultThemeContrastLevel = 0;
 export const defaultThemeScheme: StandardDynamicSchemeKey = 'content';

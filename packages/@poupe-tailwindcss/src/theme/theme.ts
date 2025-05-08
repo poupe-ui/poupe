@@ -68,7 +68,7 @@ export function makeTheme<K extends string>(options: ThemeOptions<K>) {
     dark,
     light,
     darkPalette,
-  } = makeThemeColors($colors, options.scheme, options.contrast);
+  } = makeThemeColors($colors, options.scheme, options.contrastLevel);
 
   const keys = unsafeKeys(dark);
   const paletteKeys = unsafeKeys(darkPalette);
