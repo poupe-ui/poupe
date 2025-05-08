@@ -9,6 +9,7 @@ import {
   defaultThemePrefix,
   defaultThemeDarkSuffix,
   defaultThemeLightSuffix,
+  defaultSurfacePrefix,
 } from './types';
 
 import {
@@ -41,6 +42,7 @@ export function withDefaultThemeOptions<K extends string = string>(options: Part
   return {
     debug: options.debug ?? false,
     themePrefix: options.themePrefix ?? defaultThemePrefix,
+    surfacePrefix: options.surfacePrefix ?? defaultSurfacePrefix,
     omitTheme: options.omitTheme ?? false,
     extendColors: options.extendColors ?? false,
 

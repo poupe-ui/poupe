@@ -1,5 +1,6 @@
 import {
   type Theme,
+  defaultSurfacePrefix,
 } from './types';
 
 import {
@@ -14,6 +15,11 @@ export function makeThemeComponents(theme: Readonly<Theme>, tailwindPrefix: stri
 }
 
 export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: string = ''): Record<string, CSSRuleObject> {
+  const { surfacePrefix = defaultSurfacePrefix } = theme.options;
+  if (!surfacePrefix) {
+    return {};
+  }
+
   // find surface pairs
   const pairs = new Map<string, string>();
   for (const name of theme.keys) {
@@ -32,9 +38,7 @@ export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: st
 
   const surfaces: Record<string, CSSRuleObject> = {};
 
-  // TODO: make prefixes configurable
-  const [bgPrefix, textPrefix, surfacePrefix] = ['bg-', 'text-', 'surface-'].map(prefix => `${tailwindPrefix}${prefix}`);
-
+  const [bgPrefix, textPrefix] = ['bg-', 'text-'].map(prefix => `${tailwindPrefix}${prefix}`);
   for (const [name, onName] of pairs) {
     const { key, value } = assembleSurfaceComponent(name, onName, bgPrefix, textPrefix, surfacePrefix);
     surfaces[key] = value;

@@ -26,6 +26,7 @@ import {
 import {
   getBooleanValue,
   getStringValue,
+  getStringOrBooleanValue,
   kebabCase,
 } from './utils';
 
@@ -38,6 +39,12 @@ export type FlatOptions = {
    * @defaultValue 'md-'
    */
   themePrefix?: string
+
+  /**
+   * Prefix used for surface components
+   * @defaultValue 'surface-'
+   */
+  surfacePrefix?: string | false
 
   /**
    * When true, only generates variable references without color values
@@ -126,6 +133,35 @@ export function processParam(options: Partial<ThemeOptions>, debug: boolean, key
       }
       options.themePrefix = v;
       debugLog(debug, 'theme-prefix', v);
+      return true;
+    }
+
+    case 'surfacePrefix':
+    case 'surface-prefix': {
+      const v = getStringOrBooleanValue(value);
+      switch (v) {
+        case undefined:
+          // invalid value
+          return false;
+        case true:
+          // default value
+          options.surfacePrefix = undefined; // reset to get default value
+          break;
+        case false:
+        case '':
+          // empty string is equivalent to false
+          options.surfacePrefix = false;
+          break;
+        default:
+          if (!validThemePrefix(v)) {
+            // invalid value
+            return false;
+          }
+
+          options.surfacePrefix = v;
+      }
+
+      debugLog(debug, 'surface-prefix', options.surfacePrefix);
       return true;
     }
 
