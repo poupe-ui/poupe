@@ -37,6 +37,10 @@ export {
   type Theme,
 } from './types';
 
+export {
+  makeThemeComponents,
+} from './components';
+
 /**
  * Creates a theme configuration based on the provided theme options.
  *
@@ -202,10 +206,4 @@ export function makeThemeBases(
   }
 
   return bases;
-}
-
-export function makeThemeComponents(theme: Readonly<Theme>): Record<string, CSSRuleObject>[] {
-  debugLog(theme.options.debug, 'makeThemeComponents', theme);
-  // TODO: implement
-  return [];
 }
