@@ -5,7 +5,7 @@ import {
 
   defaultPrimaryColor,
   defaultThemeScheme,
-  defaultThemeContrast,
+  defaultThemeContrastLevel,
   defaultThemePrefix,
   defaultThemeDarkSuffix,
   defaultThemeLightSuffix,
@@ -47,7 +47,7 @@ export function withDefaultThemeOptions<K extends string = string>(options: Part
     darkSuffix: options.darkSuffix ?? defaultThemeDarkSuffix,
     lightSuffix: options.lightSuffix ?? defaultThemeLightSuffix,
     scheme: options.scheme ?? defaultThemeScheme,
-    contrast: options.contrast ?? defaultThemeContrast,
+    contrastLevel: options.contrastLevel ?? defaultThemeContrastLevel,
 
     shades,
     colors,

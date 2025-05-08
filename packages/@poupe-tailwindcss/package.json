@@ -1,6 +1,6 @@
 {
   "name": "@poupe/tailwindcss",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "description": "tailwindcss v4 plugin to use poupe theme builder",
   "author": "Alejandro Mery <amery@apptly.co>",
