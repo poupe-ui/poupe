@@ -284,6 +284,129 @@ describe('generateCSSColorVariables', () => {
   });
 });
 
+describe('deduplication in generateCSSColorVariables', () => {
+  it('should deduplicate identical color values when suffixes are the same', () => {
+    const options: CSSThemeOptions = {
+      ...defaultCSSThemeOptions(),
+      darkSuffix: '-same',
+      lightSuffix: '-same',
+    };
+
+    // Same colors for both dark and light
+    const sameColor = hct({ h: 120, c: 25, t: 50 });
+
+    const darkColors: ColorMap<string> = {
+      identical: sameColor,
+      differentValue: hct({ h: 200, c: 30, t: 40 }),
+    };
+
+    const lightColors: ColorMap<string> = {
+      identical: sameColor,
+      differentValue: hct({ h: 200, c: 30, t: 80 }),
+    };
+
+    const result = generateCSSColorVariables(darkColors, lightColors, options);
+
+    // The identical value should be deduplicated (removed from darkValues)
+    expect(result.darkValues).not.toHaveProperty('--md-identical-same');
+    expect(result.lightValues).toHaveProperty('--md-identical-same');
+
+    // Different values should be preserved in both
+    expect(result.darkValues).toHaveProperty('--md-differentValue-same');
+    expect(result.lightValues).toHaveProperty('--md-differentValue-same');
+  });
+
+  it('should deduplicate vars references when suffixes are the same', () => {
+    const options: CSSThemeOptions = {
+      ...defaultCSSThemeOptions(),
+      darkSuffix: '-shared',
+      lightSuffix: '-shared',
+    };
+
+    // Same colors for both dark and light
+    const sameColor = hct({ h: 120, c: 25, t: 50 });
+    const differentColor = hct({ h: 240, c: 40, t: 60 });
+
+    const darkColors: ColorMap<string> = {
+      identical: sameColor,
+      different: differentColor,
+    };
+
+    const lightColors: ColorMap<string> = {
+      identical: sameColor,
+      different: hct({ h: 280, c: 35, t: 70 }),
+    };
+
+    const result = generateCSSColorVariables(darkColors, lightColors, options);
+
+    // The var references for identical values should be deduplicated
+    expect(result.darkVars ?? {}).not.toHaveProperty('--md-identical');
+
+    // Identical variables should be preserved in light
+    expect(result.darkVars ?? {}).not.toHaveProperty('--md-different');
+    expect(result.lightVars ?? {}).toHaveProperty('--md-different');
+  });
+
+  it('should not deduplicate when suffixes are different', () => {
+    const options: CSSThemeOptions = {
+      ...defaultCSSThemeOptions(),
+      darkSuffix: '-dark',
+      lightSuffix: '-light',
+    };
+
+    // Same color for both dark and light
+    const sameColor = hct({ h: 120, c: 25, t: 50 });
+
+    const darkColors: ColorMap<string> = {
+      identical: sameColor,
+    };
+
+    const lightColors: ColorMap<string> = {
+      identical: sameColor,
+    };
+
+    const result = generateCSSColorVariables(darkColors, lightColors, options);
+
+    // No deduplication should happen with different suffixes
+    expect(result.darkValues).toHaveProperty('--md-identical-dark');
+    expect(result.lightValues).toHaveProperty('--md-identical-light');
+    expect(result.darkVars).toHaveProperty('--md-identical');
+    expect(result.lightVars).toHaveProperty('--md-identical');
+  });
+
+  it('should handle completely empty objects after deduplication', () => {
+    const options: CSSThemeOptions = {
+      ...defaultCSSThemeOptions(),
+      darkSuffix: '-common',
+      lightSuffix: '-common',
+    };
+
+    // Same colors for both dark and light (everything identical)
+    const sameColor = hct({ h: 120, c: 25, t: 50 });
+
+    const darkColors: ColorMap<string> = {
+      color1: sameColor,
+      color2: sameColor,
+    };
+
+    const lightColors: ColorMap<string> = {
+      color1: sameColor,
+      color2: sameColor,
+    };
+
+    const result = generateCSSColorVariables(darkColors, lightColors, options);
+
+    // All dark values should be deduplicated
+    expect(Object.keys(result.darkValues).length).toBe(0);
+
+    // Light values should remain
+    expect(Object.keys(result.lightValues).length).toBe(2);
+
+    // darkVars should be undefined since everything was deduplicated
+    expect(result.darkVars).toBeUndefined();
+  });
+});
+
 describe('defaultRootLightSelector', () => {
   if (typeof defaultRootLightSelector === 'function') {
     it('should return :root when lightMode is false or empty', () => {

@@ -140,6 +140,21 @@ export function generateCSSColorVariables<K extends string>(dark: ColorMap<K>, l
     }
   }
 
+  if (darkSuffix === lightSuffix) {
+    // deduplicate
+    for (const key of Object.keys(darkValues)) {
+      if (key in lightValues && darkValues[key] === lightValues[key]) {
+        delete darkValues[key];
+      }
+    }
+
+    for (const key of Object.keys(darkVars)) {
+      if (key in lightVars && darkVars[key] === lightVars[key]) {
+        delete darkVars[key];
+      }
+    }
+  }
+
   if (unsafeKeys(darkVars).length === 0) {
     darkVars = undefined;
   }
