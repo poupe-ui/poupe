@@ -57,8 +57,10 @@ export function writeTheme(
   const components = makeThemeComponents(theme);
 
   // bases
-  writeRulesSet(out, '@layer base', bases, indent, newLine);
-  out.write(newLine);
+  if (bases.length > 0) {
+    writeRulesSet(out, '@layer base', bases, indent, newLine);
+    out.write(newLine);
+  }
 
   // theme
   writeRulesSet(out, '@theme', themeColorRules, indent, newLine);
