@@ -10,7 +10,7 @@ export function getShadeValue(value: unknown, negative: boolean = false): number
   } else if (validShade(value)) {
     return value;
   } else if (negative && validShade(-value)) {
-    return -value;
+    return value;
   }
   return undefined;
 }
