@@ -22,8 +22,6 @@ export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: st
     }
   }
 
-  debugLog(theme.options.debug, 'makeSurfaceComponents', pairs);
-
   // TODO: determine pair of special colors
   // - primary-fixed-dim
   // - on-primary-fixed-variant
@@ -42,6 +40,7 @@ export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: st
     surfaces[key] = value;
   }
 
+  debugLog(theme.options.debug, 'surfaces', surfaces);
   return surfaces;
 }
 

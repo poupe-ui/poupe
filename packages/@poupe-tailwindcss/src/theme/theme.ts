@@ -9,6 +9,7 @@ import {
   type DarkModeStrategy,
   unsafeKeys,
   getDarkMode,
+  hexString,
   hslString,
   debugLog,
 } from './utils';
@@ -185,7 +186,13 @@ export function makeThemeBases(
   theme: Readonly<Theme>,
   darkMode: DarkModeStrategy = 'class',
 ): CSSRuleObject[] {
-  debugLog(theme.options.debug, 'makeThemeBases', darkMode, theme);
+  if (theme.options.debug) {
+    debugLog(true, 'makeThemeBases', `darkMode:${darkMode}`, {
+      ...theme,
+      dark: theme.dark ? Object.fromEntries(Object.entries(theme.dark).map(([k, v]) => [k, hexString(v)])) : undefined,
+      light: theme.light ? Object.fromEntries(Object.entries(theme.light).map(([k, v]) => [k, hexString(v)])) : undefined,
+    });
+  }
 
   const bases: CSSRuleObject[] = [];
 

@@ -10,6 +10,7 @@ export {
   Hct,
 
   hct,
+  hex as hexString,
   hslString,
   splitHct,
   formatCSSRuleObjects,

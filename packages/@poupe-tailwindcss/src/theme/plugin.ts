@@ -30,14 +30,18 @@ export const themePlugin: PluginWithOptions<Partial<ThemeOptions>> = pluginWithO
 
 /** uses Tailwind CSS's PluginAPI to apply a Theme */
 export function themePluginFunction(api: PluginAPI, theme: Theme): void {
-  debugLog(theme.options.debug, 'plugin', theme);
-
   const darkMode = api.config('darkMode', 'class') as DarkModeStrategy;
+
+  debugLog(theme.options.debug, 'plugin', `darkMode:${darkMode}`, theme.paletteKeys);
+
   for (const base of makeThemeBases(theme, darkMode)) {
     api.addBase(base);
   }
 
-  api.addComponents(makeThemeComponents(theme, api.config('prefix', '')));
+  for (const components of makeThemeComponents(theme, api.config('prefix', ''))) {
+    debugLog(theme.options.debug, 'plugin', components);
+    api.addComponents(components);
+  }
 }
 
 /** alias of makeConfig as companion for themePluginFunction */
