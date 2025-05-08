@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { themePlugin } from './plugin';
+import { themePlugin } from '../plugin';
 
 describe('themePlugin', () => {
   it('should implement PluginWithOptions interface', () => {
