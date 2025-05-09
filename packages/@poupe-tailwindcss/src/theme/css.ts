@@ -43,7 +43,8 @@ function formatRulesSet(key: string, rules: CSSRuleObject[], indent: string = ' 
 function formatUtilities(u: CSSRuleObject, indent: string = '  ', newLine: string = '\n', prefix: string = ''): string[] {
   const utilities: CSSRuleObject = {};
   for (const [name, value] of Object.entries(u)) {
-    utilities[`@utility ${name}`] = value;
+    // remove the leading dot.
+    utilities[`@utility ${name.slice(1)}`] = value;
   }
 
   return [
