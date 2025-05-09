@@ -1,6 +1,6 @@
 {
   "name": "@poupe/tailwindcss",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "type": "module",
   "description": "tailwindcss v4 plugin to use poupe theme builder",
   "author": "Alejandro Mery <amery@apptly.co>",
@@ -14,6 +14,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "style": "./dist/style.css",
       "import": "./dist/index.mjs"
     },
     "./theme": {
@@ -26,6 +27,7 @@
     }
   },
   "main": "./dist/index.mjs",
+  "style": "./dist/style.css",
   "types": "./dist/index.d.ts",
   "scripts": {
     "prepack": "run-s lint type-check test build publint",
@@ -42,6 +44,7 @@
     "@poupe/eslint-config": "^0.6.3",
     "@poupe/theme-builder": "workspace:^",
     "eslint": "^9.25.1",
+    "pathe": "^2.0.3",
     "publint": "^0.3.12",
     "typescript": "^5.8.3",
     "unbuild": "3.5.0",
