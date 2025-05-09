@@ -23,5 +23,6 @@ export {
 } from './config';
 
 export {
+  formatTheme,
   writeTheme,
 } from './css';

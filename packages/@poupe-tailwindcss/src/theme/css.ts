@@ -19,30 +19,49 @@ import {
   defaultPersistentColors,
 } from './config';
 
-function writeRulesSet(out: Buffer, key: string, rules: CSSRuleObject[], indent: string = '  ', newLine: string = '\n', prefix: string = '') {
+function formatRulesSet(key: string, rules: CSSRuleObject[], indent: string = '  ', newLine: string = '\n', prefix: string = ''): string[] {
   const nextPrefix = `${prefix}${indent}`;
 
-  out.write(`${prefix}${key} {${newLine}`);
+  const out: string[] = [
+    `${prefix}${key} {${newLine}`,
+  ];
+
   for (const [i, entry] of rules.entries()) {
-    out.write(formatCSSRuleObjects(entry, indent, newLine, nextPrefix));
-    out.write(newLine);
-    if (i < rules.length - 1) {
-      out.write(newLine);
-    }
+    out.push(
+      formatCSSRuleObjects(entry, indent, newLine, nextPrefix),
+      newLine,
+
+      // blank line between rules
+      (i < rules.length - 1) ? newLine : '',
+    );
   }
-  out.write(`${prefix}}${newLine}`);
+
+  out.push(`${prefix}}${newLine}`);
+  return out;
 }
 
-function writeUtilities(out: Buffer, u: CSSRuleObject, indent: string = '  ', newLine: string = '\n', prefix: string = '') {
+function formatUtilities(u: CSSRuleObject, indent: string = '  ', newLine: string = '\n', prefix: string = ''): string[] {
   const utilities: CSSRuleObject = {};
   for (const [name, value] of Object.entries(u)) {
     utilities[`@utility ${name}`] = value;
   }
 
-  out.write(formatCSSRuleObjects(utilities, indent, newLine, prefix));
-  out.write(newLine);
+  return [
+    formatCSSRuleObjects(utilities, indent, newLine, prefix),
+    newLine,
+  ];
 }
 
+/**
+ * Writes a formatted theme to a buffer.
+ *
+ * @param theme - The theme configuration to be written
+ * @param out - The buffer to write the formatted theme into
+ * @param darkMode - Strategy for handling dark mode, defaults to 'class'
+ * @param indent - Indentation string for formatting, defaults to two spaces
+ * @param newLine - Newline character for formatting, defaults to LF
+ * @returns The number of bytes written to the buffer
+ */
 export function writeTheme(
   theme: Theme,
   out: Buffer,
@@ -50,30 +69,57 @@ export function writeTheme(
   indent: string = '  ',
   newLine: string = '\n',
 ) {
+  const chunks = formatTheme(theme, darkMode, indent, newLine);
+  return out.write(chunks.join(''));
+}
+
+/**
+ * Formats a theme configuration into a series of CSS rules and utilities.
+ *
+ * @param theme - The theme configuration object to be processed
+ * @param darkMode - Strategy for handling dark mode, defaults to 'class'
+ * @param indent - Indentation string for formatting, defaults to two spaces
+ * @param newLine - Newline character for formatting, defaults to LF
+ * @returns An array of formatted CSS rule strings
+ */
+export function formatTheme(
+  theme: Theme,
+  darkMode: DarkModeStrategy = 'class',
+  indent: string = '  ',
+  newLine: string = '\n',
+): string[] {
   const { extendColors = false } = theme.options;
 
+  const out: string[] = [];
   const bases = makeThemeBases(theme, darkMode);
   const themeColorRules = themeColors(theme.colors, extendColors);
   const components = makeThemeComponents(theme);
 
   // bases
   if (bases.length > 0) {
-    writeRulesSet(out, '@layer base', bases, indent, newLine);
-    out.write(newLine);
+    out.push(
+      ...formatRulesSet('@layer base', bases, indent, newLine),
+      newLine,
+    );
   }
 
-  // theme
-  writeRulesSet(out, '@theme', themeColorRules, indent, newLine);
-  out.write(newLine);
+  // theme colors
+  out.push(
+    ...formatRulesSet('@theme', themeColorRules, indent, newLine),
+    newLine,
+  );
 
   // components
   for (const [i, entry] of components.entries()) {
-    writeUtilities(out, entry, indent, newLine);
+    out.push(
+      ...formatUtilities(entry, indent, newLine),
 
-    if (i < components.length - 1) {
-      out.write(newLine);
-    }
+      // blank line between groups
+      (i < components.length - 1) ? newLine : '',
+    );
   }
+
+  return out;
 }
 
 export function themeColors(
