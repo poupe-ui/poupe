@@ -121,66 +121,66 @@
   --color-tertiary-fixed-dim: var(--md-tertiary-fixed-dim);
 }
 
-@utility .surface {
+@utility surface {
   @apply bg-surface text-on-surface;
 }
-@utility .surface-dim {
+@utility surface-dim {
   @apply bg-surface-dim text-on-surface-dim;
 }
-@utility .surface-bright {
+@utility surface-bright {
   @apply bg-surface-bright text-on-surface-bright;
 }
-@utility .surface-variant {
+@utility surface-variant {
   @apply bg-surface-variant text-on-surface-variant;
 }
-@utility .surface-container-lowest {
+@utility surface-container-lowest {
   @apply bg-surface-container-lowest text-on-surface-container-lowest;
 }
-@utility .surface-container-low {
+@utility surface-container-low {
   @apply bg-surface-container-low text-on-surface-container-low;
 }
-@utility .surface-container {
+@utility surface-container {
   @apply bg-surface-container text-on-surface-container;
 }
-@utility .surface-container-high {
+@utility surface-container-high {
   @apply bg-surface-container-high text-on-surface-container-high;
 }
-@utility .surface-container-highest {
+@utility surface-container-highest {
   @apply bg-surface-container-highest text-on-surface-container-highest;
 }
-@utility .surface-inverse-surface {
+@utility surface-inverse-surface {
   @apply bg-inverse-surface text-on-inverse-surface;
 }
-@utility .surface-primary {
+@utility surface-primary {
   @apply bg-primary text-on-primary;
 }
-@utility .surface-primary-container {
+@utility surface-primary-container {
   @apply bg-primary-container text-on-primary-container;
 }
-@utility .surface-primary-fixed {
+@utility surface-primary-fixed {
   @apply bg-primary-fixed text-on-primary-fixed;
 }
-@utility .surface-secondary {
+@utility surface-secondary {
   @apply bg-secondary text-on-secondary;
 }
-@utility .surface-secondary-container {
+@utility surface-secondary-container {
   @apply bg-secondary-container text-on-secondary-container;
 }
-@utility .surface-secondary-fixed {
+@utility surface-secondary-fixed {
   @apply bg-secondary-fixed text-on-secondary-fixed;
 }
-@utility .surface-tertiary {
+@utility surface-tertiary {
   @apply bg-tertiary text-on-tertiary;
 }
-@utility .surface-tertiary-container {
+@utility surface-tertiary-container {
   @apply bg-tertiary-container text-on-tertiary-container;
 }
-@utility .surface-tertiary-fixed {
+@utility surface-tertiary-fixed {
   @apply bg-tertiary-fixed text-on-tertiary-fixed;
 }
-@utility .surface-error {
+@utility surface-error {
   @apply bg-error text-on-error;
 }
-@utility .surface-error-container {
+@utility surface-error-container {
   @apply bg-error-container text-on-error-container;
 }
