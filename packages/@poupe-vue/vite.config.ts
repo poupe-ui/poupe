@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 
 import autoprefixer from 'autoprefixer';
-import tailwind from 'tailwindcss';
+import tailwind from '@tailwindcss/vite';
 
 import Vue from '@vitejs/plugin-vue';
 import VueDevTools from 'vite-plugin-vue-devtools';
@@ -19,6 +19,7 @@ export default defineConfig({
       tsconfigPath: resolve('tsconfig.app.json'),
       rollupTypes: true,
     }),
+    tailwind(),
   ],
   build: {
     lib: {
@@ -58,7 +59,6 @@ export default defineConfig({
   css: {
     postcss: {
       plugins: [
-        tailwind(),
         autoprefixer(),
       ],
     },

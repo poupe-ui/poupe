@@ -1,16 +1,16 @@
 import {
   type Config,
   type PluginsConfig,
+  type PluginFn,
   type PluginConfigAPI,
   type PluginThemeAPI,
 
   defaultColors,
-  plugin,
 } from './common';
 
 import {
   type CSSRuleObject,
-} from 'tailwindcss/types/config';
+} from '../core/css';
 
 /** options for {@link surfaceComponentsPlugin} */
 export type SurfaceComponentsOptions = {
@@ -37,17 +37,17 @@ export function withSurfaceComponents(config: Partial<Config> = {}, options: Par
   };
 }
 
-export function surfaceComponentsPlugin(options: Partial<SurfaceComponentsOptions> = {}) {
-  return plugin(function ({ addComponents, config, theme }) {
-    const components: CSSRuleObject[] = makeSurfaceComponents(options, config, theme);
+export function surfaceComponentsPlugin(options: Partial<SurfaceComponentsOptions> = {}): PluginFn {
+  return function ({ addComponents, config, theme }) {
+    const components = makeSurfaceComponents(options, config, theme);
     addComponents(components);
-  });
+  };
 }
 
-function makeSurfaceComponents(options: Partial<SurfaceComponentsOptions>, config: PluginConfigAPI, theme: PluginThemeAPI): CSSRuleObject[] {
+function makeSurfaceComponents(options: Partial<SurfaceComponentsOptions>, config: PluginConfigAPI, theme: PluginThemeAPI) {
   const $options = defaultSurfaceComponentsOptions(options, config);
 
-  const components: CSSRuleObject[] = [];
+  const components: Record<string, CSSRuleObject> = {};
 
   // all colors
   const allColors: Record<string, boolean> = {};
@@ -75,31 +75,29 @@ function makeSurfaceComponents(options: Partial<SurfaceComponentsOptions>, confi
   // - on-tertiary-fixed-variant
 
   for (const colorName of Object.keys(pairs)) {
-    components.push(assembleSurfaceComponent($options, colorName, pairs[colorName]));
+    const { key, value } = assembleSurfaceComponent($options, colorName, pairs[colorName]);
+    components[key] = value;
   }
 
   return components;
 }
 
-function assembleSurfaceComponent(options: SurfaceComponentsOptions, colorName: string, onColorName: string): CSSRuleObject {
+function assembleSurfaceComponent(options: SurfaceComponentsOptions, colorName: string, onColorName: string): { key: string; value: CSSRuleObject } {
   const { bgPrefix, textPrefix, surfacePrefix } = options;
 
   if (surfacePrefix === bgPrefix) {
     // extend bg- with text-on-
-    return {
-      [`.${bgPrefix}${colorName}`]: {
-        [`@apply ${textPrefix}${onColorName}`]: {},
-      },
+    return { key: `.${bgPrefix}${colorName}`, value: {
+      [`@apply ${textPrefix}${onColorName}`]: {},
+    },
     };
   }
 
   // combine bg- and text-on-
   const surfaceName = makeSurfaceName(colorName, surfacePrefix);
-  return {
-    [`.${surfaceName}`]: {
-      [`@apply ${bgPrefix}${colorName} ${textPrefix}${onColorName}`]: {},
-    },
-  };
+  return { key: `.${surfaceName}`, value: {
+    [`@apply ${bgPrefix}${colorName} ${textPrefix}${onColorName}`]: {},
+  } };
 }
 
 function makeSurfaceName(colorName: string, prefix: string): string {

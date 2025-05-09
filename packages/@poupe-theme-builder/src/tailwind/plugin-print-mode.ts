@@ -1,9 +1,8 @@
 import {
   type Config,
+  type PluginFn,
   type PluginsConfig,
   type ThemeConfig,
-
-  plugin,
 } from './common';
 
 // TODO: enhance to support other darkMode methods
@@ -12,10 +11,10 @@ function darkStyleNotPrint(darkMode: string = '.dark') {
   return `@media not print { ${darkMode} & }`;
 }
 
-export function darkStyleNotPrintPlugin(darkMode: string = '.dark') {
-  return plugin(function ({ addVariant }) {
+export function darkStyleNotPrintPlugin(darkMode: string = '.dark'): PluginFn {
+  return function ({ addVariant }) {
     addVariant('dark', darkStyleNotPrint(darkMode));
-  });
+  };
 }
 
 /** withPrintMode disable dark mode when printing and introduce 'print' and 'screen' variants. */

@@ -1,7 +1,9 @@
 import {
   type Config,
   type PluginAPI,
-} from 'tailwindcss/types/config';
+
+  default as plugin,
+} from 'tailwindcss/plugin';
 
 /*
  * Types
@@ -9,25 +11,27 @@ import {
 export {
   type Config,
   type PluginAPI,
-} from 'tailwindcss/types/config';
+  type PluginCreator as PluginFn,
+} from 'tailwindcss/plugin';
 
 export type PluginsConfig = Config['plugins'] & {};
-export type SafelistConfig = Config['safelist'] & {};
 export type ThemeConfig = Config['theme'] & {};
 
 export type PluginThemeAPI = PluginAPI['theme'];
 export type PluginConfigAPI = PluginAPI['config'];
 
+export type PluginWithConfig = ReturnType<typeof plugin>;
+
 /*
  * Data
  */
-export { default as defaultColors } from 'tailwindcss/colors.js';
-export { default as defaultTheme } from 'tailwindcss/defaultTheme.js';
+export { default as defaultColors } from 'tailwindcss/colors';
+export { default as defaultTheme } from 'tailwindcss/defaultTheme';
 
 /*
  * Functions
  */
-export { default as plugin } from 'tailwindcss/plugin.js';
+export { default as plugin } from 'tailwindcss/plugin';
 
 /** @returns a Tailwind config object */
 export const defineConfig = (c: Partial<Config> = {}): Config => {
