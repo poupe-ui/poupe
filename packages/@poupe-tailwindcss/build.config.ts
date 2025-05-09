@@ -23,6 +23,11 @@ const themes: Record<string, Partial<ThemeOptions<string>>> = {
     },
     omitTheme: true,
   },
+  lcweb: {
+    colors: {
+      primary: '#0065a4',
+    },
+  },
 };
 
 function writeTheme<K extends string>(dirname: string, filename: string, themeOptions: Partial<ThemeOptions<K>>) {
