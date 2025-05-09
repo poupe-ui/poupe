@@ -53,6 +53,9 @@ importers:
       '@nuxtjs/tailwindcss':
         specifier: ^6.14.0
         version: 6.14.0(magicast@0.3.5)
+      '@poupe/tailwindcss':
+        specifier: ^0.2.4
+        version: 0.2.6(@poupe/theme-builder@packages+@poupe-theme-builder)
       '@types/stringify-object':
         specifier: ^4.0.5
         version: 4.0.5
@@ -1438,6 +1441,11 @@ packages:
   '@poupe/eslint-config@0.6.3':
     resolution: {integrity: sha512-EPTFBhMH4+VhpXQ808D6YjyqV1wb9t5TYXGiNliV4s4hJdQoUgHefnP7IvLGAgNden2sypAunxTfsfnTlrT9aA==}
     engines: {node: '>= 18.20.8', pnpm: '>= 10.10.0'}
+
+  '@poupe/tailwindcss@0.2.6':
+    resolution: {integrity: sha512-trZt6BUh4tIZ2l+SHOKCmrCE77nDh2Fwk3Vg49EQbe20YJIf2hzqXIbuHhac2EhxRNm7qIiuYXeCOBFXr/2G7Q==}
+    peerDependencies:
+      '@poupe/theme-builder': ^0.7.0
 
   '@publint/pack@0.1.2':
     resolution: {integrity: sha512-S+9ANAvUmjutrshV4jZjaiG8XQyuJIZ8a4utWmN/vW1sgQ9IfBnPndwkmQYw53QmouOIytT874u65HEmu6H5jw==}
@@ -7935,6 +7943,11 @@ snapshots:
       - supports-color
       - typescript
       - vue-eslint-parser
+
+  '@poupe/tailwindcss@0.2.6(@poupe/theme-builder@packages+@poupe-theme-builder)':
+    dependencies:
+      '@poupe/theme-builder': link:packages/@poupe-theme-builder
+      tailwindcss: 4.1.6
 
   '@publint/pack@0.1.2': {}
 
