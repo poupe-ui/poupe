@@ -80,7 +80,7 @@
     "vue-tsc": "^2.2.10"
   },
   "peerDependencies": {
-    "@poupe/tailwindcss": "^0.2.5",
+    "@poupe/tailwindcss": "^0.2.6",
     "@poupe/theme-builder": "^0.7.0"
   }
 }
