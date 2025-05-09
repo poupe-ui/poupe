@@ -1,6 +1,6 @@
 {
   "name": "@poupe/theme-builder",
-  "version": "0.6.10",
+  "version": "0.7.0",
   "type": "module",
   "description": "",
   "author": "Alejandro Mery <amery@apptly.co>",
@@ -8,7 +8,7 @@
   "keywords": [],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/poupe-ui/poupe",
+    "url": "git+https://github.com/poupe-ui/poupe.git",
     "directory": "packages/@poupe-theme-builder"
   },
   "exports": {
