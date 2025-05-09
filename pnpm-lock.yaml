@@ -128,6 +128,9 @@ importers:
       eslint:
         specifier: ^9.25.1
         version: 9.26.0(jiti@2.4.2)
+      pathe:
+        specifier: ^2.0.3
+        version: 2.0.3
       publint:
         specifier: ^0.3.12
         version: 0.3.12
