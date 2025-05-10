@@ -228,6 +228,12 @@ importers:
       '@iconify/vue':
         specifier: ^5.0.0
         version: 5.0.0(vue@3.5.13(typescript@5.8.3))
+      '@poupe/tailwindcss':
+        specifier: workspace:^
+        version: link:../@poupe-tailwindcss
+      '@poupe/theme-builder':
+        specifier: workspace:^
+        version: link:../@poupe-theme-builder
       '@unhead/vue':
         specifier: ^2.0.8
         version: 2.0.8(vue@3.5.13(typescript@5.8.3))
@@ -253,12 +259,6 @@ importers:
       '@poupe/eslint-config':
         specifier: ^0.6.3
         version: 0.6.3(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.1(eslint@9.26.0(jiti@2.4.2)))
-      '@poupe/tailwindcss':
-        specifier: workspace:^
-        version: link:../@poupe-tailwindcss
-      '@poupe/theme-builder':
-        specifier: workspace:^
-        version: link:../@poupe-theme-builder
       '@tailwindcss/postcss':
         specifier: ^4.1.6
         version: 4.1.6
