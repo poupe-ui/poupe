@@ -2,10 +2,19 @@
   "name": "@poupe/tailwindcss",
   "version": "0.2.6",
   "type": "module",
-  "description": "tailwindcss v4 plugin to use poupe theme builder",
+  "description": "TailwindCSS v4 plugin for Poupe UI framework with theme customization support",
   "author": "Alejandro Mery <amery@apptly.co>",
   "license": "MIT",
-  "keywords": [],
+  "keywords": [
+    "tailwindcss",
+    "tailwind",
+    "css",
+    "poupe",
+    "theming",
+    "ui-framework",
+    "design-system",
+    "typescript"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/poupe-ui/poupe.git",
@@ -57,5 +66,16 @@
   },
   "peerDependencies": {
     "@poupe/theme-builder": "^0.7.0"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20.19.1",
+    "pnpm": ">=10.10.0"
+  },
+  "packageManager": "pnpm@10.10.0"
 }

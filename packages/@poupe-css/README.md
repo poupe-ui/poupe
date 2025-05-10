@@ -1,16 +1,37 @@
 # @poupe/css
 
 [![jsDocs.io](https://img.shields.io/badge/jsDocs.io-reference-blue)](https://www.jsdocs.io/package/@poupe/css)
+[![npm version](https://img.shields.io/npm/v/@poupe/css.svg)](https://www.npmjs.com/package/@poupe/css)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-A TypeScript utility library for CSS property manipulation and formatting.
+A TypeScript utility library for CSS property manipulation, formatting, and CSS-in-JS operations.
+
+## Features
+
+- 🛠️ Utilities for manipulating CSS properties
+- 🔄 Convert between camelCase and kebab-case CSS properties
+- 📝 Format CSS for use in JavaScript
+- 🎨 CSS-in-JS helpers and type definitions
+- 📦 Lightweight, tree-shakable API
 
 ## Installation
 
 ```bash
-npm install @poupe/css
+npm install -D @poupe/css
+# or
+yarn add -D @poupe/css
+# or
+pnpm add -D @poupe/css
 ```
 
 ## API Reference
+
+The library exports several categories of utilities:
+
+- **Case Conversion**: Functions for converting between different CSS naming conventions
+- **CSS Stringification**: Tools to convert CSS objects to strings
+- **CSS Variables**: Utilities for working with CSS custom properties
+- **Type Definitions**: TypeScript types for CSS properties
 
 ### Types
 
@@ -70,7 +91,7 @@ const inlineCSS = stringifyCSSProperties(styles, { inline: true });
 // "{ font-size: 16px; background-color: red; margin: 10, 20px, 30px, 40px }"
 
 // Custom indentation and prefix
-const customCSS = stringifyCSSProperties(styles, { 
+const customCSS = stringifyCSSProperties(styles, {
   indent: '    ',
   prefix: '  ',
   singleLineThreshold: 3
@@ -170,6 +191,18 @@ kebabCase('camelCase');      // 'camel-case'
 kebabCase('snake_case');     // 'snake-case'
 kebabCase('WebkitTransition'); // '-webkit-transition'
 ```
+
+## Integration with Poupe Ecosystem
+
+- [@poupe/theme-builder](../@poupe-theme-builder) - Design tokens generation
+- [@poupe/tailwindcss](../@poupe-tailwindcss) - TailwindCSS integration
+- [@poupe/vue](../@poupe-vue) - Vue components library
+- [@poupe/nuxt](../@poupe-nuxt) - Nuxt integration
+
+## Requirements
+
+- Node.js >=20.19.1
+- TypeScript-friendly environment
 
 ## License
 
