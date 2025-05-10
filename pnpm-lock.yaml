@@ -91,7 +91,7 @@ importers:
         specifier: workspace:^
         version: link:../@poupe-vue
       '@types/node':
-        specifier: ^22.15.3
+        specifier: ^22.15.17
         version: 22.15.17
       changelogen:
         specifier: ^0.6.1
