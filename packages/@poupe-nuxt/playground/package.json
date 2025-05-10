@@ -2,6 +2,7 @@
   "private": true,
   "name": "@poupe/nuxt-playground",
   "type": "module",
+  "description": "Development playground for the Poupe UI Nuxt module",
   "scripts": {
     "dev": "nuxi dev",
     "build": "nuxi build",
@@ -13,5 +14,10 @@
   },
   "devDependencies": {
     "nuxi": "^3.25.0"
-  }
+  },
+  "engines": {
+    "node": ">=20.19.1",
+    "pnpm": ">=10.10.0"
+  },
+  "packageManager": "pnpm@10.10.0"
 }

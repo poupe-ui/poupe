@@ -1,79 +1,118 @@
-# Poupe UI
+# @poupe/nuxt
 
-[![npm version][npm-version-src]][npm-version-href]
-[![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![License][license-src]][license-href]
-[![Nuxt][nuxt-src]][nuxt-href]
-[![jsDocs.io][jsdoc-src]][jsdoc-href]
+[![jsDocs.io](https://img.shields.io/badge/jsDocs.io-reference-blue)](https://www.jsdocs.io/package/@poupe/nuxt)
+[![npm version](https://img.shields.io/npm/v/@poupe/nuxt.svg)](https://www.npmjs.com/package/@poupe/nuxt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Poupe UI for Nuxt.
-
-- [✨ &nbsp;Release Notes](/CHANGELOG.md)
-<!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/@poupe/nuxt?file=playground%2Fapp.vue) -->
-<!-- - [📖 &nbsp;Documentation](https://example.com) -->
+Nuxt module for integrating Poupe UI framework with theme customization and components.
 
 ## Features
 
-<!-- Highlight some of the features your module provide here -->
-- ⛰ &nbsp;Foo
-- 🚠 &nbsp;Bar
-- 🌲 &nbsp;Baz
+- 🧩 Easy integration of Poupe UI with Nuxt applications
+- 🔄 Auto-imports of Poupe Vue components
+- 🎨 Theme customization through Nuxt config
+- 🌓 Dark/light mode support with integration to @nuxtjs/color-mode
+- 🛠️ TailwindCSS configuration included
 
-## Quick Setup
-
-Install the module to your Nuxt application with one command:
+## Installation
 
 ```bash
-npx nuxi module add @poupe/nuxt
+npm install @poupe/nuxt @poupe/vue @poupe/theme-builder
+# or
+yarn add @poupe/nuxt @poupe/vue @poupe/theme-builder
+# or
+pnpm add @poupe/nuxt @poupe/vue @poupe/theme-builder
 ```
 
-That's it! You can now use Poupe UI in your Nuxt app ✨
+## Setup
 
+Add the module to your `nuxt.config.ts`:
 
-## Contribution
+```typescript
+export default defineNuxtConfig({
+  modules: [
+    '@poupe/nuxt'
+  ],
+  poupe: {
+    // Configuration options
+    theme: {
+      colors: {
+        primary: '#1976d2',
+        secondary: '#9c27b0',
+        // Add more colors as needed
+      }
+    }
+  }
+})
+```
 
-<details>
-  <summary>Local development</summary>
-  
-  ```bash
-  # Install dependencies
-  npm install
-  
-  # Generate type stubs
-  npm run dev:prepare
-  
-  # Develop with the playground
-  npm run dev
-  
-  # Build the playground
-  npm run dev:build
-  
-  # Run ESLint
-  npm run lint
-  
-  # Run Vitest
-  npm run test
-  npm run test:watch
-  
-  # Release new version
-  npm run release
-  ```
+## Configuration Options
 
-</details>
+### Theme Configuration
 
+```typescript
+export default defineNuxtConfig({
+  modules: ['@poupe/nuxt'],
+  poupe: {
+    theme: {
+      colors: {
+        primary: '#1976d2',
+        secondary: '#9c27b0',
+        // Other colors
+      },
+      // Other theme options
+      spacing: {
+        // Custom spacing
+      },
+      borderRadius: {
+        // Custom border radius
+      }
+    },
+    // Enable/disable dark mode
+    darkMode: true,
+    // Component options
+    components: {
+      prefix: 'P', // Default prefix for components
+      // Component-specific options
+    }
+  }
+})
+```
 
-<!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/@poupe/nuxt/latest.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-version-href]: https://npmjs.com/package/@poupe/nuxt
+## Using Components
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/@poupe/nuxt.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-downloads-href]: https://npmjs.com/package/@poupe/nuxt
+Once installed, all Poupe components are automatically available in your Nuxt application:
 
-[license-src]: https://img.shields.io/npm/l/@poupe/nuxt.svg?style=flat&colorA=020420&colorB=00DC82
-[license-href]: https://npmjs.com/package/@poupe/nuxt
+```vue
+<template>
+  <div>
+    <PButton>Click me</PButton>
+    <PCard>
+      <h2>Card Title</h2>
+      <p>Card content</p>
+    </PCard>
+  </div>
+</template>
+```
 
-[nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js
-[nuxt-href]: https://nuxt.com
+## Development
 
-[jsdoc-src]: https://img.shields.io/badge/jsDocs.io-reference-blue
-[jsdoc-href]: https://www.jsdocs.io/package/@poupe/nuxt
+For local development, check out the [playground](./playground) directory.
+
+## Related Packages
+
+- [@poupe/css](../@poupe-css) - CSS-in-JS utilities
+- [@poupe/theme-builder](../@poupe-theme-builder) - Theme token generation
+- [@poupe/vue](../@poupe-vue) - Vue components library
+- [@poupe/tailwindcss](../@poupe-tailwindcss) - TailwindCSS integration
+
+## Requirements
+
+- Nuxt ^3.17.2
+- Node.js >=20.19.1
+- @poupe/theme-builder ^0.7.0
+- @poupe/vue ^0.4.1
+
+## License
+
+MIT licensed.
