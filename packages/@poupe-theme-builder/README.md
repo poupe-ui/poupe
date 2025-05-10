@@ -2,7 +2,7 @@
 
 [![jsDocs.io](https://img.shields.io/badge/jsDocs.io-reference-blue)](https://www.jsdocs.io/package/@poupe/theme-builder)
 [![npm version](https://img.shields.io/npm/v/@poupe/theme-builder.svg)](https://www.npmjs.com/package/@poupe/theme-builder)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](../../LICENCE.txt)
 
 Design token management and theme generation system for Poupe UI framework.
 
