@@ -1,0 +1,28 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "@poupe/css",
+			"path": "packages/@poupe-css"
+		},
+		{
+			"name": "@poupe/theme-builder",
+			"path": "packages/@poupe-theme-builder"
+		},
+		{
+			"name": "@poupe/tailwindcss",
+			"path": "packages/@poupe-tailwindcss"
+		},
+		{
+			"name": "@poupe/vue",
+			"path": "packages/@poupe-vue"
+		},
+		{
+			"name": "@poupe/nuxt",
+			"path": "packages/@poupe-nuxt"
+		}
+	],
+	"settings": {}
+}
