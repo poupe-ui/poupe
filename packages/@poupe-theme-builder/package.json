@@ -68,6 +68,7 @@
   },
   "devDependencies": {
     "@poupe/eslint-config": "^0.6.3",
+    "@types/node": "^20.17.46",
     "eslint": "^9.26.0",
     "publint": "^0.3.12",
     "typescript": "~5.8.3",
@@ -76,7 +77,7 @@
     "vue-tsc": "~2.2.10"
   },
   "engines": {
-    "node": ">= 22.13.1",
+    "node": ">= 20.19.1",
     "pnpm": ">= 10.10.0"
   }
 }
