@@ -43,6 +43,7 @@
   "devDependencies": {
     "@poupe/eslint-config": "^0.6.3",
     "@poupe/theme-builder": "workspace:^",
+    "@types/node": "^20.17.46",
     "eslint": "^9.26.0",
     "pathe": "^2.0.3",
     "publint": "^0.3.12",
