@@ -65,12 +65,16 @@ export function stringifyCSSProperties<K extends string>(
  * @returns An array of strings, where each string is a CSS property in the format "key: value;".
  */
 export function formatCSSProperties<K extends string>(object: CSSProperties<K>): string[] {
-  const lines: string[] = [];
+  const propertyMap = new Map<string, string>();
   for (const [key, value] of properties(object)) {
     const kebabKey = kebabCase(key);
     const formattedValue = formatCSSValue(value);
-    // don't bother with deduplication
-    lines.push(`${kebabKey}: ${formattedValue}`);
+    propertyMap.set(kebabKey, formattedValue);
+  }
+
+  const lines: string[] = [];
+  for (const [key, value] of propertyMap) {
+    lines.push(`${key}: ${value}`);
   }
   return lines;
 }
@@ -107,14 +111,13 @@ function quoted(v: CSSValue): string {
 /**
  * Generates a sequence of valid CSS property key-value pairs from a CSSProperties object.
  *
-
  * @param object - The object containing CSS properties.
  * @returns A generator of valid key-value CSS property pairs.
  * @remarks Filters out invalid or empty CSS property values, returning only valid entries.
  */
 export function* properties<K extends string>(object: CSSProperties<K>): Generator<[K, CSSValue]> {
   for (const [key, value] of pairs(object)) {
-    if (Array.isArray(value) ? value.every(v => isValidValue(v)) : isValidValue(value)) {
+    if (Array.isArray(value) ? (value.length > 0 && value.every(v => isValidValue(v))) : isValidValue(value)) {
       yield [key, value as CSSValue];
     }
   }

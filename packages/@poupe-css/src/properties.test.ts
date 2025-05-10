@@ -186,6 +186,58 @@ describe('formatCSSProperties', () => {
     expect(result).not.toContain('border:');
     expect(result).toHaveLength(1);
   });
+
+  it('deduplicates identical property names', () => {
+    const cssProps: CSSProperties = {
+      color: 'red',
+      margin: '10px',
+      Color: 'blue', // Duplicate property name
+    };
+    const result = formatCSSProperties(cssProps);
+
+    expect(result).toContain('color: blue');
+    expect(result).not.toContain('color: red');
+    expect(result).toContain('margin: 10px');
+    expect(result).toHaveLength(2);
+  });
+
+  it('deduplicates kebab-case equivalent property names', () => {
+    const cssProps: CSSProperties = {
+      'background-color': 'red',
+      'backgroundColor': 'blue',
+    };
+    const result = formatCSSProperties(cssProps);
+
+    expect(result).toContain('background-color: blue');
+    expect(result).not.toContain('background-color: red');
+    expect(result).toHaveLength(1);
+  });
+
+  it('preserves order of first occurrence while deduplicating', () => {
+    const cssProps: CSSProperties = {
+      color: 'red',
+      margin: '10px',
+      padding: '5px',
+      Color: 'blue', // Duplicate that will replace the first color
+      fontSize: '16px',
+      Margin: '20px', // Duplicate that will replace the first margin
+    };
+    const result = formatCSSProperties(cssProps);
+
+    // Check results contain updated values
+    expect(result).toContain('color: blue');
+    expect(result).toContain('margin: 20px');
+    expect(result).toContain('padding: 5px');
+    expect(result).toContain('font-size: 16px');
+
+    // Check property order matches first occurrence order
+    expect(result[0]).toBe('color: blue');
+    expect(result[1]).toBe('margin: 20px');
+    expect(result[2]).toBe('padding: 5px');
+    expect(result[3]).toBe('font-size: 16px');
+
+    expect(result).toHaveLength(4);
+  });
 });
 
 describe('formatCSSValue', () => {
@@ -283,6 +335,22 @@ describe('properties generator', () => {
     const result = [...properties(cssProps)];
     expect(result).toHaveLength(0);
   });
+
+  it('rejects empty arrays', () => {
+    const cssProps: CSSProperties = {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      margin: [] as any, // Type assertion to bypass TypeScript
+      padding: [10, 20], // Valid array
+      color: 'red', // Valid string
+    };
+
+    const result = [...properties(cssProps)];
+
+    expect(result).toHaveLength(2);
+    expect(result).toContainEqual(['padding', [10, 20]]);
+    expect(result).toContainEqual(['color', 'red']);
+    expect(result.map(pair => pair[0])).not.toContain('margin');
+  });
 });
 
 describe('isValidValue', () => {
@@ -335,5 +403,19 @@ describe('isValidValue', () => {
     expect(result).toContainEqual(['margin', [0, 10, 20]]);
     expect(result).toContainEqual(['color', 'red']);
     expect(result.map(pair => pair[0])).not.toContain('padding');
+  });
+
+  it('rejects empty arrays', () => {
+    const cssProps: CSSProperties = {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      margin: [] as any,
+      color: 'blue',
+    };
+
+    const result = [...properties(cssProps)];
+
+    expect(result).toHaveLength(1);
+    expect(result).toContainEqual(['color', 'blue']);
+    expect(result.map(pair => pair[0])).not.toContain('margin');
   });
 });
