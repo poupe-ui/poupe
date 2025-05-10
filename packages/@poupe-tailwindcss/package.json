@@ -51,7 +51,6 @@
   },
   "devDependencies": {
     "@poupe/eslint-config": "^0.6.3",
-    "@poupe/theme-builder": "workspace:^",
     "@types/node": "^20.17.46",
     "eslint": "^9.26.0",
     "pathe": "^2.0.3",
@@ -62,10 +61,8 @@
     "vue-tsc": "^2.2.10"
   },
   "dependencies": {
+    "@poupe/theme-builder": "workspace:^",
     "tailwindcss": "^4.1.6"
-  },
-  "peerDependencies": {
-    "@poupe/theme-builder": "^0.7.0"
   },
   "publishConfig": {
     "access": "public"
