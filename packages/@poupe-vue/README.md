@@ -1,47 +1,127 @@
-# poupe-vue
+# @poupe/vue
 
 [![jsDocs.io](https://img.shields.io/badge/jsDocs.io-reference-blue)](https://www.jsdocs.io/package/@poupe/vue)
+[![npm version](https://img.shields.io/npm/v/@poupe/vue.svg)](https://www.npmjs.com/package/@poupe/vue)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-This template should help get you started developing with Vue 3 in Vite.
+Vue component library for Poupe UI framework with theme customization and accessibility support.
 
-## Recommended IDE Setup
+## Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- 🧩 Feature-rich Vue 3 component library
+- 🎨 Built-in theme customization
+- ♿ Strong focus on accessibility
+- 🌓 Dark/light mode theming
+- 🔧 Fully typed with TypeScript
+- 📱 Responsive design out of the box
 
-## Type Support for `.vue` Imports in TS
+## Installation
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-pnpm install
+```bash
+npm install @poupe/vue @poupe/theme-builder
+# or
+yarn add @poupe/vue @poupe/theme-builder
+# or
+pnpm add @poupe/vue @poupe/theme-builder
 ```
 
-### Compile and Hot-Reload for Development
+For TailwindCSS integration:
 
-```sh
-pnpm dev
+```bash
+npm install @poupe/tailwindcss
 ```
 
-### Type-Check, Compile and Minify for Production
+## Basic Setup
 
-```sh
-pnpm build
+```typescript
+import { createApp } from 'vue'
+import { createPoupe } from '@poupe/vue'
+import App from './App.vue'
+
+// Create Vue app
+const app = createApp(App)
+
+// Setup Poupe with theme
+app.use(createPoupe({
+  theme: {
+    colors: {
+      primary: '#1976d2',
+      secondary: '#9c27b0',
+      // Add more colors as needed
+    }
+  },
+  // Optional: component-specific options
+  components: {
+    // Button specific options
+    button: {
+      defaultVariant: 'filled'
+    }
+  }
+}))
+
+app.mount('#app')
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+## Using Components
 
-```sh
-pnpm test:unit
+```vue
+<template>
+  <div>
+    <PButton variant="filled" color="primary">Click Me</PButton>
+
+    <PCard>
+      <template #header>Card Header</template>
+      Card content goes here
+      <template #footer>Card Footer</template>
+    </PCard>
+
+    <PInput v-model="inputValue" label="Username" />
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const inputValue = ref('')
+</script>
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Available Exports
 
-```sh
-pnpm lint
+- **Main export**: Core components and configuration
+- **config**: Theme configuration utilities
+- **resolver**: Component resolving for build tools
+
+## TailwindCSS Integration
+
+For optimal experience, integrate with TailwindCSS:
+
+```js
+// tailwind.config.js
+import { poupePlugin } from '@poupe/tailwindcss'
+
+export default {
+  // ...
+  plugins: [
+    poupePlugin()
+  ]
+}
 ```
+
+## Related Packages
+
+- [@poupe/css](../@poupe-css) - CSS-in-JS utilities
+- [@poupe/theme-builder](../@poupe-theme-builder) - Theme token generation
+- [@poupe/tailwindcss](../@poupe-tailwindcss) - TailwindCSS integration
+- [@poupe/nuxt](../@poupe-nuxt) - Nuxt integration
+
+## Requirements
+
+- Vue ^3.5.13
+- Node.js >=20.19.1
+- @poupe/theme-builder ^0.7.0
+- @poupe/tailwindcss ^0.2.6
+
+## License
+
+MIT licensed.

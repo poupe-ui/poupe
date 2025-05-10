@@ -2,9 +2,19 @@
   "name": "@poupe/vue",
   "version": "0.4.1",
   "type": "module",
-  "description": "",
+  "description": "Vue component library for Poupe UI framework with theme customization and accessibility support",
   "author": "Alejandro Mery <amery@apptly.co>",
   "license": "MIT",
+  "keywords": [
+    "vue",
+    "vue3",
+    "components",
+    "ui-library",
+    "poupe",
+    "design-system",
+    "tailwindcss",
+    "typescript"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/poupe-ui/poupe.git",
@@ -82,5 +92,16 @@
   "peerDependencies": {
     "@poupe/tailwindcss": "^0.2.6",
     "@poupe/theme-builder": "^0.7.0"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20.19.1",
+    "pnpm": ">=10.10.0"
+  },
+  "packageManager": "pnpm@10.10.0"
 }
