@@ -2,7 +2,7 @@
 
 [![jsDocs.io](https://img.shields.io/badge/jsDocs.io-reference-blue)](https://www.jsdocs.io/package/@poupe/nuxt)
 [![npm version](https://img.shields.io/npm/v/@poupe/nuxt.svg)](https://www.npmjs.com/package/@poupe/nuxt)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](../../LICENCE.txt)
 
 Nuxt module for integrating Poupe UI framework with theme customization and components.
 

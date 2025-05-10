@@ -2,7 +2,7 @@
 
 Poupe UI is a modern, themeable UI framework built with TypeScript that provides a complete solution for building beautiful, accessible, and customizable user interfaces.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENCE.txt)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.19.1-brightgreen)](package.json)
 [![pnpm](https://img.shields.io/badge/pnpm-%3E%3D10.10.0-orange)](package.json)
 
@@ -139,4 +139,4 @@ pnpm -r test
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENCE](./LICENCE.txt) file for details.
