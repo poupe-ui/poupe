@@ -107,14 +107,13 @@ function quoted(v: CSSValue): string {
 /**
  * Generates a sequence of valid CSS property key-value pairs from a CSSProperties object.
  *
-
  * @param object - The object containing CSS properties.
  * @returns A generator of valid key-value CSS property pairs.
  * @remarks Filters out invalid or empty CSS property values, returning only valid entries.
  */
 export function* properties<K extends string>(object: CSSProperties<K>): Generator<[K, CSSValue]> {
   for (const [key, value] of pairs(object)) {
-    if (Array.isArray(value) ? value.every(v => isValidValue(v)) : isValidValue(value)) {
+    if (Array.isArray(value) ? (value.length > 0 && value.every(v => isValidValue(v))) : isValidValue(value)) {
       yield [key, value as CSSValue];
     }
   }

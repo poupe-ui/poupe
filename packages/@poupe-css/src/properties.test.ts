@@ -283,6 +283,22 @@ describe('properties generator', () => {
     const result = [...properties(cssProps)];
     expect(result).toHaveLength(0);
   });
+
+  it('rejects empty arrays', () => {
+    const cssProps: CSSProperties = {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      margin: [] as any, // Type assertion to bypass TypeScript
+      padding: [10, 20], // Valid array
+      color: 'red', // Valid string
+    };
+
+    const result = [...properties(cssProps)];
+
+    expect(result).toHaveLength(2);
+    expect(result).toContainEqual(['padding', [10, 20]]);
+    expect(result).toContainEqual(['color', 'red']);
+    expect(result.map(pair => pair[0])).not.toContain('margin');
+  });
 });
 
 describe('isValidValue', () => {
@@ -335,5 +351,19 @@ describe('isValidValue', () => {
     expect(result).toContainEqual(['margin', [0, 10, 20]]);
     expect(result).toContainEqual(['color', 'red']);
     expect(result.map(pair => pair[0])).not.toContain('padding');
+  });
+
+  it('rejects empty arrays', () => {
+    const cssProps: CSSProperties = {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      margin: [] as any,
+      color: 'blue',
+    };
+
+    const result = [...properties(cssProps)];
+
+    expect(result).toHaveLength(1);
+    expect(result).toContainEqual(['color', 'blue']);
+    expect(result.map(pair => pair[0])).not.toContain('margin');
   });
 });
