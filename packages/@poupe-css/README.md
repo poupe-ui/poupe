@@ -83,7 +83,8 @@ const customCSS = stringifyCSSProperties(styles, {
 ```
 
 #### `formatCSSProperties<K extends string>(object: CSSProperties<K>): string[]`
-Formats a CSS properties object into an array of CSS property strings.
+Formats a CSS properties object into an array of CSS property strings. Automatically handles deduplication of
+properties, where later declarations override earlier ones while preserving the original insertion order.
 
 ```typescript
 import { formatCSSProperties } from '@poupe/css';
@@ -91,13 +92,15 @@ import { formatCSSProperties } from '@poupe/css';
 const styles = {
   fontSize: '16px',
   backgroundColor: 'red',
-  margin: [10, '20px', '30px', '40px']
+  margin: [10, '20px', '30px', '40px'],
+  // Later declarations override earlier ones:
+  backgroundColor: 'blue'
 };
 
 const cssLines = formatCSSProperties(styles);
 // [
 //   "font-size: 16px",
-//   "background-color: red",
+//   "background-color: blue", // Note: red was overridden by blue
 //   "margin: 10, 20px, 30px, 40px"
 // ]
 ```

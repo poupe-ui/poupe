@@ -186,6 +186,58 @@ describe('formatCSSProperties', () => {
     expect(result).not.toContain('border:');
     expect(result).toHaveLength(1);
   });
+
+  it('deduplicates identical property names', () => {
+    const cssProps: CSSProperties = {
+      color: 'red',
+      margin: '10px',
+      Color: 'blue', // Duplicate property name
+    };
+    const result = formatCSSProperties(cssProps);
+
+    expect(result).toContain('color: blue');
+    expect(result).not.toContain('color: red');
+    expect(result).toContain('margin: 10px');
+    expect(result).toHaveLength(2);
+  });
+
+  it('deduplicates kebab-case equivalent property names', () => {
+    const cssProps: CSSProperties = {
+      'background-color': 'red',
+      'backgroundColor': 'blue',
+    };
+    const result = formatCSSProperties(cssProps);
+
+    expect(result).toContain('background-color: blue');
+    expect(result).not.toContain('background-color: red');
+    expect(result).toHaveLength(1);
+  });
+
+  it('preserves order of first occurrence while deduplicating', () => {
+    const cssProps: CSSProperties = {
+      color: 'red',
+      margin: '10px',
+      padding: '5px',
+      Color: 'blue', // Duplicate that will replace the first color
+      fontSize: '16px',
+      Margin: '20px', // Duplicate that will replace the first margin
+    };
+    const result = formatCSSProperties(cssProps);
+
+    // Check results contain updated values
+    expect(result).toContain('color: blue');
+    expect(result).toContain('margin: 20px');
+    expect(result).toContain('padding: 5px');
+    expect(result).toContain('font-size: 16px');
+
+    // Check property order matches first occurrence order
+    expect(result[0]).toBe('color: blue');
+    expect(result[1]).toBe('margin: 20px');
+    expect(result[2]).toBe('padding: 5px');
+    expect(result[3]).toBe('font-size: 16px');
+
+    expect(result).toHaveLength(4);
+  });
 });
 
 describe('formatCSSValue', () => {

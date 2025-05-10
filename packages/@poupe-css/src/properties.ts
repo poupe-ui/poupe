@@ -65,12 +65,16 @@ export function stringifyCSSProperties<K extends string>(
  * @returns An array of strings, where each string is a CSS property in the format "key: value;".
  */
 export function formatCSSProperties<K extends string>(object: CSSProperties<K>): string[] {
-  const lines: string[] = [];
+  const propertyMap = new Map<string, string>();
   for (const [key, value] of properties(object)) {
     const kebabKey = kebabCase(key);
     const formattedValue = formatCSSValue(value);
-    // don't bother with deduplication
-    lines.push(`${kebabKey}: ${formattedValue}`);
+    propertyMap.set(kebabKey, formattedValue);
+  }
+
+  const lines: string[] = [];
+  for (const [key, value] of propertyMap) {
+    lines.push(`${key}: ${value}`);
   }
   return lines;
 }
