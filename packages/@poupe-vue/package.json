@@ -55,7 +55,7 @@
     "@poupe/tailwindcss": "workspace:^",
     "@poupe/theme-builder": "workspace:^",
     "reka-ui": "2.2.1",
-    "tailwind-merge": "^3.2.0",
+    "tailwind-merge": "^3.3.0",
     "tailwind-scrollbar": "^4.0.2",
     "tailwind-variants": "^1.0.0",
     "tailwindcss": "^4.1.6",
