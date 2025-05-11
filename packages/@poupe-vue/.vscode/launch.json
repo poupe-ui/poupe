@@ -12,7 +12,7 @@
         "${workspaceFolder}/node_modules/**/*.js",
         "<node_internals>/**"
       ],
-      "cwd": "${workspaceRoot}",
+      "cwd": "${workspaceFolder}",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": [
         "test"

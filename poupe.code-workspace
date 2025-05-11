@@ -8,21 +8,65 @@
 			"path": "packages/@poupe-css"
 		},
 		{
-			"name": "@poupe/theme-builder",
-			"path": "packages/@poupe-theme-builder"
+			"name": "@poupe/nuxt",
+			"path": "packages/@poupe-nuxt"
 		},
 		{
 			"name": "@poupe/tailwindcss",
 			"path": "packages/@poupe-tailwindcss"
 		},
 		{
-			"name": "@poupe/vue",
-			"path": "packages/@poupe-vue"
+			"name": "@poupe/theme-builder",
+			"path": "packages/@poupe-theme-builder"
 		},
 		{
-			"name": "@poupe/nuxt",
-			"path": "packages/@poupe-nuxt"
+			"name": "@poupe/vue",
+			"path": "packages/@poupe-vue"
 		}
 	],
-	"settings": {}
+	"settings": {
+		// Editor
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": "always",
+		},
+		"editor.quickSuggestions": {
+			"strings": true,
+			"other": true,
+			"comments": true
+		},
+		// Explorer
+		"files.associations": {
+			"*.css": "tailwindcss"
+		},
+		"files.exclude": {
+			"**/.git": true,
+			"**/.DS_Store": true,
+			"**/Thumbs.db": true,
+			"**/node_modules": true
+		},
+		// cSpell
+		"cSpell.language": "en-GB",
+		"cSpell.words": [
+			"apptly",
+			"defu",
+			"nuxi",
+			"nuxt",
+			"nuxtjs",
+			"poupe"
+		],
+		// ESLint
+		"eslint.format.enable": true,
+		"eslint.useFlatConfig": true
+	},
+	"extensions": {
+		"recommendations": [
+			"bradlc.vscode-tailwindcss",
+			"christian-kohler.path-intellisense",
+			"dbaeumer.vscode-eslint",
+			"editorconfig.editorconfig",
+			"streetsidesoftware.code-spell-checker",
+			"streetsidesoftware.code-spell-checker-british-english",
+			"vue.volar"
+		]
+	}
 }
