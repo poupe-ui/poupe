@@ -2,11 +2,12 @@ import { addComponent } from '@nuxt/kit';
 
 import { components, DEFAULT_PREFIX, normalizedComponentPrefix } from '@poupe/vue/resolver';
 
-import type { ModuleOptions } from './config';
+import type { SetupContext } from './types';
 
 export const COMPONENTS_PACKAGE = '@poupe/vue';
 
-export const setupComponents = (options: ModuleOptions): void => {
+export const setupComponents = <K extends string>(context: SetupContext<K>): void => {
+  const { options } = context;
   const { prefix: $prefix = DEFAULT_PREFIX } = options;
   const prefix = normalizedComponentPrefix($prefix);
 
@@ -20,7 +21,7 @@ export const setupComponents = (options: ModuleOptions): void => {
         filePath: COMPONENTS_PACKAGE,
       });
     } catch (error) {
-      console.error(COMPONENTS_PACKAGE, fullName, error);
+      context.logger.error(COMPONENTS_PACKAGE, fullName, error);
     }
   }
 };
