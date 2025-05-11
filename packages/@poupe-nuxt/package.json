@@ -1,6 +1,6 @@
 {
   "name": "@poupe/nuxt",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "type": "module",
   "description": "Nuxt module for integrating Poupe UI framework with theme customization and components",
   "author": "Alejandro Mery <amery@apptly.co>",
@@ -80,6 +80,7 @@
     "@poupe/theme-builder": "workspace:^",
     "@poupe/vue": "workspace:^",
     "stringify-object": "^5.0.0",
+    "consola": "^3.4.2",
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^3.4.17"
   },

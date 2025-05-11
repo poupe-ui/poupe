@@ -1,5 +1,5 @@
 <template>
-  <div class="container h-screen w-full mx-auto">
+  <div class="container h-screen mx-auto">
     Nuxt module playground!
     <Placeholder
       class="opacity-30 m-2 md:mx-0"
