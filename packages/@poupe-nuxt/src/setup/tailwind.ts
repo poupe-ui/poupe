@@ -6,7 +6,7 @@ import { contentGlobs } from '@poupe/vue/config';
 
 import type { SetupContext } from './types';
 
-import { stringify } from './utils';
+import { stringify, DEBUG } from './utils';
 
 const POUPE_TAILWIND_CONFIG_FILENAME = 'poupe-tailwind.config.ts';
 
@@ -37,9 +37,12 @@ const getConfigContents = (
 };
 
 export const setupTailwind = async <K extends string>(context: SetupContext<K>) => {
-  const { nuxt, resolve } = context;
+  const { logger, nuxt, resolve } = context;
   // original @nuxtjs/tailwindcss' ModuleOptions
   const { config: userConfig = [], ...tailwindModuleOptions } = nuxt.options.tailwindcss ?? {};
+  const start = Date.now();
+
+  if (DEBUG) logger.debug(`Generating \`${POUPE_TAILWIND_CONFIG_FILENAME}\`...`);
 
   // template
   const generatedConfig = addTemplate({
@@ -47,6 +50,8 @@ export const setupTailwind = async <K extends string>(context: SetupContext<K>) 
     write: true,
     getContents: () => getConfigContents(context),
   });
+
+  logger.success(`Poupe generated \`${DEBUG ? generatedConfig.dst : POUPE_TAILWIND_CONFIG_FILENAME}\` in ${Date.now() - start}ms`);
 
   // config files
   const config: TailwindModuleOptions['config'] = [

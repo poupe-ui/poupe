@@ -1,4 +1,5 @@
 import stringifyObject from 'stringify-object';
+import { env } from 'std-env';
 
 export {
   type Nuxt,
@@ -12,3 +13,5 @@ export const stringify = (input: unknown): string => stringifyObject(input, {
   indent: '  ',
   singleQuotes: true,
 });
+
+export const DEBUG: boolean = env.DEBUG === 'true';
