@@ -1,4 +1,8 @@
 import {
+  defu,
+} from 'defu';
+
+import {
   unsafeKeys,
 } from './core/utils';
 
@@ -37,15 +41,14 @@ export interface CSSThemeOptions {
 
 /** apply defaults to {@link CSSThemeOptions} */
 export function defaultCSSThemeOptions(options: Partial<CSSThemeOptions> = {}): CSSThemeOptions {
-  return {
+  return defu(options, {
     darkMode: '.dark',
     lightMode: '.light',
     prefix: 'md-',
     darkSuffix: '-dark',
     lightSuffix: '-light',
     stringify: rgbFromHct,
-    ...options,
-  };
+  });
 }
 
 /** @returns the dark mode selector or media rule */
