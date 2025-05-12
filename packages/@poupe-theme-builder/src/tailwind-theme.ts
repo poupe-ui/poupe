@@ -114,7 +114,7 @@ export function makeCSSTheme<K extends string>(colors: ThemeColors<K>,
   }
 
   return assembleCSSColors<typeof names[number]>(darkColors, lightColors, {
-    stringify: options.forV3 ? rgbFromHct : undefined,
+    ...(options.forV3 ? { stringify: rgbFromHct } : {}),
     ...options,
   });
 }
