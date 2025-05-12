@@ -11,6 +11,7 @@
         "@nuxt/**",
         "@nuxtjs/**",
         "nuxt",
+        "nuxi",
         "/^nuxt-.*$/"
       ]
     }
