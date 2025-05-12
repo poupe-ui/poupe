@@ -1,6 +1,6 @@
 {
   "name": "@poupe/theme-builder",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "type": "module",
   "description": "Design token management and theme generation system for Poupe UI framework",
   "author": "Alejandro Mery <amery@apptly.co>",
