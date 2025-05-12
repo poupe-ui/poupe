@@ -11,7 +11,14 @@
         "@nuxt/**",
         "@nuxtjs/**",
         "nuxt",
+        "nuxi",
         "/^nuxt-.*$/"
+      ]
+    }, {
+      "groupName": "eslint dependencies",
+      "groupSlug": "eslint",
+      "matchPackageNames": [
+        "/eslint/"
       ]
     }
   ],
