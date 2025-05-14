@@ -168,8 +168,42 @@ A type-safe wrapper around Object.keys that preserves the object's key types.
 #### `keys<T, K extends keyof T>(object: T, valid?: (key: keyof T) => boolean): Generator<K>`
 A generator function that yields keys of an object that pass an optional validation function.
 
-#### `pairs<K extends string, T1, T2>(object: Record<K, T1>, valid?: (k: K, v: T1) => boolean): Generator<[K, T2]>`
-A generator function that yields valid key-value pairs from an object.
+```typescript
+import { keys } from '@poupe/css';
+
+const obj = { a: 1, b: 2, _private: 3 };
+
+// Use with default validation (includes all keys)
+for (const key of keys(obj)) {
+  console.log(key); // "a", "b", "_private"
+}
+
+// Use with custom validation
+for (const key of keys(obj, k => !k.startsWith('_'))) {
+  console.log(key); // "a", "b"
+}
+```
+
+#### `pairs<K extends string, T>(object: Record<K, T>, valid?: (k: K, v: T) => boolean): Generator<[K, T]>`
+A generator function that yields valid key-value pairs from an object. Allows providing a custom validation function
+to determine which pairs to include.
+
+```typescript
+import { pairs } from '@poupe/css';
+
+const obj = { color: 'red', fontSize: '16px', _private: 'hidden', empty: '' };
+
+// Use with default validation (excludes keys starting with underscore and null/empty values)
+for (const [key, value] of pairs(obj)) {
+  console.log(`${key}: ${value}`); // "color: red", "fontSize: 16px"
+}
+
+// Use with custom validation
+const customValid = (key: string, value: unknown) => typeof value === 'string' && value.length > 3;
+for (const [key, value] of pairs(obj, customValid)) {
+  console.log(`${key}: ${value}`); // "color: red", "_private: hidden"
+}
+```
 
 #### `defaultValidPair<K extends string, T>(key: K, value: T): boolean`
 Validates if a key-value pair meets default criteria:

@@ -53,14 +53,14 @@ export function defaultValidPair<K extends string, T = unknown>(key: K, value: T
  * @param valid - Optional validation function that determines which key-value pairs to yield
  * @returns A generator of valid key-value pairs from the object
  */
-export function* pairs<K extends string = string, T1 = unknown, T2 = unknown>(
-  object: Record<K, T1>,
-  valid?: (k: K, v: T1) => boolean,
-): Generator<[K, T2]> {
+export function* pairs<K extends string = string, T = unknown>(
+  object: Record<K, T>,
+  valid?: (k: K, v: T) => boolean,
+): Generator<[K, T]> {
   for (const key of keys(object)) {
     const value = object[key];
     if (valid?.(key, value) ?? defaultValidPair(key, value))
-      yield [key, value as unknown as T2];
+      yield [key, value];
   }
 }
 
