@@ -68,6 +68,8 @@ type CSSPropertiesOptions = {
 
 #### `stringifyCSSProperties<K extends string>(object: CSSProperties<K>, options?: CSSPropertiesOptions): string`
 Converts a CSSProperties object into a formatted CSS string representation with proper indentation.
+Property values are intelligently formatted based on their type and the CSS property name - space-delimited
+properties (like margin, padding) use spaces between multiple values, while other properties use commas.
 
 ```typescript
 import { stringifyCSSProperties } from '@poupe/css';
@@ -75,7 +77,8 @@ import { stringifyCSSProperties } from '@poupe/css';
 const styles = {
   fontSize: '16px',
   backgroundColor: 'red',
-  margin: [10, '20px', '30px', '40px']
+  margin: [10, '20px', '30px', '40px'],
+  fontFamily: ['Arial', 'sans-serif']
 };
 
 // Default multi-line formatting
@@ -83,24 +86,13 @@ const cssString = stringifyCSSProperties(styles);
 // "{
 //   font-size: 16px;
 //   background-color: red;
-//   margin: 10, 20px, 30px, 40px;
-//   }"
+//   margin: 10 20px 30px 40px;
+//   font-family: Arial, sans-serif;
+// }"
 
 // Inline formatting
 const inlineCSS = stringifyCSSProperties(styles, { inline: true });
-// "{ font-size: 16px; background-color: red; margin: 10, 20px, 30px, 40px }"
-
-// Custom indentation and prefix
-const customCSS = stringifyCSSProperties(styles, {
-  indent: '    ',
-  prefix: '  ',
-  singleLineThreshold: 3
-});
-// "{
-//       font-size: 16px;
-//       background-color: red;
-//       margin: 10, 20px, 30px, 40px;
-//   }"
+// "{ font-size: 16px; background-color: red; margin: 10 20px 30px 40px; font-family: Arial, sans-serif }"
 ```
 
 #### `formatCSSProperties<K extends string>(object: CSSProperties<K>): string[]`
@@ -126,16 +118,23 @@ const cssLines = formatCSSProperties(styles);
 // ]
 ```
 
-#### `formatCSSValue(value: CSSValue): string`
-Formats a CSS value into a string. If the value is an array, it joins the elements with a comma and a space.
-If the value is a string containing spaces, it encloses the string in double quotes.
+#### `formatCSSValue(value: CSSValue, useComma = true): string`
+Formats a CSS value into a string. If the value is an array:
+- By default, it joins the elements with commas (appropriate for properties like `font-family`)
+- When `useComma` is set to `false`, it uses spaces (appropriate for properties like `margin` or `padding`)
+
+The function automatically handles quoting strings that contain spaces (except CSS functions like
+`rgb()` or `calc()`), enclosing them in double quotes.
 
 ```typescript
 import { formatCSSValue } from '@poupe/css';
 
 formatCSSValue('16px'); // "16px"
 formatCSSValue('Open Sans'); // "\"Open Sans\""
-formatCSSValue([10, '20px', '30px']); // "10, 20px, 30px"
+formatCSSValue([10, '20px', '30px']); // "10, 20px, 30px" (comma-separated by default)
+formatCSSValue([10, '20px', '30px'], false); // "10 20px 30px" (space-separated)
+formatCSSValue('rgb(255, 0, 0)'); // "rgb(255, 0, 0)" - Not quoted despite spaces
+formatCSSValue('calc(100% - 20px)'); // "calc(100% - 20px)" - Not quoted despite spaces
 ```
 
 #### `properties<K extends string>(object: CSSProperties<K>): Generator<[K, CSSValue]>`

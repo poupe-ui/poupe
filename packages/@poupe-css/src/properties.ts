@@ -68,7 +68,8 @@ export function formatCSSProperties<K extends string>(object: CSSProperties<K>):
   const propertyMap = new Map<string, string>();
   for (const [key, value] of properties(object)) {
     const kebabKey = kebabCase(key);
-    const formattedValue = formatCSSValue(value);
+    const useComma = !spaceDelimitedProperties.has(kebabKey);
+    const formattedValue = formatCSSValue(value, useComma);
     propertyMap.set(kebabKey, formattedValue);
   }
 
@@ -80,16 +81,21 @@ export function formatCSSProperties<K extends string>(object: CSSProperties<K>):
 }
 
 /**
- * Formats a CSS value into a string.
- * If the value is an array, it joins the elements with a comma and a space.
- * If the value is a string containing spaces, it encloses the string in double quotes.
+ * Formats a CSS value into a string representation.
  *
- * @param value - The CSS value to format.
- * @returns The formatted CSS value as a string.
+ * @param value - The CSS value to format, which can be a single value or an array of values.
+ * @param useComma - Flag to determine whether array values should be comma-separated (true)
+ *                   or space-separated (false). Defaults to true.
+ * @returns A formatted string representation of the CSS value.
+ * @remarks
+
+ * - For array values, elements are joined with commas or spaces based on the useComma parameter.
+ * - The choice between commas and spaces depends on the CSS property being formatted.
+ * - Properties like 'font-family' use commas while properties like 'margin' use spaces.
  */
-export function formatCSSValue(value: CSSValue): string {
+export function formatCSSValue(value: CSSValue, useComma = true): string {
   if (Array.isArray(value)) {
-    return value.map(v => quoted(v)).join(', ');
+    return value.map(v => quoted(v)).join(useComma ? ', ' : ' ');
   }
   return quoted(value);
 }
@@ -100,8 +106,13 @@ export function formatCSSValue(value: CSSValue): string {
  *
  * @param v - The CSS value to process.
  * @returns The processed CSS value as a string.
+ * @example
+ * quoted('Open Sans')         // Returns "\"Open Sans\""
+ * quoted('rgb(255, 0, 0)')    // Returns "rgb(255, 0, 0)" (no quotes - CSS function)
+ * quoted(16)                  // Returns "16"
+ * quoted(true)                // Returns "true"
  */
-function quoted(v: CSSValue): string {
+export function quoted(v: CSSValue): string {
   if (typeof v === 'boolean') {
     return v ? 'true' : 'false';
   } else if (typeof v === 'string') {
@@ -143,3 +154,39 @@ function isValidValue(value: unknown): boolean {
     return value !== '';
   return typeof value === 'number';
 }
+
+/**
+ * A set of CSS properties that typically have space-delimited values.
+ * These properties often require multiple values to be specified in a single declaration.
+ *
+ * @remarks
+ * When formatting CSS values for these properties, values are space-separated rather than comma-separated.
+ * For example:
+ * - margin: 10px 20px 30px 40px    (spaces between values)
+ * - padding: 5px 10px              (spaces between values)
+ * - font: bold 16px Arial          (spaces between values)
+ *
+ * This differs from comma-separated properties like font-family:
+ * - font-family: Arial, Helvetica, sans-serif  (commas between values)
+ */
+export const spaceDelimitedProperties: ReadonlySet<string> = new Set([
+  'animation',
+  'background',
+  'box-shadow',
+  'flex',
+  'font',
+  'grid-auto-columns',
+  'grid-auto-flow',
+  'grid-auto-rows',
+  'grid-gap',
+  'grid-template-areas',
+  'grid-template-columns',
+  'grid-template-rows',
+  'list-style',
+  'margin',
+  'padding',
+  'text-decoration',
+  'text-shadow',
+  'transform',
+  'transition',
+]);
