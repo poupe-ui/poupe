@@ -13,14 +13,19 @@ A TypeScript utility library for CSS property manipulation, formatting, and CSS-
 - 📝 Format CSS for use in JavaScript
 - 🎨 CSS-in-JS helpers and type definitions
 - 📦 Lightweight, tree-shakable API
+- 🧩 Support for nested CSS rules and at-rules
 
 ## Installation
 
 ```bash
 npm install -D @poupe/css
-# or
+```
+
+```bash
 yarn add -D @poupe/css
-# or
+```
+
+```bash
 pnpm add -D @poupe/css
 ```
 
@@ -31,6 +36,7 @@ The library exports several categories of utilities:
 - **Case Conversion**: Functions for converting between different CSS naming conventions
 - **CSS Stringification**: Tools to convert CSS objects to strings
 - **CSS Variables**: Utilities for working with CSS custom properties
+- **CSS Rules**: Functions for handling nested CSS rule objects
 - **Type Definitions**: TypeScript types for CSS properties
 
 ### Types
@@ -61,6 +67,35 @@ type CSSPropertiesOptions = {
   inline?: boolean
   /** Maximum number of properties to format on a single line, defaults to 1. */
   singleLineThreshold?: number
+}
+```
+
+#### `CSSRules`
+Represents a structured CSS rule set that can contain nested rules:
+```typescript
+type CSSRules = {
+  [name: string]: null | string | string[] | CSSRules | CSSRules[]
+};
+```
+
+#### `CSSRuleObject`
+A more restrictive subset of CSSRules that is compatible with TailwindCSS plugin API:
+```typescript
+type CSSRuleObject = {
+  [key: string]: string | string[] | CSSRuleObject
+};
+```
+
+#### `CSSRulesFormatOptions`
+Configuration options for formatting CSS rules:
+```typescript
+interface CSSRulesFormatOptions {
+  /** Indentation string to use for each level of nesting, defaults to two spaces. */
+  indent?: string
+  /** Prefix string added before each line, defaults to empty string. */
+  prefix?: string
+  /** Optional validation function to determine which rules to include. */
+  valid?: (key: string, value: CSSRulesValue) => boolean
 }
 ```
 
@@ -158,6 +193,98 @@ for (const [key, value] of properties(styles)) {
 // Output:
 // fontSize: 16px
 // backgroundColor: red
+```
+
+### CSS Rules Functions
+
+#### `stringifyCSSRules(rules: CSSRules | CSSRuleObject, options?): string`
+Converts a CSS rule object into a formatted string representation with proper indentation and nesting.
+
+```typescript
+import { stringifyCSSRules } from '@poupe/css';
+
+const rules = {
+  'body': {
+    'color': 'red',
+    'font-size': '16px',
+    '@media (max-width: 768px)': {
+      'font-size': '14px'
+    }
+  },
+  '.container': {
+    'max-width': '1200px',
+    'margin': ['0', 'auto']
+  }
+};
+
+const cssString = stringifyCSSRules(rules);
+// Output:
+// body {
+//   color: red;
+//   font-size: 16px;
+//   @media (max-width: 768px) {
+//     font-size: 14px;
+//   }
+// }
+// .container {
+//   max-width: 1200px;
+//   margin: 0 auto;
+// }
+```
+
+#### `formatCSSRules(rules: CSSRules | CSSRuleObject, options?): string[]`
+Processes a CSS rule object and returns an array of strings, where each string represents a line in the formatted CSS output.
+
+```typescript
+import { formatCSSRules } from '@poupe/css';
+
+const rules = {
+  'body': {
+    'color': 'red',
+    'font-size': '16px'
+  }
+};
+
+const lines = formatCSSRules(rules);
+// Returns: ['body {', '  color: red;', '  font-size: 16px;', '}']
+
+// Custom indentation
+const indentedLines = formatCSSRules(rules, { indent: '    ' });
+// Returns: ['body {', '    color: red;', '    font-size: 16px;', '}']
+```
+
+#### `formatCSSRulesArray(rules: (string | CSSRules | CSSRuleObject)[], options?): string[]`
+Formats an array of CSS rules into indented lines recursively.
+
+```typescript
+import { formatCSSRulesArray } from '@poupe/css';
+
+const rulesArray = [
+  { 'color': 'red' },
+  { 'font-size': '16px' },
+  'font-weight: bold',
+  {
+    '@media (max-width: 768px)': {
+      'font-size': '14px'
+    }
+  }
+];
+
+const lines = formatCSSRulesArray(rulesArray);
+// Returns lines with proper indentation for each rule
+```
+
+#### `defaultValidCSSRule(key: string, value: CSSRulesValue): boolean`
+Default validation function that determines if a CSS rule key-value pair should be included in the output.
+A rule is considered valid if the key is not empty and the value is neither undefined nor null.
+
+```typescript
+import { defaultValidCSSRule } from '@poupe/css';
+
+// Use with custom rule validation
+const customValid = (key, value) => {
+  return defaultValidCSSRule(key, value) && !key.startsWith('_');
+};
 ```
 
 ### Utility Functions

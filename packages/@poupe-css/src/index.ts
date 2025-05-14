@@ -6,8 +6,19 @@ export {
   formatCSSProperties,
   properties,
 
-  // omit formatCSSValue - only exported for tests
+  // omit internal - formatCSSValue, quoted and spaceDelimitedProperties
 } from './properties';
+
+export {
+  type CSSRuleObject,
+  type CSSRules,
+  type CSSRulesValue,
+  type CSSRulesFormatOptions,
+  stringifyCSSRules,
+  formatCSSRules,
+  formatCSSRulesArray,
+  defaultValidCSSRule,
+} from './rules';
 
 export {
   unsafeKeys,
