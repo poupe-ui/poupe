@@ -1,33 +1,48 @@
 import type { ConsolaInstance } from 'consola';
 
-import { DEFAULT_PREFIX } from '@poupe/vue/resolver';
+import {
+  type CSSProperties,
+  type Nuxt,
+  type ThemeOptions,
 
-import type {
-  Nuxt,
-  ThemeColors,
-  TailwindThemeOptions,
+  defaultPrimaryColor,
+  defaultComponentPrefix,
 } from './utils';
 
-export interface ModuleOptions<K extends string = string> extends TailwindThemeOptions {
+export type TailwindPlugin = string | [ string, CSSProperties ];
+
+export interface TailwindOptions {
+  sources?: string[]
+  plugins?: TailwindPlugin[]
+}
+
+export interface ModuleOptions<K extends string = string> {
   /** @defaultValue 'P' */
   prefix?: string
 
-  /** @defaultValue `{ primary: '#2a364b' }` */
-  colors: ThemeColors<K>
+  /**
+   * options for the theme builder
+   * @defaultValue `{ color: { primary: '#2a364b' }}`
+   */
+  theme?: Partial<ThemeOptions<K>>
+
+  /**
+   * options to setup tailwind integration
+   */
+  tailwind?: TailwindOptions
 }
 
-export const DEFAULT_PRIMARY_COLOR = '#2a364b';
-
+/** Default configuration options for the module */
 export const defaultModuleOptions: Readonly<ModuleOptions> = {
-  prefix: DEFAULT_PREFIX,
-  colors: {
-    primary: DEFAULT_PRIMARY_COLOR,
+  prefix: defaultComponentPrefix,
+  theme: {
+    colors: {
+      primary: defaultPrimaryColor,
+    },
   },
-  darkSuffix: '',
-  lightSuffix: '',
-  extend: false,
 };
 
+/** Context for module setup */
 export type SetupContext<K extends string = string> = {
   options: ModuleOptions<K>
   nuxt: Nuxt

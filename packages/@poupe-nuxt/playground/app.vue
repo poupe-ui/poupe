@@ -10,4 +10,10 @@
 
 <script setup lang="ts">
 import { Placeholder } from '@poupe/vue';
+
+useHead({
+  bodyAttrs: {
+    class: 'surface',
+  },
+});
 </script>
