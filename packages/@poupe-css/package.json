@@ -6,22 +6,30 @@
   "author": "Alejandro Mery <amery@apptly.co>",
   "license": "MIT",
   "keywords": [
+    "camelCase",
+    "case-conversion",
     "css",
     "css-in-js",
-    "typescript",
-    "styling",
-    "formatter",
     "css-properties",
+    "css-rules",
     "css-utilities",
+    "formatter",
     "kebab-case",
+    "nested-css",
+    "poupe",
     "stringify",
-    "poupe"
+    "styling",
+    "typescript"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/poupe-ui/poupe.git",
     "directory": "packages/@poupe-css"
   },
+  "bugs": {
+    "url": "https://github.com/poupe-ui/poupe/issues"
+  },
+  "homepage": "https://github.com/poupe-ui/poupe/tree/main/packages/@poupe-css#readme",
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
