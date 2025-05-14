@@ -27,4 +27,5 @@ export {
   defaultValidPair,
 
   kebabCase,
+  camelCase,
 } from './utils';

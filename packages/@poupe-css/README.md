@@ -6,10 +6,23 @@
 
 A TypeScript utility library for CSS property manipulation, formatting, and CSS-in-JS operations.
 
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [API Reference](#api-reference)
+  - [Types](#types)
+  - [CSS Property Functions](#css-property-functions)
+  - [CSS Rules Functions](#css-rules-functions)
+  - [Utility Functions](#utility-functions)
+- [Integration with Poupe Ecosystem](#integration-with-poupe-ecosystem)
+- [Requirements](#requirements)
+- [License](#license)
+
 ## Features
 
 - 🛠️ Utilities for manipulating CSS properties
-- 🔄 Convert between camelCase and kebab-case CSS properties
+- 🔄 Bidirectional conversion between camelCase and kebab-case CSS properties
 - 📝 Format CSS for use in JavaScript
 - 🎨 CSS-in-JS helpers and type definitions
 - 📦 Lightweight, tree-shakable API
@@ -350,6 +363,47 @@ kebabCase('XMLHttpRequest'); // 'xml-http-request'
 kebabCase('camelCase');      // 'camel-case'
 kebabCase('snake_case');     // 'snake-case'
 kebabCase('WebkitTransition'); // '-webkit-transition'
+```
+
+#### `camelCase(s: string): string`
+Converts a given string to camelCase:
+- Transforms kebab-case, PascalCase, and snake_case to camelCase
+- Properly handles vendor prefixes by removing the leading hyphen
+- Correctly handles acronyms and preserves internal capitalization
+
+```typescript
+import { camelCase } from '@poupe/css';
+
+camelCase('kebab-case');      // 'kebabCase'
+camelCase('PascalCase');      // 'pascalCase'
+camelCase('snake_case');      // 'snakeCase'
+camelCase('-webkit-transition'); // 'webkitTransition'
+camelCase('HTMLElement');     // 'htmlElement'
+camelCase('BGColor');         // 'bgColor'
+```
+
+### Case Conversion Example
+
+```typescript
+import { kebabCase, camelCase } from '@poupe/css';
+
+// Kebab-case to camelCase
+const camelProperty = camelCase('background-color'); // 'backgroundColor'
+
+// CamelCase to kebab-case
+const kebabProperty = kebabCase('backgroundColor'); // 'background-color'
+
+// Useful for converting between CSS and JavaScript property names
+const styleObject = {
+  backgroundColor: 'red',
+  fontSize: '16px'
+};
+
+// Convert to CSS properties
+const cssProperties = Object.entries(styleObject).map(
+  ([key, value]) => `${kebabCase(key)}: ${value};`
+);
+// ['background-color: red;', 'font-size: 16px;']
 ```
 
 ## Integration with Poupe Ecosystem
