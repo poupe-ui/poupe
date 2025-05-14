@@ -53,14 +53,14 @@ export function defaultValidPair<K extends string, T = unknown>(key: K, value: T
  * @param valid - Optional validation function that determines which key-value pairs to yield
  * @returns A generator of valid key-value pairs from the object
  */
-export function* pairs<K extends string = string, T1 = unknown, T2 = unknown>(
-  object: Record<K, T1>,
-  valid?: (k: K, v: T1) => boolean,
-): Generator<[K, T2]> {
+export function* pairs<K extends string = string, T = unknown>(
+  object: Record<K, T>,
+  valid?: (k: K, v: T) => boolean,
+): Generator<[K, T]> {
   for (const key of keys(object)) {
     const value = object[key];
     if (valid?.(key, value) ?? defaultValidPair(key, value))
-      yield [key, value as unknown as T2];
+      yield [key, value];
   }
 }
 
@@ -101,3 +101,47 @@ export function kebabCase(s: string): string {
 }
 
 const vendorPrefixPattern = /^(webkit|moz|ms|o|khtml)-/;
+
+/**
+ * Converts a given string to camelCase.
+ *
+ * Transforms various string formats (kebab-case, PascalCase, snake_case)
+ * into a camelCase string. Properly handles vendor prefixes and internal
+ * capitalization patterns.
+ *
+ * @param s - The input string to convert
+ * @returns A camelCase representation of the input string
+ *
+ * @example
+ * camelCase('xml-http-request') // returns 'xmlHttpRequest'
+ * camelCase('PascalCase') // returns 'pascalCase'
+ * camelCase('snake_case') // returns 'snakeCase'
+ * camelCase('-webkit-transition') // returns 'webkitTransition'
+ * camelCase('BGColor') // returns 'bgColor'
+ * camelCase('HTMLElement') // returns 'htmlElement'
+ */
+export function camelCase(s: string): string {
+  // Handle empty strings and single delimiters
+  if (!s || s === '-' || s === '_') {
+    return '';
+  }
+
+  // Remove leading hyphens (for vendor prefixes) and trim
+  let result = s.trim().replace(/^-/, '');
+
+  // Handle explicit delimiter-separated words (kebab-case, snake_case, spaces)
+  result = result.replaceAll(/[-_\s]+([\w])/g, (_, c) => c.toUpperCase());
+
+  // Handle internal capitalization patterns like "BGColor" -> "bgColor"
+  // Look for uppercase letters that are preceded by lowercase or are the start
+  // of a capital sequence followed by lowercase (like in "BGColor" or "HTMLElement")
+  result = result
+    // First handle patterns like "BGColor" by preserving the capital letter after
+    // a sequence of capitals
+    .replaceAll(/([A-Z]+)([A-Z][a-z])/g, (_, g1, g2) => g1.toLowerCase() + g2)
+    // Then ensure the first letter is lowercase (handling both PascalCase and
+    // cases like "BG" at the start)
+    .replaceAll(/^[A-Z]+/g, match => match.toLowerCase());
+
+  return result;
+}

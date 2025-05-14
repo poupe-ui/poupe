@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/no-null */
 /* eslint-disable unicorn/consistent-function-scoping */
 import { describe, it, expect } from 'vitest';
-import { defaultValidPair, pairs, kebabCase, unsafeKeys, keys } from './utils';
+import { camelCase, defaultValidPair, kebabCase, keys, pairs, unsafeKeys } from './utils';
 
 describe('defaultValidPair', () => {
   it('returns true for valid key-value pairs', () => {
@@ -117,6 +117,62 @@ describe('kebabCase', () => {
     expect(kebabCase('WebkitTapHighlightColor')).toBe('-webkit-tap-highlight-color');
     expect(kebabCase('MozOsxFontSmoothing')).toBe('-moz-osx-font-smoothing');
     expect(kebabCase('MsImeAlign')).toBe('-ms-ime-align');
+  });
+});
+
+describe('camelCase', () => {
+  it('converts kebab-case to camelCase', () => {
+    expect(camelCase('kebab-case')).toBe('kebabCase');
+    expect(camelCase('multiple-words-here')).toBe('multipleWordsHere');
+  });
+
+  it('converts PascalCase to camelCase', () => {
+    expect(camelCase('PascalCase')).toBe('pascalCase');
+    expect(camelCase('HTMLElement')).toBe('htmlElement');
+  });
+
+  it('converts snake_case to camelCase', () => {
+    expect(camelCase('snake_case')).toBe('snakeCase');
+    expect(camelCase('multiple_words_here')).toBe('multipleWordsHere');
+  });
+
+  it('handles spaces correctly', () => {
+    expect(camelCase('with spaces')).toBe('withSpaces');
+    expect(camelCase('  multiple  spaces  ')).toBe('multipleSpaces');
+  });
+
+  it('handles multiple uppercase letters correctly', () => {
+    expect(camelCase('XML-http-request')).toBe('xmlHttpRequest');
+    expect(camelCase('BGColor')).toBe('bgColor');
+  });
+
+  it('handles vendor prefixes correctly', () => {
+    expect(camelCase('-webkit-transition')).toBe('webkitTransition');
+    expect(camelCase('-moz-border-radius')).toBe('mozBorderRadius');
+    expect(camelCase('-ms-flexbox')).toBe('msFlexbox');
+    expect(camelCase('-o-animation')).toBe('oAnimation');
+    expect(camelCase('-khtml-user-select')).toBe('khtmlUserSelect');
+  });
+
+  it('handles complex vendor prefixed properties', () => {
+    expect(camelCase('-webkit-tap-highlight-color')).toBe('webkitTapHighlightColor');
+    expect(camelCase('-moz-osx-font-smoothing')).toBe('mozOsxFontSmoothing');
+  });
+
+  it('preserves already camelCase strings', () => {
+    expect(camelCase('alreadyCamel')).toBe('alreadyCamel');
+    expect(camelCase('anotherCamelCase')).toBe('anotherCamelCase');
+  });
+
+  it('handles multiple delimiters', () => {
+    expect(camelCase('mix-of_different delimiters')).toBe('mixOfDifferentDelimiters');
+    expect(camelCase('multiple--hyphens__underscores')).toBe('multipleHyphensUnderscores');
+  });
+
+  it('handles empty strings and edge cases', () => {
+    expect(camelCase('')).toBe('');
+    expect(camelCase('-')).toBe('');
+    expect(camelCase('_')).toBe('');
   });
 });
 

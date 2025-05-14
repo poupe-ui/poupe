@@ -6,21 +6,39 @@
 
 A TypeScript utility library for CSS property manipulation, formatting, and CSS-in-JS operations.
 
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [API Reference](#api-reference)
+  - [Types](#types)
+  - [CSS Property Functions](#css-property-functions)
+  - [CSS Rules Functions](#css-rules-functions)
+  - [Utility Functions](#utility-functions)
+- [Integration with Poupe Ecosystem](#integration-with-poupe-ecosystem)
+- [Requirements](#requirements)
+- [License](#license)
+
 ## Features
 
 - 🛠️ Utilities for manipulating CSS properties
-- 🔄 Convert between camelCase and kebab-case CSS properties
+- 🔄 Bidirectional conversion between camelCase and kebab-case CSS properties
 - 📝 Format CSS for use in JavaScript
 - 🎨 CSS-in-JS helpers and type definitions
 - 📦 Lightweight, tree-shakable API
+- 🧩 Support for nested CSS rules and at-rules
 
 ## Installation
 
 ```bash
 npm install -D @poupe/css
-# or
+```
+
+```bash
 yarn add -D @poupe/css
-# or
+```
+
+```bash
 pnpm add -D @poupe/css
 ```
 
@@ -31,6 +49,7 @@ The library exports several categories of utilities:
 - **Case Conversion**: Functions for converting between different CSS naming conventions
 - **CSS Stringification**: Tools to convert CSS objects to strings
 - **CSS Variables**: Utilities for working with CSS custom properties
+- **CSS Rules**: Functions for handling nested CSS rule objects
 - **Type Definitions**: TypeScript types for CSS properties
 
 ### Types
@@ -64,10 +83,41 @@ type CSSPropertiesOptions = {
 }
 ```
 
+#### `CSSRules`
+Represents a structured CSS rule set that can contain nested rules:
+```typescript
+type CSSRules = {
+  [name: string]: null | string | string[] | CSSRules | CSSRules[]
+};
+```
+
+#### `CSSRuleObject`
+A more restrictive subset of CSSRules that is compatible with TailwindCSS plugin API:
+```typescript
+type CSSRuleObject = {
+  [key: string]: string | string[] | CSSRuleObject
+};
+```
+
+#### `CSSRulesFormatOptions`
+Configuration options for formatting CSS rules:
+```typescript
+interface CSSRulesFormatOptions {
+  /** Indentation string to use for each level of nesting, defaults to two spaces. */
+  indent?: string
+  /** Prefix string added before each line, defaults to empty string. */
+  prefix?: string
+  /** Optional validation function to determine which rules to include. */
+  valid?: (key: string, value: CSSRulesValue) => boolean
+}
+```
+
 ### CSS Property Functions
 
 #### `stringifyCSSProperties<K extends string>(object: CSSProperties<K>, options?: CSSPropertiesOptions): string`
 Converts a CSSProperties object into a formatted CSS string representation with proper indentation.
+Property values are intelligently formatted based on their type and the CSS property name - space-delimited
+properties (like margin, padding) use spaces between multiple values, while other properties use commas.
 
 ```typescript
 import { stringifyCSSProperties } from '@poupe/css';
@@ -75,7 +125,8 @@ import { stringifyCSSProperties } from '@poupe/css';
 const styles = {
   fontSize: '16px',
   backgroundColor: 'red',
-  margin: [10, '20px', '30px', '40px']
+  margin: [10, '20px', '30px', '40px'],
+  fontFamily: ['Arial', 'sans-serif']
 };
 
 // Default multi-line formatting
@@ -83,24 +134,13 @@ const cssString = stringifyCSSProperties(styles);
 // "{
 //   font-size: 16px;
 //   background-color: red;
-//   margin: 10, 20px, 30px, 40px;
-//   }"
+//   margin: 10 20px 30px 40px;
+//   font-family: Arial, sans-serif;
+// }"
 
 // Inline formatting
 const inlineCSS = stringifyCSSProperties(styles, { inline: true });
-// "{ font-size: 16px; background-color: red; margin: 10, 20px, 30px, 40px }"
-
-// Custom indentation and prefix
-const customCSS = stringifyCSSProperties(styles, {
-  indent: '    ',
-  prefix: '  ',
-  singleLineThreshold: 3
-});
-// "{
-//       font-size: 16px;
-//       background-color: red;
-//       margin: 10, 20px, 30px, 40px;
-//   }"
+// "{ font-size: 16px; background-color: red; margin: 10 20px 30px 40px; font-family: Arial, sans-serif }"
 ```
 
 #### `formatCSSProperties<K extends string>(object: CSSProperties<K>): string[]`
@@ -126,16 +166,23 @@ const cssLines = formatCSSProperties(styles);
 // ]
 ```
 
-#### `formatCSSValue(value: CSSValue): string`
-Formats a CSS value into a string. If the value is an array, it joins the elements with a comma and a space.
-If the value is a string containing spaces, it encloses the string in double quotes.
+#### `formatCSSValue(value: CSSValue, useComma = true): string`
+Formats a CSS value into a string. If the value is an array:
+- By default, it joins the elements with commas (appropriate for properties like `font-family`)
+- When `useComma` is set to `false`, it uses spaces (appropriate for properties like `margin` or `padding`)
+
+The function automatically handles quoting strings that contain spaces (except CSS functions like
+`rgb()` or `calc()`), enclosing them in double quotes.
 
 ```typescript
 import { formatCSSValue } from '@poupe/css';
 
 formatCSSValue('16px'); // "16px"
 formatCSSValue('Open Sans'); // "\"Open Sans\""
-formatCSSValue([10, '20px', '30px']); // "10, 20px, 30px"
+formatCSSValue([10, '20px', '30px']); // "10, 20px, 30px" (comma-separated by default)
+formatCSSValue([10, '20px', '30px'], false); // "10 20px 30px" (space-separated)
+formatCSSValue('rgb(255, 0, 0)'); // "rgb(255, 0, 0)" - Not quoted despite spaces
+formatCSSValue('calc(100% - 20px)'); // "calc(100% - 20px)" - Not quoted despite spaces
 ```
 
 #### `properties<K extends string>(object: CSSProperties<K>): Generator<[K, CSSValue]>`
@@ -161,6 +208,98 @@ for (const [key, value] of properties(styles)) {
 // backgroundColor: red
 ```
 
+### CSS Rules Functions
+
+#### `stringifyCSSRules(rules: CSSRules | CSSRuleObject, options?): string`
+Converts a CSS rule object into a formatted string representation with proper indentation and nesting.
+
+```typescript
+import { stringifyCSSRules } from '@poupe/css';
+
+const rules = {
+  'body': {
+    'color': 'red',
+    'font-size': '16px',
+    '@media (max-width: 768px)': {
+      'font-size': '14px'
+    }
+  },
+  '.container': {
+    'max-width': '1200px',
+    'margin': ['0', 'auto']
+  }
+};
+
+const cssString = stringifyCSSRules(rules);
+// Output:
+// body {
+//   color: red;
+//   font-size: 16px;
+//   @media (max-width: 768px) {
+//     font-size: 14px;
+//   }
+// }
+// .container {
+//   max-width: 1200px;
+//   margin: 0 auto;
+// }
+```
+
+#### `formatCSSRules(rules: CSSRules | CSSRuleObject, options?): string[]`
+Processes a CSS rule object and returns an array of strings, where each string represents a line in the formatted CSS output.
+
+```typescript
+import { formatCSSRules } from '@poupe/css';
+
+const rules = {
+  'body': {
+    'color': 'red',
+    'font-size': '16px'
+  }
+};
+
+const lines = formatCSSRules(rules);
+// Returns: ['body {', '  color: red;', '  font-size: 16px;', '}']
+
+// Custom indentation
+const indentedLines = formatCSSRules(rules, { indent: '    ' });
+// Returns: ['body {', '    color: red;', '    font-size: 16px;', '}']
+```
+
+#### `formatCSSRulesArray(rules: (string | CSSRules | CSSRuleObject)[], options?): string[]`
+Formats an array of CSS rules into indented lines recursively.
+
+```typescript
+import { formatCSSRulesArray } from '@poupe/css';
+
+const rulesArray = [
+  { 'color': 'red' },
+  { 'font-size': '16px' },
+  'font-weight: bold',
+  {
+    '@media (max-width: 768px)': {
+      'font-size': '14px'
+    }
+  }
+];
+
+const lines = formatCSSRulesArray(rulesArray);
+// Returns lines with proper indentation for each rule
+```
+
+#### `defaultValidCSSRule(key: string, value: CSSRulesValue): boolean`
+Default validation function that determines if a CSS rule key-value pair should be included in the output.
+A rule is considered valid if the key is not empty and the value is neither undefined nor null.
+
+```typescript
+import { defaultValidCSSRule } from '@poupe/css';
+
+// Use with custom rule validation
+const customValid = (key, value) => {
+  return defaultValidCSSRule(key, value) && !key.startsWith('_');
+};
+```
+
 ### Utility Functions
 
 #### `unsafeKeys<T>(object: T): Array<keyof T>`
@@ -169,8 +308,42 @@ A type-safe wrapper around Object.keys that preserves the object's key types.
 #### `keys<T, K extends keyof T>(object: T, valid?: (key: keyof T) => boolean): Generator<K>`
 A generator function that yields keys of an object that pass an optional validation function.
 
-#### `pairs<K extends string, T1, T2>(object: Record<K, T1>, valid?: (k: K, v: T1) => boolean): Generator<[K, T2]>`
-A generator function that yields valid key-value pairs from an object.
+```typescript
+import { keys } from '@poupe/css';
+
+const obj = { a: 1, b: 2, _private: 3 };
+
+// Use with default validation (includes all keys)
+for (const key of keys(obj)) {
+  console.log(key); // "a", "b", "_private"
+}
+
+// Use with custom validation
+for (const key of keys(obj, k => !k.startsWith('_'))) {
+  console.log(key); // "a", "b"
+}
+```
+
+#### `pairs<K extends string, T>(object: Record<K, T>, valid?: (k: K, v: T) => boolean): Generator<[K, T]>`
+A generator function that yields valid key-value pairs from an object. Allows providing a custom validation function
+to determine which pairs to include.
+
+```typescript
+import { pairs } from '@poupe/css';
+
+const obj = { color: 'red', fontSize: '16px', _private: 'hidden', empty: '' };
+
+// Use with default validation (excludes keys starting with underscore and null/empty values)
+for (const [key, value] of pairs(obj)) {
+  console.log(`${key}: ${value}`); // "color: red", "fontSize: 16px"
+}
+
+// Use with custom validation
+const customValid = (key: string, value: unknown) => typeof value === 'string' && value.length > 3;
+for (const [key, value] of pairs(obj, customValid)) {
+  console.log(`${key}: ${value}`); // "color: red", "_private: hidden"
+}
+```
 
 #### `defaultValidPair<K extends string, T>(key: K, value: T): boolean`
 Validates if a key-value pair meets default criteria:
@@ -190,6 +363,47 @@ kebabCase('XMLHttpRequest'); // 'xml-http-request'
 kebabCase('camelCase');      // 'camel-case'
 kebabCase('snake_case');     // 'snake-case'
 kebabCase('WebkitTransition'); // '-webkit-transition'
+```
+
+#### `camelCase(s: string): string`
+Converts a given string to camelCase:
+- Transforms kebab-case, PascalCase, and snake_case to camelCase
+- Properly handles vendor prefixes by removing the leading hyphen
+- Correctly handles acronyms and preserves internal capitalization
+
+```typescript
+import { camelCase } from '@poupe/css';
+
+camelCase('kebab-case');      // 'kebabCase'
+camelCase('PascalCase');      // 'pascalCase'
+camelCase('snake_case');      // 'snakeCase'
+camelCase('-webkit-transition'); // 'webkitTransition'
+camelCase('HTMLElement');     // 'htmlElement'
+camelCase('BGColor');         // 'bgColor'
+```
+
+### Case Conversion Example
+
+```typescript
+import { kebabCase, camelCase } from '@poupe/css';
+
+// Kebab-case to camelCase
+const camelProperty = camelCase('background-color'); // 'backgroundColor'
+
+// CamelCase to kebab-case
+const kebabProperty = kebabCase('backgroundColor'); // 'background-color'
+
+// Useful for converting between CSS and JavaScript property names
+const styleObject = {
+  backgroundColor: 'red',
+  fontSize: '16px'
+};
+
+// Convert to CSS properties
+const cssProperties = Object.entries(styleObject).map(
+  ([key, value]) => `${kebabCase(key)}: ${value};`
+);
+// ['background-color: red;', 'font-size: 16px;']
 ```
 
 ## Integration with Poupe Ecosystem

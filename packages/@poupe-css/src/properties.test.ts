@@ -6,6 +6,7 @@ import {
   formatCSSValue,
   properties,
   stringifyCSSProperties,
+  spaceDelimitedProperties,
 } from './properties';
 
 describe('stringifyCSSProperties', () => {
@@ -108,7 +109,7 @@ describe('stringifyCSSProperties', () => {
     };
     const result = stringifyCSSProperties(cssProps, options);
 
-    expect(result).toBe('{\n»   • color: red;\n»   • font-size: 16px;\n»   • margin: 10, 20\n» }');
+    expect(result).toBe('{\n»   • color: red;\n»   • font-size: 16px;\n»   • margin: 10 20\n» }');
   });
 });
 
@@ -238,6 +239,27 @@ describe('formatCSSProperties', () => {
 
     expect(result).toHaveLength(4);
   });
+
+  it('formats space-delimited properties correctly', () => {
+    const cssProps: CSSProperties = {
+      margin: [10, 20, 30, 40],
+      padding: ['1em', '2em'],
+      transform: ['translateX(10px)', 'rotate(45deg)'],
+    };
+    const result = formatCSSProperties(cssProps);
+
+    // Find the relevant properties
+    const marginLine = result.find(line => line.startsWith('margin:'));
+    const paddingLine = result.find(line => line.startsWith('padding:'));
+    const transformLine = result.find(line => line.startsWith('transform:'));
+
+    // Check for space-delimited values for margin and padding
+    expect(marginLine).toBe('margin: 10 20 30 40');
+    expect(paddingLine).toBe('padding: 1em 2em');
+
+    // transform should use spaces between functions
+    expect(transformLine).toBe('transform: translateX(10px) rotate(45deg)');
+  });
 });
 
 describe('formatCSSValue', () => {
@@ -252,10 +274,31 @@ describe('formatCSSValue', () => {
     expect(formatCSSValue(-5)).toBe('-5');
   });
 
-  it('formats array values', () => {
+  it('formats array values with commas by default', () => {
     expect(formatCSSValue(['red', 'blue'])).toBe('red, blue');
     expect(formatCSSValue([10, 20, 30])).toBe('10, 20, 30');
     expect(formatCSSValue(['red', 10])).toBe('red, 10');
+  });
+
+  it('formats array values with spaces when useComma is false', () => {
+    expect(formatCSSValue(['red', 'blue'], false)).toBe('red blue');
+    expect(formatCSSValue([10, 20, 30], false)).toBe('10 20 30');
+    expect(formatCSSValue(['1em', '2em', '3em'], false)).toBe('1em 2em 3em');
+  });
+
+  it('correctly formats values for space-delimited properties', () => {
+    // Test a few properties from the spaceDelimitedProperties set
+    for (const prop of [...spaceDelimitedProperties].slice(0, 3)) {
+      const kebabProp = prop; // Already in kebab case in the set
+      const values = ['10px', '20px', '30px'];
+
+      // Format with useComma = false for space-delimited properties
+      const formatted = formatCSSValue(values, false);
+      expect(formatted).toBe('10px 20px 30px');
+
+      // Make sure the property is actually in the set
+      expect(spaceDelimitedProperties.has(kebabProp)).toBe(true);
+    }
   });
 
   it('quotes string values containing spaces', () => {
@@ -266,6 +309,39 @@ describe('formatCSSValue', () => {
   it('quotes array values containing spaces', () => {
     expect(formatCSSValue(['solid 1px', 'dotted 2px'])).toBe('"solid 1px", "dotted 2px"');
     expect(formatCSSValue(['Arial', 'Times New Roman'])).toBe('Arial, "Times New Roman"');
+  });
+
+  it('quotes array values containing spaces with space delimiter', () => {
+    expect(formatCSSValue(['solid 1px', 'dotted 2px'], false)).toBe('"solid 1px" "dotted 2px"');
+    expect(formatCSSValue(['small', 'Times New Roman'], false)).toBe('small "Times New Roman"');
+  });
+
+  it('does not quote CSS functions with spaces between arguments', () => {
+    expect(formatCSSValue('rgb(255, 0, 0)')).toBe('rgb(255, 0, 0)');
+    expect(formatCSSValue('rgba(255, 0, 0, 0.5)')).toBe('rgba(255, 0, 0, 0.5)');
+    expect(formatCSSValue('calc(100% - 20px)')).toBe('calc(100% - 20px)');
+    expect(formatCSSValue('linear-gradient(to right, red, blue)')).toBe('linear-gradient(to right, red, blue)');
+  });
+
+  it('correctly handles arrays with CSS functions', () => {
+    expect(formatCSSValue(['rgb(255, 0, 0)', 'rgb(0, 0, 255)'])).toBe('rgb(255, 0, 0), rgb(0, 0, 255)');
+    expect(formatCSSValue(['url(image.jpg)', 'linear-gradient(to right, red, blue)'])).toBe(
+      'url(image.jpg), linear-gradient(to right, red, blue)',
+    );
+  });
+
+  it('correctly handles mixed arrays with CSS functions and regular strings with spaces', () => {
+    expect(formatCSSValue(['Times New Roman', 'calc(100% - 20px)'])).toBe('"Times New Roman", calc(100% - 20px)');
+    expect(formatCSSValue(['rgb(255, 0, 0)', 'solid 1px black'])).toBe('rgb(255, 0, 0), "solid 1px black"');
+  });
+
+  it('handles nested CSS functions correctly', () => {
+    expect(formatCSSValue('linear-gradient(to right, rgba(255, 0, 0, 0.5), blue)')).toBe(
+      'linear-gradient(to right, rgba(255, 0, 0, 0.5), blue)',
+    );
+    expect(formatCSSValue('drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.5))')).toBe(
+      'drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.5))',
+    );
   });
 });
 
