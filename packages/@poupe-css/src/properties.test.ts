@@ -267,6 +267,34 @@ describe('formatCSSValue', () => {
     expect(formatCSSValue(['solid 1px', 'dotted 2px'])).toBe('"solid 1px", "dotted 2px"');
     expect(formatCSSValue(['Arial', 'Times New Roman'])).toBe('Arial, "Times New Roman"');
   });
+
+  it('does not quote CSS functions with spaces between arguments', () => {
+    expect(formatCSSValue('rgb(255, 0, 0)')).toBe('rgb(255, 0, 0)');
+    expect(formatCSSValue('rgba(255, 0, 0, 0.5)')).toBe('rgba(255, 0, 0, 0.5)');
+    expect(formatCSSValue('calc(100% - 20px)')).toBe('calc(100% - 20px)');
+    expect(formatCSSValue('linear-gradient(to right, red, blue)')).toBe('linear-gradient(to right, red, blue)');
+  });
+
+  it('correctly handles arrays with CSS functions', () => {
+    expect(formatCSSValue(['rgb(255, 0, 0)', 'rgb(0, 0, 255)'])).toBe('rgb(255, 0, 0), rgb(0, 0, 255)');
+    expect(formatCSSValue(['url(image.jpg)', 'linear-gradient(to right, red, blue)'])).toBe(
+      'url(image.jpg), linear-gradient(to right, red, blue)',
+    );
+  });
+
+  it('correctly handles mixed arrays with CSS functions and regular strings with spaces', () => {
+    expect(formatCSSValue(['Times New Roman', 'calc(100% - 20px)'])).toBe('"Times New Roman", calc(100% - 20px)');
+    expect(formatCSSValue(['rgb(255, 0, 0)', 'solid 1px black'])).toBe('rgb(255, 0, 0), "solid 1px black"');
+  });
+
+  it('handles nested CSS functions correctly', () => {
+    expect(formatCSSValue('linear-gradient(to right, rgba(255, 0, 0, 0.5), blue)')).toBe(
+      'linear-gradient(to right, rgba(255, 0, 0, 0.5), blue)',
+    );
+    expect(formatCSSValue('drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.5))')).toBe(
+      'drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.5))',
+    );
+  });
 });
 
 describe('properties generator', () => {

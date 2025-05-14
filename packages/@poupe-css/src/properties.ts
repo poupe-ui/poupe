@@ -4,7 +4,7 @@ import {
 } from './utils';
 
 export type CSSProperties<K extends string = string> = Record<K, CSSValue>;
-export type CSSValue = string | number | (string | number)[];
+export type CSSValue = string | number | boolean | (string | number | boolean)[];
 
 /**
  * Configuration options for CSS properties stringification.
@@ -95,15 +95,23 @@ export function formatCSSValue(value: CSSValue): string {
 }
 
 /**
- * Encloses a CSS value in double quotes if it is a string containing spaces.
- * Otherwise, converts the value to a string.
+ * Encloses a CSS value in double quotes if it is a string containing spaces,
+ * except for CSS functions which should not be quoted.
  *
  * @param v - The CSS value to process.
  * @returns The processed CSS value as a string.
  */
 function quoted(v: CSSValue): string {
-  if (typeof v === 'string' && v.includes(' ')) {
-    return `"${v}"`;
+  if (typeof v === 'boolean') {
+    return v ? 'true' : 'false';
+  } else if (typeof v === 'string') {
+    // Check if this is a CSS function (contains parentheses)
+    const isCssFunction = /^[a-zA-Z-]+\(.*\)$/.test(v.trim());
+
+    // Only quote strings with spaces that are not CSS functions
+    if (v.includes(' ') && !isCssFunction) {
+      return `"${v}"`;
+    }
   }
   return String(v);
 }
