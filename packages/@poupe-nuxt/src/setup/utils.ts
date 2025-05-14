@@ -1,4 +1,3 @@
-import stringifyObject from 'stringify-object';
 import { env } from 'std-env';
 
 export {
@@ -6,12 +5,21 @@ export {
   type NuxtOptions,
 } from '@nuxt/schema';
 
-export type { ThemeColors } from '@poupe/theme-builder';
-export type { TailwindThemeOptions } from '@poupe/theme-builder/tailwind';
+export {
+  type CSSProperties,
+  formatCSSProperties,
+} from '@poupe/css';
 
-export const stringify = (input: unknown): string => stringifyObject(input, {
-  indent: '  ',
-  singleQuotes: true,
-});
+export {
+  type ThemeOptions,
+  type Theme,
+  defaultPrimaryColor,
+  formatTheme,
+  makeThemeFromPartialOptions,
+} from '@poupe/tailwindcss/theme';
+
+export {
+  DEFAULT_PREFIX as defaultComponentPrefix,
+} from '@poupe/vue/resolver';
 
 export const DEBUG: boolean = env.DEBUG === 'true';

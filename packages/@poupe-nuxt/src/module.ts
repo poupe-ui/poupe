@@ -20,6 +20,9 @@ import {
 async function setup<K extends string = string>(options: ModuleOptions<K>, nuxt: Nuxt) {
   const { resolve } = createResolver(import.meta.url);
 
+  // Preparations
+  nuxt.options.alias['#poupe'] = resolve('./runtime');
+
   const setupContext: SetupContext<K> = {
     options,
     nuxt,
