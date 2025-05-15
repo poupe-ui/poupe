@@ -200,6 +200,9 @@ importers:
       '@material/material-color-utilities':
         specifier: ^0.3.0
         version: 0.3.0
+      '@poupe/css':
+        specifier: workspace:^
+        version: link:../@poupe-css
       colord:
         specifier: ^2.9.3
         version: 2.9.3

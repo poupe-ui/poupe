@@ -3,12 +3,12 @@ import {
 } from 'defu';
 
 import {
+  type CSSRuleObject,
   unsafeKeys,
-} from './core/utils';
+} from '@poupe/css';
 
 import {
   type ColorMap,
-  type CSSRuleObject,
   type Hct,
 
   rgbFromHct,
@@ -26,7 +26,7 @@ import {
 
 export interface CSSThemeOptions {
   /** @defaultValue `'.dark'` */
-  darkMode: boolean | string
+  darkMode: boolean | string | string[]
   /** @defaultValue `'.light'` */
   lightMode: boolean | string
   /** @defaultValue `'md-'` */
@@ -55,22 +55,36 @@ export function defaultCSSThemeOptions(options: Partial<CSSThemeOptions> = {}): 
 export function defaultDarkSelector(options: Partial<CSSThemeOptions>) {
   const { darkMode = true } = options;
   if (darkMode === true || darkMode === '.dark')
-    return '.dark';
+    return '.dark, .dark *';
   else if (darkMode === false || darkMode === '' || darkMode === 'media')
     return '@media not print and (prefers-color-scheme: dark)';
-  else
-    return darkMode;
+  else if (!Array.isArray(darkMode)) {
+    return darkMode.includes(',') ? darkMode : `${darkMode}, ${darkMode} *`;
+  }
+
+  const selectors: string[] = [];
+  for (const s of darkMode) {
+    const trimmed = s.trim();
+    if (trimmed)
+      selectors.push(trimmed);
+  }
+
+  if (selectors.length === 0) return '.dark, .dark *';
+  if (selectors.length === 1) return selectors[0];
+
+  // TODO: implement
+  throw new Error('multi-level dark mode selectors not supported yet');
 }
 
 /** @returns the light mode selector, or undefined if disabled */
 export function defaultLightSelector(options: Partial<CSSThemeOptions>) {
   const { lightMode = true } = options;
   if (lightMode === true || lightMode === '.light')
-    return '.light';
+    return '.light, .light *';
   else if (lightMode === false || lightMode === '')
     return undefined;
   else
-    return lightMode;
+    return lightMode.includes(',') ? lightMode : `${lightMode}, ${lightMode} *`;
 }
 
 export function defaultRootLightSelector(options: Partial<CSSThemeOptions>) {

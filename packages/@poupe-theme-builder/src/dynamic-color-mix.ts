@@ -1,14 +1,14 @@
 import {
+  unsafeKeys,
+} from '@poupe/css';
+
+import {
   type Color,
   type Hct,
 
   colord,
   hctFromColord,
 } from './core/colors';
-
-import {
-  unsafeKeys,
-} from './core/utils';
 
 /** @returns the result of mixing two colors in given ratios */
 export function makeColorMix(base: Color, other: Color, ratios: number): Hct;

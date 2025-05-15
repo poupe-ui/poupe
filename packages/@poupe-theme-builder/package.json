@@ -1,6 +1,6 @@
 {
   "name": "@poupe/theme-builder",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "type": "module",
   "description": "Design token management and theme generation system for Poupe UI framework",
   "author": "Alejandro Mery <amery@apptly.co>",
@@ -45,11 +45,6 @@
       "types": "./dist/server.d.ts",
       "import": "./dist/server.mjs",
       "require": "./dist/server.cjs"
-    },
-    "./tailwind": {
-      "types": "./dist/tailwind.d.ts",
-      "import": "./dist/tailwind.mjs",
-      "require": "./dist/tailwind.cjs"
     }
   },
   "main": "./dist/index.mjs",
@@ -71,6 +66,7 @@
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.3.0",
+    "@poupe/css": "workspace:^",
     "colord": "^2.9.3",
     "defu": "^6.1.4",
     "tailwindcss": "^4.1.6",

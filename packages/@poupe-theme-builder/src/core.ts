@@ -19,7 +19,6 @@ import {
 // re-export
 //
 export * from './core/colors';
-export * from './core/css';
 
 export {
   customColor as customColorFromArgb,

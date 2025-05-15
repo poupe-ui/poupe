@@ -1,5 +1,12 @@
 // imports
 //
+import type { KebabCase } from 'type-fest';
+
+import {
+  kebabCase,
+  unsafeKeys,
+} from '@poupe/css';
+
 import {
   type Color,
   Hct,
@@ -12,13 +19,6 @@ import {
 import {
   customColorFromArgb,
 } from './core';
-
-import {
-  type KebabCase,
-
-  kebabCase,
-  unsafeKeys,
-} from './core/utils';
 
 import {
   type CustomDynamicColorKey,
