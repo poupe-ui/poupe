@@ -45,11 +45,6 @@
       "types": "./dist/server.d.ts",
       "import": "./dist/server.mjs",
       "require": "./dist/server.cjs"
-    },
-    "./tailwind": {
-      "types": "./dist/tailwind.d.ts",
-      "import": "./dist/tailwind.mjs",
-      "require": "./dist/tailwind.cjs"
     }
   },
   "main": "./dist/index.mjs",
