@@ -26,7 +26,7 @@ import {
 
 export interface CSSThemeOptions {
   /** @defaultValue `'.dark'` */
-  darkMode: boolean | string
+  darkMode: boolean | string | string[]
   /** @defaultValue `'.light'` */
   lightMode: boolean | string
   /** @defaultValue `'md-'` */
@@ -58,8 +58,22 @@ export function defaultDarkSelector(options: Partial<CSSThemeOptions>) {
     return '.dark';
   else if (darkMode === false || darkMode === '' || darkMode === 'media')
     return '@media not print and (prefers-color-scheme: dark)';
-  else
+  else if (!Array.isArray(darkMode)) {
     return darkMode;
+  }
+
+  const selectors: string[] = [];
+  for (const s of darkMode) {
+    const trimmed = s.trim();
+    if (trimmed)
+      selectors.push(trimmed);
+  }
+
+  if (selectors.length === 0) return '.dark';
+  if (selectors.length === 1) return selectors[0];
+
+  // TODO: implement
+  throw new Error('multi-level dark mode selectors not supported yet');
 }
 
 /** @returns the light mode selector, or undefined if disabled */
