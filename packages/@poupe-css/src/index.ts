@@ -12,12 +12,14 @@ export {
 export {
   type CSSRuleObject,
   type CSSRules,
-  type CSSRulesValue,
   type CSSRulesFormatOptions,
-  stringifyCSSRules,
+  type CSSRulesValue,
+  defaultValidCSSRule,
   formatCSSRules,
   formatCSSRulesArray,
-  defaultValidCSSRule,
+  interleavedRules,
+  renameRules,
+  stringifyCSSRules,
 } from './rules';
 
 export {

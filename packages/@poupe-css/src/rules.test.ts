@@ -7,6 +7,8 @@ import {
   formatCSSRules,
   formatCSSRulesArray,
   defaultValidCSSRule,
+  interleavedRules,
+  renameRules,
 } from './rules';
 
 describe('stringifyCSSRules', () => {
@@ -417,5 +419,272 @@ describe('at-rule handling', () => {
 
     expect(result).toContain('@import: url("styles.css");');
     expect(result).not.toContain('@namespace');
+  });
+});
+
+describe('interleavedRules', () => {
+  it('returns empty array for empty input', () => {
+    const result = interleavedRules([]);
+    expect(result).toEqual([]);
+  });
+
+  it('returns original array for single item', () => {
+    const rules = [{ color: 'red' }];
+    const result = interleavedRules(rules);
+    expect(result).toEqual([{ color: 'red' }]);
+  });
+
+  it('interleaves rules with empty objects', () => {
+    const rules: CSSRules[] = [
+      { color: 'red' },
+      { backgroundColor: 'blue' },
+      { fontSize: '16px' },
+    ];
+
+    const result = interleavedRules(rules);
+
+    expect(result).toHaveLength(5);
+    expect(result[0]).toEqual({ color: 'red' });
+    expect(result[1]).toEqual({});
+    expect(result[2]).toEqual({ backgroundColor: 'blue' });
+    expect(result[3]).toEqual({});
+    expect(result[4]).toEqual({ fontSize: '16px' });
+  });
+
+  it('preserves object references', () => {
+    const original = { color: 'red' };
+    const rules = [original];
+
+    const result = interleavedRules(rules);
+
+    expect(result[0]).toBe(original); // Same reference
+  });
+});
+
+describe('renameRules', () => {
+  it('returns empty object for empty input', () => {
+    const result = renameRules({}, key => key);
+    expect(result).toEqual({});
+  });
+
+  it('renames keys using provided function', () => {
+    const rules = {
+      '.button': { color: 'blue' },
+      '.card': { padding: '10px' },
+    };
+
+    const result = renameRules(rules, key => `@custom${key}`);
+
+    expect(result).toEqual({
+      '@custom.button': { color: 'blue' },
+      '@custom.card': { padding: '10px' },
+    });
+  });
+
+  it('filters out keys when function returns falsy value', () => {
+    const rules = {
+      '.button': { color: 'blue' },
+      '.internal': { padding: '10px' },
+    };
+
+    const result = renameRules(rules, key =>
+      key.startsWith('.int') ? '' : key,
+    );
+
+    expect(result).toEqual({
+      '.button': { color: 'blue' },
+    });
+    expect(result['.internal']).toBeUndefined();
+  });
+
+  it('preserves nested object structures', () => {
+    const rules = {
+      '.parent': {
+        color: 'red',
+        nested: {
+          fontSize: '12px',
+        },
+      },
+    };
+
+    const result = renameRules(rules, key => key.toUpperCase());
+
+    expect(result).toEqual({
+      '.PARENT': {
+        color: 'red',
+        nested: {
+          fontSize: '12px',
+        },
+      },
+    });
+  });
+});
+
+describe('formatCSSRulesArray with blank line handling', () => {
+  it('ignores empty strings at the beginning', () => {
+    const rules = ['', '', 'color: red'];
+    const result = formatCSSRulesArray(rules);
+
+    expect(result).toEqual(['color: red;']);
+  });
+
+  it('preserves a single empty string after content', () => {
+    const rules = ['color: red', '', 'background: blue'];
+    const result = formatCSSRulesArray(rules);
+
+    expect(result).toEqual([
+      'color: red;',
+      '',
+      'background: blue;',
+    ]);
+  });
+
+  it('collapses multiple consecutive empty strings', () => {
+    const rules = ['color: red', '', '', '', 'background: blue'];
+    const result = formatCSSRulesArray(rules);
+
+    expect(result).toEqual([
+      'color: red;',
+      '',
+      'background: blue;',
+    ]);
+    expect(result).not.toEqual([
+      'color: red;',
+      '',
+      '',
+      '',
+      'background: blue;',
+    ]);
+  });
+
+  it('handles mixed content types correctly', () => {
+    const rules: (string | CSSRules)[] = [
+      'color: red',
+      { fontSize: '16px' },
+      '',
+      { '@media screen': { color: 'blue' } },
+    ];
+
+    const result = formatCSSRulesArray(rules);
+
+    expect(result).toContain('color: red;');
+    expect(result).toContain('fontSize: 16px;');
+    expect(result).toContain('@media screen {');
+
+    // Verify there's exactly one blank line between content blocks
+    const blankLineCount = result.filter(line => line === '').length;
+    expect(blankLineCount).toBe(1);
+  });
+
+  it('ignores null and undefined values', () => {
+    const rules = [
+      'color: red',
+      // eslint-disable-next-line unicorn/no-null
+      null,
+      undefined,
+      'background: blue',
+    ];
+
+    // @ts-expect-error - intentionally passing invalid values for test
+    const result = formatCSSRulesArray(rules);
+
+    expect(result).toEqual([
+      'color: red;',
+      'background: blue;',
+    ]);
+  });
+
+  it('handles empty objects correctly', () => {
+    const rules: (string | CSSRules)[] = [
+      'color: red',
+      {},
+      { fontSize: '16px' },
+    ];
+
+    const result = formatCSSRulesArray(rules);
+
+    expect(result).toEqual([
+      'color: red;',
+      '',
+      'fontSize: 16px;',
+    ]);
+  });
+});
+
+describe('formatCSSRulesArray with formatting options', () => {
+  it('applies custom indentation and prefix', () => {
+    const rules = [
+      { '.parent': { color: 'red' } },
+    ];
+
+    const options = {
+      indent: '----',
+      prefix: '> ',
+    };
+
+    const result = formatCSSRulesArray(rules, options);
+
+    expect(result).toEqual([
+      '> .parent {',
+      '> ----color: red;',
+      '> }',
+    ]);
+  });
+
+  it('applies custom validation function', () => {
+    const rules = [
+      {
+        color: 'red',
+        _private: 'value', // Should be filtered out
+        fontSize: '16px',
+      },
+    ];
+
+    const options = {
+      valid: (key: string) => !key.startsWith('_'),
+    };
+
+    const result = formatCSSRulesArray(rules, options);
+
+    expect(result.join('\n')).toContain('color: red;');
+    expect(result.join('\n')).toContain('fontSize: 16px;');
+    expect(result.join('\n')).not.toContain('_private');
+  });
+});
+
+describe('integration tests for CSS rule formatting', () => {
+  it('combines interleavedRules with formatCSSRulesArray', () => {
+    const rules: CSSRules[] = [
+      { '--color-primary': 'blue' },
+      { '--color-secondary': 'green' },
+      { '--color-accent': 'purple' },
+    ];
+
+    const interleaved = interleavedRules(rules);
+    const result = formatCSSRulesArray(interleaved);
+
+    // Should have content, blank line, content, blank line, content
+    expect(result).toEqual([
+      '--color-primary: blue;',
+      '',
+      '--color-secondary: green;',
+      '',
+      '--color-accent: purple;',
+    ]);
+  });
+
+  it('combines renameRules with formatCSSRulesArray', () => {
+    const rules = {
+      '.button': { color: 'blue' },
+      '.card': { backgroundColor: 'white' },
+    };
+
+    const renamed = renameRules(rules, key => `@component${key}`);
+    const result = stringifyCSSRules(renamed);
+
+    expect(result).toContain('@component.button {');
+    expect(result).toContain('color: blue;');
+    expect(result).toContain('@component.card {');
+    expect(result).toContain('backgroundColor: white;');
   });
 });

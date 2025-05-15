@@ -200,29 +200,63 @@ export function formatCSSRules(rules: CSSRules | CSSRuleObject = {}, options: CS
 }
 
 /**
- * Formats an array of CSS rules into indented lines recursively.
+ * Formats an array of CSS rules into an array of formatted string lines.
  *
- * This function handles arrays of strings or nested rule objects and formats them
- * into an array of lines for output.
+ * This function processes various CSS rule representations recursively and converts them
+ * into strings representing CSS code with proper formatting. It handles:
  *
- * @param rules - The array of CSS rules to format
+ * - String values (treated as direct CSS with semicolons added)
+ * - Empty strings (converted to blank lines for spacing if appropriate)
+ * - CSS rule objects (recursively processed with formatCSSRules)
+ * - Empty rule objects (possibly generating blank lines)
+ *
+ * The function maintains proper whitespace by tracking whether the last inserted
+ * item was a blank line to avoid consecutive empty lines.
+ *
+ * @param rules - The array of CSS rules to format (strings or rule objects)
  * @param options - Configuration options for formatting
  * @returns An array of strings, each representing a line in the formatted CSS
+ *
+ * @example
+ * ```
+ * // Mixed strings and objects
+ * formatCSSRulesArray([
+ *   'display: block',
+ *   { color: 'red' },
+ *   '',
+ *   { fontSize: '16px' }
+ * ]);
+ * // Returns: ['display: block;', 'color: red;', '', 'fontSize: 16px;']
+ * ```
  */
 export function formatCSSRulesArray(rules: (string | CSSRules | CSSRuleObject)[] = [], options: CSSRulesFormatOptions = {}): string[] {
   const out: string[] = [];
 
+  // track if the last item was a blank line, to avoid consecutive empty lines.
+  let first = true;
   for (const value of rules) {
     if (typeof value === 'string') {
       // string, preserve empty for whitespace.
-      if (value || out.length > 0) {
-        out.push(value ? `${value};` : '');
+      if (value) {
+        out.push(`${value};`);
+        first = false;
+      } else if (!first) {
+        out.push('');
+        first = true;
       }
-    } else {
+    } else if (value !== null && value !== undefined) {
       // object
-      out.push(...formatCSSRules(value, options));
+      const entries = value ? formatCSSRules(value, options) : [];
+      if (entries.length > 0) {
+        out.push(...entries);
+        first = false;
+      } else if (!first) {
+        out.push('');
+        first = true;
+      }
     }
   }
+
   return out;
 }
 
@@ -265,4 +299,56 @@ function atRuleException(key: string, value: CSSRulesValue): boolean {
   } else {
     return false;
   }
+}
+
+/**
+ * Interleaves an array of CSS rule objects with empty objects.
+ *
+ * @param rules - An array of CSS rule objects to be interleaved
+ * @returns An array with the original rules spaced out with empty objects
+ *
+ * @example
+ * ```
+ * // Input: [{ color: 'red' }, { background: 'blue' }]
+ * // Output: [{ color: 'red' }, {}, { background: 'blue' }]
+ * ```
+ */
+export function interleavedRules(rules: CSSRules[]): CSSRules[] {
+  if (rules.length === 0) return [];
+
+  const size = rules.length * 2 - 1;
+  const out: Array<CSSRules> = Array.from({ length: size }, () => ({}));
+
+  let i = 0;
+  for (const entry of rules) {
+    out[i] = entry;
+    i += 2;
+  }
+
+  return out;
+}
+
+/**
+ * Renames the keys in a CSS rules object using the provided function.
+ *
+ * @param rules - The CSS rules object whose keys should be renamed
+ * @param fn - A function that takes an original key name and returns a new key name (or falsy value to skip)
+ * @returns A new CSS rules object with renamed keys
+ *
+ * @example
+ * ```
+ * // Input: { '.button': { color: 'blue' } }, key => `@utility ${key.slice(1)}`
+ * // Output: { '@utility button': { color: 'blue' } }
+ * ```
+ */
+export function renameRules(rules: CSSRules, fn: (name: string) => string): CSSRules {
+  if (!fn) return rules;
+
+  const map = new Map<string, CSSRules[string]>();
+  for (const [key, value] of pairs(rules)) {
+    const k2 = fn(key);
+    if (k2) map.set(k2, value);
+  }
+
+  return Object.fromEntries(map);
 }
