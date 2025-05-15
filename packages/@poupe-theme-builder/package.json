@@ -69,7 +69,7 @@
     "@poupe/css": "workspace:^",
     "colord": "^2.9.3",
     "defu": "^6.1.4",
-    "tailwindcss": "^4.1.6",
+    "tailwindcss": "^4.1.7",
     "type-fest": "^4.41.0"
   },
   "devDependencies": {
