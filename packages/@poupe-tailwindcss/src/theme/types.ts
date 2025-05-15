@@ -14,15 +14,13 @@ import {
 } from './shades';
 
 /* re-exports */
+export type { KebabCase } from 'type-fest';
+
 export {
   type Color,
   type StandardDynamicSchemeKey,
   type StandardPaletteKey,
 } from '@poupe/theme-builder';
-
-export {
-  type KebabCase,
-} from '@poupe/theme-builder/utils';
 
 export {
   defaultShades,

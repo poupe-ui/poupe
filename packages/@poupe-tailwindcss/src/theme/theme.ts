@@ -1,6 +1,9 @@
 /* imports */
 import {
   type CSSRuleObject,
+} from '@poupe/css';
+
+import {
   type ColorMap,
   type ThemeColors as ThemeBuilderColors,
   assembleCSSColors,
