@@ -4,10 +4,15 @@ import {
 } from './types';
 
 import {
-  type CSSRuleObject,
+  type CSSRules,
+  formatCSSRulesArray,
+  interleavedRules,
+  keys,
+  renameRules,
+} from '@poupe/css';
+
+import {
   type DarkModeStrategy,
-  formatCSSRuleObjects,
-  unsafeKeys,
 } from './utils';
 
 import {
@@ -19,60 +24,22 @@ import {
   defaultPersistentColors,
 } from './config';
 
-function formatRulesSet(key: string, rules: CSSRuleObject[], indent: string = '  ', newLine: string = '\n', prefix: string = ''): string[] {
-  const nextPrefix = `${prefix}${indent}`;
-
-  const out: string[] = [
-    `${prefix}${key} {${newLine}`,
-  ];
-
-  for (const [i, entry] of rules.entries()) {
-    out.push(
-      formatCSSRuleObjects(entry, indent, newLine, nextPrefix),
-      newLine,
-
-      // blank line between rules
-      (i < rules.length - 1) ? newLine : '',
-    );
-  }
-
-  out.push(`${prefix}}${newLine}`);
-  return out;
-}
-
-function formatUtilities(u: CSSRuleObject, indent: string = '  ', newLine: string = '\n', prefix: string = ''): string[] {
-  const utilities: CSSRuleObject = {};
-  for (const [name, value] of Object.entries(u)) {
-    // remove the leading dot.
-    utilities[`@utility ${name.slice(1)}`] = value;
-  }
-
-  return [
-    formatCSSRuleObjects(utilities, indent, newLine, prefix),
-    newLine,
-  ];
-}
+/** converts a `.foo` into `@utility foo` */
+const utilityName = (name: string) => `@utility ${name.startsWith('.') ? name.slice(1) : name}`;
 
 /**
- * Writes a formatted theme to a buffer.
+ * Processes component CSS rules by converting them to utility format.
  *
- * @param theme - The theme configuration to be written
- * @param out - The buffer to write the formatted theme into
- * @param darkMode - Strategy for handling dark mode, defaults to 'class'
- * @param indent - Indentation string for formatting, defaults to two spaces
- * @param newLine - Newline character for formatting, defaults to LF
- * @returns The number of bytes written to the buffer
+ * @param components - An array of component CSS rule objects to be processed
+ * @returns An array of CSS rule objects converted to utility format
+ *
+ * @example
+ * ```
+ * // Input: [{ '.button': { color: 'blue' } }]
+ * // Output: [{ '@utility button': { color: 'blue' } }]
+ * ```
  */
-export function writeTheme(
-  theme: Theme,
-  out: Buffer,
-  darkMode: DarkModeStrategy = 'class',
-  indent: string = '  ',
-  newLine: string = '\n',
-) {
-  const chunks = formatTheme(theme, darkMode, indent, newLine);
-  return out.write(chunks.join(''));
-}
+const prepareComponents = (components: Record<string, CSSRules>[]): CSSRules[] => components.map(group => renameRules(group, utilityName));
 
 /**
  * Formats a theme configuration into a series of CSS rules and utilities.
@@ -80,83 +47,76 @@ export function writeTheme(
  * @param theme - The theme configuration object to be processed
  * @param darkMode - Strategy for handling dark mode, defaults to 'class'
  * @param indent - Indentation string for formatting, defaults to two spaces
- * @param newLine - Newline character for formatting, defaults to LF
  * @returns An array of formatted CSS rule strings
  */
 export function formatTheme(
   theme: Theme,
   darkMode: DarkModeStrategy = 'class',
   indent: string = '  ',
-  newLine: string = '\n',
 ): string[] {
   const { extendColors = false } = theme.options;
 
-  const out: string[] = [];
   const bases = makeThemeBases(theme, darkMode);
   const themeColorRules = themeColors(theme.colors, extendColors);
   const components = makeThemeComponents(theme);
 
-  // bases
-  if (bases.length > 0) {
-    out.push(
-      ...formatRulesSet('@layer base', bases, indent, newLine),
-      newLine,
-    );
-  }
+  const rules: CSSRules[] = [
+    // bases
+    ...(bases.length > 0 ? [{ '@layer base': bases }] : []),
+    // theme
+    {
+      '@theme': interleavedRules(themeColorRules),
+    },
+    // components
+    ...prepareComponents(components),
+  ];
 
-  // theme colors
-  out.push(
-    ...formatRulesSet('@theme', themeColorRules, indent, newLine),
-    newLine,
-  );
-
-  // components
-  for (const [i, entry] of components.entries()) {
-    out.push(
-      ...formatUtilities(entry, indent, newLine),
-
-      // blank line between groups
-      (i < components.length - 1) ? newLine : '',
-    );
-  }
-
-  return out;
+  return formatCSSRulesArray(interleavedRules(rules), {
+    indent,
+  });
 }
 
+/**
+ * Generates CSS custom property rules for theme colors.
+ *
+ * @param colors - Record of theme color configurations
+ * @param extendColors - Whether to extend existing colors or reset them, defaults to false
+ * @param persistentColors - Record of persistent colors that should be preserved if not overridden
+ * @returns An array of CSS rule objects for the theme colors
+ */
 export function themeColors(
   colors: Record<string, ThemeColorConfig>,
   extendColors: boolean = false,
   persistentColors: Record<string, string> = defaultPersistentColors,
-): CSSRuleObject[] {
-  const rules: CSSRuleObject[] = [];
+): CSSRules[] {
+  const rules: CSSRules[] = [];
 
   if (!extendColors) {
-    const out: CSSRuleObject = {};
-
     // reset
     rules.push({ '--color-*': 'initial' });
 
     // persistent colors not customized
-    for (const key of unsafeKeys(persistentColors).sort((a, b) => a.localeCompare(b))) {
+    const colorRules: CSSRules = {};
+    for (const key of [...keys(persistentColors)].sort((a, b) => a.localeCompare(b))) {
       if (!(key in colors)) {
-        out[`--color-${key}`] = persistentColors[key];
+        colorRules[`--color-${key}`] = persistentColors[key];
       }
     }
-    rules.push(out);
+    rules.push(colorRules);
   }
 
-  // custom colors
-  const out: CSSRuleObject = {};
-  for (const key of unsafeKeys(colors).sort((a, b) => a.localeCompare(b))) {
+  // theme colors
+  const themeColors: CSSRules = {};
+  for (const key of [...keys(colors)].sort((a, b) => a.localeCompare(b))) {
     const c = colors[key];
-    out[`--color-${key}`] = `var(${c.value})`;
+    themeColors[`--color-${key}`] = `var(${c.value})`;
     if (c.shades) {
       // shades
-      for (const shade of unsafeKeys(c.shades).sort((a, b) => a - b)) {
-        out[`--color-${key}-${shade}`] = `var(${c.shades[shade]})`;
+      for (const shade of [...keys(c.shades)].sort((a: number, b: number) => a - b)) {
+        themeColors[`--color-${key}-${shade}`] = `var(${c.shades[shade]})`;
       }
     }
   }
-  rules.push(out);
+  rules.push(themeColors);
   return rules;
 }

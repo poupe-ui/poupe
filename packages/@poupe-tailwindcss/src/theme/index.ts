@@ -24,5 +24,4 @@ export {
 
 export {
   formatTheme,
-  writeTheme,
 } from './css';
