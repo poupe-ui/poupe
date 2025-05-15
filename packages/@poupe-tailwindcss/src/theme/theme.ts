@@ -1,32 +1,20 @@
+/* imports */
 import {
-  type Theme,
-  type ThemeOptions,
-  type ThemeColorConfig,
-  defaultThemePrefix,
-} from './types';
+  type CSSRuleObject,
+} from '@poupe/css';
 
 import {
-  type DarkModeStrategy,
-  unsafeKeys,
-  getDarkMode,
-  hexString,
-  hslString,
-  debugLog,
-} from './utils';
+  type ColorMap,
+  type ThemeColors as ThemeBuilderColors,
+  assembleCSSColors,
+  Hct,
+  makeTheme as makeThemeColors,
+  makeThemeKeys,
+} from '@poupe/theme-builder';
 
 import {
   flattenColorOptions,
 } from './options';
-
-import {
-  type CSSRuleObject,
-  type ColorMap,
-  type ThemeColors as ThemeBuilderColors,
-  Hct,
-  assembleCSSColors,
-  makeTheme as makeThemeColors,
-  makeThemeKeys,
-} from '@poupe/theme-builder';
 
 import {
   type Shades,
@@ -34,14 +22,30 @@ import {
   makeShades,
 } from './shades';
 
-export {
+import {
   type Theme,
+  type ThemeColorConfig,
+  type ThemeOptions,
+  defaultThemePrefix,
 } from './types';
 
+import {
+  type DarkModeStrategy,
+  debugLog,
+  getDarkMode,
+  hexString,
+  hslString,
+  unsafeKeys,
+} from './utils';
+
+/* re-exports */
 export {
   makeThemeComponents,
 } from './components';
 
+export {
+  type Theme,
+} from './types';
 /**
  * Creates a theme configuration based on the provided theme options.
  *

@@ -1,6 +1,6 @@
 {
   "name": "@poupe/tailwindcss",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "description": "TailwindCSS v4 plugin for Poupe UI framework with theme customization support",
   "author": "Alejandro Mery <amery@apptly.co>",
@@ -63,7 +63,8 @@
   "dependencies": {
     "@poupe/css": "workspace:^",
     "@poupe/theme-builder": "workspace:^",
-    "tailwindcss": "^4.1.6"
+    "tailwindcss": "^4.1.6",
+    "type-fest": "^4.41.0"
   },
   "publishConfig": {
     "access": "public"

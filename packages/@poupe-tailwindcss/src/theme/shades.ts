@@ -3,7 +3,7 @@ import {
   Hct,
   hct,
   splitHct,
-} from '../utils/builder';
+} from '@poupe/theme-builder/core';
 
 /** Represents the possible types for color shades: an array of numbers or false */
 export type Shades = number[] | false;
@@ -81,8 +81,12 @@ export function makeShades<K extends number>(color: Color, shades: K[] | false):
   const { h, c } = splitHct(hct(color));
 
   return Object.fromEntries(shades.map((shade) => {
-    const tone = (1000 - shade) / 10;
+    const tone = toTone(shade);
 
     return [shade, Hct.from(h, c, tone)];
   })) as Record<K, Hct>;
+}
+
+function toTone(shade: number): number {
+  return Math.max(Math.min(1000 - shade, 1000), 0) / 10;
 }

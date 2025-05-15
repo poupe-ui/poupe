@@ -1,6 +1,4 @@
-export {
-  type KebabCase,
-} from '@poupe/theme-builder/utils';
+export type { KebabCase } from 'type-fest';
 
 export {
   type Color,

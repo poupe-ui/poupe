@@ -1,9 +1,4 @@
 import {
-  type Theme,
-  type ThemeColorConfig,
-} from './types';
-
-import {
   type CSSRules,
   formatCSSRulesArray,
   interleavedRules,
@@ -12,8 +7,8 @@ import {
 } from '@poupe/css';
 
 import {
-  type DarkModeStrategy,
-} from './utils';
+  defaultPersistentColors,
+} from './config';
 
 import {
   makeThemeBases,
@@ -21,8 +16,13 @@ import {
 } from './theme';
 
 import {
-  defaultPersistentColors,
-} from './config';
+  type Theme,
+  type ThemeColorConfig,
+} from './types';
+
+import {
+  type DarkModeStrategy,
+} from './utils';
 
 /** converts a `.foo` into `@utility foo` */
 const utilityName = (name: string) => `@utility ${name.startsWith('.') ? name.slice(1) : name}`;
