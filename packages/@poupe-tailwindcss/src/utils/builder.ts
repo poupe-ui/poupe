@@ -16,7 +16,7 @@ export {
   type CSSRuleObject,
   type CSSRules,
   formatCSSRules,
-  kebabCase,
+  kebabCase as toKebabCase,
   keys,
   pairs,
   properties,

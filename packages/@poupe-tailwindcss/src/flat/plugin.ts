@@ -27,7 +27,7 @@ import {
   getBooleanValue,
   getStringValue,
   getStringOrBooleanValue,
-  kebabCase,
+  toKebabCase,
 } from './utils';
 
 export type FlatOptions = {
@@ -206,7 +206,7 @@ export function processParam(options: Partial<ThemeOptions>, debug: boolean, key
 }
 
 function processColorParam(options: Partial<ThemeOptions>, debug: boolean, key: string, value: unknown): boolean {
-  const colorName = kebabCase(key);
+  const colorName = toKebabCase(key);
   const colorOptions: ThemeColorOptions = {};
 
   if (!validColorName(colorName)) {
