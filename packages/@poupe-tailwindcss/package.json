@@ -63,7 +63,7 @@
   "dependencies": {
     "@poupe/css": "workspace:^",
     "@poupe/theme-builder": "workspace:^",
-    "tailwindcss": "^4.1.6",
+    "tailwindcss": "^4.1.7",
     "type-fest": "^4.41.0"
   },
   "publishConfig": {
