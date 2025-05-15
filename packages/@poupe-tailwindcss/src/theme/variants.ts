@@ -1,6 +1,4 @@
-import { type Config } from './plugin';
-
-export { type Config } from './plugin';
+import { type Config } from '../utils/plugin';
 
 export type DarkModeStrategy = Exclude<Config['darkMode'], undefined>;
 

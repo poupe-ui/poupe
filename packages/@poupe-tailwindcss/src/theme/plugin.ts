@@ -3,7 +3,6 @@ import {
 } from './config';
 
 import {
-  type DarkModeStrategy,
   type PluginAPI,
   type PluginWithOptions,
   pluginWithOptions,
@@ -20,6 +19,10 @@ import {
   makeThemeComponents,
   type Theme,
 } from './theme';
+
+import {
+  type DarkModeStrategy,
+} from './variants';
 
 /** poupe plugin for tailwindcss v4 for config use */
 export const themePlugin: PluginWithOptions<Partial<ThemeOptions>> = pluginWithOptions(

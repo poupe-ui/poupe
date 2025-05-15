@@ -22,7 +22,7 @@ import {
 
 import {
   type DarkModeStrategy,
-} from './utils';
+} from './variants';
 
 /** converts a `.foo` into `@utility foo` */
 const utilityName = (name: string) => `@utility ${name.startsWith('.') ? name.slice(1) : name}`;
