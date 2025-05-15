@@ -162,7 +162,7 @@ const cssLines = formatCSSProperties(styles);
 // [
 //   "font-size: 16px",
 //   "background-color: blue", // Note: red was overridden by blue
-//   "margin: 10, 20px, 30px, 40px"
+//   "margin: 10, 20px, 30px"
 // ]
 ```
 
@@ -298,6 +298,63 @@ import { defaultValidCSSRule } from '@poupe/css';
 const customValid = (key, value) => {
   return defaultValidCSSRule(key, value) && !key.startsWith('_');
 };
+```
+
+#### `interleavedRules(rules: CSSRules[]): CSSRules[]`
+Interleaves an array of CSS rule objects with empty objects, useful for creating spacing between rule blocks in the output.
+
+```typescript
+import { interleavedRules } from '@poupe/css';
+
+const rules = [
+  { '.button': { color: 'blue' } },
+  { '.input': { border: '1px solid gray' } }
+];
+
+const spacedRules = interleavedRules(rules);
+// Returns:
+// [
+//   { '.button': { color: 'blue' } },
+//   {}, // Empty object for spacing
+//   { '.input': { border: '1px solid gray' } }
+// ]
+
+// When stringified, this creates an empty line between rule blocks
+```
+
+#### `renameRules(rules: CSSRules, fn: (name: string) => string): CSSRules`
+Renames the keys in a CSS rules object using the provided function, allowing for advanced selector manipulation.
+
+```typescript
+import { renameRules } from '@poupe/css';
+
+const rules = {
+  '.button': { color: 'blue' },
+  '.input': { border: '1px solid gray' }
+};
+
+// Add a prefix to all selectors
+const prefixedRules = renameRules(rules, key => `.prefix ${key}`);
+// Returns:
+// {
+//   '.prefix .button': { color: 'blue' },
+//   '.prefix .input': { border: '1px solid gray' }
+// }
+
+// Transform selectors to utility classes
+const utilityRules = renameRules(rules, key => `@utility ${key.slice(1)}`);
+// Returns:
+// {
+//   '@utility button': { color: 'blue' },
+//   '@utility input': { border: '1px solid gray' }
+// }
+
+// Return falsy from the function to skip/remove a rule
+const filteredRules = renameRules(rules, key => key.includes('button') ? key : null);
+// Returns:
+// {
+//   '.button': { color: 'blue' }
+// }
 ```
 
 ### Utility Functions

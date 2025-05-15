@@ -266,3 +266,55 @@ function atRuleException(key: string, value: CSSRulesValue): boolean {
     return false;
   }
 }
+
+/**
+ * Interleaves an array of CSS rule objects with empty objects.
+ *
+ * @param rules - An array of CSS rule objects to be interleaved
+ * @returns An array with the original rules spaced out with empty objects
+ *
+ * @example
+ * ```
+ * // Input: [{ color: 'red' }, { background: 'blue' }]
+ * // Output: [{ color: 'red' }, {}, { background: 'blue' }]
+ * ```
+ */
+export function interleavedRules(rules: CSSRules[]): CSSRules[] {
+  if (rules.length === 0) return [];
+
+  const size = rules.length * 2 - 1;
+  const out: Array<CSSRules> = Array.from({ length: size }, () => ({}));
+
+  let i = 0;
+  for (const entry of rules) {
+    out[i] = entry;
+    i += 2;
+  }
+
+  return out;
+}
+
+/**
+ * Renames the keys in a CSS rules object using the provided function.
+ *
+ * @param rules - The CSS rules object whose keys should be renamed
+ * @param fn - A function that takes an original key name and returns a new key name (or falsy value to skip)
+ * @returns A new CSS rules object with renamed keys
+ *
+ * @example
+ * ```
+ * // Input: { '.button': { color: 'blue' } }, key => `@utility ${key.slice(1)}`
+ * // Output: { '@utility button': { color: 'blue' } }
+ * ```
+ */
+export function renameRules(rules: CSSRules, fn: (name: string) => string): CSSRules {
+  if (!fn) return rules;
+
+  const map = new Map<string, CSSRules[string]>();
+  for (const [key, value] of pairs(rules)) {
+    const k2 = fn(key);
+    if (k2) map.set(k2, value);
+  }
+
+  return Object.fromEntries(map);
+}

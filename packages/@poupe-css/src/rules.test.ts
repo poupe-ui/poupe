@@ -7,6 +7,8 @@ import {
   formatCSSRules,
   formatCSSRulesArray,
   defaultValidCSSRule,
+  interleavedRules,
+  renameRules,
 } from './rules';
 
 describe('stringifyCSSRules', () => {
@@ -417,5 +419,103 @@ describe('at-rule handling', () => {
 
     expect(result).toContain('@import: url("styles.css");');
     expect(result).not.toContain('@namespace');
+  });
+});
+
+describe('interleavedRules', () => {
+  it('returns empty array for empty input', () => {
+    const result = interleavedRules([]);
+    expect(result).toEqual([]);
+  });
+
+  it('returns original array for single item', () => {
+    const rules = [{ color: 'red' }];
+    const result = interleavedRules(rules);
+    expect(result).toEqual([{ color: 'red' }]);
+  });
+
+  it('interleaves rules with empty objects', () => {
+    const rules: CSSRules[] = [
+      { color: 'red' },
+      { backgroundColor: 'blue' },
+      { fontSize: '16px' },
+    ];
+
+    const result = interleavedRules(rules);
+
+    expect(result).toHaveLength(5);
+    expect(result[0]).toEqual({ color: 'red' });
+    expect(result[1]).toEqual({});
+    expect(result[2]).toEqual({ backgroundColor: 'blue' });
+    expect(result[3]).toEqual({});
+    expect(result[4]).toEqual({ fontSize: '16px' });
+  });
+
+  it('preserves object references', () => {
+    const original = { color: 'red' };
+    const rules = [original];
+
+    const result = interleavedRules(rules);
+
+    expect(result[0]).toBe(original); // Same reference
+  });
+});
+
+describe('renameRules', () => {
+  it('returns empty object for empty input', () => {
+    const result = renameRules({}, key => key);
+    expect(result).toEqual({});
+  });
+
+  it('renames keys using provided function', () => {
+    const rules = {
+      '.button': { color: 'blue' },
+      '.card': { padding: '10px' },
+    };
+
+    const result = renameRules(rules, key => `@custom${key}`);
+
+    expect(result).toEqual({
+      '@custom.button': { color: 'blue' },
+      '@custom.card': { padding: '10px' },
+    });
+  });
+
+  it('filters out keys when function returns falsy value', () => {
+    const rules = {
+      '.button': { color: 'blue' },
+      '.internal': { padding: '10px' },
+    };
+
+    const result = renameRules(rules, key =>
+      key.startsWith('.int') ? '' : key,
+    );
+
+    expect(result).toEqual({
+      '.button': { color: 'blue' },
+    });
+    expect(result['.internal']).toBeUndefined();
+  });
+
+  it('preserves nested object structures', () => {
+    const rules = {
+      '.parent': {
+        color: 'red',
+        nested: {
+          fontSize: '12px',
+        },
+      },
+    };
+
+    const result = renameRules(rules, key => key.toUpperCase());
+
+    expect(result).toEqual({
+      '.PARENT': {
+        color: 'red',
+        nested: {
+          fontSize: '12px',
+        },
+      },
+    });
   });
 });
