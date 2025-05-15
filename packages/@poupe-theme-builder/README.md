@@ -52,7 +52,6 @@ This package offers several specialized submodules:
 
 - `@poupe/theme-builder/core` - Core theme generation functions
 - `@poupe/theme-builder/utils` - Utility functions for working with tokens
-- `@poupe/theme-builder/tailwind` - TailwindCSS integration
 - `@poupe/theme-builder/server` - Server-side utilities
 
 ## Integration with Poupe Ecosystem
