@@ -182,9 +182,18 @@ function newThemeColorConfig(key: string, shades: Shades, prefix: string): Theme
   };
 }
 
+/**
+ * Generates CSS base styles for a theme with dark and light modes.
+ *
+ * @param theme - The theme configuration containing dark and light color modes
+ * @param darkMode - Strategy for applying dark mode (defaults to 'class')
+ * @param stringify - Optional function to convert HCT colors to string representation (defaults to HSL string)
+ * @returns An array of CSS rule objects for theme base styles
+ */
 export function makeThemeBases(
   theme: Readonly<Theme>,
   darkMode: DarkModeStrategy = 'class',
+  stringify?: (hct: Hct) => string,
 ): CSSRuleObject[] {
   if (theme.options.debug) {
     debugLog(true, 'makeThemeBases', `darkMode:${darkMode}`, {
@@ -206,7 +215,7 @@ export function makeThemeBases(
         prefix: theme.options.themePrefix,
         darkSuffix: theme.options.darkSuffix,
         lightSuffix: theme.options.lightSuffix,
-        stringify: hslString,
+        stringify: stringify || hslString,
       },
     );
     bases.push(...styles);
