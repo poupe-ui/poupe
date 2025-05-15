@@ -1,7 +1,8 @@
+/* imports */
 import {
   type ColorMap,
-  type StandardPaletteKey,
   type StandardDynamicSchemeKey,
+  type StandardPaletteKey,
 } from '@poupe/theme-builder';
 
 import {
@@ -12,10 +13,11 @@ import {
   type Shades,
 } from './shades';
 
+/* re-exports */
 export {
   type Color,
-  type StandardPaletteKey,
   type StandardDynamicSchemeKey,
+  type StandardPaletteKey,
 } from '@poupe/theme-builder';
 
 export {
@@ -23,8 +25,8 @@ export {
 } from '@poupe/theme-builder/utils';
 
 export {
-  type Shades,
   defaultShades,
+  type Shades,
 } from './shades';
 
 export type Theme = {

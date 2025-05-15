@@ -1,17 +1,19 @@
+/* imports */
 import {
-  type Color,
-  type ThemeColorOptions,
-} from './types';
+  hex,
+  standardPaletteKeys,
+} from '@poupe/theme-builder';
 
 import {
   getShades,
 } from './shades';
 
 import {
-  hex,
-  standardPaletteKeys,
-} from '@poupe/theme-builder';
+  type Color,
+  type ThemeColorOptions,
+} from './types';
 
+/* re-exports */
 export {
   getShades,
   validShade,
