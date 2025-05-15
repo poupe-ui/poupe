@@ -15,7 +15,7 @@ import {
 import {
   kebabCase,
   getColor,
-  unsafeKeys,
+  keys,
 } from './utils';
 
 import {
@@ -62,7 +62,7 @@ export function withDefaultThemeColorOptions<K extends string = string>(
 ): ThemeColors<K> {
   const out: Record<string, ThemeColorOptions> = {};
 
-  for (const key of unsafeKeys(colors)) {
+  for (const key of keys(colors)) {
     const name = kebabCase(key);
     if (name in out) {
       throw new Error(`Duplicate normalized color name: ${key}/${name}`);

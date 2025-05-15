@@ -4,8 +4,8 @@ import {
 
 import {
   type Config,
-  unsafeKeys,
   debugLog,
+  keys,
 } from './utils';
 
 import tailwindColors from 'tailwindcss/colors';
@@ -70,7 +70,7 @@ export function makeConfigColor<N extends number>(key: string, value: string, sh
       DEFAULT: `var(${value})`,
     } as Record<'DEFAULT' | N, string>;
 
-    for (const shade of unsafeKeys(shades)) {
+    for (const shade of keys(shades)) {
       out[shade] = `var(${shades[shade]})`;
     }
 

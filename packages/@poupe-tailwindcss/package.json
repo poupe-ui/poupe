@@ -61,6 +61,7 @@
     "vue-tsc": "^2.2.10"
   },
   "dependencies": {
+    "@poupe/css": "workspace:^",
     "@poupe/theme-builder": "workspace:^",
     "tailwindcss": "^4.1.6"
   },

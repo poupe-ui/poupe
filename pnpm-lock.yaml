@@ -154,6 +154,9 @@ importers:
 
   packages/@poupe-tailwindcss:
     dependencies:
+      '@poupe/css':
+        specifier: workspace:^
+        version: link:../@poupe-css
       '@poupe/theme-builder':
         specifier: workspace:^
         version: link:../@poupe-theme-builder
