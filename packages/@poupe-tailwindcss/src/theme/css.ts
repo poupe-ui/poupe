@@ -54,27 +54,6 @@ function formatUtilities(u: CSSRuleObject, indent: string = '  ', newLine: strin
 }
 
 /**
- * Writes a formatted theme to a buffer.
- *
- * @param theme - The theme configuration to be written
- * @param out - The buffer to write the formatted theme into
- * @param darkMode - Strategy for handling dark mode, defaults to 'class'
- * @param indent - Indentation string for formatting, defaults to two spaces
- * @param newLine - Newline character for formatting, defaults to LF
- * @returns The number of bytes written to the buffer
- */
-export function writeTheme(
-  theme: Theme,
-  out: Buffer,
-  darkMode: DarkModeStrategy = 'class',
-  indent: string = '  ',
-  newLine: string = '\n',
-) {
-  const chunks = formatTheme(theme, darkMode, indent, newLine);
-  return out.write(chunks.join(''));
-}
-
-/**
  * Formats a theme configuration into a series of CSS rules and utilities.
  *
  * @param theme - The theme configuration object to be processed
