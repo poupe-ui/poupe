@@ -79,6 +79,9 @@ export type ThemeOptions<K extends string = string> = {
    **/
   shades: Shades
 
+  /** Disable print mode, @defaultValue `false` */
+  disablePrintMode?: boolean
+
   /** Color configuration for the theme. */
   colors: ThemeColors<K>
 };

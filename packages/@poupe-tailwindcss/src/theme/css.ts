@@ -22,10 +22,13 @@ import {
 
 import {
   type DarkModeStrategy,
+  makeThemeVariants,
 } from './variants';
 
 /** converts a `.foo` into `@utility foo` */
 const utilityName = (name: string) => `@utility ${name.startsWith('.') ? name.slice(1) : name}`;
+
+const variantName = (name: string) => `@custom-variant ${name}`;
 
 /**
  * Processes component CSS rules by converting them to utility format.
@@ -41,6 +44,7 @@ const utilityName = (name: string) => `@utility ${name.startsWith('.') ? name.sl
  */
 const prepareComponents = (components: Record<string, CSSRules>[]): CSSRules[] => components.map(group => renameRules(group, utilityName));
 
+const prepareVariants = (variants: CSSRules[]): CSSRules[] => variants.map(group => renameRules(group, variantName));
 /**
  * Formats a theme configuration into a series of CSS rules and utilities.
  *
@@ -56,11 +60,13 @@ export function formatTheme(
 ): string[] {
   const { extendColors = false } = theme.options;
 
+  const variants = makeThemeVariants(theme, darkMode);
   const bases = makeThemeBases(theme, darkMode);
   const themeColorRules = themeColors(theme.colors, extendColors);
   const components = makeThemeComponents(theme);
 
   const rules: CSSRules[] = [
+    ...prepareVariants(variants),
     // bases
     ...(bases.length > 0 ? [{ '@layer base': bases }] : []),
     // theme
