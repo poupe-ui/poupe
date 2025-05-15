@@ -1,9 +1,9 @@
-import {
-  type KebabCase,
+import type { KebabCase } from 'type-fest';
 
+import {
   kebabCase,
   unsafeKeys,
-} from './core/utils';
+} from '@poupe/css';
 
 import {
   type Color,

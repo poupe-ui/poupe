@@ -3,12 +3,12 @@ import {
 } from 'defu';
 
 import {
+  type CSSRuleObject,
   unsafeKeys,
-} from './core/utils';
+} from '@poupe/css';
 
 import {
   type ColorMap,
-  type CSSRuleObject,
   type Hct,
 
   rgbFromHct,

@@ -66,6 +66,7 @@
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.3.0",
+    "@poupe/css": "workspace:^",
     "colord": "^2.9.3",
     "defu": "^6.1.4",
     "tailwindcss": "^4.1.6",
