@@ -55,11 +55,11 @@ export function defaultCSSThemeOptions(options: Partial<CSSThemeOptions> = {}): 
 export function defaultDarkSelector(options: Partial<CSSThemeOptions>) {
   const { darkMode = true } = options;
   if (darkMode === true || darkMode === '.dark')
-    return '.dark';
+    return '.dark, .dark *';
   else if (darkMode === false || darkMode === '' || darkMode === 'media')
     return '@media not print and (prefers-color-scheme: dark)';
   else if (!Array.isArray(darkMode)) {
-    return darkMode;
+    return darkMode.includes(',') ? darkMode : `${darkMode}, ${darkMode} *`;
   }
 
   const selectors: string[] = [];
@@ -69,7 +69,7 @@ export function defaultDarkSelector(options: Partial<CSSThemeOptions>) {
       selectors.push(trimmed);
   }
 
-  if (selectors.length === 0) return '.dark';
+  if (selectors.length === 0) return '.dark, .dark *';
   if (selectors.length === 1) return selectors[0];
 
   // TODO: implement
@@ -80,11 +80,11 @@ export function defaultDarkSelector(options: Partial<CSSThemeOptions>) {
 export function defaultLightSelector(options: Partial<CSSThemeOptions>) {
   const { lightMode = true } = options;
   if (lightMode === true || lightMode === '.light')
-    return '.light';
+    return '.light, .light *';
   else if (lightMode === false || lightMode === '')
     return undefined;
   else
-    return lightMode;
+    return lightMode.includes(',') ? lightMode : `${lightMode}, ${lightMode} *`;
 }
 
 export function defaultRootLightSelector(options: Partial<CSSThemeOptions>) {

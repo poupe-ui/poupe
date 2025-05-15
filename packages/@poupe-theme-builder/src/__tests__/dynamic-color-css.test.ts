@@ -1,15 +1,26 @@
 import { describe, it, expect } from 'vitest';
+
 import {
+  type ColorMap,
+  Hct,
+  hct,
+  hslString,
+  rgbFromHct,
+  splitHct,
+} from '../core';
+
+import {
+  type CSSThemeOptions,
+
+  assembleCSSColors,
+  assembleCSSRules,
   defaultCSSThemeOptions,
   defaultDarkSelector,
   defaultLightSelector,
-  assembleCSSColors,
-  makeCSSTheme,
+  defaultRootLightSelector,
   generateCSSColorVariables,
-  type CSSThemeOptions,
+  makeCSSTheme,
 } from '../dynamic-color-css';
-import { type ColorMap, Hct } from '../core';
-import { rgbFromHct, hct, hslString, splitHct } from '../core';
 
 // Mock color data for testing
 const mockDarkColors: ColorMap<string> = {
@@ -49,8 +60,8 @@ describe('defaultCSSThemeOptions', () => {
 
 describe('defaultDarkSelector', () => {
   it('should return .dark for true or .dark', () => {
-    expect(defaultDarkSelector({ darkMode: true })).toBe('.dark');
-    expect(defaultDarkSelector({ darkMode: '.dark' })).toBe('.dark');
+    expect(defaultDarkSelector({ darkMode: true })).toBe('.dark, .dark *');
+    expect(defaultDarkSelector({ darkMode: '.dark' })).toBe('.dark, .dark *');
   });
 
   it('should return media query for false, empty string, or media', () => {
@@ -62,14 +73,14 @@ describe('defaultDarkSelector', () => {
 
   it('should return custom selector when provided', () => {
     const custom = '.custom-dark-mode';
-    expect(defaultDarkSelector({ darkMode: custom })).toBe(custom);
+    expect(defaultDarkSelector({ darkMode: custom })).toBe(`${custom}, ${custom} *`);
   });
 });
 
 describe('defaultLightSelector', () => {
   it('should return .light for true or .light', () => {
-    expect(defaultLightSelector({ lightMode: true })).toBe('.light');
-    expect(defaultLightSelector({ lightMode: '.light' })).toBe('.light');
+    expect(defaultLightSelector({ lightMode: true })).toBe('.light, .light *');
+    expect(defaultLightSelector({ lightMode: '.light' })).toBe('.light, .light *');
   });
 
   it('should return undefined for false or empty string', () => {
@@ -79,7 +90,7 @@ describe('defaultLightSelector', () => {
 
   it('should return custom selector when provided', () => {
     const custom = '.custom-light-mode';
-    expect(defaultLightSelector({ lightMode: custom })).toBe(custom);
+    expect(defaultLightSelector({ lightMode: custom })).toBe(`${custom}, ${custom} *`);
   });
 });
 
@@ -174,9 +185,6 @@ describe('makeCSSTheme', () => {
     expect(hasHslFormat).toBe(true);
   });
 });
-
-// Helper to access private functions for testing
-import { defaultRootLightSelector, assembleCSSRules } from '../dynamic-color-css';
 
 describe('generateCSSColorVariables', () => {
   it('should generate CSS variables from color maps', () => {
@@ -416,10 +424,10 @@ describe('defaultRootLightSelector', () => {
 
     it('should combine :root with light selector when lightMode is defined', () => {
       const selector = defaultRootLightSelector({ lightMode: '.light-theme' });
-      expect(selector).toBe(':root, .light-theme');
+      expect(selector).toBe(':root, .light-theme, .light-theme *');
 
       const defaultSelector = defaultRootLightSelector({});
-      expect(defaultSelector).toBe(':root, .light');
+      expect(defaultSelector).toBe(':root, .light, .light *');
     });
   }
 });
@@ -438,9 +446,9 @@ describe('assembleCSSRules', () => {
       expect(result.length).toBe(2);
       expect(result[0]).toHaveProperty(':root');
       expect(result[0][':root']).toEqual(root);
-      expect(result[1]).toHaveProperty(':root, .light');
-      expect(result[1][':root, .light']).toEqual(light);
-      expect(result[1]['.dark']).toEqual(dark);
+      expect(result[1]).toHaveProperty(':root, .light, .light *');
+      expect(result[1][':root, .light, .light *']).toEqual(light);
+      expect(result[1]['.dark, .dark *']).toEqual(dark);
     });
 
     it('should exclude root styles when root is undefined', () => {
@@ -451,8 +459,8 @@ describe('assembleCSSRules', () => {
       const result = assembleCSSRules(undefined, light, dark, options);
 
       expect(result.length).toBe(1);
-      expect(result[0]).toHaveProperty(':root, .light');
-      expect(result[0]).toHaveProperty('.dark');
+      expect(result[0]).toHaveProperty(':root, .light, .light *');
+      expect(result[0]).toHaveProperty('.dark, .dark *');
     });
 
     it('should use custom selectors from options', () => {
@@ -465,8 +473,8 @@ describe('assembleCSSRules', () => {
 
       const result = assembleCSSRules(undefined, light, dark, options);
 
-      expect(result[0]).toHaveProperty(':root, .theme-light');
-      expect(result[0]).toHaveProperty('.theme-dark');
+      expect(result[0]).toHaveProperty(':root, .theme-light, .theme-light *');
+      expect(result[0]).toHaveProperty('.theme-dark, .theme-dark *');
     });
   }
 });
