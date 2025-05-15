@@ -519,3 +519,172 @@ describe('renameRules', () => {
     });
   });
 });
+
+describe('formatCSSRulesArray with blank line handling', () => {
+  it('ignores empty strings at the beginning', () => {
+    const rules = ['', '', 'color: red'];
+    const result = formatCSSRulesArray(rules);
+
+    expect(result).toEqual(['color: red;']);
+  });
+
+  it('preserves a single empty string after content', () => {
+    const rules = ['color: red', '', 'background: blue'];
+    const result = formatCSSRulesArray(rules);
+
+    expect(result).toEqual([
+      'color: red;',
+      '',
+      'background: blue;',
+    ]);
+  });
+
+  it('collapses multiple consecutive empty strings', () => {
+    const rules = ['color: red', '', '', '', 'background: blue'];
+    const result = formatCSSRulesArray(rules);
+
+    expect(result).toEqual([
+      'color: red;',
+      '',
+      'background: blue;',
+    ]);
+    expect(result).not.toEqual([
+      'color: red;',
+      '',
+      '',
+      '',
+      'background: blue;',
+    ]);
+  });
+
+  it('handles mixed content types correctly', () => {
+    const rules: (string | CSSRules)[] = [
+      'color: red',
+      { fontSize: '16px' },
+      '',
+      { '@media screen': { color: 'blue' } },
+    ];
+
+    const result = formatCSSRulesArray(rules);
+
+    expect(result).toContain('color: red;');
+    expect(result).toContain('fontSize: 16px;');
+    expect(result).toContain('@media screen {');
+
+    // Verify there's exactly one blank line between content blocks
+    const blankLineCount = result.filter(line => line === '').length;
+    expect(blankLineCount).toBe(1);
+  });
+
+  it('ignores null and undefined values', () => {
+    const rules = [
+      'color: red',
+      // eslint-disable-next-line unicorn/no-null
+      null,
+      undefined,
+      'background: blue',
+    ];
+
+    // @ts-expect-error - intentionally passing invalid values for test
+    const result = formatCSSRulesArray(rules);
+
+    expect(result).toEqual([
+      'color: red;',
+      'background: blue;',
+    ]);
+  });
+
+  it('handles empty objects correctly', () => {
+    const rules: (string | CSSRules)[] = [
+      'color: red',
+      {},
+      { fontSize: '16px' },
+    ];
+
+    const result = formatCSSRulesArray(rules);
+
+    expect(result).toEqual([
+      'color: red;',
+      '',
+      'fontSize: 16px;',
+    ]);
+  });
+});
+
+describe('formatCSSRulesArray with formatting options', () => {
+  it('applies custom indentation and prefix', () => {
+    const rules = [
+      { '.parent': { color: 'red' } },
+    ];
+
+    const options = {
+      indent: '----',
+      prefix: '> ',
+    };
+
+    const result = formatCSSRulesArray(rules, options);
+
+    expect(result).toEqual([
+      '> .parent {',
+      '> ----color: red;',
+      '> }',
+    ]);
+  });
+
+  it('applies custom validation function', () => {
+    const rules = [
+      {
+        color: 'red',
+        _private: 'value', // Should be filtered out
+        fontSize: '16px',
+      },
+    ];
+
+    const options = {
+      valid: (key: string) => !key.startsWith('_'),
+    };
+
+    const result = formatCSSRulesArray(rules, options);
+
+    expect(result.join('\n')).toContain('color: red;');
+    expect(result.join('\n')).toContain('fontSize: 16px;');
+    expect(result.join('\n')).not.toContain('_private');
+  });
+});
+
+describe('integration tests for CSS rule formatting', () => {
+  it('combines interleavedRules with formatCSSRulesArray', () => {
+    const rules: CSSRules[] = [
+      { '--color-primary': 'blue' },
+      { '--color-secondary': 'green' },
+      { '--color-accent': 'purple' },
+    ];
+
+    const interleaved = interleavedRules(rules);
+    const result = formatCSSRulesArray(interleaved);
+
+    // Should have content, blank line, content, blank line, content
+    expect(result).toEqual([
+      '--color-primary: blue;',
+      '',
+      '--color-secondary: green;',
+      '',
+      '--color-accent: purple;',
+    ]);
+  });
+
+  it('combines renameRules with formatCSSRulesArray', () => {
+    const rules = {
+      '.button': { color: 'blue' },
+      '.card': { backgroundColor: 'white' },
+    };
+
+    const renamed = renameRules(rules, key => `@component${key}`);
+    const result = stringifyCSSRules(renamed);
+
+    expect(result).toContain('@component.button {');
+    expect(result).toContain('color: blue;');
+    expect(result).toContain('@component.card {');
+    expect(result).toContain('backgroundColor: white;');
+  });
+});

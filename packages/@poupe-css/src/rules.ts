@@ -200,29 +200,63 @@ export function formatCSSRules(rules: CSSRules | CSSRuleObject = {}, options: CS
 }
 
 /**
- * Formats an array of CSS rules into indented lines recursively.
+ * Formats an array of CSS rules into an array of formatted string lines.
  *
- * This function handles arrays of strings or nested rule objects and formats them
- * into an array of lines for output.
+ * This function processes various CSS rule representations recursively and converts them
+ * into strings representing CSS code with proper formatting. It handles:
  *
- * @param rules - The array of CSS rules to format
+ * - String values (treated as direct CSS with semicolons added)
+ * - Empty strings (converted to blank lines for spacing if appropriate)
+ * - CSS rule objects (recursively processed with formatCSSRules)
+ * - Empty rule objects (possibly generating blank lines)
+ *
+ * The function maintains proper whitespace by tracking whether the last inserted
+ * item was a blank line to avoid consecutive empty lines.
+ *
+ * @param rules - The array of CSS rules to format (strings or rule objects)
  * @param options - Configuration options for formatting
  * @returns An array of strings, each representing a line in the formatted CSS
+ *
+ * @example
+ * ```
+ * // Mixed strings and objects
+ * formatCSSRulesArray([
+ *   'display: block',
+ *   { color: 'red' },
+ *   '',
+ *   { fontSize: '16px' }
+ * ]);
+ * // Returns: ['display: block;', 'color: red;', '', 'fontSize: 16px;']
+ * ```
  */
 export function formatCSSRulesArray(rules: (string | CSSRules | CSSRuleObject)[] = [], options: CSSRulesFormatOptions = {}): string[] {
   const out: string[] = [];
 
+  // track if the last item was a blank line, to avoid consecutive empty lines.
+  let first = true;
   for (const value of rules) {
     if (typeof value === 'string') {
       // string, preserve empty for whitespace.
-      if (value || out.length > 0) {
-        out.push(value ? `${value};` : '');
+      if (value) {
+        out.push(`${value};`);
+        first = false;
+      } else if (!first) {
+        out.push('');
+        first = true;
       }
-    } else {
+    } else if (value !== null && value !== undefined) {
       // object
-      out.push(...formatCSSRules(value, options));
+      const entries = value ? formatCSSRules(value, options) : [];
+      if (entries.length > 0) {
+        out.push(...entries);
+        first = false;
+      } else if (!first) {
+        out.push('');
+        first = true;
+      }
     }
   }
+
   return out;
 }
 
