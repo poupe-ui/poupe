@@ -18,11 +18,16 @@ import {
 
 // re-export
 //
-export * from './core/colors';
-
 export {
   customColor as customColorFromArgb,
 } from '@material/material-color-utilities';
+
+export {
+  formatCSSRules,
+  formatCSSRulesArray,
+} from '@poupe/css';
+
+export * from './core/colors';
 
 // DynamicScheme
 //

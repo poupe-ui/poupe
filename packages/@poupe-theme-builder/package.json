@@ -1,25 +1,30 @@
 {
   "name": "@poupe/theme-builder",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "type": "module",
   "description": "Design token management and theme generation system for Poupe UI framework",
   "author": "Alejandro Mery <amery@apptly.co>",
   "license": "MIT",
   "keywords": [
-    "design-tokens",
-    "theme",
     "color-system",
-    "material-design",
-    "poupe",
-    "ui-framework",
     "design-system",
-    "typescript"
-  ],
+    "design-tokens",
+    "material-design",
+    "material-design-3",
+    "poupe",
+    "theme",
+    "typescript",
+    "ui-framework"
+    ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/poupe-ui/poupe.git",
     "directory": "packages/@poupe-theme-builder"
   },
+  "bugs": {
+    "url": "https://github.com/poupe-ui/poupe/issues"
+  },
+  "homepage": "https://poupe.dev",
   "exports": {
     ".": {
       "import": {
@@ -69,7 +74,6 @@
     "@poupe/css": "workspace:^",
     "colord": "^2.9.3",
     "defu": "^6.1.4",
-    "tailwindcss": "^4.1.7",
     "type-fest": "^4.41.0"
   },
   "devDependencies": {
