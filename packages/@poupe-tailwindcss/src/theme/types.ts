@@ -18,8 +18,10 @@ export type { KebabCase } from 'type-fest';
 
 export {
   type Color,
+  type ColorMap,
   type StandardDynamicSchemeKey,
   type StandardPaletteKey,
+  Hct,
 } from '@poupe/theme-builder';
 
 export type Theme = {
@@ -76,6 +78,9 @@ export type ThemeOptions<K extends string = string> = {
    * @defaultValue `[50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]`
    **/
   shades: Shades
+
+  /** Disable print mode, @defaultValue `false` */
+  disablePrintMode?: boolean
 
   /** Color configuration for the theme. */
   colors: ThemeColors<K>

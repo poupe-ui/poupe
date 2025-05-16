@@ -30,13 +30,16 @@ import {
 } from './types';
 
 import {
-  type DarkModeStrategy,
   debugLog,
-  getDarkMode,
   hexString,
   hslString,
   unsafeKeys,
 } from './utils';
+
+import {
+  type DarkModeStrategy,
+  getDarkMode,
+} from './variants';
 
 /* re-exports */
 export {
