@@ -12,6 +12,13 @@ export {
 } from './plugin';
 
 export {
+  type Shades,
+  defaultShades,
+  makeShades,
+  validShade,
+} from './shades';
+
+export {
   makeTheme,
   makeThemeBases,
   makeThemeComponents,
