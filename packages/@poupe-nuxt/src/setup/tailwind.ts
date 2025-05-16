@@ -41,10 +41,11 @@ export const formatPlugin = (plugin: TailwindPlugin, indent: string = '  '): str
 
 /** @returns a resolved and deduplicated list of sources to scan */
 const prepareSources = (context: SetupContext): string[] => {
-  const { resolve, options } = context;
+  const { resolve, nuxt, options } = context;
 
   // resolve and make unique
   const sources = [
+    nuxt.options.srcDir,
     ...contentGlobs(),
 
     // extra files to scan
@@ -111,11 +112,11 @@ const getCSSContent = <K extends string>(context: SetupContext<K>): string => {
     '@import \'tailwindcss\';',
     '',
     // @theme
-    formatTheme(theme).join(''),
+    ...formatTheme(theme),
     // @plugin
-    ...(plugins ? [...plugins.flatMap(plugin => formatPlugin(plugin)), ''] : []),
+    ...(plugins ? ['', ...plugins.flatMap(plugin => formatPlugin(plugin))] : []),
     // @source
-    ...(sources ? sources.map(path => `@source '${path}';`) : []),
+    ...(sources ? ['', ...sources.map(path => `@source '${path}';`)] : []),
   ];
 
   return lines.join('\n');
