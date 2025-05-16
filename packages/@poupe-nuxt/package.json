@@ -1,24 +1,30 @@
 {
   "name": "@poupe/nuxt",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "description": "Nuxt module for integrating Poupe UI framework with theme customization and components",
   "author": "Alejandro Mery <amery@apptly.co>",
+  "homepage": "https://poupe.dev",
   "license": "MIT",
   "keywords": [
+    "material-design",
+    "material-design-3",
     "nuxt",
     "nuxt-module",
     "poupe",
-    "ui-framework",
     "tailwindcss",
     "theming",
-    "vue",
-    "typescript"
-  ],
+    "typescript",
+    "ui-framework",
+    "vue"
+    ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/poupe-ui/poupe.git",
     "directory": "packages/@poupe-nuxt"
+  },
+  "bugs": {
+    "url": "https://github.com/poupe-ui/poupe/issues"
   },
   "exports": {
     ".": {
