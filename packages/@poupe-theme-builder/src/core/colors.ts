@@ -140,6 +140,30 @@ export const rgbFromRgbaColor = (c: RgbaColor): number => {
 /** @returns the decomposed {@link RgbaColor} corresponding to the given {@link HctColor} */
 export const rgbaFromHctColor = (c: HctColor): RgbaColor => splitArgb(argbFromHctColor(c));
 
+/** @returns the decomposed {@link RgbaColor} corresponding to the given color */
+/**
+ * Returns the decomposed RGBA components for any color type.
+ * @param c - The color to decompose
+ * @returns The RGBA color object with r, g, b, and optional a components
+ */
+export const rgba = (c: Color): RgbaColor => splitArgb(argb(c));
+
+/**
+ * Converts a color to an RGB or RGBA string representation.
+ * @param c - The color to convert
+ * @param alpha - Whether to include alpha channel (defaults to true)
+ * @returns A CSS-compatible RGB or RGBA string
+ */
+export const rgbaString = (c: Color, alpha: boolean = true): string => {
+  const { r, g, b, a: a0 = 1 } = rgba(c);
+  const a = alpha === false ? 1 : a0;
+
+  if (a < 1) {
+    return `rgb(${r} ${g} ${b} / ${a.toFixed(2)})`;
+  }
+  return `rgb(${r} ${g} ${b})`;
+};
+
 /*
  * ARGB factories
  */
@@ -177,10 +201,10 @@ export const argbFromString = (s: string) => argbFromColord(origColord(s));
 export const splitArgb = (argb: number): RgbaColor => {
   const a255 = alphaFromArgb(argb);
   return {
-    a: a255 > 0 ? a255 / 255 : undefined,
     r: redFromArgb(argb),
     g: greenFromArgb(argb),
     b: blueFromArgb(argb),
+    ...(a255 > 0 ? { a: a255 / 255 } : {}),
   };
 };
 
