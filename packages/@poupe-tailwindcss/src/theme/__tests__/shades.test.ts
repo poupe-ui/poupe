@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/consistent-function-scoping */
 import { describe, it, expect } from 'vitest';
 
 import {
@@ -155,12 +156,15 @@ describe('shades utilities', () => {
       expect(uniqueHexValues.size).toBe(hexValues.length);
 
       // 100 should be lighter than 500, and 900 should be darker
-      // eslint-disable-next-line unicorn/consistent-function-scoping
       const isLighter = (hex1: string, hex2: string) => {
-        // Simple lightness comparison - sum of RGB values
-        const sum1 = Number.parseInt(hex1.slice(1, 3), 16) + Number.parseInt(hex1.slice(3, 5), 16) + Number.parseInt(hex1.slice(5, 7), 16);
-        const sum2 = Number.parseInt(hex2.slice(1, 3), 16) + Number.parseInt(hex2.slice(3, 5), 16) + Number.parseInt(hex2.slice(5, 7), 16);
-        return sum1 > sum2;
+        // Using weighted RGB for better perceptual comparison (human eyes are more sensitive to green)
+        const getWeightedLightness = (hex: string) => {
+          const r = Number.parseInt(hex.slice(1, 3), 16);
+          const g = Number.parseInt(hex.slice(3, 5), 16);
+          const b = Number.parseInt(hex.slice(5, 7), 16);
+          return 0.299 * r + 0.587 * g + 0.114 * b; // Standard luminance formula
+        };
+        return getWeightedLightness(hex1) > getWeightedLightness(hex2);
       };
 
       expect(isLighter(result![100], result![500])).toBe(true);
