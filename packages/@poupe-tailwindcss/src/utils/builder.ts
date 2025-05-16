@@ -7,6 +7,8 @@ export {
   hct,
   hex as hexString,
   hslString,
+  rgba,
+  rgbaString as rgbString,
   splitHct,
 } from '@poupe/theme-builder/core';
 
