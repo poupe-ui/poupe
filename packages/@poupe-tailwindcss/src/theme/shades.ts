@@ -23,6 +23,7 @@ import {
   type Color,
   Hct,
   hct,
+  hexFromHct,
   splitHct,
 } from '@poupe/theme-builder/core';
 
@@ -135,4 +136,46 @@ export function makeShades<K extends number>(color: Color, shades: K[] | false):
 
 function toTone(shade: number): number {
   return Math.max(Math.min(1000 - shade, 1000), 0) / 10;
+}
+
+/**
+ * Generates a set of hex color values for each specified shade.
+ *
+ * This is a convenience wrapper around `makeShades()` that converts the Hct color objects
+ * to hexadecimal color strings for easier use in UI components and CSS.
+ *
+ * @param color - The base color to generate shades from
+ * @param shades - An array of shade values, or `false` to disable shade generation.
+ * Defaults to the standard shade scale (50-950)
+ *
+ * @returns A record mapping each shade value to its corresponding hex color string,
+ * or `undefined` if the provided shades are invalid or disabled
+ *
+ * @example
+ * ```
+ * // Generate standard hex shades
+ * const blueHexShades = makeHexShades('#0047AB');
+ * // Result: { 50: '#E6F0FF', 100: '#CCE0FF', ... 950: '#00142E' }
+ *
+ * // Generate custom hex shades
+ * const customShades = makeHexShades('#0047AB', [100, 500, 900]);
+ * // Result: { 100: '#CCE0FF', 500: '#0047AB', 900: '#00183D' }
+ *
+ * // Disable shades
+ * const noShades = makeHexShades('#0047AB', false);
+ * // Result: undefined
+ * ```
+ */
+export function makeHexShades(
+  color: Color,
+  shades: Shades = defaultShades,
+) {
+  const validShades = makeShades<number>(color, shades);
+  if (!validShades) {
+    return undefined;
+  }
+
+  return Object.fromEntries(Object.entries(validShades).map(([shade, hct]) => {
+    return [shade, hexFromHct(hct)];
+  }));
 }

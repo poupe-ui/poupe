@@ -14,6 +14,7 @@ export {
 export {
   type Shades,
   defaultShades,
+  makeHexShades,
   makeShades,
   validShade,
 } from './shades';
