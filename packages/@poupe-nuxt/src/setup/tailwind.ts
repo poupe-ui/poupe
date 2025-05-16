@@ -41,10 +41,11 @@ export const formatPlugin = (plugin: TailwindPlugin, indent: string = '  '): str
 
 /** @returns a resolved and deduplicated list of sources to scan */
 const prepareSources = (context: SetupContext): string[] => {
-  const { resolve, options } = context;
+  const { resolve, nuxt, options } = context;
 
   // resolve and make unique
   const sources = [
+    nuxt.options.srcDir,
     ...contentGlobs(),
 
     // extra files to scan
