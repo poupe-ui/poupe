@@ -22,6 +22,7 @@ import {
 
 import {
   type DarkModeStrategy,
+  makeThemeVariants,
 } from './variants';
 
 /** poupe plugin for tailwindcss v4 for config use */
@@ -36,6 +37,12 @@ export function themePluginFunction(api: PluginAPI, theme: Theme): void {
   const darkMode = api.config('darkMode', 'class') as DarkModeStrategy;
 
   debugLog(theme.options.debug, 'plugin', `darkMode:${darkMode}`, theme.paletteKeys);
+
+  for (const variant of makeThemeVariants(theme, darkMode)) {
+    for (const name of Object.keys(variant)) {
+      api.addVariant(name, variant[name]);
+    }
+  }
 
   for (const base of makeThemeBases(theme, darkMode)) {
     api.addBase(base);
