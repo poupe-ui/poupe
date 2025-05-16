@@ -17,6 +17,7 @@ framework, providing theme customization and utility functions.
 - [API Reference](#api-reference)
   - [Main Plugin](#main-plugin)
   - [Theme Utilities](#theme-utilities)
+  - [CSS Generation](#css-generation)
   - [Helper Functions](#helper-functions)
 - [Integration with Poupe Ecosystem](#integration-with-poupe-ecosystem)
 - [Requirements](#requirements)
@@ -127,6 +128,33 @@ including:
 - Typography scaling
 - Spacing and sizing adaptations
 - Component-specific tokens
+
+### CSS Generation
+
+```typescript
+import { formatTheme } from '@poupe/tailwindcss/theme/css'
+```
+
+Functions to generate CSS rules from your Poupe theme:
+
+- **formatTheme**: Formats a theme configuration into a series of CSS rules and utilities
+  ```typescript
+  function formatTheme(
+    theme: Theme,                            // The theme configuration object
+    darkMode: DarkModeStrategy = 'class',    // Strategy for handling dark mode
+    indent: string = '  ',                   // Indentation string for formatting
+    stringify?: (value: Hct) => string,      // Optional function to convert Hct color values to string format
+  ): string[]
+  ```
+  
+- **themeColors**: Generates CSS custom property rules for theme colors
+  ```typescript
+  function themeColors(
+    colors: Record<string, ThemeColorConfig>,
+    extendColors: boolean = false,
+    persistentColors: Record<string, string> = defaultPersistentColors,
+  ): CSSRules[]
+  ```
 
 ### Helper Functions
 

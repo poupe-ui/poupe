@@ -18,6 +18,7 @@ import {
 import {
   type Theme,
   type ThemeColorConfig,
+  Hct,
 } from './types';
 
 import {
@@ -51,17 +52,19 @@ const prepareVariants = (variants: CSSRules[]): CSSRules[] => variants.map(group
  * @param theme - The theme configuration object to be processed
  * @param darkMode - Strategy for handling dark mode, defaults to 'class'
  * @param indent - Indentation string for formatting, defaults to two spaces
+ * @param stringify - Optional function to convert Hct color values to string format. defaults to `rgb()`
  * @returns An array of formatted CSS rule strings
  */
 export function formatTheme(
   theme: Theme,
   darkMode: DarkModeStrategy = 'class',
   indent: string = '  ',
+  stringify?: (value: Hct) => string,
 ): string[] {
   const { extendColors = false } = theme.options;
 
   const variants = makeThemeVariants(theme, darkMode);
-  const bases = makeThemeBases(theme, darkMode);
+  const bases = makeThemeBases(theme, darkMode, stringify);
   const themeColorRules = themeColors(theme.colors, extendColors);
   const components = makeThemeComponents(theme);
 
