@@ -4,26 +4,51 @@
 [![npm version](https://img.shields.io/npm/v/@poupe/theme-builder.svg)](https://www.npmjs.com/package/@poupe/theme-builder)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](../../LICENCE.txt)
 
-Design token management and theme generation system for Poupe UI framework.
+A TypeScript library for design token management and theme generation in the
+Poupe UI framework.
+
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Basic Configuration](#basic-configuration)
+  - [Advanced Theme Creation](#advanced-theme-creation)
+- [API Reference](#api-reference)
+  - [Core API](#core-api)
+  - [Color Utilities](#color-utilities)
+  - [Theme Generation](#theme-generation)
+- [Submodules](#submodules)
+- [Integration with Poupe Ecosystem](#integration-with-poupe-ecosystem)
+- [Requirements](#requirements)
+- [License](#license)
 
 ## Features
 
 - 🎨 Create customizable design tokens for your UI components
 - 🌓 Dark mode and light mode support out of the box
 - 🎭 Material Design color system integration
-- 🧩 Export to various formats, including TailwindCSS
+- 🧩 Export to various formats, including CSS variables
+- 📦 Lightweight, tree-shakable API
+- 🖼️ Generate themes from images
 
 ## Installation
 
 ```bash
-npm install @poupe/theme-builder
-# or
-yarn add @poupe/theme-builder
-# or
-pnpm add @poupe/theme-builder
+npm install -D @poupe/theme-builder
 ```
 
-## Basic Usage
+```bash
+yarn add -D @poupe/theme-builder
+```
+
+```bash
+pnpm add -D @poupe/theme-builder
+```
+
+## Usage
+
+### Basic Configuration
 
 ```typescript
 import { createTheme } from '@poupe/theme-builder'
@@ -32,31 +57,84 @@ import { createTheme } from '@poupe/theme-builder'
 const theme = createTheme({
   colors: {
     primary: '#1976d2',
+    secondary: '#9c27b0',
     scheme: 'vibrant',
   }
 })
 ```
 
-## Core Concepts
+### Advanced Theme Creation
 
-The theme builder uses a token-based approach to design systems, allowing you to:
+```typescript
+import { createTheme, themeFromImage } from '@poupe/theme-builder'
 
-1. Define base colors and design tokens
-2. Generate color variants automatically (hover, active, etc.)
-3. Create dark/light mode variations
-4. Export tokens to different formats
+// Create a theme from an image
+async function createDynamicTheme(imagePath) {
+  // Extract colors from an image
+  const imageTheme = await themeFromImage(imagePath);
+  
+  // Create a theme with dynamic colors
+  const theme = createTheme({
+    colors: {
+      ...imageTheme,
+      // Override specific colors if needed
+      accent: '#ff4081'
+    },
+    darkMode: true,
+    contrastLevel: 0.5
+  });
+  
+  return theme;
+}
+```
+
+## API Reference
+
+### Core API
+
+```typescript
+import { createTheme, hex, rgb } from '@poupe/theme-builder'
+```
+
+The core API provides functions for creating themes and working with color
+formats.
+
+### Color Utilities
+
+```typescript
+import { argb, hct, splitArgb } from '@poupe/theme-builder/core'
+```
+
+Utilities for working with colors in different formats:
+
+- Color format conversion (HEX, RGB, HSL, ARGB)
+- Color manipulation functions
+- Material Design color system integration
+
+### Theme Generation
+
+```typescript
+import { makeCSSTheme, themeFromImage } from '@poupe/theme-builder'
+```
+
+Functions for generating and transforming themes:
+
+- Create themes from color palettes
+- Generate themes from images
+- Convert themes to CSS variables
+- Create dark/light mode variations
 
 ## Submodules
 
 This package offers several specialized submodules:
 
-- `@poupe/theme-builder/core` - Core theme generation functions
+- `@poupe/theme-builder/core` - Core color manipulation functions
 - `@poupe/theme-builder/utils` - Utility functions for working with tokens
-- `@poupe/theme-builder/server` - Server-side utilities
+- `@poupe/theme-builder/server` - Server-side utilities for theme generation
 
 ## Integration with Poupe Ecosystem
 
-- [@poupe/css](../@poupe-css) - CSS-in-JS utilities
+- [@poupe/css](../@poupe-css) - CSS utility library
 - [@poupe/tailwindcss](../@poupe-tailwindcss) - TailwindCSS integration
 - [@poupe/vue](../@poupe-vue) - Vue components library
 - [@poupe/nuxt](../@poupe-nuxt) - Nuxt integration
@@ -64,7 +142,7 @@ This package offers several specialized submodules:
 ## Requirements
 
 - Node.js >=20.19.1
-- pnpm >=10.10.0 (for development)
+- TypeScript-friendly environment
 
 ## License
 
