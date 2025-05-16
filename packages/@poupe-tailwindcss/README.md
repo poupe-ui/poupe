@@ -18,6 +18,7 @@ framework, providing theme customization and utility functions.
   - [Main Plugin](#main-plugin)
   - [Theme Utilities](#theme-utilities)
   - [CSS Generation](#css-generation)
+  - [Color Utilities](#color-utilities)
   - [Helper Functions](#helper-functions)
 - [Integration with Poupe Ecosystem](#integration-with-poupe-ecosystem)
 - [Requirements](#requirements)
@@ -156,6 +157,52 @@ Functions to generate CSS rules from your Poupe theme:
   ): CSSRules[]
   ```
 
+### Color Utilities
+
+```typescript
+import { colorFormatter } from '@poupe/tailwindcss/utils/color'
+```
+
+Utilities for converting and formatting HCT colors:
+
+- **colorFormatter**: Creates a function that converts HCT colors to various string formats
+  ```typescript
+  function colorFormatter(
+    v: ColorFormat = 'rgb'                   // The color format to convert to
+  ): (c: Hct) => string
+  ```
+
+The supported color formats (`ColorFormat`) are:
+- `'numbers'` - Returns space-separated RGB values like `"255 128 0"`
+- `'rgb'` - Returns RGB format like `"rgb(255, 128, 0)"` (default)
+- `'hsl'` - Returns HSL format like `"hsl(30, 100%, 50%)"`
+- `'hex'` - Returns HEX format like `"#FF8000"`
+- A custom formatting function that takes an Hct color and returns a string
+
+#### Using colorFormatter with formatTheme
+
+The `colorFormatter` function works seamlessly with `formatTheme` to control how colors appear in the generated CSS:
+
+```typescript
+import { formatTheme } from '@poupe/tailwindcss/theme/css'
+import { colorFormatter } from '@poupe/tailwindcss/utils/color'
+
+// Format theme with colors in hex format
+const cssRules = formatTheme(myTheme, 'class', '  ', colorFormatter('hex'));
+
+// Format theme with colors in HSL format
+const cssRules = formatTheme(myTheme, 'class', '  ', colorFormatter('hsl'));
+
+// Use the default RGB format
+const cssRules = formatTheme(myTheme);
+```
+
+This allows you to customize the color format in your CSS output based on specific requirements:
+- Use hex format for more compact CSS
+- Use HSL for better human readability and easier tweaking
+- Use RGB format (default) for broad compatibility
+- Create custom formatters for specialized needs
+
 ### Helper Functions
 
 ```typescript
@@ -178,9 +225,9 @@ Helper functions for:
 
 ## Requirements
 
-- Node.js >=20.19.1
-- TailwindCSS ^4.1.7
-- @poupe/theme-builder ^0.8.0
+- Node.js >=20
+- TailwindCSS ^4.1
+- @poupe/theme-builder ^0.8
 
 ## License
 

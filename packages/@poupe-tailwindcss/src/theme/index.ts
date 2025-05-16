@@ -26,6 +26,11 @@ export {
 } from './theme';
 
 export {
+  type ColorFormat,
+  colorFormatter,
+} from './utils';
+
+export {
   type Config,
   makeConfig,
 } from './config';
