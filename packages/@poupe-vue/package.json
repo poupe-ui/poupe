@@ -59,7 +59,7 @@
     "tailwind-scrollbar": "^4.0.2",
     "tailwind-variants": "^1.0.0",
     "tailwindcss": "^4.1.7",
-    "vue": "^3.5.13"
+    "vue": "^3.5.14"
   },
   "devDependencies": {
     "@poupe/eslint-config": "^0.6.3",
