@@ -145,5 +145,8 @@ export const setupTailwind = async <K extends string>(context: SetupContext<K>) 
 
   // inject CSS
   nuxt.options.css = nuxt.options.css || [];
+  if (!Array.isArray(nuxt.options.css)) {
+    nuxt.options.css = [nuxt.options.css];
+  }
   nuxt.options.css.unshift(cssFile.dst);
 };
