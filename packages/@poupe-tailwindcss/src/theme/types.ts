@@ -22,11 +22,6 @@ export {
   type StandardPaletteKey,
 } from '@poupe/theme-builder';
 
-export {
-  defaultShades,
-  type Shades,
-} from './shades';
-
 export type Theme = {
   readonly options: ThemeOptions
   readonly paletteKeys: string[]

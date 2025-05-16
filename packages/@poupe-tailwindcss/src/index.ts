@@ -7,5 +7,5 @@ export {
 export {
   type ThemeOptions,
 
-  themePlugin as createPlugin,
+  themePlugin,
 } from './theme/index';
