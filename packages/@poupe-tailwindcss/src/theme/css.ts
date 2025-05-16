@@ -26,9 +26,34 @@ import {
   makeThemeVariants,
 } from './variants';
 
-/** converts a `.foo` into `@utility foo` */
+/**
+ * Converts a CSS selector name to a utility format.
+ *
+ * @param name - The original selector name to be transformed
+ * @returns A string representing the selector in the utility format
+ *
+ * @example
+ * ```
+ * // Input: '.button'
+ * // Output: '@utility button'
+ * // Input: 'hover'
+ * // Output: '@utility hover'
+ * ```
+ */
 const utilityName = (name: string) => `@utility ${name.startsWith('.') ? name.slice(1) : name}`;
 
+/**
+ * Converts a variant name to a custom variant format.
+ *
+ * @param name - The original variant name to be transformed
+ * @returns A string representing the variant in the custom variant format
+ *
+ * @example
+ * ```
+ * // Input: 'hover'
+ * // Output: '@custom-variant hover'
+ * ```
+ */
 const variantName = (name: string) => `@custom-variant ${name}`;
 
 /**
@@ -45,7 +70,20 @@ const variantName = (name: string) => `@custom-variant ${name}`;
  */
 const prepareComponents = (components: Record<string, CSSRules>[]): CSSRules[] => components.map(group => renameRules(group, utilityName));
 
+/**
+ * Transforms an array of variant CSS rules by converting their selectors to custom variant format.
+ *
+ * @param variants - An array of CSS rule objects representing variants
+ * @returns An array of CSS rule objects with selectors renamed to custom variant format
+ *
+ * @example
+ * ```
+ * // Input: [{ '.hover': { color: 'blue' } }]
+ * // Output: [{ '@custom-variant hover': { color: 'blue' } }]
+ * ```
+ */
 const prepareVariants = (variants: CSSRules[]): CSSRules[] => variants.map(group => renameRules(group, variantName));
+
 /**
  * Formats a theme configuration into a series of CSS rules and utilities.
  *
