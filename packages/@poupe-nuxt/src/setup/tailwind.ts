@@ -111,11 +111,11 @@ const getCSSContent = <K extends string>(context: SetupContext<K>): string => {
     '@import \'tailwindcss\';',
     '',
     // @theme
-    formatTheme(theme).join(''),
+    ...formatTheme(theme),
     // @plugin
-    ...(plugins ? [...plugins.flatMap(plugin => formatPlugin(plugin)), ''] : []),
+    ...(plugins ? ['', ...plugins.flatMap(plugin => formatPlugin(plugin))] : []),
     // @source
-    ...(sources ? sources.map(path => `@source '${path}';`) : []),
+    ...(sources ? ['', ...sources.map(path => `@source '${path}';`)] : []),
   ];
 
   return lines.join('\n');
