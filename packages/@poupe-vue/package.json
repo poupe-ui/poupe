@@ -1,24 +1,31 @@
 {
   "name": "@poupe/vue",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "type": "module",
   "description": "Vue component library for Poupe UI framework with theme customization and accessibility support",
   "author": "Alejandro Mery <amery@apptly.co>",
+  "homepage": "https://poupe.dev",
   "license": "MIT",
   "keywords": [
-    "vue",
-    "vue3",
     "components",
-    "ui-library",
-    "poupe",
     "design-system",
+    "material-design",
+    "material-design-3",
+    "poupe",
     "tailwindcss",
-    "typescript"
-  ],
+    "theming",
+    "typescript",
+    "ui-library",
+    "vue",
+    "vue3"
+    ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/poupe-ui/poupe.git",
     "directory": "packages/@poupe-vue"
+  },
+  "bugs": {
+    "url": "https://github.com/poupe-ui/poupe/issues"
   },
   "exports": {
     ".": {
