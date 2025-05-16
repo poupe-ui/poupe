@@ -70,7 +70,7 @@
     "clean": "rm -rf dist node_modules"
   },
   "dependencies": {
-    "@material/material-color-utilities": "^0.3.0",
+    "@poupe/material-color-utilities": "^0.3.2",
     "@poupe/css": "workspace:^",
     "colord": "^2.9.3",
     "defu": "^6.1.4",

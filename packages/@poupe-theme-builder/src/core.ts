@@ -6,7 +6,7 @@ import {
   Hct,
 
   customColor as customColorFromArgb,
-} from '@material/material-color-utilities';
+} from '@poupe/material-color-utilities';
 
 import {
   type Color,
@@ -20,7 +20,7 @@ import {
 //
 export {
   customColor as customColorFromArgb,
-} from '@material/material-color-utilities';
+} from '@poupe/material-color-utilities';
 
 export {
   formatCSSRules,
