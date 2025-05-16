@@ -18,8 +18,10 @@ export type { KebabCase } from 'type-fest';
 
 export {
   type Color,
+  type ColorMap,
   type StandardDynamicSchemeKey,
   type StandardPaletteKey,
+  Hct,
 } from '@poupe/theme-builder';
 
 export type Theme = {
