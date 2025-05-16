@@ -16,7 +16,28 @@ export function makeThemeVariants(
   theme: Readonly<Theme>,
   darkMode: DarkModeStrategy = 'class',
 ): CSSRuleObject[] {
-  return [{ dark: makeDark(darkMode) }];
+  const {
+    disablePrintMode = false,
+  } = theme.options;
+
+  const dark = makeDark(darkMode);
+
+  if (disablePrintMode) {
+    return [
+      {
+        dark,
+      },
+    ];
+  }
+
+  const variants: CSSRuleObject[] = [
+    {
+      ...makePrintVariants(),
+      dark: makeDarkNotPrint(dark),
+    },
+  ];
+
+  return variants;
 }
 
 function makeDark(strategy: DarkModeStrategy = 'class'): CSSRuleObject {
@@ -31,6 +52,27 @@ function makeDark(strategy: DarkModeStrategy = 'class'): CSSRuleObject {
   p['@slot'] = {};
 
   return out;
+}
+
+function makeDarkNotPrint(dark?: CSSRuleObject): CSSRuleObject {
+  return {
+    '@media not print': dark || makeDark(),
+  };
+}
+
+function makePrintVariants(): CSSRuleObject {
+  return {
+    print: {
+      '@media print': {
+        '@slot': {},
+      },
+    },
+    screen: {
+      '@media screen': {
+        '@slot': {},
+      },
+    },
+  };
 }
 
 /**
