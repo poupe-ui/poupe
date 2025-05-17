@@ -41,7 +41,7 @@ export function makeThemeVariants(
 }
 
 function makeDark(strategy: DarkModeStrategy = 'class'): CSSRuleObject {
-  const darkSelector = getDarkMode(strategy);
+  const darkSelector = getDarkMode(strategy).map(s => `&:where(${s})`);
   const out: CSSRuleObject = {};
   let p = out;
 
