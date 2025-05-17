@@ -213,11 +213,16 @@ export function makeThemeBases(
   const bases: CSSRuleObject[] = [];
 
   if (theme.dark && theme.light) {
+    const darkSelector = getDarkMode(darkMode);
+    if (theme.options.disablePrintMode !== true) {
+      darkSelector.unshift('@media not print');
+    }
+
     const { styles } = assembleCSSColors<string>(
       theme.dark,
       theme.light as typeof theme.dark,
       {
-        darkMode: getDarkMode(darkMode),
+        darkMode: darkSelector,
         lightMode: false,
         prefix: theme.options.themePrefix,
         darkSuffix: theme.options.darkSuffix,
