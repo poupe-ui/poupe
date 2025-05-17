@@ -58,8 +58,9 @@
   "dependencies": {
     "@iconify-json/svg-spinners": "^1.2.2",
     "@iconify/vue": "^5.0.0",
-    "@poupe/tailwindcss": "workspace:^",
-    "@poupe/theme-builder": "workspace:^",
+    "@poupe/css": "link:../@poupe-css",
+    "@poupe/tailwindcss": "link:../@poupe-tailwindcss",
+    "@poupe/theme-builder": "link:../@poupe-theme-builder",
     "@unhead/vue": "^2.0.10",
     "reka-ui": "2.2.1",
     "tailwind-merge": "^3.3.0",

@@ -69,8 +69,8 @@
     "vue-tsc": "^2.2.10"
   },
   "dependencies": {
-    "@poupe/css": "workspace:^",
-    "@poupe/theme-builder": "workspace:^",
+    "@poupe/css": "link:../@poupe-css",
+    "@poupe/theme-builder": "link:../@poupe-theme-builder",
     "type-fest": "^4.41.0"
   },
   "peerDependencies": {
