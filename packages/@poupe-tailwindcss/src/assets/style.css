@@ -12,7 +12,7 @@
 }
 @custom-variant dark {
   @media not print {
-    .dark, .dark * {
+    &:where(.dark, .dark *) {
       @slot;
     }
   }

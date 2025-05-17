@@ -5,6 +5,7 @@ import {
 import {
   type CSSRuleObject,
   unsafeKeys,
+  setDeepRule,
 } from '@poupe/css';
 
 import {
@@ -70,10 +71,7 @@ export function defaultDarkSelector(options: Partial<CSSThemeOptions>) {
   }
 
   if (selectors.length === 0) return '.dark, .dark *';
-  if (selectors.length === 1) return selectors[0];
-
-  // TODO: implement
-  throw new Error('multi-level dark mode selectors not supported yet');
+  return selectors;
 }
 
 /** @returns the light mode selector, or undefined if disabled */
@@ -116,11 +114,22 @@ export function assembleCSSRules(root: CSSRuleObject | undefined,
   }
 
   styles.push({
-    [rootLightSelector]: light,
-    [darkSelector]: dark,
+    ...makeDeepRule(rootLightSelector, light),
+    ...makeDeepRule(darkSelector, dark),
   });
 
   return styles;
+}
+
+/**
+ * Creates a nested CSS rule object from a selector path and a CSS rule object
+ * @param path - Selector path (string or array of strings)
+ * @param object - CSS rule object to be nested
+ * @returns A CSSRuleObject with the nested structure
+ */
+function makeDeepRule(path: string | string[], object: CSSRuleObject): CSSRuleObject {
+  const out: CSSRuleObject = {};
+  return setDeepRule(out, path, object);
 }
 
 export function generateCSSColorVariables<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: CSSThemeOptions) {

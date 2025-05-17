@@ -3,12 +3,13 @@ import {
   type CSSRules,
   type CSSRuleObject,
   type CSSRulesFormatOptions,
-  stringifyCSSRules,
+  defaultValidCSSRule,
   formatCSSRules,
   formatCSSRulesArray,
-  defaultValidCSSRule,
   interleavedRules,
   renameRules,
+  setDeepRule,
+  stringifyCSSRules,
 } from './rules';
 
 describe('stringifyCSSRules', () => {
@@ -686,5 +687,151 @@ describe('integration tests for CSS rule formatting', () => {
     expect(result).toContain('color: blue;');
     expect(result).toContain('@component.card {');
     expect(result).toContain('backgroundColor: white;');
+  });
+});
+
+describe('setDeepRule', () => {
+  it('sets a rule at the top level with string path', () => {
+    const target = {};
+    const result = setDeepRule(target, 'button', { color: 'blue' });
+
+    expect(result).toEqual({
+      button: { color: 'blue' },
+    });
+    expect(result).toBe(target); // Should modify the original object
+  });
+
+  it('sets a rule at a nested path with array path', () => {
+    const target = {};
+    const result = setDeepRule(target, ['components', 'button'], { color: 'blue' });
+
+    expect(result).toEqual({
+      components: {
+        button: { color: 'blue' },
+      },
+    });
+  });
+
+  it('creates intermediate objects as needed', () => {
+    const target = {};
+    const result = setDeepRule(target, ['theme', 'components', 'button'], {
+      color: 'blue',
+      fontSize: '16px',
+    });
+
+    expect(result).toEqual({
+      theme: {
+        components: {
+          button: {
+            color: 'blue',
+            fontSize: '16px',
+          },
+        },
+      },
+    });
+  });
+
+  it('preserves existing properties in the target object', () => {
+    const target = {
+      existing: 'value',
+      theme: {
+        colors: {
+          primary: 'red',
+        },
+      },
+    };
+
+    const result = setDeepRule(target, ['theme', 'components', 'button'], { color: 'blue' });
+
+    expect(result).toEqual({
+      existing: 'value',
+      theme: {
+        colors: {
+          primary: 'red',
+        },
+        components: {
+          button: { color: 'blue' },
+        },
+      },
+    });
+  });
+
+  it('overwrites existing properties at the target path', () => {
+    const target = {
+      components: {
+        button: { color: 'red' },
+      },
+    };
+
+    const result = setDeepRule(target, ['components', 'button'], {
+      color: 'blue',
+      fontSize: '16px',
+    });
+
+    expect(result).toEqual({
+      components: {
+        button: {
+          color: 'blue',
+          fontSize: '16px',
+        },
+      },
+    });
+    // The original button object should be completely replaced
+    expect(result.components.button).not.toEqual({ color: 'red' });
+  });
+
+  it('handles empty array path by returning the target unchanged', () => {
+    const target = { existing: 'value' };
+    const result = setDeepRule(target, [], { color: 'blue' });
+
+    expect(result).toEqual({ existing: 'value' });
+    expect(result).toBe(target);
+  });
+
+  it('works with complex CSS rule objects', () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const target = {} as any;
+    const cssRule = {
+      'color': 'blue',
+      'fontSize': '16px',
+      '@media (max-width: 768px)': {
+        fontSize: '14px',
+      },
+      '&:hover': {
+        color: 'darkblue',
+      },
+    };
+
+    const result = setDeepRule(target, ['theme', 'components', 'button'], cssRule);
+
+    expect(result.theme.components.button).toEqual(cssRule);
+  });
+
+  it('works with numeric indices in path array', () => {
+    const target = {
+      variants: [
+        { name: 'primary' },
+        { name: 'secondary' },
+      ],
+    };
+
+    // Using string representation of numeric index
+    const result = setDeepRule(target, ['variants', '1', 'styles'], {
+      color: 'green',
+      border: '1px solid',
+    });
+
+    expect(result).toEqual({
+      variants: [
+        { name: 'primary' },
+        {
+          name: 'secondary',
+          styles: {
+            color: 'green',
+            border: '1px solid',
+          },
+        },
+      ],
+    });
   });
 });

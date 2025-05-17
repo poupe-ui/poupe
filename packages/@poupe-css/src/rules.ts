@@ -86,6 +86,7 @@ export type CSSRuleObject = {
  * @param rules - The CSS rules to stringify
  * @param options - Configuration options for string formatting
  * @returns A string representing the CSS rules with proper formatting
+ * @remarks a newLine is not appeneded at the end to aid composition.
  *
  * @example
  * ```
@@ -104,7 +105,6 @@ export type CSSRuleObject = {
  * //   font-size: 16px;
  * // };
  * ```
- *
  */
 export function stringifyCSSRules(
   rules: CSSRules | CSSRuleObject = {},
@@ -144,7 +144,6 @@ export function stringifyCSSRules(
  * const lines = formatCSSRules(rules);
  * // Returns: ['body {', '  color: red;', '}']
  * ```
- *
  */
 export function formatCSSRules(rules: CSSRules | CSSRuleObject = {}, options: CSSRulesFormatOptions = {}): string[] {
   const {
@@ -351,4 +350,63 @@ export function renameRules(rules: CSSRules, fn: (name: string) => string): CSSR
   }
 
   return Object.fromEntries(map);
+}
+
+/**
+ * Represents a deeply nested object structure with arbitrary nesting levels.
+ */
+type RecursiveObject<T = unknown> = {
+  [key: string]: RecursiveObject<T> | T
+};
+
+/**
+ * Sets a CSS rule object at a specified path within a target object, creating intermediate
+ * objects as needed.
+ *
+ * This function allows for deep setting of CSS rules in a nested object structure. It can
+ * handle both string paths for top-level assignments and array paths for nested assignments.
+ *
+ * @param target - The target object to modify
+ * @param path - Either a string key for direct assignment or an array of string keys for nested assignment
+ * @param object - The CSS rule object to set at the specified path
+ * @returns The modified target object
+ * @remarks The target object is modified in place, returned reference is only a convenience.
+ *
+ * @example
+ * ```
+ * // Direct assignment
+ * setDeepRule(rules, 'button', { color: 'blue' });
+ * // Result: { button: { color: 'blue' } }
+ *
+ * // Nested assignment
+ * setDeepRule(rules, ['components', 'button'], { color: 'blue' });
+ * // Result: { components: { button: { color: 'blue' } } }
+ * ```
+ */
+export function setDeepRule<T extends RecursiveObject>(target: T, path: string | string[], object: CSSRuleObject): T {
+  let p: RecursiveObject = target;
+
+  if (Array.isArray(path)) {
+    if (path.length === 0) return target;
+
+    // Create nested objects for all but the last path segment
+    for (let i = 0; i < path.length - 1; i++) {
+      const k = path[i];
+      if (p[k] === undefined) {
+        p[k] = {} as RecursiveObject<T>;
+      } else if (typeof p[k] !== 'object' || p[k] === null) {
+        throw new Error(`Invalid path at segment ${i}: "${k}" in path: ${path.join('.')}: ${typeof p[k]}`);
+      }
+
+      p = p[k] as RecursiveObject<T>;
+    }
+
+    // Assign the obj to the last path segment
+    const lastKey = path.at(-1) as string;
+    p[lastKey] = object;
+  } else {
+    p[path] = object;
+  }
+
+  return target;
 }
