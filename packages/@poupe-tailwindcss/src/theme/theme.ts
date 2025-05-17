@@ -49,6 +49,7 @@ export {
 export {
   type Theme,
 } from './types';
+
 /**
  * Creates a theme configuration based on the provided theme options.
  *
