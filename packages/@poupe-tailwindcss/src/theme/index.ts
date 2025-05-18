@@ -20,6 +20,10 @@ export {
 } from './shades';
 
 export {
+  makeShadows,
+} from './shadows';
+
+export {
   makeTheme,
   makeThemeBases,
   makeThemeComponents,
