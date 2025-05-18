@@ -87,7 +87,7 @@
     "vue-tsc": "~2.2.10"
   },
   "engines": {
-    "node": ">= 20.19.1",
+    "node": ">= 20.19.2",
     "pnpm": ">= 10.10.0"
   },
   "publishConfig": {

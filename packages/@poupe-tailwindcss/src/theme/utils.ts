@@ -75,6 +75,10 @@ export function getColor(name: string, value: Color | undefined): { ok: boolean;
   }
 }
 
+export function defaultPrefix(name: string, prefix: string): string {
+  return name === 'DEFAULT' ? prefix : `${prefix}-${name}`;
+}
+
 export function debugLog(enabled: boolean = false, ...a: unknown[]) {
   if (enabled) {
     console.log(logPrefix, ...a);
