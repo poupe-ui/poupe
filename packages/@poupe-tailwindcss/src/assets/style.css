@@ -230,3 +230,7 @@
 @utility surface-error-container {
   @apply bg-error-container text-on-error-container;
 }
+
+@utility scrim {
+  @apply fixed inset-0 bg-scrim/32;
+}

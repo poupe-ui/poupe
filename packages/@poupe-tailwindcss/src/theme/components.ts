@@ -11,6 +11,11 @@ import {
 export function makeThemeComponents(theme: Readonly<Theme>, tailwindPrefix: string = ''): Record<string, CSSRuleObject>[] {
   return [
     makeSurfaceComponents(theme, tailwindPrefix),
+    {
+      scrim: {
+        '@apply fixed inset-0 bg-scrim/32': {},
+      },
+    },
   ];
 }
 
