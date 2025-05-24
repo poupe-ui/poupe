@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@poupe/eslint-config": "^0.6.3",
-    "@types/node": "^20.17.47",
+    "@types/node": "^20.17.50",
     "eslint": "^9.26.0",
     "npm-run-all2": "^8.0.2",
     "publint": "^0.3.12",
