@@ -60,7 +60,7 @@
     "@iconify/vue": "^5.0.0",
     "@poupe/tailwindcss": "workspace:^",
     "@poupe/theme-builder": "workspace:^",
-    "@unhead/vue": "^2.0.8",
+    "@unhead/vue": "^2.0.10",
     "reka-ui": "2.2.1",
     "tailwind-merge": "^3.3.0",
     "tailwind-scrollbar": "^4.0.2",
