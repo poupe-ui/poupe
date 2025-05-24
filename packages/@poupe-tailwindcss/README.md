@@ -13,13 +13,14 @@ framework, providing theme customization and utility functions.
 - [Installation](#installation)
 - [Usage](#usage)
   - [Basic Configuration](#basic-configuration)
-  - [Advanced Theme Integration](#advanced-theme-integration)
+  - [Using Flat Plugin Bridge](#using-flat-plugin-bridge)
+  - [CSS Import with @plugin](#css-import-with-plugin)
+  - [Creating Themes Programmatically](#creating-themes-programmatically)
+- [Color System](#color-system)
+- [Surface Components](#surface-components)
+- [Dark Mode](#dark-mode)
+- [Configuration Options](#configuration-options)
 - [API Reference](#api-reference)
-  - [Main Plugin](#main-plugin)
-  - [Theme Utilities](#theme-utilities)
-  - [CSS Generation](#css-generation)
-  - [Color Utilities](#color-utilities)
-  - [Helper Functions](#helper-functions)
 - [Integration with Poupe Ecosystem](#integration-with-poupe-ecosystem)
 - [Requirements](#requirements)
 - [License](#license)
@@ -36,15 +37,15 @@ framework, providing theme customization and utility functions.
 ## Installation
 
 ```bash
-npm install -D @poupe/tailwindcss @poupe/theme-builder
+npm install -D @poupe/tailwindcss tailwindcss@4
 ```
 
 ```bash
-yarn add -D @poupe/tailwindcss @poupe/theme-builder
+yarn add -D @poupe/tailwindcss tailwindcss@4
 ```
 
 ```bash
-pnpm add -D @poupe/tailwindcss @poupe/theme-builder
+pnpm add -D @poupe/tailwindcss tailwindcss@4
 ```
 
 ## Usage
@@ -75,153 +76,320 @@ export default {
 }
 ```
 
-### Advanced Theme Integration
+### Using Flat Plugin Bridge
 
-For more advanced usage, you can create and customize themes separately:
+The flat plugin bridge provides a more concise configuration API:
 
 ```typescript
-import { createTailwindTheme } from '@poupe/tailwindcss/theme'
-import { createTheme } from '@poupe/theme-builder'
+import flatPlugin from '@poupe/tailwindcss'
 
-// Create your Poupe theme
-const myTheme = createTheme({
-  colors: {
-    primary: '#1976d2',
-    secondary: '#9c27b0',
-    // ...more colors
-  }
-})
-
-// Convert to Tailwind format
-const tailwindTheme = createTailwindTheme(myTheme)
-
-// Use in your Tailwind config
 export default {
-  theme: tailwindTheme,
-  // ...rest of your config
+  content: [
+    '**/*.{vue,ts}',
+  ],
+  plugins: [
+    flatPlugin({
+      // Customization options
+      themePrefix: 'md-',
+      surfacePrefix: 'surface-',
+
+      // Define color palette
+      primary: '#6750A4',
+      secondary: '#958DA5',
+      error: '#B3261E',
+
+      // Custom shade configuration
+      neutral: ['#E4E1F6', true, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900]
+    }),
+  ],
+}
+```
+
+### CSS Import with @plugin
+
+For direct CSS integration, use the `@plugin` directive in your CSS file:
+
+```css
+@import 'tailwindcss';
+
+@plugin '@poupe/tailwindcss' {
+  primary: #6750A4;
+  secondary: #958DA5;
+}
+```
+
+This method allows you to specify theme colors directly in your CSS without
+needing to configure the plugin in your Tailwind config.
+
+### Creating Themes Programmatically
+
+For more advanced use cases, you can create themes programmatically:
+
+```typescript
+import { ThemeOptions, makeThemeFromPartialOptions, formatTheme } from '@poupe/tailwindcss'
+import fs from 'fs'
+
+// Define your theme options
+const themeOptions: Partial<ThemeOptions> = {
+  themePrefix: 'md-',
+  colors: {
+    primary: { value: '#6750A4' },
+    secondary: { value: '#958DA5' },
+    tertiary: { value: '#B58392' },
+    error: { value: '#B3261E' },
+    surface: { value: '#FEF7FF' },
+  },
+  shades: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+}
+
+// Create a theme from options
+const theme = makeThemeFromPartialOptions(themeOptions)
+
+// Generate CSS output
+const cssRules = formatTheme(theme, 'class', '  ')
+
+// Write to file
+fs.writeFileSync('theme.css', cssRules.join('\n'))
+```
+
+## Color System
+
+The plugin integrates with `@poupe/theme-builder` to generate Material Design 3
+compliant color systems with the following key features:
+
+- **Semantic Colors**: Primary, secondary, tertiary, error, surface, etc.
+- **Color Shades**: Each color generates shade variants (50-900)
+- **Dark Mode**: Automatic dark theme generation with proper contrast
+- **Color Harmonization**: Optional harmonization of colors with the primary color
+- **CSS Variables**: Colors are accessible via CSS variables
+
+```css
+/* Generated CSS Variables Example */
+:root {
+  --md-primary: 103, 80, 164; /* RGB values */
+  --md-primary-50: 244, 242, 250;
+  --md-primary-100: 234, 228, 242;
+  --md-primary-500: 103, 80, 164;
+  --md-primary-900: 30, 27, 38;
+}
+```
+
+### Color Customization
+
+Colors can be customized using several formats:
+
+```typescript
+flatPlugin({
+  // Basic color definition
+  primary: '#6750A4',
+
+  // Disable harmonization with primary
+  secondary: ['#958DA5', false],
+
+  // Custom shades
+  neutral: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
+
+  // Custom color with harmonization and custom shades
+  tertiary: ['#B58392', true, 50, 100, 500, 900],
+})
+```
+
+
+
+## Surface Components
+
+Pre-configured component utilities that combine background colors with text colors:
+
+```html
+<!-- Primary surface with appropriate text color -->
+<div class="surface-primary">Primary Surface</div>
+
+<!-- Secondary surfaces -->
+<div class="surface-secondary">Secondary Surface</div>
+<div class="surface-secondary-container">Secondary Container</div>
+
+<!-- Various surface containers with different elevations -->
+<div class="surface-container-lowest">Lowest Container</div>
+<div class="surface-container-low">Low Container</div>
+<div class="surface-container">Standard Container</div>
+<div class="surface-container-high">High Container</div>
+<div class="surface-container-highest">Highest Container</div>
+```
+
+These utilities apply both background color (`bg-*`) and text color (`text-*`)
+with proper contrast based on Material Design guidelines.
+
+## Dark Mode
+
+The plugin automatically generates dark mode variants for all colors. By default,
+it uses Tailwind's class strategy (`.dark` class):
+
+```html
+<html class="dark">
+  <!-- Dark mode is applied -->
+</html>
+```
+
+This behavior can be customized using the `darkMode` configuration option in your
+Tailwind config, or through the plugin's options:
+
+```typescript
+poupePlugin({
+  // Class strategy (default)
+  darkMode: 'class',
+
+  // Media query strategy
+  // darkMode: 'media',
+
+  // Custom dark class selector
+  // darkSuffix: '-dark',
+
+  // Custom light class selector
+  // lightSuffix: '-light',
+})
+```
+
+## Configuration Options
+
+### ThemeOptions
+
+```typescript
+interface ThemeOptions {
+  // Prefix for CSS variables (default: 'md-')
+  themePrefix?: string;
+
+  // Prefix for surface components (default: 'surface-')
+  surfacePrefix?: string | false;
+
+  // When true, only generates variable references without color values
+  omitTheme?: boolean;
+
+  // Suffix for dark mode selectors
+  darkSuffix?: string;
+
+  // Suffix for light mode selectors
+  lightSuffix?: string;
+
+  // Control debugging output
+  debug?: boolean;
+
+  // Material theme scheme
+  scheme?: SchemeOptions;
+
+  // Contrast level for accessibility
+  contrastLevel?: number;
+
+  // Disable print mode
+  disablePrintMode?: boolean;
+
+  // Shade values to generate (false to disable)
+  shades?: number[] | false;
+
+  // Color definitions
+  colors: {
+    [key: string]: ThemeColorOptions;
+  };
+}
+```
+
+### FlatOptions
+
+The flat plugin API provides a more concise way to specify options:
+
+```typescript
+interface FlatOptions {
+  // Same as ThemeOptions.themePrefix
+  themePrefix?: string;
+
+  // Same as ThemeOptions.surfacePrefix
+  surfacePrefix?: string | false;
+
+  // Same as ThemeOptions.omitTheme
+  omitTheme?: boolean;
+
+  // Same as ThemeOptions.darkSuffix
+  darkSuffix?: string;
+
+  // Same as ThemeOptions.lightSuffix
+  lightSuffix?: string;
+
+  // Same as ThemeOptions.shades
+  shades?: number[] | false;
+
+  // Enable debug output
+  debug?: boolean;
+
+  // Color definitions with simplified syntax
+  [color: string]: string | boolean | number[] | [boolean, ...number[]] |
+                  [string, boolean] | [string, boolean, ...number[]] |
+                  [string, ...number[]];
 }
 ```
 
 ## API Reference
 
-The library exports several modules for different use cases:
-
-### Main Plugin
+### Main Exports
 
 ```typescript
-import { themePlugin } from '@poupe/tailwindcss'
+// Default export - flat plugin API
+import flatPlugin from '@poupe/tailwindcss'
+
+// Named exports
+import {
+  // Theme plugin with options
+  themePlugin,
+
+  // Function to create a theme from options
+  makeThemeFromPartialOptions,
+
+  // Format a theme to CSS
+  formatTheme,
+
+  // Color formatter utilities
+  colorFormatter,
+} from '@poupe/tailwindcss'
 ```
 
-The main plugin that integrates Poupe theme tokens with TailwindCSS. It
-automatically generates color variants, shadows, typography scales, and component
-utilities based on your theme configuration.
-
-### Theme Utilities
+### Theme Module
 
 ```typescript
-import { createTheme } from '@poupe/tailwindcss/theme'
+import {
+  // Shade utilities
+  makeShades,
+  defaultShades,
+
+  // Theme utilities
+  makeTheme,
+} from '@poupe/tailwindcss/theme'
 ```
-
-Utilities for converting Poupe themes to TailwindCSS compatible themes,
-including:
-
-- Color shade generation
-- Typography scaling
-- Spacing and sizing adaptations
-- Component-specific tokens
-
-### CSS Generation
-
-```typescript
-import { formatTheme } from '@poupe/tailwindcss/theme/css'
-```
-
-Functions to generate CSS rules from your Poupe theme:
-
-- **formatTheme**: Formats a theme configuration into a series of CSS rules and utilities
-  ```typescript
-  function formatTheme(
-    theme: Theme,                            // The theme configuration object
-    darkMode: DarkModeStrategy = 'class',    // Strategy for handling dark mode
-    indent: string = '  ',                   // Indentation string for formatting
-    stringify?: (value: Hct) => string,      // Optional function to convert Hct color values to string format
-  ): string[]
-  ```
-  
-- **themeColors**: Generates CSS custom property rules for theme colors
-  ```typescript
-  function themeColors(
-    colors: Record<string, ThemeColorConfig>,
-    extendColors: boolean = false,
-    persistentColors: Record<string, string> = defaultPersistentColors,
-  ): CSSRules[]
-  ```
 
 ### Color Utilities
 
 ```typescript
 import { colorFormatter } from '@poupe/tailwindcss/utils/color'
+
+// Format colors as RGB (default)
+const rgbFormatter = colorFormatter('rgb');
+
+// Format colors as HSL
+const hslFormatter = colorFormatter('hsl');
+
+// Format colors as hex
+const hexFormatter = colorFormatter('hex');
+
+// Format colors as space-separated RGB values
+const numbersFormatter = colorFormatter('numbers');
 ```
-
-Utilities for converting and formatting HCT colors:
-
-- **colorFormatter**: Creates a function that converts HCT colors to various string formats
-  ```typescript
-  function colorFormatter(
-    v: ColorFormat = 'rgb'                   // The color format to convert to
-  ): (c: Hct) => string
-  ```
-
-The supported color formats (`ColorFormat`) are:
-- `'numbers'` - Returns space-separated RGB values like `"255 128 0"`
-- `'rgb'` - Returns RGB format like `"rgb(255, 128, 0)"` (default)
-- `'hsl'` - Returns HSL format like `"hsl(30, 100%, 50%)"`
-- `'hex'` - Returns HEX format like `"#FF8000"`
-- A custom formatting function that takes an Hct color and returns a string
-
-#### Using colorFormatter with formatTheme
-
-The `colorFormatter` function works seamlessly with `formatTheme` to control how colors appear in the generated CSS:
-
-```typescript
-import { formatTheme } from '@poupe/tailwindcss/theme/css'
-import { colorFormatter } from '@poupe/tailwindcss/utils/color'
-
-// Format theme with colors in hex format
-const cssRules = formatTheme(myTheme, 'class', '  ', colorFormatter('hex'));
-
-// Format theme with colors in HSL format
-const cssRules = formatTheme(myTheme, 'class', '  ', colorFormatter('hsl'));
-
-// Use the default RGB format
-const cssRules = formatTheme(myTheme);
-```
-
-This allows you to customize the color format in your CSS output based on specific requirements:
-- Use hex format for more compact CSS
-- Use HSL for better human readability and easier tweaking
-- Use RGB format (default) for broad compatibility
-- Create custom formatters for specialized needs
-
-### Helper Functions
-
-```typescript
-import { getShades, validShade } from '@poupe/tailwindcss/theme'
-```
-
-Helper functions for:
-
-- Working with color shades
-- Validating theme options
-- Type checking utility functions
-- Debugging and logging tools
 
 ## Integration with Poupe Ecosystem
 
-- [@poupe/css](../@poupe-css) - CSS utility library
-- [@poupe/theme-builder](../@poupe-theme-builder) - Design tokens generation
-- [@poupe/vue](../@poupe-vue) - Vue components library
-- [@poupe/nuxt](../@poupe-nuxt) - Nuxt integration
+- [@poupe/css](../@poupe-css) - CSS utility library with core functionality
+- [@poupe/theme-builder](../@poupe-theme-builder) - Material Design 3 token generation
+- [@poupe/vue](../@poupe-vue) - Vue components library built on this theme system
+- [@poupe/nuxt](../@poupe-nuxt) - Nuxt integration for easy setup
+
+This package serves as the bridge between the Poupe theme system and TailwindCSS,
+allowing you to use Material Design 3 tokens with Tailwind's utility-first approach.
 
 ## Requirements
 
