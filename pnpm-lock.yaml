@@ -253,8 +253,8 @@ importers:
         specifier: workspace:^
         version: link:../@poupe-theme-builder
       '@unhead/vue':
-        specifier: ^2.0.8
-        version: 2.0.8(vue@3.5.14(typescript@5.8.3))
+        specifier: ^2.0.10
+        version: 2.0.10(vue@3.5.14(typescript@5.8.3))
       reka-ui:
         specifier: 2.2.1
         version: 2.2.1(typescript@5.8.3)(vue@3.5.14(typescript@5.8.3))
@@ -1947,8 +1947,8 @@ packages:
     resolution: {integrity: sha512-1rYQTCLFFzOI5Nl0c8LUpJT8HxpwVRn9E4CkMsYfuN6ctmQqExjSTzzSk0Tz2apmXy7WU6/6fyaZVVA/thPN+w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@unhead/vue@2.0.8':
-    resolution: {integrity: sha512-e30+CfCl1avR+hzFtpvnBSesZ5TN2KbShStdT2Z+zs5WIBUvobQwVxSR0arX43To6KfwtCXAfi0iOOIH0kufHQ==}
+  '@unhead/vue@2.0.10':
+    resolution: {integrity: sha512-lV7E1sXX6/te8+IiUwlMysBAyJT/WM5Je47cRnpU5hsvDRziSIGfim9qMWbsTouH+paavRJz1i8gk5hRzjvkcw==}
     peerDependencies:
       vue: '>=3.5.13'
 
@@ -5652,8 +5652,8 @@ packages:
   unenv@2.0.0-rc.15:
     resolution: {integrity: sha512-J/rEIZU8w6FOfLNz/hNKsnY+fFHWnu9MH4yRbSZF3xbbGHovcetXPs7sD+9p8L6CeNC//I9bhRYAOsBt2u7/OA==}
 
-  unhead@2.0.8:
-    resolution: {integrity: sha512-63WR+y08RZE7ChiFdgNY64haAkhCtUS5/HM7xo4Q83NA63txWbEh2WGmrKbArdQmSct+XlqbFN8ZL1yWpQEHEA==}
+  unhead@2.0.10:
+    resolution: {integrity: sha512-GT188rzTCeSKt55tYyQlHHKfUTtZvgubrXiwzGeXg6UjcKO3FsagaMzQp6TVDrpDY++3i7Qt0t3pnCc/ebg5yQ==}
 
   unicorn-magic@0.1.0:
     resolution: {integrity: sha512-lRfVq8fE8gz6QMBuDM6a+LO3IAzTi05H6gCVaUpir2E1Rwpo4ZUog45KpNXKC/Mn3Yb9UDuHumeFTo9iV/D9FQ==}
@@ -8186,10 +8186,10 @@ snapshots:
       '@typescript-eslint/types': 8.32.0
       eslint-visitor-keys: 4.2.0
 
-  '@unhead/vue@2.0.8(vue@3.5.14(typescript@5.8.3))':
+  '@unhead/vue@2.0.10(vue@3.5.14(typescript@5.8.3))':
     dependencies:
       hookable: 5.5.3
-      unhead: 2.0.8
+      unhead: 2.0.10
       vue: 3.5.14(typescript@5.8.3)
 
   '@unrs/resolver-binding-darwin-arm64@1.7.2':
@@ -10972,7 +10972,7 @@ snapshots:
       '@nuxt/schema': 3.17.3
       '@nuxt/telemetry': 2.6.6(magicast@0.3.5)
       '@nuxt/vite-builder': 3.17.3(@types/node@20.17.47)(eslint@9.26.0(jiti@2.4.2))(lightningcss@1.30.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.1)(terser@5.39.0)(typescript@5.8.3)(vue-tsc@2.2.10(typescript@5.8.3))(vue@3.5.14(typescript@5.8.3))(yaml@2.7.1)
-      '@unhead/vue': 2.0.8(vue@3.5.14(typescript@5.8.3))
+      '@unhead/vue': 2.0.10(vue@3.5.14(typescript@5.8.3))
       '@vue/shared': 3.5.14
       c12: 3.0.3(magicast@0.3.5)
       chokidar: 4.0.3
@@ -11092,7 +11092,7 @@ snapshots:
       '@nuxt/schema': 3.17.3
       '@nuxt/telemetry': 2.6.6(magicast@0.3.5)
       '@nuxt/vite-builder': 3.17.3(@types/node@22.15.17)(lightningcss@1.30.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.40.1)(terser@5.39.0)(typescript@5.8.3)(vue@3.5.14(typescript@5.8.3))(yaml@2.7.1)
-      '@unhead/vue': 2.0.8(vue@3.5.14(typescript@5.8.3))
+      '@unhead/vue': 2.0.10(vue@3.5.14(typescript@5.8.3))
       '@vue/shared': 3.5.14
       c12: 3.0.3(magicast@0.3.5)
       chokidar: 4.0.3
@@ -12448,7 +12448,7 @@ snapshots:
       pathe: 2.0.3
       ufo: 1.6.1
 
-  unhead@2.0.8:
+  unhead@2.0.10:
     dependencies:
       hookable: 5.5.3
 
