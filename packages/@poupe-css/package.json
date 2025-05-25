@@ -1,6 +1,6 @@
 {
   "name": "@poupe/css",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "type": "module",
   "description": "A TypeScript utility library for CSS property manipulation, formatting, and CSS-in-JS operations",
   "author": "Alejandro Mery <amery@apptly.co>",
