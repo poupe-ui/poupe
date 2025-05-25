@@ -53,6 +53,9 @@
     "dev": "vitest watch",
     "clean": "rm -rf dist node_modules"
   },
+  "dependencies": {
+    "defu": "^6.1.4"
+  },
   "devDependencies": {
     "@poupe/eslint-config": "^0.6.3",
     "@types/node": "^20.17.47",

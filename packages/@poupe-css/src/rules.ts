@@ -1,6 +1,5 @@
-import {
-  pairs,
-} from './utils';
+import { defu } from 'defu';
+import { pairs } from './utils';
 
 import {
   formatCSSValue,
@@ -46,23 +45,23 @@ export type CSSRulesValue = CSSRules[string];
  */
 export interface CSSRulesFormatOptions {
   /**
-   * Indentation string to use for each level of nesting.
-   * @defaultValue `'  '` (two spaces)
-   */
+     * Indentation string to use for each level of nesting.
+     * @defaultValue `'  '` (two spaces)
+     */
   indent?: string
 
   /**
-   * Prefix string added before each line.
-   * @defaultValue `''` (empty string)
-   */
+     * Prefix string added before each line.
+     * @defaultValue `''` (empty string)
+     */
   prefix?: string
 
   /**
-   * Optional validation function to determine which rules to include.
-   * @param key - The rule name/selector
-   * @param value - The rule value
-   * @returns `true` if the rule should be included, `false` otherwise
-   */
+     * Optional validation function to determine which rules to include.
+     * @param key - The rule name/selector
+     * @param value - The rule value
+     * @returns `true` if the rule should be included, `false` otherwise
+     */
   valid?: (key: string, value: CSSRulesValue) => boolean
 }
 
@@ -86,7 +85,7 @@ export type CSSRuleObject = {
  * @param rules - The CSS rules to stringify
  * @param options - Configuration options for string formatting
  * @returns A string representing the CSS rules with proper formatting
- * @remarks a newLine is not appeneded at the end to aid composition.
+ * @remarks a newLine is not appended at the end to aid composition.
  *
  * @example
  * ```
@@ -110,9 +109,9 @@ export function stringifyCSSRules(
   rules: CSSRules | CSSRuleObject = {},
   options: CSSRulesFormatOptions & {
     /**
-     * Character(s) to use for line breaks.
-     * @defaultValue `'\n'`
-     */
+         * Character(s) to use for line breaks.
+         * @defaultValue `'\n'`
+         */
     newLine?: string
   } = {}): string {
   const {
@@ -360,17 +359,22 @@ type RecursiveObject<T = unknown> = {
 };
 
 /**
- * Sets a CSS rule object at a specified path within a target object, creating intermediate
- * objects as needed.
+ * Sets a CSS rule object at a specified path within a target object,
+ * merging with existing objects and creating intermediate objects as needed.
  *
- * This function allows for deep setting of CSS rules in a nested object structure. It can
- * handle both string paths for top-level assignments and array paths for nested assignments.
+ * This function allows for deep setting of CSS rules in a nested object
+ * structure. It can handle both string paths for top-level assignments and
+ * array paths for nested assignments. When the target path already contains
+ * an object, the new object is merged with the existing one, with new values
+ * taking precedence.
  *
  * @param target - The target object to modify
- * @param path - Either a string key for direct assignment or an array of string keys for nested assignment
+ * @param path - Either a string key for direct assignment or an array of
+ *   string keys for nested assignment
  * @param object - The CSS rule object to set at the specified path
  * @returns The modified target object
- * @remarks The target object is modified in place, returned reference is only a convenience.
+ * @remarks The target object is modified in place, returned reference is
+ *   only a convenience.
  *
  * @example
  * ```
@@ -381,10 +385,16 @@ type RecursiveObject<T = unknown> = {
  * // Nested assignment
  * setDeepRule(rules, ['components', 'button'], { color: 'blue' });
  * // Result: { components: { button: { color: 'blue' } } }
+ *
+ * // Merging with existing object (new values take precedence)
+ * const rules = { button: { color: 'red', margin: '5px' } };
+ * setDeepRule(rules, 'button', { color: 'blue', padding: '10px' });
+ * // Result: { button: { color: 'blue', margin: '5px', padding: '10px' } }
  * ```
  */
 export function setDeepRule<T extends RecursiveObject>(target: T, path: string | string[], object: CSSRuleObject): T {
   let p: RecursiveObject = target;
+  let lastKey = '';
 
   if (Array.isArray(path)) {
     if (path.length === 0) return target;
@@ -402,11 +412,12 @@ export function setDeepRule<T extends RecursiveObject>(target: T, path: string |
     }
 
     // Assign the obj to the last path segment
-    const lastKey = path.at(-1) as string;
-    p[lastKey] = object;
+    lastKey = path.at(-1) as string;
   } else {
-    p[path] = object;
+    lastKey = path;
   }
+
+  p[lastKey] = defu(object, p[lastKey] ?? {} as typeof object);
 
   return target;
 }

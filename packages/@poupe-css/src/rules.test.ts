@@ -756,10 +756,10 @@ describe('setDeepRule', () => {
     });
   });
 
-  it('overwrites existing properties at the target path', () => {
+  it('merges with existing properties at the target path', () => {
     const target = {
       components: {
-        button: { color: 'red' },
+        button: { color: 'red', margin: '5px' },
       },
     };
 
@@ -771,13 +771,79 @@ describe('setDeepRule', () => {
     expect(result).toEqual({
       components: {
         button: {
-          color: 'blue',
-          fontSize: '16px',
+          color: 'blue', // New value takes precedence
+          margin: '5px', // Existing value preserved
+          fontSize: '16px', // New value added
         },
       },
     });
-    // The original button object should be completely replaced
-    expect(result.components.button).not.toEqual({ color: 'red' });
+  });
+
+  it('merges deeply nested objects correctly', () => {
+    const target = {
+      button: {
+        color: 'red',
+        margin: '5px',
+        hover: {
+          color: 'darkred',
+          scale: '1.1',
+        },
+      },
+    };
+
+    const result = setDeepRule(target, 'button', {
+      color: 'blue',
+      padding: '10px',
+      hover: {
+        color: 'darkblue',
+        opacity: '0.9',
+      },
+    });
+
+    expect(result).toEqual({
+      button: {
+        color: 'blue', // New value takes precedence
+        margin: '5px', // Existing value preserved
+        padding: '10px', // New value added
+        hover: {
+          color: 'darkblue', // New value takes precedence in nested object
+          scale: '1.1', // Existing nested value preserved
+          opacity: '0.9', // New nested value added
+        },
+      },
+    });
+  });
+
+  it('new values take precedence over existing values', () => {
+    const target = { button: { color: 'red', fontSize: '14px' } };
+
+    const result = setDeepRule(target, 'button', {
+      color: 'blue',
+      fontSize: '16px',
+    });
+
+    expect(result.button.color).toBe('blue');
+    expect(result.button.fontSize).toBe('16px');
+  });
+
+  it('preserves existing values not present in new object', () => {
+    const target = {
+      button: {
+        color: 'red',
+        margin: '5px',
+        border: '1px solid',
+      },
+    };
+
+    const result = setDeepRule(target, 'button', { color: 'blue' });
+
+    expect(result).toEqual({
+      button: {
+        color: 'blue',
+        margin: '5px',
+        border: '1px solid',
+      },
+    });
   });
 
   it('handles empty array path by returning the target unchanged', () => {

@@ -13,6 +13,10 @@ importers:
         version: 0.0.49
 
   packages/@poupe-css:
+    dependencies:
+      defu:
+        specifier: ^6.1.4
+        version: 6.1.4
     devDependencies:
       '@poupe/eslint-config':
         specifier: ^0.6.3
