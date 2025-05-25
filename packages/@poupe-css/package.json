@@ -57,7 +57,7 @@
     "@poupe/eslint-config": "^0.6.3",
     "@types/node": "^20.17.47",
     "eslint": "^9.26.0",
-    "npm-run-all2": "^8.0.2",
+    "npm-run-all2": "^8.0.4",
     "publint": "^0.3.12",
     "typescript": "~5.8.3",
     "unbuild": "3.5.0",
