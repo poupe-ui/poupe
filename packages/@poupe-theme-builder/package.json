@@ -27,34 +27,24 @@
   "homepage": "https://poupe.dev",
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "import": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "require": "./dist/index.cjs"
-      }
-    },
-    "./utils": {
-      "types": "./dist/utils.d.ts",
-      "import": "./dist/utils.mjs",
-      "require": "./dist/utils.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
     },
     "./core": {
       "types": "./dist/core.d.ts",
-      "import": "./dist/core.mjs",
-      "require": "./dist/core.cjs"
+      "import": "./dist/core.mjs"
     },
     "./server": {
       "types": "./dist/server.d.ts",
-      "import": "./dist/server.mjs",
-      "require": "./dist/server.cjs"
+      "import": "./dist/server.mjs"
+    },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.mjs"
     }
   },
   "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],

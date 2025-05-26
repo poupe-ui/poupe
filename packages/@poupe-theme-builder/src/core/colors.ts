@@ -1,7 +1,7 @@
 import {
   uint32,
   uint8,
-} from './utils';
+} from '../utils/index';
 
 /*
  * colord

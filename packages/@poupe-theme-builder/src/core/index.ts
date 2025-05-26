@@ -14,7 +14,7 @@ import {
   argb,
   argbFromHct,
   splitArgb,
-} from './core/colors';
+} from './colors';
 
 // re-export
 //
@@ -27,7 +27,7 @@ export {
   formatCSSRulesArray,
 } from '@poupe/css';
 
-export * from './core/colors';
+export * from './colors';
 
 // DynamicScheme
 //
