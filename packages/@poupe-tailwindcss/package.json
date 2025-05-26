@@ -18,7 +18,7 @@
     "theming",
     "typescript",
     "ui-framework"
-    ],
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/poupe-ui/poupe.git",
@@ -57,7 +57,7 @@
     "clean": "rm -rf dist node_modules"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "^0.6.3",
+    "@poupe/eslint-config": "^0.6.4",
     "@types/node": "^20.17.47",
     "eslint": "^9.26.0",
     "pathe": "^2.0.3",
