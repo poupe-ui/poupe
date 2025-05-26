@@ -6,28 +6,26 @@ import {
   Hct,
 
   customColor as customColorFromArgb,
-} from '@material/material-color-utilities';
+} from '@poupe/material-color-utilities';
 
 import {
   type Color,
-
-  argb,
-  argbFromHct,
-  splitArgb,
-} from './core/colors';
+} from './colors';
 
 // re-export
 //
 export {
   customColor as customColorFromArgb,
-} from '@material/material-color-utilities';
+} from '@poupe/material-color-utilities';
 
 export {
   formatCSSRules,
   formatCSSRulesArray,
 } from '@poupe/css';
 
-export * from './core/colors';
+export * from './colors';
+export * from './formatter';
+export * from './mix';
 
 // DynamicScheme
 //
@@ -43,11 +41,3 @@ export const customColorFromHct = (source: Hct, color: CustomColor) => customCol
 
 export const hexColorPattern = /^#([\da-f]{3}|[\da-f]{6}|[\da-f]{8})$/i;
 export const isHexColor = (s: string = '') => !!hexColorPattern.test(s || '');
-
-export const rgbFromArgb = (argb: number) => {
-  const { r, g, b } = splitArgb(argb);
-  return `rgb(${r} ${g} ${b})`;
-};
-
-export const rgbFromHct = (c: Hct) => rgbFromArgb(argbFromHct(c));
-export const rgb = (c: Color) => rgbFromArgb(argb(c));

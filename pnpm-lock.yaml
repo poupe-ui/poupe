@@ -201,12 +201,12 @@ importers:
 
   packages/@poupe-theme-builder:
     dependencies:
-      '@material/material-color-utilities':
-        specifier: ^0.3.0
-        version: 0.3.0
       '@poupe/css':
         specifier: workspace:^
         version: link:../@poupe-css
+      '@poupe/material-color-utilities':
+        specifier: ^0.3.4
+        version: 0.3.4
       colord:
         specifier: ^2.9.3
         version: 2.9.3
@@ -887,9 +887,6 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@material/material-color-utilities@0.3.0':
-    resolution: {integrity: sha512-ztmtTd6xwnuh2/xu+Vb01btgV8SQWYCaK56CkRK8gEkWe5TuDyBcYJ0wgkMRn+2VcE9KUmhvkz+N9GHrqw/C0g==}
-
   '@microsoft/api-extractor-model@7.30.5':
     resolution: {integrity: sha512-0ic4rcbcDZHz833RaTZWTGu+NpNgrxVNjVaor0ZDUymfDFzjA/Uuk8hYziIUIOEOSTfmIQqyzVwlzxZxPe7tOA==}
 
@@ -1314,6 +1311,9 @@ packages:
   '@poupe/eslint-config@0.6.4':
     resolution: {integrity: sha512-dpgKDPYwiVo5jisfoWKqsR126xOKyzPgukiFcIlCBVc2wn36fP4os2J2LVIjCKrc27EnZVlyCXZA0y6YWjO7+Q==}
     engines: {node: '>= 18.20.8', pnpm: '>= 10.10.0'}
+
+  '@poupe/material-color-utilities@0.3.4':
+    resolution: {integrity: sha512-IXeEu3k6uM4kiyIxW6fOWUbqwnPmM1Z+Uwh58Q3mGBLr2yfsk8/9fl6ogYPOlT0GEAUwWqHzqUOT06odDNTaWQ==}
 
   '@publint/pack@0.1.2':
     resolution: {integrity: sha512-S+9ANAvUmjutrshV4jZjaiG8XQyuJIZ8a4utWmN/vW1sgQ9IfBnPndwkmQYw53QmouOIytT874u65HEmu6H5jw==}
@@ -6330,8 +6330,6 @@ snapshots:
       - encoding
       - supports-color
 
-  '@material/material-color-utilities@0.3.0': {}
-
   '@microsoft/api-extractor-model@7.30.5(@types/node@20.17.50)':
     dependencies:
       '@microsoft/tsdoc': 0.15.1
@@ -7147,6 +7145,8 @@ snapshots:
       - supports-color
       - typescript
       - vue-eslint-parser
+
+  '@poupe/material-color-utilities@0.3.4': {}
 
   '@publint/pack@0.1.2': {}
 

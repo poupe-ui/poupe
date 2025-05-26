@@ -12,8 +12,8 @@ import {
   type ColorMap,
   type Hct,
 
-  rgbFromHct,
-} from './core';
+  rgbaString,
+} from './core/index';
 
 import {
   type StandardDynamicSchemeKey,
@@ -48,7 +48,7 @@ export function defaultCSSThemeOptions(options: Partial<CSSThemeOptions> = {}): 
     prefix: 'md-',
     darkSuffix: '-dark',
     lightSuffix: '-light',
-    stringify: rgbFromHct,
+    stringify: rgbaString,
   });
 }
 

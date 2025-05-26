@@ -8,7 +8,7 @@ import {
 
   colord,
   hctFromColord,
-} from './core/colors';
+} from './colors';
 
 /** @returns the result of mixing two colors in given ratios */
 export function makeColorMix(base: Color, other: Color, ratios: number): Hct;

@@ -1,6 +1,6 @@
 /* imports */
 import {
-  hex,
+  hexString,
   standardPaletteKeys,
 } from '@poupe/theme-builder';
 
@@ -69,7 +69,7 @@ export function getColor(name: string, value: Color | undefined): { ok: boolean;
   }
 
   try {
-    return { ok: true, color: hex(v) };
+    return { ok: true, color: hexString(v) };
   } catch {
     return { ok: false };
   }

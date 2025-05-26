@@ -5,7 +5,7 @@ import {
   type Color,
   type HexColor,
 
-  hex,
+  hexString,
 } from '../core';
 
 import {
@@ -64,6 +64,6 @@ export const getRandomColor = (): HexColor => {
  * @returns A hex color string without the leading '#'
  */
 export const colorToURL = (c?: Color): string => {
-  const s = c ? hex(c) : getRandomColor();
+  const s = c ? hexString(c) : getRandomColor();
   return s.slice(1);
 };
