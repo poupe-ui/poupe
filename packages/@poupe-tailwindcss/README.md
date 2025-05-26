@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](../../LICENCE.txt)
 
 TailwindCSS v4 plugin for Material Design 3 themes with automatic
-dark mode, elevation shadows, and component utilities.
+dark mode, elevation shadows, scrim overlays, and component utilities.
 
 ## Table of Contents
 
@@ -18,6 +18,7 @@ dark mode, elevation shadows, and component utilities.
   - [Creating Themes Programmatically](#creating-themes-programmatically)
 - [Color System](#color-system)
 - [Shadow System](#shadow-system)
+- [Scrim Utilities](#scrim-utilities)
 - [Surface Components](#surface-components)
 - [Dark Mode](#dark-mode)
 - [Configuration Options](#configuration-options)
@@ -31,6 +32,7 @@ dark mode, elevation shadows, and component utilities.
 - 🎨 Material Design 3 color system with automatic dark themes
 - 🌓 Built-in dark mode support (class or media query)
 - ✨ Elevation shadows with z-level utilities (z1-z5)
+- 🎭 Scrim overlays with Material Design z-index layering
 - 🛠️ Surface component utilities with proper contrast
 - 📦 Lightweight, tree-shakable API
 - 🧩 CSS variables for external customization
@@ -114,6 +116,44 @@ Shadow utilities:
 <div class="shadow-z5">Level 5</div>
 <div class="inset-shadow">Inset Shadow</div>
 ```
+
+## Scrim Utilities
+
+Modal backdrop overlays with Material Design z-index layering:
+
+```html
+<!-- Basic scrim -->
+<div class="scrim">Overlay</div>
+
+<!-- Semantic z-index levels -->
+<div class="scrim-z-modal">Modal backdrop</div>
+<div class="scrim-z-drawer">Drawer backdrop</div>
+<div class="scrim-z-elevated">High priority overlay</div>
+
+<!-- Arbitrary z-index values -->
+<div class="scrim-z-[1250]">Custom z-index</div>
+<div class="scrim-z-[var(--custom-z)]">CSS variable</div>
+```
+
+Material Design z-index scale:
+
+```css
+--md-z-navigation-persistent: 1000;  /* Mobile stepper, bottom nav */
+--md-z-navigation-floating: 1050;    /* FAB, speed dial */
+--md-z-navigation-top: 1100;         /* App bar, top navigation */
+--md-z-drawer: 1200;                 /* Navigation drawer */
+--md-z-modal: 1300;                  /* Modal dialogs */
+--md-z-snackbar: 1400;               /* Snackbars, toasts */
+--md-z-tooltip: 1500;                /* Tooltips */
+```
+
+Scrim variants:
+- `scrim-z-base` (950) - Basic overlay, below navigation
+- `scrim-z-content` (975) - Content overlay
+- `scrim-z-drawer` (1250) - Drawer overlays
+- `scrim-z-modal` (1275) - Modal preparation
+- `scrim-z-elevated` (1350) - High-priority overlays
+- `scrim-z-system` (1450) - System-level scrims
 
 ### Programmatic Theme Generation
 

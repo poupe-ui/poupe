@@ -12,11 +12,41 @@ export function makeThemeComponents(theme: Readonly<Theme>, tailwindPrefix: stri
   return [
     makeSurfaceComponents(theme, tailwindPrefix),
     {
-      scrim: {
+      '.scrim': {
         '@apply fixed inset-0 bg-scrim/32': {},
       },
     },
+    makeZIndexComponents(theme),
   ];
+}
+
+export function makeZIndexComponents(theme: Readonly<Theme>): Record<string, CSSRuleObject> {
+  const { themePrefix } = theme.options;
+
+  const out: Record<string, CSSRuleObject> = {
+    ['scrim-z-*']: {
+      // arbitrary z-index scrim
+      '@apply scrim': {},
+      'z-index': '--value(integer, [integer])',
+    },
+  };
+
+  // semantic z-index scrim
+  for (const name of ['base', 'content', 'drawer', 'modal', 'elevated', 'system']) {
+    out[`.scrim-z-${name}`] = {
+      '@apply scrim': {},
+      'z-index': `var(--${themePrefix}z-scrim-${name})`,
+    };
+  }
+
+  // semantic z-index
+  for (const name of ['navigation-persistent', 'navigation-floating', 'navigation-top', 'drawer', 'modal', 'snackbar', 'tooltip']) {
+    out[`.z-${name}`] = {
+      'z-index': `var(--${themePrefix}z-${name})`,
+    };
+  }
+
+  return out;
 }
 
 export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: string = ''): Record<string, CSSRuleObject> {

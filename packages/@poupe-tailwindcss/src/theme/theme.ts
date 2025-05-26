@@ -289,6 +289,8 @@ export function makeThemeBases(
   const bases: CSSRuleObject[] = [];
   const { themePrefix } = theme.options;
 
+  const constants = makeThemeConstants(theme);
+
   if (theme.dark && theme.light) {
     const darkSelector = getDarkMode(darkMode);
     if (theme.options.disablePrintMode !== true) {
@@ -316,12 +318,45 @@ export function makeThemeBases(
     // Add fallback for omitted themes
     const shadowVariable = `--${themePrefix}shadow`;
     const shadowRGBVariable = `--${themePrefix}shadow-rgb`;
-    bases.push({
-      ':root': {
-        [shadowRGBVariable]: `var(${shadowRGBVariable}, from var(${shadowVariable}) r g b)`,
-      },
-    });
+    constants[shadowRGBVariable] = `var(${shadowRGBVariable}, from var(${shadowVariable}) r g b)`;
   }
 
+  bases.push({
+    ':root': constants,
+  });
+
   return bases;
+}
+
+export function makeThemeConstants(theme: Readonly<Theme>): CSSRuleObject {
+  const out: CSSRuleObject = {};
+  const { themePrefix } = theme.options;
+
+  const constants: Record<string, number> = {
+    ['z-navigation-persistent']: 1000, /* Mobile stepper, bottom navigation */
+    ['z-navigation-floating']: 1050, /* FAB, speed dial */
+    ['z-navigation-top']: 1100, /* App bar, top navigation */
+    ['z-drawer']: 1200, /* Navigation drawer, side sheets */
+    ['z-modal']: 1300, /* Modal dialogs */
+    ['z-snackbar']: 1400, /* Snackbars, toasts */
+    ['z-tooltip']: 1500, /* Tooltips */
+
+    /* Below navigation layer */
+    ['z-scrim-base']: 950, /* Basic overlay, below all navigation */
+    ['z-scrim-content']: 975, /* Content overlay, above base but below stepper */
+
+    /* Between drawer and modal */
+    ['z-scrim-drawer']: 1175, /* Scrim for drawer overlays */
+    ['z-scrim-modal']: 1275, /* Scrim for modal preparation */
+
+    /* Above modal layer */
+    ['z-scrim-elevated']: 1350, /* High-priority overlays */
+    ['z-scrim-system']: 1450, /* System-level scrims, below snackbar */
+  };
+
+  for (const [key, value] of Object.entries(constants)) {
+    out[`--${themePrefix}${key}`] = `var(--${themePrefix}${key}, ${value})`;
+  }
+
+  return out;
 }
