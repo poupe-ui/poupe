@@ -2,8 +2,10 @@ export type { KebabCase } from 'type-fest';
 
 export {
   type Color,
+  type ColorFormat,
   Hct,
 
+  colorFormatter,
   hct,
   hex as hexString,
   hslString,

@@ -1,10 +1,10 @@
 import {
   Hct,
   rgba,
-  hexString,
-  rgbString,
+  hex,
+  rgbaString,
   hslString,
-} from './builder';
+} from './colors';
 
 /**
  * Defines the possible color format types for conversion.
@@ -34,6 +34,6 @@ export function colorFormatter(v: ColorFormat = 'rgb'): ((c: Hct) => string) {
   }
 
   if (v === 'hsl') return hslString;
-  if (v === 'hex') return hexString;
-  return rgbString;
+  if (v === 'hex') return hex;
+  return rgbaString;
 }
