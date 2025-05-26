@@ -22,7 +22,7 @@ export {
   type Hct,
   type Colord,
   type HexColor,
-  hex,
+  hexString,
   hct,
   colord,
 } from '../core';

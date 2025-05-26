@@ -93,7 +93,7 @@ async function createDynamicTheme(imagePath) {
 ### Core API
 
 ```typescript
-import { createTheme, hex, rgb } from '@poupe/theme-builder'
+import { createTheme, hexString, rgb } from '@poupe/theme-builder'
 ```
 
 The core API provides functions for creating themes and working with color

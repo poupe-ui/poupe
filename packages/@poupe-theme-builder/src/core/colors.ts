@@ -148,22 +148,6 @@ export const rgbaFromHctColor = (c: HctColor): RgbaColor => splitArgb(argbFromHc
  */
 export const rgba = (c: Color): RgbaColor => splitArgb(argb(c));
 
-/**
- * Converts a color to an RGB or RGBA string representation.
- * @param c - The color to convert
- * @param alpha - Whether to include alpha channel (defaults to true)
- * @returns A CSS-compatible RGB or RGBA string
- */
-export const rgbaString = (c: Color, alpha: boolean = true): string => {
-  const { r, g, b, a: a0 = 1 } = rgba(c);
-  const a = alpha === false ? 1 : a0;
-
-  if (a < 1) {
-    return `rgb(${r} ${g} ${b} / ${a.toFixed(2)})`;
-  }
-  return `rgb(${r} ${g} ${b})`;
-};
-
 /*
  * ARGB factories
  */
@@ -317,17 +301,6 @@ export const hsl = (c: Color): HslaColor => {
   }
 };
 
-/** @returns the HSL or HSLA color string representation of the given {@link Color}, with optional alpha control */
-export function hslString(c: Color, alpha: boolean = true): string {
-  const { h, s, l, a: a0 } = colord(c).toHsl();
-  const a = alpha === false ? 1 : a0;
-
-  if (a < 1) {
-    return `hsla(${h}, ${s}%, ${l}%, ${a})`;
-  }
-  return `hsl(${h}, ${s}%, ${l}%)`;
-}
-
 /*
  * Hex factories
  */
@@ -343,18 +316,3 @@ export const hexFromHct = (c: Hct) => hexFromArgb(argbFromHct(c));
 
 /** @returns the Hex RGB Color string for the given {@link HctColor} */
 export const hexFromHctColor = (c: HctColor): HexColor => hexFromColord(toColord(rgbaFromHctColor(c)));
-
-/** @returns the Hex RGB Color string for the given {@link Color} */
-export const hex = (c: Color): HexColor => {
-  if (c instanceof Hct) {
-    return hexFromHct(c);
-  } else if (c instanceof Colord) {
-    return hexFromColord(c);
-  } else if (typeof c === 'number') {
-    return hexFromArgb(c);
-  } else if (typeof c === 'object' && 't' in c) {
-    return hexFromHctColor(c);
-  } else {
-    return hexFromColord(toColord(c));
-  }
-};

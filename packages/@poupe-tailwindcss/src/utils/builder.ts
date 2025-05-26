@@ -7,7 +7,7 @@ export {
 
   colorFormatter,
   hct,
-  hex as hexString,
+  hexString,
   hslString,
   rgba,
   rgbaString as rgbString,

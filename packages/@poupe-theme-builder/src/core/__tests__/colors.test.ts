@@ -7,7 +7,6 @@ import {
 
   argb,
   hct,
-  hex,
   argbFromHct,
   argbFromRgbaColor,
   argbFromHctColor,
@@ -30,7 +29,8 @@ import {
   hexFromArgb,
   hexFromHct,
   hexFromHctColor,
-} from '../colors';
+  hexString,
+} from '../index';
 
 import { extend } from 'colord';
 import namesPlugin from 'colord/plugins/names';
@@ -74,10 +74,10 @@ describe('Color Conversions', () => {
   });
 
   test('hex conversions', () => {
-    expect(hex(testHct)).eq(testHex);
-    expect(hex(testRgb)).eq(testHex);
-    expect(hex(testArgb)).eq(testHex);
-    expect(hex(testHctValues)).eq(testHex);
+    expect(hexString(testHct)).eq(testHex);
+    expect(hexString(testRgb)).eq(testHex);
+    expect(hexString(testArgb)).eq(testHex);
+    expect(hexString(testHctValues)).eq(testHex);
 
     // Test individual conversion functions
     expect(hexFromHct(testHct)).eq(testHex);
@@ -211,7 +211,7 @@ describe('Alpha Value Handling', () => {
     expect(fromHct).eq(expectedArgb);
 
     // RGB → Hex → RGB (note: hex doesn't support alpha in this implementation)
-    const hexValue = hex(startRgb);
+    const hexValue = hexString(startRgb);
     const fromHex = argb({ ...colord(hexValue).rgba, a: 0.5 });
     expect(fromHex).eq(expectedArgb);
   });
@@ -252,8 +252,8 @@ describe('Alpha Value Handling', () => {
 describe('Edge Cases', () => {
   test('boundary values', () => {
     // Test black and white
-    expect(hex({ r: 0, g: 0, b: 0 })).eq('#000000');
-    expect(hex({ r: 255, g: 255, b: 255 })).eq('#ffffff');
+    expect(hexString({ r: 0, g: 0, b: 0 })).eq('#000000');
+    expect(hexString({ r: 255, g: 255, b: 255 })).eq('#ffffff');
 
     // Test out of range RGB values (should be clamped)
     expect(argb({ r: -10, g: 300, b: 150 })).eq(argb({ r: 0, g: 255, b: 150 }));
@@ -270,8 +270,8 @@ describe('Edge Cases', () => {
     expectColorsSimilar(hslColor, hexColor);
 
     // Test named colors
-    expect(hex('red')).eq('#ff0000');
-    expect(hex('transparent')).eq('#00000000');
+    expect(hexString('red')).eq('#ff0000');
+    expect(hexString('transparent')).eq('#00000000');
     expect(argb('transparent')).eq(uint32(0x00_00_00_00));
   });
 });
