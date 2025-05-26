@@ -10,10 +10,6 @@ import {
 
 import {
   type Color,
-
-  argb,
-  argbFromHct,
-  splitArgb,
 } from './colors';
 
 // re-export
@@ -45,11 +41,3 @@ export const customColorFromHct = (source: Hct, color: CustomColor) => customCol
 
 export const hexColorPattern = /^#([\da-f]{3}|[\da-f]{6}|[\da-f]{8})$/i;
 export const isHexColor = (s: string = '') => !!hexColorPattern.test(s || '');
-
-export const rgbFromArgb = (argb: number) => {
-  const { r, g, b } = splitArgb(argb);
-  return `rgb(${r} ${g} ${b})`;
-};
-
-export const rgbFromHct = (c: Hct) => rgbFromArgb(argbFromHct(c));
-export const rgb = (c: Color) => rgbFromArgb(argb(c));

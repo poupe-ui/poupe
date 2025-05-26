@@ -5,7 +5,7 @@ import {
   Hct,
   hct,
   hslString,
-  rgbFromHct,
+  rgbaString,
   splitHct,
 } from '../core';
 
@@ -42,7 +42,7 @@ describe('defaultCSSThemeOptions', () => {
       prefix: 'md-',
       darkSuffix: '-dark',
       lightSuffix: '-light',
-      stringify: rgbFromHct,
+      stringify: rgbaString,
     });
   });
 
