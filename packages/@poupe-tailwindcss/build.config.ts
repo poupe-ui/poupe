@@ -29,6 +29,14 @@ const themes: Record<string, FileThemeOptions<string>> = {
       omitTheme: true,
     },
   },
+  lcweb: {
+    theme: {
+      colors: {
+        primary: '#0065a4',
+      },
+    },
+    format: 'hsl',
+  },
 };
 
 function writeTheme<K extends string>(dirname: string, filename: string, format: ColorFormat | undefined, themeOptions: Partial<ThemeOptions<K>>) {
