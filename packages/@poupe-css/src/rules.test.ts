@@ -815,15 +815,15 @@ describe('setDeepRule', () => {
   });
 
   it('new values take precedence over existing values', () => {
-    const target = { button: { color: 'red', fontSize: '14px' } };
+    const target: CSSRules = { button: { color: 'red', fontSize: '14px' } };
 
     const result = setDeepRule(target, 'button', {
       color: 'blue',
       fontSize: '16px',
     });
 
-    expect(result.button.color).toBe('blue');
-    expect(result.button.fontSize).toBe('16px');
+    expect((result.button as CSSRules).color).toBe('blue');
+    expect((result.button as CSSRules).fontSize).toBe('16px');
   });
 
   it('preserves existing values not present in new object', () => {
@@ -855,8 +855,7 @@ describe('setDeepRule', () => {
   });
 
   it('works with complex CSS rule objects', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const target = {} as any;
+    const target: CSSRules = {};
     const cssRule = {
       'color': 'blue',
       'fontSize': '16px',
@@ -870,11 +869,12 @@ describe('setDeepRule', () => {
 
     const result = setDeepRule(target, ['theme', 'components', 'button'], cssRule);
 
-    expect(result.theme.components.button).toEqual(cssRule);
+    expect((result.theme as CSSRules).components).toBeDefined();
+    expect(((result.theme as CSSRules).components as CSSRules).button).toEqual(cssRule);
   });
 
   it('works with numeric indices in path array', () => {
-    const target = {
+    const target: CSSRules = {
       variants: [
         { name: 'primary' },
         { name: 'secondary' },
@@ -899,5 +899,38 @@ describe('setDeepRule', () => {
         },
       ],
     });
+  });
+
+  it('works with CSSRuleObject type for TailwindCSS compatibility', () => {
+    const target: CSSRuleObject = {};
+    const cssRule: CSSRuleObject = {
+      'color': 'blue',
+      'fontSize': '16px',
+      '@media (max-width: 768px)': {
+        fontSize: '14px',
+      },
+    };
+
+    const result = setDeepRule(target, 'button', cssRule);
+
+    expect(result).toEqual({
+      button: cssRule,
+    });
+    // Type check: result should be CSSRuleObject
+    expect(typeof result).toBe('object');
+  });
+
+  it('preserves type safety with overloaded signatures', () => {
+    // Test CSSRules type
+    const cssRulesTarget: CSSRules = {};
+    const cssRulesObject: CSSRules = { color: 'blue', nested: undefined };
+    const cssRulesResult = setDeepRule(cssRulesTarget, 'test', cssRulesObject);
+    expect(cssRulesResult).toBe(cssRulesTarget);
+
+    // Test CSSRuleObject type
+    const cssRuleTarget: CSSRuleObject = {};
+    const cssRuleObject: CSSRuleObject = { color: 'red' };
+    const cssRuleResult = setDeepRule(cssRuleTarget, 'test', cssRuleObject);
+    expect(cssRuleResult).toBe(cssRuleTarget);
   });
 });

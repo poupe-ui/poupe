@@ -376,6 +376,31 @@ const filteredRules = renameRules(rules, key =>
 // }
 ```
 
+#### `setDeepRule(target, path, object)`
+Sets a CSS rule object at a specified path within a target object,
+merging with existing objects and creating intermediate objects as needed.
+This function is overloaded to provide type safety for both general
+`CSSRules` objects and TailwindCSS-compatible `CSSRuleObject` types.
+
+```typescript
+import { setDeepRule } from '@poupe/css';
+
+const rules = {};
+
+// Direct assignment
+setDeepRule(rules, 'button', { color: 'blue' });
+// Result: { button: { color: 'blue' } }
+
+// Nested assignment
+setDeepRule(rules, ['components', 'button'], { color: 'blue' });
+// Result: { components: { button: { color: 'blue' } } }
+
+// Merging with existing object (new values take precedence)
+const existingRules = { button: { color: 'red', margin: '5px' } };
+setDeepRule(existingRules, 'button', { color: 'blue', padding: '10px' });
+// Result: { button: { color: 'blue', margin: '5px', padding: '10px' } }
+```
+
 ### Utility Functions
 
 #### `unsafeKeys<T>(object: T): Array<keyof T>`
