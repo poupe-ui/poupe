@@ -22,6 +22,7 @@
 - Always use semicolons
 - Use 1tbs (one true brace style)
 - Follow existing naming patterns (camelCase for variables/functions, PascalCase for types/interfaces)
+- Use markdown reference variables for links in documentation
 
 ## Package Structure
 ```
@@ -112,7 +113,7 @@ Scrim overlays with Material Design z-index layering for modal backdrops:
 5. **Linting**: `pnpm lint` (auto-fixes issues)
 
 ## Build Process
-1. `build` generates `src/assets/style.css` from theme configuration
+1. Unbuild's `build:prepare` hook generates `src/assets/style.css` from theme configuration.
 2. Unbuild compiles TypeScript and bundles modules
 3. Outputs: `dist/index.mjs`, `dist/theme.mjs`, `dist/utils.mjs`, `dist/style.css`
 4. Type definitions generated automatically

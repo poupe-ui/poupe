@@ -14,12 +14,12 @@ describe('shadow utilities', () => {
       const themePrefix = mockTheme.options.themePrefix;
       const shadowRGBVariable = `var(--${themePrefix}shadow-rgb)`;
 
-      const c15 = `rgba(${shadowRGBVariable}, 0.15)`;
-      const c17 = `rgba(${shadowRGBVariable}, 0.17)`;
-      const c19 = `rgba(${shadowRGBVariable}, 0.19)`;
-      const c20 = `rgba(${shadowRGBVariable}, 0.20)`;
-      const c30 = `rgba(${shadowRGBVariable}, 0.30)`;
-      const c37 = `rgba(${shadowRGBVariable}, 0.37)`;
+      const c15 = `rgb(${shadowRGBVariable} / 0.15)`;
+      const c17 = `rgb(${shadowRGBVariable} / 0.17)`;
+      const c19 = `rgb(${shadowRGBVariable} / 0.19)`;
+      const c20 = `rgb(${shadowRGBVariable} / 0.20)`;
+      const c30 = `rgb(${shadowRGBVariable} / 0.30)`;
+      const c37 = `rgb(${shadowRGBVariable} / 0.37)`;
 
       const expectedZ1 = `0 1px 4px 0 ${c37}`;
       const expectedZ2 = `0 2px 2px 0 ${c20}, 0 6px 10px 0 ${c30}`;
@@ -52,7 +52,7 @@ describe('shadow utilities', () => {
       const [shadows] = makeShadows(customTheme);
       const themePrefix = customTheme.options.themePrefix;
       const shadowRGBVariable = `var(--${themePrefix}shadow-rgb)`;
-      const c37 = `rgba(${shadowRGBVariable}, 0.37)`;
+      const c37 = `rgb(${shadowRGBVariable} / 0.37)`;
 
       expect(shadows['z1']).toBe(`0 1px 4px 0 ${c37}`);
     });
@@ -69,12 +69,12 @@ describe('shadow utilities', () => {
       const themePrefix = mockTheme.options.themePrefix;
       const shadowRGBVariable = `var(--${themePrefix}shadow-rgb)`;
 
-      const c15 = `rgba(${shadowRGBVariable}, 0.15)`;
-      const c17 = `rgba(${shadowRGBVariable}, 0.17)`;
-      const c19 = `rgba(${shadowRGBVariable}, 0.19)`;
-      const c20 = `rgba(${shadowRGBVariable}, 0.20)`;
-      const c30 = `rgba(${shadowRGBVariable}, 0.30)`;
-      const c37 = `rgba(${shadowRGBVariable}, 0.37)`;
+      const c15 = `rgb(${shadowRGBVariable} / 0.15)`;
+      const c17 = `rgb(${shadowRGBVariable} / 0.17)`;
+      const c19 = `rgb(${shadowRGBVariable} / 0.19)`;
+      const c20 = `rgb(${shadowRGBVariable} / 0.20)`;
+      const c30 = `rgb(${shadowRGBVariable} / 0.30)`;
+      const c37 = `rgb(${shadowRGBVariable} / 0.37)`;
 
       const expectedZ1 = `0 1px 4px 0 ${c37}`;
       const expectedZ2 = `0 2px 2px 0 ${c20}, 0 6px 10px 0 ${c30}`;
