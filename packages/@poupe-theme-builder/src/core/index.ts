@@ -28,6 +28,7 @@ export {
 } from '@poupe/css';
 
 export * from './colors';
+export * from './mix';
 
 // DynamicScheme
 //
