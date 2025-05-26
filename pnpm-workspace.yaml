@@ -1,3 +1,8 @@
 packages:
-  - 'packages/*'
-  - 'packages/*/playground'
+  - packages/*
+  - packages/*/playground
+ignoredBuiltDependencies:
+  - unrs-resolver
+onlyBuiltDependencies:
+  - '@poupe/eslint-config'
+  - vue-demi

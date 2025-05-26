@@ -64,7 +64,7 @@
     "@nuxt/module-builder": "^1.0.1",
     "@nuxt/schema": "^3.17.4",
     "@nuxt/test-utils": "^3.19.1",
-    "@poupe/eslint-config": "^0.6.3",
+    "@poupe/eslint-config": "^0.6.4",
     "@types/node": "^20.17.47",
     "changelogen": "^0.6.1",
     "defu": "^6.1.4",
