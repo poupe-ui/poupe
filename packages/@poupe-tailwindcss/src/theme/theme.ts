@@ -1,6 +1,7 @@
 /* imports */
 import {
   type CSSRuleObject,
+  getDeepRule,
   setDeepRule,
 } from '@poupe/css';
 
@@ -202,28 +203,15 @@ function findLastStyleWithSelector(
   styles: CSSRuleObject[],
   selector: string | string[],
 ): CSSRuleObject | undefined {
-  for (let i = styles.length - 1; i >= 0; i--) {
-    const style = styles[i];
-    if (Array.isArray(selector)) {
-      // For complex selectors, check if the style has a nested path that matches
-      let current: CSSRuleObject | string | string[] = style;
-      let found = true;
-      for (const seg of selector) {
-        if (current && typeof current === 'object' && !Array.isArray(current) && seg in current) {
-          current = current[seg];
-        } else {
-          found = false;
-          break;
-        }
-      }
-      if (found) return style;
-    } else {
-      // For simple selectors, check if the key exists
-      if (selector in style) return style;
+  let lastMatch: CSSRuleObject | undefined;
+
+  for (const style of styles) {
+    if (getDeepRule(style, selector) !== undefined) {
+      lastMatch = style;
     }
   }
 
-  return undefined;
+  return lastMatch;
 }
 
 /**
@@ -242,26 +230,32 @@ function injectShadowRGBIntoStyles(
   const shadowRGBVariable = `--${themePrefix}shadow-rgb`;
   const shadowColorKey = 'shadow';
 
-  if (theme.dark && theme.light && theme.dark[shadowColorKey] && theme.light[shadowColorKey]) {
-    // Generate direct RGB values from Hct colors
-    const lightRGBA = rgba(theme.light[shadowColorKey]);
-    const darkRGBA = rgba(theme.dark[shadowColorKey]);
+  // Check if shadow colors exist in both dark and light themes
+  const darkShadow = theme.dark?.[shadowColorKey];
+  const lightShadow = theme.light?.[shadowColorKey];
 
-    const lightRGB = `${Math.round(lightRGBA.r * 255)} ${Math.round(lightRGBA.g * 255)} ${Math.round(lightRGBA.b * 255)}`;
-    const darkRGB = `${Math.round(darkRGBA.r * 255)} ${Math.round(darkRGBA.g * 255)} ${Math.round(darkRGBA.b * 255)}`;
+  if (!darkShadow || !lightShadow) {
+    return;
+  }
 
-    // Find the last style object containing :root and inject light mode shadow RGB
-    const rootStyle = findLastStyleWithSelector(styles, ':root');
-    if (rootStyle) {
-      setDeepRule(rootStyle, ':root', { [shadowRGBVariable]: lightRGB });
-    }
+  // Generate direct RGB values from Hct colors (rgba returns 0-255 integers)
+  const lightRGBA = rgba(lightShadow);
+  const darkRGBA = rgba(darkShadow);
 
-    // Only inject dark mode shadow RGB if it differs from light mode
-    if (lightRGB !== darkRGB) {
-      const darkStyle = findLastStyleWithSelector(styles, darkSelector);
-      if (darkStyle) {
-        setDeepRule(darkStyle, darkSelector, { [shadowRGBVariable]: darkRGB });
-      }
+  const lightRGB = `${lightRGBA.r} ${lightRGBA.g} ${lightRGBA.b}`;
+  const darkRGB = `${darkRGBA.r} ${darkRGBA.g} ${darkRGBA.b}`;
+
+  // Find and inject light mode shadow RGB into :root
+  const rootStyle = findLastStyleWithSelector(styles, ':root');
+  if (rootStyle) {
+    setDeepRule(rootStyle, ':root', { [shadowRGBVariable]: lightRGB });
+  }
+
+  // Only inject dark mode shadow RGB if it differs from light mode
+  if (lightRGB !== darkRGB) {
+    const darkStyle = findLastStyleWithSelector(styles, darkSelector);
+    if (darkStyle) {
+      setDeepRule(darkStyle, darkSelector, { [shadowRGBVariable]: darkRGB });
     }
   }
 }
