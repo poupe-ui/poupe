@@ -20,6 +20,19 @@
 
 @layer base {
   :root {
+    --md-z-navigation-persistent: var(--md-z-navigation-persistent, 1000);
+    --md-z-navigation-floating: var(--md-z-navigation-floating, 1050);
+    --md-z-navigation-top: var(--md-z-navigation-top, 1100);
+    --md-z-drawer: var(--md-z-drawer, 1200);
+    --md-z-modal: var(--md-z-modal, 1300);
+    --md-z-snackbar: var(--md-z-snackbar, 1400);
+    --md-z-tooltip: var(--md-z-tooltip, 1500);
+    --md-z-scrim-base: var(--md-z-scrim-base, 950);
+    --md-z-scrim-content: var(--md-z-scrim-content, 975);
+    --md-z-scrim-drawer: var(--md-z-scrim-drawer, 1175);
+    --md-z-scrim-modal: var(--md-z-scrim-modal, 1275);
+    --md-z-scrim-elevated: var(--md-z-scrim-elevated, 1350);
+    --md-z-scrim-system: var(--md-z-scrim-system, 1450);
     --md-shadow-rgb: var(--md-shadow-rgb, from var(--md-shadow) r g b);
   }
 }
@@ -233,4 +246,54 @@
 
 @utility scrim {
   @apply fixed inset-0 bg-scrim/32;
+}
+
+@utility scrim-z-* {
+  @apply scrim;
+  z-index: --value(integer, [integer]);
+}
+@utility scrim-z-base {
+  @apply scrim;
+  z-index: var(--md-z-scrim-base);
+}
+@utility scrim-z-content {
+  @apply scrim;
+  z-index: var(--md-z-scrim-content);
+}
+@utility scrim-z-drawer {
+  @apply scrim;
+  z-index: var(--md-z-scrim-drawer);
+}
+@utility scrim-z-modal {
+  @apply scrim;
+  z-index: var(--md-z-scrim-modal);
+}
+@utility scrim-z-elevated {
+  @apply scrim;
+  z-index: var(--md-z-scrim-elevated);
+}
+@utility scrim-z-system {
+  @apply scrim;
+  z-index: var(--md-z-scrim-system);
+}
+@utility z-navigation-persistent {
+  z-index: var(--md-z-navigation-persistent);
+}
+@utility z-navigation-floating {
+  z-index: var(--md-z-navigation-floating);
+}
+@utility z-navigation-top {
+  z-index: var(--md-z-navigation-top);
+}
+@utility z-drawer {
+  z-index: var(--md-z-drawer);
+}
+@utility z-modal {
+  z-index: var(--md-z-modal);
+}
+@utility z-snackbar {
+  z-index: var(--md-z-snackbar);
+}
+@utility z-tooltip {
+  z-index: var(--md-z-tooltip);
 }
