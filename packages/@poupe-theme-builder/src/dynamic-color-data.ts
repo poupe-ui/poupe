@@ -8,7 +8,7 @@ import {
   SchemeNeutral,
   SchemeTonalSpot,
   SchemeVibrant,
-} from '@material/material-color-utilities';
+} from '@poupe/material-color-utilities';
 
 import {
   type standardDynamicSchemeFactory,

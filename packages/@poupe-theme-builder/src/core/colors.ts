@@ -30,7 +30,7 @@ import {
   redFromArgb,
   greenFromArgb,
   blueFromArgb,
-} from '@material/material-color-utilities';
+} from '@poupe/material-color-utilities';
 
 /*
  * types
@@ -52,7 +52,7 @@ export {
   redFromArgb,
   greenFromArgb,
   blueFromArgb,
-} from '@material/material-color-utilities';
+} from '@poupe/material-color-utilities';
 
 export type HexColor = `#${string}`;
 
