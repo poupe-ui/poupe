@@ -1,10 +1,11 @@
 # @poupe/css
 
-[![jsDocs.io](https://img.shields.io/badge/jsDocs.io-reference-blue)](https://www.jsdocs.io/package/@poupe/css)
-[![npm version](https://img.shields.io/npm/v/@poupe/css.svg)](https://www.npmjs.com/package/@poupe/css)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](../../LICENCE.txt)
+[![jsDocs.io][jsdocs-badge]][jsdocs-url]
+[![npm version][npm-badge]][npm-url]
+[![License: MIT][license-badge]][license-url]
 
-A TypeScript utility library for CSS property manipulation, formatting, and CSS-in-JS operations.
+A TypeScript utility library for CSS property manipulation, formatting, and
+CSS-in-JS operations.
 
 ## Table of Contents
 
@@ -46,7 +47,8 @@ pnpm add -D @poupe/css
 
 The library exports several categories of utilities:
 
-- **Case Conversion**: Functions for converting between different CSS naming conventions
+- **Case Conversion**: Functions for converting between different CSS naming
+  conventions
 - **CSS Stringification**: Tools to convert CSS objects to strings
 - **CSS Variables**: Utilities for working with CSS custom properties
 - **CSS Rules**: Functions for handling nested CSS rule objects
@@ -78,7 +80,7 @@ type CSSPropertiesOptions = {
   newLine?: string
   /** Whether to format output on a single line, defaults to false. */
   inline?: boolean
-  /** Maximum number of properties to format on a single line, defaults to 1. */
+  /** Max properties to format on a single line, defaults to 1. */
   singleLineThreshold?: number
 }
 ```
@@ -92,7 +94,8 @@ type CSSRules = {
 ```
 
 #### `CSSRuleObject`
-A more restrictive subset of CSSRules that is compatible with TailwindCSS plugin API:
+A more restrictive subset of CSSRules that is compatible with TailwindCSS
+plugin API:
 ```typescript
 type CSSRuleObject = {
   [key: string]: string | string[] | CSSRuleObject
@@ -103,7 +106,7 @@ type CSSRuleObject = {
 Configuration options for formatting CSS rules:
 ```typescript
 interface CSSRulesFormatOptions {
-  /** Indentation string to use for each level of nesting, defaults to two spaces. */
+  /** Indentation string for each level of nesting, defaults to two spaces. */
   indent?: string
   /** Prefix string added before each line, defaults to empty string. */
   prefix?: string
@@ -114,10 +117,13 @@ interface CSSRulesFormatOptions {
 
 ### CSS Property Functions
 
-#### `stringifyCSSProperties<K extends string>(object: CSSProperties<K>, options?: CSSPropertiesOptions): string`
-Converts a CSSProperties object into a formatted CSS string representation with proper indentation.
-Property values are intelligently formatted based on their type and the CSS property name - space-delimited
-properties (like margin, padding) use spaces between multiple values, while other properties use commas.
+#### `stringifyCSSProperties<K extends string>`
+`(object: CSSProperties<K>, options?: CSSPropertiesOptions): string`
+Converts a CSSProperties object into a formatted CSS string representation
+with proper indentation. Property values are intelligently formatted based on
+their type and the CSS property name - space-delimited properties (like
+margin, padding) use spaces between multiple values, while other properties
+use commas.
 
 ```typescript
 import { stringifyCSSProperties } from '@poupe/css';
@@ -140,12 +146,14 @@ const cssString = stringifyCSSProperties(styles);
 
 // Inline formatting
 const inlineCSS = stringifyCSSProperties(styles, { inline: true });
-// "{ font-size: 16px; background-color: red; margin: 10 20px 30px 40px; font-family: Arial, sans-serif }"
+// "{ font-size: 16px; background-color: red; margin: 10 20px 30px 40px;
+//   font-family: Arial, sans-serif }"
 ```
 
 #### `formatCSSProperties<K extends string>(object: CSSProperties<K>): string[]`
-Formats a CSS properties object into an array of CSS property strings. Automatically handles deduplication of
-properties, where later declarations override earlier ones while preserving the original insertion order.
+Formats a CSS properties object into an array of CSS property strings.
+Automatically handles deduplication of properties, where later declarations
+override earlier ones while preserving the original insertion order.
 
 ```typescript
 import { formatCSSProperties } from '@poupe/css';
@@ -168,25 +176,29 @@ const cssLines = formatCSSProperties(styles);
 
 #### `formatCSSValue(value: CSSValue, useComma = true): string`
 Formats a CSS value into a string. If the value is an array:
-- By default, it joins the elements with commas (appropriate for properties like `font-family`)
-- When `useComma` is set to `false`, it uses spaces (appropriate for properties like `margin` or `padding`)
+- By default, it joins the elements with commas (appropriate for properties
+  like `font-family`)
+- When `useComma` is set to `false`, it uses spaces (appropriate for
+  properties like `margin` or `padding`)
 
-The function automatically handles quoting strings that contain spaces (except CSS functions like
-`rgb()` or `calc()`), enclosing them in double quotes.
+The function automatically handles quoting strings that contain spaces (except
+CSS functions like `rgb()` or `calc()`), enclosing them in double quotes.
 
 ```typescript
 import { formatCSSValue } from '@poupe/css';
 
 formatCSSValue('16px'); // "16px"
 formatCSSValue('Open Sans'); // "\"Open Sans\""
-formatCSSValue([10, '20px', '30px']); // "10, 20px, 30px" (comma-separated by default)
+formatCSSValue([10, '20px', '30px']); // "10, 20px, 30px" (comma-separated)
 formatCSSValue([10, '20px', '30px'], false); // "10 20px 30px" (space-separated)
-formatCSSValue('rgb(255, 0, 0)'); // "rgb(255, 0, 0)" - Not quoted despite spaces
-formatCSSValue('calc(100% - 20px)'); // "calc(100% - 20px)" - Not quoted despite spaces
+formatCSSValue('rgb(255, 0, 0)'); // "rgb(255, 0, 0)" - Not quoted despite
+formatCSSValue('calc(100% - 20px)'); // "calc(100% - 20px)" - Not quoted
 ```
 
-#### `properties<K extends string>(object: CSSProperties<K>): Generator<[K, CSSValue]>`
-Generates a sequence of valid CSS property key-value pairs from a CSSProperties object.
+#### `properties<K extends string>`
+`(object: CSSProperties<K>): Generator<[K, CSSValue]>`
+Generates a sequence of valid CSS property key-value pairs from a
+CSSProperties object.
 Filters out invalid or empty CSS property values.
 
 ```typescript
@@ -211,7 +223,8 @@ for (const [key, value] of properties(styles)) {
 ### CSS Rules Functions
 
 #### `stringifyCSSRules(rules: CSSRules | CSSRuleObject, options?): string`
-Converts a CSS rule object into a formatted string representation with proper indentation and nesting.
+Converts a CSS rule object into a formatted string representation with proper
+indentation and nesting.
 
 ```typescript
 import { stringifyCSSRules } from '@poupe/css';
@@ -246,7 +259,8 @@ const cssString = stringifyCSSRules(rules);
 ```
 
 #### `formatCSSRules(rules: CSSRules | CSSRuleObject, options?): string[]`
-Processes a CSS rule object and returns an array of strings, where each string represents a line in the formatted CSS output.
+Processes a CSS rule object and returns an array of strings, where each
+string represents a line in the formatted CSS output.
 
 ```typescript
 import { formatCSSRules } from '@poupe/css';
@@ -266,7 +280,8 @@ const indentedLines = formatCSSRules(rules, { indent: '    ' });
 // Returns: ['body {', '    color: red;', '    font-size: 16px;', '}']
 ```
 
-#### `formatCSSRulesArray(rules: (string | CSSRules | CSSRuleObject)[], options?): string[]`
+#### `formatCSSRulesArray`
+`(rules: (string | CSSRules | CSSRuleObject)[], options?): string[]`
 Formats an array of CSS rules into indented lines recursively.
 
 ```typescript
@@ -288,8 +303,9 @@ const lines = formatCSSRulesArray(rulesArray);
 ```
 
 #### `defaultValidCSSRule(key: string, value: CSSRulesValue): boolean`
-Default validation function that determines if a CSS rule key-value pair should be included in the output.
-A rule is considered valid if the key is not empty and the value is neither undefined nor null.
+Default validation function that determines if a CSS rule key-value pair
+should be included in the output. A rule is considered valid if the key is
+not empty and the value is neither undefined nor null.
 
 ```typescript
 import { defaultValidCSSRule } from '@poupe/css';
@@ -301,7 +317,8 @@ const customValid = (key, value) => {
 ```
 
 #### `interleavedRules(rules: CSSRules[]): CSSRules[]`
-Interleaves an array of CSS rule objects with empty objects, useful for creating spacing between rule blocks in the output.
+Interleaves an array of CSS rule objects with empty objects, useful for
+creating spacing between rule blocks in the output.
 
 ```typescript
 import { interleavedRules } from '@poupe/css';
@@ -323,7 +340,8 @@ const spacedRules = interleavedRules(rules);
 ```
 
 #### `renameRules(rules: CSSRules, fn: (name: string) => string): CSSRules`
-Renames the keys in a CSS rules object using the provided function, allowing for advanced selector manipulation.
+Renames the keys in a CSS rules object using the provided function, allowing
+for advanced selector manipulation.
 
 ```typescript
 import { renameRules } from '@poupe/css';
@@ -350,7 +368,8 @@ const utilityRules = renameRules(rules, key => `@utility ${key.slice(1)}`);
 // }
 
 // Return falsy from the function to skip/remove a rule
-const filteredRules = renameRules(rules, key => key.includes('button') ? key : null);
+const filteredRules = renameRules(rules, key =>
+  key.includes('button') ? key : null);
 // Returns:
 // {
 //   '.button': { color: 'blue' }
@@ -362,8 +381,10 @@ const filteredRules = renameRules(rules, key => key.includes('button') ? key : n
 #### `unsafeKeys<T>(object: T): Array<keyof T>`
 A type-safe wrapper around Object.keys that preserves the object's key types.
 
-#### `keys<T, K extends keyof T>(object: T, valid?: (key: keyof T) => boolean): Generator<K>`
-A generator function that yields keys of an object that pass an optional validation function.
+#### `keys<T, K extends keyof T>`
+`(object: T, valid?: (key: keyof T) => boolean): Generator<K>`
+A generator function that yields keys of an object that pass an optional
+validation function.
 
 ```typescript
 import { keys } from '@poupe/css';
@@ -381,22 +402,25 @@ for (const key of keys(obj, k => !k.startsWith('_'))) {
 }
 ```
 
-#### `pairs<K extends string, T>(object: Record<K, T>, valid?: (k: K, v: T) => boolean): Generator<[K, T]>`
-A generator function that yields valid key-value pairs from an object. Allows providing a custom validation function
-to determine which pairs to include.
+#### `pairs<K extends string, T>`
+`(object: Record<K, T>, valid?: (k: K, v: T) => boolean): Generator<[K, T]>`
+A generator function that yields valid key-value pairs from an object. Allows
+providing a custom validation function to determine which pairs to include.
 
 ```typescript
 import { pairs } from '@poupe/css';
 
 const obj = { color: 'red', fontSize: '16px', _private: 'hidden', empty: '' };
 
-// Use with default validation (excludes keys starting with underscore and null/empty values)
+// Use with default validation (excludes keys starting with underscore and
+// null/empty values)
 for (const [key, value] of pairs(obj)) {
   console.log(`${key}: ${value}`); // "color: red", "fontSize: 16px"
 }
 
 // Use with custom validation
-const customValid = (key: string, value: unknown) => typeof value === 'string' && value.length > 3;
+const customValid = (key: string, value: unknown) =>
+  typeof value === 'string' && value.length > 3;
 for (const [key, value] of pairs(obj, customValid)) {
   console.log(`${key}: ${value}`); // "color: red", "_private: hidden"
 }
@@ -478,3 +502,11 @@ const cssProperties = Object.entries(styleObject).map(
 ## License
 
 MIT licensed.
+
+<!-- Badge references -->
+[jsdocs-badge]: https://img.shields.io/badge/jsDocs.io-reference-blue
+[jsdocs-url]: https://www.jsdocs.io/package/@poupe/css
+[npm-badge]: https://img.shields.io/npm/v/@poupe/css.svg
+[npm-url]: https://www.npmjs.com/package/@poupe/css
+[license-badge]: https://img.shields.io/badge/License-MIT-blue.svg
+[license-url]: ../../LICENCE.txt
