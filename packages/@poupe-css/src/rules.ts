@@ -45,23 +45,23 @@ export type CSSRulesValue = CSSRules[string];
  */
 export interface CSSRulesFormatOptions {
   /**
-     * Indentation string to use for each level of nesting.
-     * @defaultValue `'  '` (two spaces)
-     */
+       * Indentation string to use for each level of nesting.
+       * @defaultValue `'  '` (two spaces)
+       */
   indent?: string
 
   /**
-     * Prefix string added before each line.
-     * @defaultValue `''` (empty string)
-     */
+       * Prefix string added before each line.
+       * @defaultValue `''` (empty string)
+       */
   prefix?: string
 
   /**
-     * Optional validation function to determine which rules to include.
-     * @param key - The rule name/selector
-     * @param value - The rule value
-     * @returns `true` if the rule should be included, `false` otherwise
-     */
+       * Optional validation function to determine which rules to include.
+       * @param key - The rule name/selector
+       * @param value - The rule value
+       * @returns `true` if the rule should be included, `false` otherwise
+       */
   valid?: (key: string, value: CSSRulesValue) => boolean
 }
 
@@ -109,9 +109,9 @@ export function stringifyCSSRules(
   rules: CSSRules | CSSRuleObject = {},
   options: CSSRulesFormatOptions & {
     /**
-         * Character(s) to use for line breaks.
-         * @defaultValue `'\n'`
-         */
+             * Character(s) to use for line breaks.
+             * @defaultValue `'\n'`
+             */
     newLine?: string
   } = {}): string {
   const {
@@ -352,13 +352,6 @@ export function renameRules(rules: CSSRules, fn: (name: string) => string): CSSR
 }
 
 /**
- * Represents a deeply nested object structure with arbitrary nesting levels.
- */
-type RecursiveObject<T = unknown> = {
-  [key: string]: RecursiveObject<T> | T
-};
-
-/**
  * Sets a CSS rule object at a specified path within a target object,
  * merging with existing objects and creating intermediate objects as needed.
  *
@@ -368,11 +361,14 @@ type RecursiveObject<T = unknown> = {
  * an object, the new object is merged with the existing one, with new values
  * taking precedence.
  *
- * @param target - The target object to modify
+ * The function is overloaded to provide type safety for both general
+ * `CSSRules` objects and TailwindCSS-compatible `CSSRuleObject` types.
+ *
+ * @param target - The target CSS rules object to modify
  * @param path - Either a string key for direct assignment or an array of
  *   string keys for nested assignment
  * @param object - The CSS rule object to set at the specified path
- * @returns The modified target object
+ * @returns The modified target object (same type as input)
  * @remarks The target object is modified in place, returned reference is
  *   only a convenience.
  *
@@ -392,8 +388,10 @@ type RecursiveObject<T = unknown> = {
  * // Result: { button: { color: 'blue', margin: '5px', padding: '10px' } }
  * ```
  */
-export function setDeepRule<T extends RecursiveObject>(target: T, path: string | string[], object: CSSRuleObject): T {
-  let p: RecursiveObject = target;
+export function setDeepRule(target: CSSRuleObject, path: string | string[], object: CSSRuleObject): CSSRuleObject;
+export function setDeepRule(target: CSSRules, path: string | string[], object: CSSRules): CSSRules;
+export function setDeepRule(target: CSSRules, path: string | string[], object: CSSRules): CSSRules {
+  let p: CSSRules = target;
   let lastKey = '';
 
   if (Array.isArray(path)) {
@@ -403,12 +401,12 @@ export function setDeepRule<T extends RecursiveObject>(target: T, path: string |
     for (let i = 0; i < path.length - 1; i++) {
       const k = path[i];
       if (p[k] === undefined) {
-        p[k] = {} as RecursiveObject<T>;
+        p[k] = {} as CSSRules;
       } else if (typeof p[k] !== 'object' || p[k] === null) {
         throw new Error(`Invalid path at segment ${i}: "${k}" in path: ${path.join('.')}: ${typeof p[k]}`);
       }
 
-      p = p[k] as RecursiveObject<T>;
+      p = p[k] as CSSRules;
     }
 
     // Assign the obj to the last path segment
@@ -420,4 +418,66 @@ export function setDeepRule<T extends RecursiveObject>(target: T, path: string |
   p[lastKey] = defu(object, p[lastKey] ?? {} as typeof object);
 
   return target;
+}
+
+/**
+ * Retrieves a CSS rule value from a specified path within a target object.
+ *
+ * This function allows for deep retrieval of CSS rules from a nested object
+ * structure. It can handle both string paths for top-level access and array
+ * paths for nested access.
+ *
+ * The function is overloaded to provide type safety for both general
+ * `CSSRules` objects and TailwindCSS-compatible `CSSRuleObject` types.
+ *
+ * @param target - The target CSS rules object to search within
+ * @param path - Either a string key for direct access or an array of
+ *   string keys for nested access
+ * @returns The value at the specified path, or `undefined` if the path
+ *   does not exist
+ *
+ * @example
+ * ```
+ * const rules = {
+ *   components: { button: { color: 'blue' } },
+ *   utils: ['clearfix', 'sr-only']
+ * };
+ *
+ * // Direct access
+ * getDeepRule(rules, 'utils');
+ * // Result: ['clearfix', 'sr-only']
+ *
+ * // Nested access
+ * getDeepRule(rules, ['components', 'button', 'color']);
+ * // Result: 'blue'
+ *
+ * // Non-existent path
+ * getDeepRule(rules, ['components', 'header']);
+ * // Result: undefined
+ *
+ * // Root access (empty array)
+ * getDeepRule(rules, []);
+ * // Result: { components: { ... }, utils: [...] }
+ * ```
+ */
+export function getDeepRule(target: CSSRuleObject, path: string | string[]): CSSRuleObject | undefined;
+export function getDeepRule(target: CSSRules, path: string | string[]): CSSRulesValue | undefined;
+export function getDeepRule(target: CSSRules, path: string | string[]): CSSRulesValue | undefined {
+  const segments = typeof path === 'string' ? [path] : path;
+
+  if (segments.length === 0) {
+    // Empty path returns the target object itself
+    return target;
+  }
+
+  let current: CSSRulesValue = target;
+  for (const key of segments) {
+    if (typeof current !== 'object' || current === null
+      || !Object.prototype.hasOwnProperty.call(current, key)) {
+      return undefined;
+    }
+    current = (current as CSSRules)[key];
+  }
+
+  return current;
 }

@@ -19,6 +19,7 @@ export {
   formatCSSRulesArray,
   interleavedRules,
   renameRules,
+  getDeepRule,
   setDeepRule,
   stringifyCSSRules,
 } from './rules';
