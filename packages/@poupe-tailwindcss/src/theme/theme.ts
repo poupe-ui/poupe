@@ -1,6 +1,7 @@
 /* imports */
 import {
   type CSSRuleObject,
+  setDeepRule,
 } from '@poupe/css';
 
 import {
@@ -10,6 +11,7 @@ import {
   Hct,
   makeTheme as makeThemeColors,
   makeThemeKeys,
+  rgba,
 } from '@poupe/theme-builder';
 
 import {
@@ -191,12 +193,91 @@ function newThemeColorConfig(key: string, shades: Shades, prefix: string): Theme
 }
 
 /**
+ * Finds the last style object in the array that contains a specific selector.
+ * @param styles - Array of CSS rule objects to search
+ * @param selector - Selector to find (string or array)
+ * @returns The last matching style object, or undefined if none found
+ */
+function findLastStyleWithSelector(
+  styles: CSSRuleObject[],
+  selector: string | string[],
+): CSSRuleObject | undefined {
+  for (let i = styles.length - 1; i >= 0; i--) {
+    const style = styles[i];
+    if (Array.isArray(selector)) {
+      // For complex selectors, check if the style has a nested path that matches
+      let current: CSSRuleObject | string | string[] = style;
+      let found = true;
+      for (const seg of selector) {
+        if (current && typeof current === 'object' && !Array.isArray(current) && seg in current) {
+          current = current[seg];
+        } else {
+          found = false;
+          break;
+        }
+      }
+      if (found) return style;
+    } else {
+      // For simple selectors, check if the key exists
+      if (selector in style) return style;
+    }
+  }
+
+  return undefined;
+}
+
+/**
+ * Injects shadow RGB variables into existing CSS styles from assembleCSSColors().
+ * Finds the appropriate style objects and extends them with shadow RGB definitions.
+ * @param theme - Theme configuration with dark/light color maps
+ * @param styles - Array of CSS rule objects to extend
+ * @param darkSelector - Dark mode selector array
+ */
+function injectShadowRGBIntoStyles(
+  theme: Readonly<Theme>,
+  styles: CSSRuleObject[],
+  darkSelector: string[],
+): void {
+  const { themePrefix } = theme.options;
+  const shadowRGBVariable = `--${themePrefix}shadow-rgb`;
+  const shadowColorKey = 'shadow';
+
+  if (theme.dark && theme.light && theme.dark[shadowColorKey] && theme.light[shadowColorKey]) {
+    // Generate direct RGB values from Hct colors
+    const lightRGBA = rgba(theme.light[shadowColorKey]);
+    const darkRGBA = rgba(theme.dark[shadowColorKey]);
+
+    const lightRGB = `${Math.round(lightRGBA.r * 255)} ${Math.round(lightRGBA.g * 255)} ${Math.round(lightRGBA.b * 255)}`;
+    const darkRGB = `${Math.round(darkRGBA.r * 255)} ${Math.round(darkRGBA.g * 255)} ${Math.round(darkRGBA.b * 255)}`;
+
+    // Find the last style object containing :root and inject light mode shadow RGB
+    const rootStyle = findLastStyleWithSelector(styles, ':root');
+    if (rootStyle) {
+      setDeepRule(rootStyle, ':root', { [shadowRGBVariable]: lightRGB });
+    }
+
+    // Only inject dark mode shadow RGB if it differs from light mode
+    if (lightRGB !== darkRGB) {
+      const darkStyle = findLastStyleWithSelector(styles, darkSelector);
+      if (darkStyle) {
+        setDeepRule(darkStyle, darkSelector, { [shadowRGBVariable]: darkRGB });
+      }
+    }
+  }
+}
+
+/**
  * Generates CSS base styles for a theme with dark and light modes.
+ * Includes CSS custom properties for all theme colors and the shadow RGB variable.
  *
  * @param theme - The theme configuration containing dark and light color modes
  * @param darkMode - Strategy for applying dark mode (defaults to 'class')
  * @param stringify - Optional function to convert HCT colors to string representation (defaults to HSL string)
  * @returns An array of CSS rule objects for theme base styles
+ * @remarks
+ * Automatically generates `--{prefix}shadow-rgb` variable:
+ * - When dark/light themes exist: direct RGB values extracted from Hct colors
+ * - When dark/light themes don't exist: CSS Level 4 fallback `from var(--{prefix}shadow) r g b`
  */
 export function makeThemeBases(
   theme: Readonly<Theme>,
@@ -212,6 +293,7 @@ export function makeThemeBases(
   }
 
   const bases: CSSRuleObject[] = [];
+  const { themePrefix } = theme.options;
 
   if (theme.dark && theme.light) {
     const darkSelector = getDarkMode(darkMode);
@@ -231,7 +313,20 @@ export function makeThemeBases(
         stringify: stringify || hslString,
       },
     );
+
+    // Inject shadow RGB variables into existing styles
+    injectShadowRGBIntoStyles(theme, styles, darkSelector);
+
     bases.push(...styles);
+  } else {
+    // Add fallback for omitted themes
+    const shadowVariable = `--${themePrefix}shadow`;
+    const shadowRGBVariable = `--${themePrefix}shadow-rgb`;
+    bases.push({
+      ':root': {
+        [shadowRGBVariable]: `var(${shadowRGBVariable}, from var(${shadowVariable}) r g b)`,
+      },
+    });
   }
 
   return bases;

@@ -11,6 +11,10 @@ import {
 } from './config';
 
 import {
+  makeShadowRules,
+} from './shadows';
+
+import {
   makeThemeBases,
   makeThemeComponents,
 } from './theme';
@@ -100,22 +104,25 @@ export function formatTheme(
   stringify?: (value: Hct) => string,
 ): string[] {
   const { extendColors = false } = theme.options;
-
-  const variants = makeThemeVariants(theme, darkMode);
   const bases = makeThemeBases(theme, darkMode, stringify);
-  const themeColorRules = themeColors(theme.colors, extendColors);
-  const components = makeThemeComponents(theme);
+  const variants = makeThemeVariants(theme, darkMode);
 
   const rules: CSSRules[] = [
+    // variants
     ...prepareVariants(variants),
     // bases
     ...(bases.length > 0 ? [{ '@layer base': bases }] : []),
     // theme
     {
-      '@theme': interleavedRules(themeColorRules),
+      '@theme': interleavedRules([
+        // colors
+        ...themeColors(theme.colors, extendColors),
+        // shadows
+        ...makeShadowRules(theme),
+      ]),
     },
     // components
-    ...prepareComponents(components),
+    ...prepareComponents(makeThemeComponents(theme)),
   ];
 
   return formatCSSRulesArray(interleavedRules(rules), {
