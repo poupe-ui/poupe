@@ -401,6 +401,36 @@ setDeepRule(existingRules, 'button', { color: 'blue', padding: '10px' });
 // Result: { button: { color: 'blue', margin: '5px', padding: '10px' } }
 ```
 
+#### `getDeepRule(target, path)`
+Retrieves a CSS rule value from a specified path within a target object.
+This function is overloaded to provide type safety for both general
+`CSSRules` objects and TailwindCSS-compatible `CSSRuleObject` types.
+
+```typescript
+import { getDeepRule } from '@poupe/css';
+
+const rules = {
+  components: { button: { color: 'blue' } },
+  utils: ['clearfix', 'sr-only']
+};
+
+// Direct access
+getDeepRule(rules, 'utils');
+// Result: ['clearfix', 'sr-only']
+
+// Nested access
+getDeepRule(rules, ['components', 'button', 'color']);
+// Result: 'blue'
+
+// Non-existent path
+getDeepRule(rules, ['components', 'header']);
+// Result: undefined
+
+// Root access (empty array)
+getDeepRule(rules, []);
+// Result: { components: { ... }, utils: [...] }
+```
+
 ### Utility Functions
 
 #### `unsafeKeys<T>(object: T): Array<keyof T>`

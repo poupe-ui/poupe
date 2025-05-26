@@ -6,6 +6,7 @@ import {
   defaultValidCSSRule,
   formatCSSRules,
   formatCSSRulesArray,
+  getDeepRule,
   interleavedRules,
   renameRules,
   setDeepRule,
@@ -923,7 +924,7 @@ describe('setDeepRule', () => {
   it('preserves type safety with overloaded signatures', () => {
     // Test CSSRules type
     const cssRulesTarget: CSSRules = {};
-    const cssRulesObject: CSSRules = { color: 'blue', nested: undefined };
+    const cssRulesObject: CSSRules = { color: 'blue' };
     const cssRulesResult = setDeepRule(cssRulesTarget, 'test', cssRulesObject);
     expect(cssRulesResult).toBe(cssRulesTarget);
 
@@ -932,5 +933,125 @@ describe('setDeepRule', () => {
     const cssRuleObject: CSSRuleObject = { color: 'red' };
     const cssRuleResult = setDeepRule(cssRuleTarget, 'test', cssRuleObject);
     expect(cssRuleResult).toBe(cssRuleTarget);
+  });
+});
+
+describe('getDeepRule', () => {
+  const testRules: CSSRules = {
+    components: {
+      button: {
+        color: 'blue',
+        fontSize: '16px',
+        variants: [
+          { size: 'small', padding: '5px' },
+          { size: 'large', padding: '15px' },
+        ],
+      },
+      card: {
+        backgroundColor: 'white',
+        border: '1px solid gray',
+      },
+    },
+    utils: ['clearfix', 'sr-only'],
+    theme: {
+      colors: {
+        primary: 'blue',
+        secondary: 'green',
+      },
+    },
+    // eslint-disable-next-line unicorn/no-null
+    emptyProp: null,
+  };
+
+  it('retrieves top-level string values', () => {
+    const button = testRules.components as CSSRules;
+    const result = getDeepRule(button.button as CSSRules, 'color');
+    expect(result).toBe('blue');
+  });
+
+  it('retrieves top-level array values', () => {
+    const result = getDeepRule(testRules, 'utils');
+    expect(result).toEqual(['clearfix', 'sr-only']);
+  });
+
+  it('retrieves nested string values with array path', () => {
+    const result = getDeepRule(testRules, ['components', 'button', 'color']);
+    expect(result).toBe('blue');
+  });
+
+  it('retrieves nested object values', () => {
+    const result = getDeepRule(testRules, ['components', 'button']);
+    expect(result).toEqual({
+      color: 'blue',
+      fontSize: '16px',
+      variants: [
+        { size: 'small', padding: '5px' },
+        { size: 'large', padding: '15px' },
+      ],
+    });
+  });
+
+  it('retrieves deeply nested values', () => {
+    const result = getDeepRule(testRules, ['theme', 'colors', 'primary']);
+    expect(result).toBe('blue');
+  });
+
+  it('returns undefined for non-existent paths', () => {
+    expect(getDeepRule(testRules, ['components', 'header'])).toBeUndefined();
+    expect(getDeepRule(testRules, ['nonexistent'])).toBeUndefined();
+    expect(getDeepRule(testRules, ['components', 'button', 'nonexistent'])).toBeUndefined();
+  });
+
+  it('returns undefined for invalid path segments', () => {
+    expect(getDeepRule(testRules, ['utils', 'length', 'invalid'])).toBeUndefined();
+    expect(getDeepRule(testRules, ['components', 'button', 'color', 'invalid'])).toBeUndefined();
+  });
+
+  it('handles null values correctly', () => {
+    const result = getDeepRule(testRules, 'emptyProp');
+    // eslint-disable-next-line unicorn/no-null
+    expect(result).toBe(null);
+  });
+
+  it('returns the target object itself for empty path array', () => {
+    const result = getDeepRule(testRules, []);
+    expect(result).toBe(testRules);
+  });
+
+  it('works with CSSRuleObject type', () => {
+    const ruleObject: CSSRuleObject = {
+      color: 'red',
+      nested: {
+        fontSize: '14px',
+      },
+    };
+
+    expect(getDeepRule(ruleObject, 'color')).toBe('red');
+    expect(getDeepRule(ruleObject, ['nested', 'fontSize'])).toBe('14px');
+    expect(getDeepRule(ruleObject, 'nonexistent')).toBeUndefined();
+  });
+
+  it('preserves type safety with overloaded signatures', () => {
+    // Test CSSRules type
+    const cssRulesResult = getDeepRule(testRules, ['components', 'button']);
+    expect(typeof cssRulesResult).toBe('object');
+
+    // Test CSSRuleObject type
+    const cssRuleObject: CSSRuleObject = { color: 'blue' };
+    const cssRuleResult = getDeepRule(cssRuleObject, 'color');
+    expect(cssRuleResult).toBe('blue');
+  });
+
+  it('handles array access with numeric string indices', () => {
+    const result = getDeepRule(testRules, ['utils', '0']);
+    expect(result).toBe('clearfix');
+
+    const result2 = getDeepRule(testRules, ['utils', '1']);
+    expect(result2).toBe('sr-only');
+  });
+
+  it('returns undefined for out-of-bounds array access', () => {
+    const result = getDeepRule(testRules, ['utils', '10']);
+    expect(result).toBeUndefined();
   });
 });
