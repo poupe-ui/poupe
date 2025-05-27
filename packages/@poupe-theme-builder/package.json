@@ -37,10 +37,6 @@
     "./server": {
       "types": "./dist/server.d.ts",
       "import": "./dist/server.mjs"
-    },
-    "./utils": {
-      "types": "./dist/utils.d.ts",
-      "import": "./dist/utils.mjs"
     }
   },
   "main": "./dist/index.mjs",
