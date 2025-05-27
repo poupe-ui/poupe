@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { kebabCase, uint32, uint8, unsafeKeys } from '../utils';
+import { kebabCase, uint32, uint8 } from '../utils';
 
 describe('kebabCase', () => {
   it('should convert camelCase to kebab-case', () => {
@@ -73,29 +73,5 @@ describe('uint8', () => {
     expect(uint8(300)).toBe(44); // 300 % 256 = 44
     expect(uint8(511)).toBe(255);
     expect(uint8(512)).toBe(0);
-  });
-});
-
-describe('unsafeKeys', () => {
-  it('should return keys of an object', () => {
-    const object = { a: 1, b: 2, c: 3 };
-    expect(unsafeKeys(object)).toEqual(['a', 'b', 'c']);
-  });
-
-  it('should handle empty objects', () => {
-    expect(unsafeKeys({})).toEqual([]);
-  });
-
-  it('should handle objects with symbol keys', () => {
-    const sym = Symbol('test');
-    const object = { a: 1, [sym]: 2 };
-    // Symbol keys are not included in Object.keys
-    expect(unsafeKeys(object)).toEqual(['a']);
-  });
-
-  it('should handle arrays', () => {
-    const array = [1, 2, 3];
-    // For arrays, keys are the indices as strings
-    expect(unsafeKeys(array)).toEqual(['0', '1', '2']);
   });
 });
