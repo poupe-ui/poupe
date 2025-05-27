@@ -3,15 +3,21 @@ import {
   uint8,
 } from './utils';
 
+import {
+  type AnyColor,
+  type Color,
+  type HctColor,
+  type HexColor,
+  type HslaColor,
+  type RgbaColor,
+  Colord,
+  Hct,
+} from './types';
+
 /*
  * colord
  */
 import {
-  type AnyColor,
-  type RgbColor,
-  type HslaColor,
-  Colord,
-
   extend,
   colord as origColord,
 } from 'colord';
@@ -24,8 +30,6 @@ extend([mixPlugin]);
  * MCU
  */
 import {
-  Hct,
-
   alphaFromArgb,
   redFromArgb,
   greenFromArgb,
@@ -36,39 +40,11 @@ import {
  * types
  */
 export {
-  type RgbColor,
-  type HslColor,
-  type HslaColor,
-
-  Colord,
-} from 'colord';
-
-export {
-  type CustomColor,
-  DynamicScheme,
-  Hct,
-
   alphaFromArgb,
   redFromArgb,
   greenFromArgb,
   blueFromArgb,
 } from '@poupe/material-color-utilities';
-
-export type HexColor = `#${string}`;
-
-/** {@link RgbColor} variant with optional alpha value */
-export type RgbaColor = RgbColor & { a?: number };
-
-/** destructured {@link Hct} color with optional alpha value */
-export interface HctColor {
-  h: number
-  c: number
-  t: number
-  a?: number
-};
-
-/** Color is any accepted color representation */
-export type Color = Hct | Colord | number | AnyColor | HctColor;
 
 /**
  * Normalizes an alpha value to a consistent representation between 0 and 1.

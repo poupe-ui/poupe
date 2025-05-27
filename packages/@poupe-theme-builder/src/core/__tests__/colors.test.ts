@@ -1,5 +1,5 @@
 import { expect, test, it, describe } from 'vitest';
-import { Hct } from '../colors';
+import { Hct } from '../types';
 import { uint32 } from '../utils';
 
 import {

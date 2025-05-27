@@ -4,8 +4,10 @@ import {
 
 import {
   type Color,
-  type Hct,
+  Hct,
+} from './types';
 
+import {
   colord,
   hctFromColord,
 } from './colors';

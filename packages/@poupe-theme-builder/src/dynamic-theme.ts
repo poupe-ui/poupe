@@ -11,7 +11,7 @@ import {
   Hct,
 
   hct,
-} from './core/colors';
+} from './core/index';
 
 import {
   type StandardDynamicSchemeKey,

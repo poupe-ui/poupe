@@ -14,11 +14,8 @@ import {
 
   argb,
   hct,
-} from './core/colors';
-
-import {
   customColorFromArgb,
-} from './core';
+} from './core/index';
 
 import {
   type CustomDynamicColorKey,

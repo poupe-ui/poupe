@@ -1,9 +1,4 @@
 /* re-export */
-export type {
-  KebabCase,
-  Simplify,
-} from 'type-fest';
-
 export {
   kebabCase,
   keys,
