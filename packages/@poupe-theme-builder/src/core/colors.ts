@@ -137,7 +137,12 @@ export const argbFromHctColor = (c: HctColor): number => {
 };
 
 /** @returns the ARGB number corresponding to the given {@link Colord} */
-export const argbFromColord = (c: Colord) => argbFromRgbaColor(c.rgba);
+export const argbFromColord = (c: Colord) => {
+  if (!c.isValid()) {
+    throw new Error('Invalid color');
+  }
+  return argbFromRgbaColor(c.rgba);
+};
 
 /** @returns the ARGB number corresponding to the color string */
 export const argbFromString = (s: string) => argbFromColord(origColord(s));
@@ -205,7 +210,12 @@ export const hctFromArgb = (argb: number) => Hct.fromInt(argb);
 export const hctFromRgbaColor = (c: RgbaColor): Hct => Hct.fromInt(argbFromRgbaColor(c));
 
 /** @returns {@link Hct} from a {@link Colord} object */
-export const hctFromColord = (c: Colord) => hctFromRgbaColor(c.rgba);
+export const hctFromColord = (c: Colord): Hct => {
+  if (!c.isValid()) {
+    throw new Error('Invalid color');
+  }
+  return hctFromRgbaColor(c.rgba);
+};
 
 /** @returns {@link Hct} from a valid CSS color string */
 export const hctFromString = (s: string): Hct => hctFromColord(origColord(s));
@@ -236,7 +246,12 @@ export const hct = (c: Color): Hct => {
  */
 
 /** @returns the {@link HslaColor} for the given {@link Colord} */
-export const hslFromColord = (c: Colord) => c.toHsl();
+export const hslFromColord = (c: Colord): HslaColor => {
+  if (!c.isValid()) {
+    throw new Error('Invalid color');
+  }
+  return c.toHsl();
+};
 
 /** @returns the {@link HslaColor} for the given ARGB number */
 export const hslFromArgb = (argb: number) => hslFromColord(colord(splitArgb(argb)));
@@ -267,7 +282,12 @@ export const hsl = (c: Color): HslaColor => {
  */
 
 /** @returns the Hex RGB Color string for the given {@link Colord} */
-export const hexFromColord = (c: Colord) => c.toHex() as HexColor;
+export const hexFromColord = (c: Colord): HexColor => {
+  if (!c.isValid()) {
+    throw new Error('Invalid color');
+  }
+  return c.toHex() as HexColor;
+};
 
 /** @returns the Hex RGB Color string for the given ARGB number */
 export const hexFromArgb = (argb: number) => hexFromColord(colord(splitArgb(argb)));
