@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "@poupe/css": "workspace:^",
-    "@poupe/material-color-utilities": "^0.3.4",
+    "@poupe/material-color-utilities": "^0.3.5",
     "colord": "^2.9.3",
     "defu": "^6.1.4",
     "type-fest": "^4.41.0"
