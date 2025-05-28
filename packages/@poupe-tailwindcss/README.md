@@ -391,8 +391,12 @@ import { defaultColors, withKnownColor } from
   '@poupe/tailwindcss/theme'
 
 // Theme utilities
-import { makeTheme, makeShadows, makeShades } from
-  '@poupe/tailwindcss/theme'
+import {
+  makeTheme,
+  makeShadows,
+  makeShades,
+  makeShadesFromPalette
+} from '@poupe/tailwindcss/theme'
 
 // Color formatters: 'rgb' | 'hsl' | 'hex' | 'numbers'
 const formatter = colorFormatter('rgb')

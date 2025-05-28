@@ -22,9 +22,10 @@
 import {
   type Color,
   Hct,
+  TonalPalette,
+
   hct,
   hexFromHct,
-  splitHct,
 } from '@poupe/theme-builder/core';
 
 /** Represents the possible types for color shades: an array of numbers or false */
@@ -125,13 +126,53 @@ export function makeShades<K extends number>(color: Color, shades: K[] | false):
     return undefined;
   }
 
-  const { h, c } = splitHct(hct(color));
+  const tones = TonalPalette.fromHct(hct(color));
+  return makeShadesFromPalette(tones, shades);
+}
+
+/**
+ * Generates a set of Hct color objects from an existing TonalPalette.
+ *
+ * This function is useful when you already have a TonalPalette instance and want
+ * to generate specific shade values without recreating the palette. It's more
+ * efficient than `makeShades()` when working with the same base color multiple
+ * times.
+ *
+ * @param palette - A TonalPalette instance containing the color information
+ * @param shades - An array of shade values (numbers between 1-999) or `false`
+ *   to disable shade generation
+ *
+ * @returns A record mapping each shade value to its corresponding Hct color
+ *   object, or `undefined` if shades are disabled
+ *
+ * @example
+ * ```typescript
+ * import { TonalPalette } from '@poupe/material-color-utilities';
+ * import { hct } from '@poupe/theme-builder/core';
+ *
+ * // Create a tonal palette once
+ * const palette = TonalPalette.fromHct(hct('#0047AB'));
+ *
+ * // Generate multiple shade sets efficiently
+ * const primaryShades = makeShadesFromPalette(palette, [100, 500, 900]);
+ * const accentShades = makeShadesFromPalette(palette, [200, 400, 600]);
+ *
+ * // Result: { 100: Hct, 500: Hct, 900: Hct }
+ * ```
+ */
+export function makeShadesFromPalette(palette: TonalPalette, shades: false): undefined;
+export function makeShadesFromPalette<K extends number>(palette: TonalPalette, shades: K[]): Record<number, Hct>;
+export function makeShadesFromPalette<K extends number>(palette: TonalPalette, shades: K[] | false): Record<number, Hct> | undefined;
+export function makeShadesFromPalette<K extends number>(palette: TonalPalette, shades: K[] | false): Record<number, Hct> | undefined {
+  if (!shades) {
+    return undefined;
+  }
 
   return Object.fromEntries(shades.map((shade) => {
     const tone = toTone(shade);
 
-    return [shade, Hct.from(h, c, tone)];
-  })) as Record<K, Hct>;
+    return [shade, palette.getHct(tone)];
+  })) as Record<number, Hct>;
 }
 
 function toTone(shade: number): number {

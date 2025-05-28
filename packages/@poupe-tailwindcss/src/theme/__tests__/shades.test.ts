@@ -2,14 +2,19 @@
 import { describe, it, expect } from 'vitest';
 
 import {
+  TonalPalette,
+
+  hct,
+} from '@poupe/theme-builder/core';
+
+import {
   defaultShades,
   getShades,
   makeHexShades,
   makeShades,
+  makeShadesFromPalette,
   validShade,
 } from '../shades';
-
-import { hct } from '@poupe/theme-builder/core';
 
 describe('shades utilities', () => {
   describe('validShade', () => {
@@ -169,6 +174,93 @@ describe('shades utilities', () => {
 
       expect(isLighter(result![100], result![500])).toBe(true);
       expect(isLighter(result![500], result![900])).toBe(true);
+    });
+  });
+
+  describe('makeShadesFromPalette', () => {
+    const testColor = hct('#0047AB'); // Royal Blue
+    const testPalette = TonalPalette.fromHct(testColor);
+
+    it('returns undefined when shades is false', () => {
+      expect(makeShadesFromPalette(testPalette, false)).toBeUndefined();
+    });
+
+    it('generates Hct colors from existing palette', () => {
+      const shades = makeShadesFromPalette(testPalette, [100, 500, 900]);
+
+      expect(shades).toBeDefined();
+      expect(Object.keys(shades!).length).toBe(3);
+      expect(shades![100]).toBeDefined();
+      expect(shades![500]).toBeDefined();
+      expect(shades![900]).toBeDefined();
+
+      // Verify colors have same hue but different tones
+      const h100 = shades![100].hue;
+      const h500 = shades![500].hue;
+      const h900 = shades![900].hue;
+
+      expect(h100).toBeCloseTo(h500, 0);
+      expect(h500).toBeCloseTo(h900, 0);
+
+      // Verify tones follow expected pattern (higher shade = lower tone)
+      expect(shades![100].tone).toBeGreaterThan(shades![500].tone);
+      expect(shades![500].tone).toBeGreaterThan(shades![900].tone);
+    });
+
+    it('produces consistent results with makeShades', () => {
+      const shadesFromColor = makeShades(testColor, [200, 400, 600, 800]);
+      const shadesFromPalette = makeShadesFromPalette(testPalette,
+        [200, 400, 600, 800]);
+
+      expect(shadesFromColor).toBeDefined();
+      expect(shadesFromPalette).toBeDefined();
+
+      // Both methods should produce identical results
+      for (const shade of [200, 400, 600, 800] as const) {
+        expect(shadesFromColor![shade].hue)
+          .toBeCloseTo(shadesFromPalette![shade].hue, 1);
+        expect(shadesFromColor![shade].chroma)
+          .toBeCloseTo(shadesFromPalette![shade].chroma, 1);
+        expect(shadesFromColor![shade].tone)
+          .toBeCloseTo(shadesFromPalette![shade].tone, 1);
+      }
+    });
+
+    it('handles edge case shade values', () => {
+      const shades = makeShadesFromPalette(testPalette, [1, 999]);
+
+      expect(shades).toBeDefined();
+      // Note: Actual tone values depend on the TonalPalette implementation
+      expect(shades![1].tone).toBeGreaterThan(90); // Very light tone
+      expect(shades![999].tone).toBeLessThan(10); // Very dark tone
+    });
+
+    it('is more efficient for multiple operations on same palette', () => {
+      // This is more of a documentation test - both should work
+      const palette = TonalPalette.fromHct(testColor);
+
+      // Multiple shade generations from same palette
+      const set1 = makeShadesFromPalette(palette, [100, 200]);
+      const set2 = makeShadesFromPalette(palette, [300, 400]);
+      const set3 = makeShadesFromPalette(palette, [500, 600]);
+
+      expect(set1).toBeDefined();
+      expect(set2).toBeDefined();
+      expect(set3).toBeDefined();
+
+      // All should share the same hue and chroma
+      const hue1 = set1![100].hue;
+      const hue2 = set2![300].hue;
+      const hue3 = set3![500].hue;
+
+      expect(hue1).toBeCloseTo(hue2, 0);
+      expect(hue2).toBeCloseTo(hue3, 0);
+    });
+
+    it('handles empty shade array gracefully', () => {
+      const result = makeShadesFromPalette(testPalette, []);
+      expect(result).toBeDefined();
+      expect(Object.keys(result!).length).toBe(0);
     });
   });
 

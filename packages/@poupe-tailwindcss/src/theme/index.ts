@@ -20,6 +20,7 @@ export {
   defaultShades,
   makeHexShades,
   makeShades,
+  makeShadesFromPalette,
   validShade,
 } from './shades';
 
