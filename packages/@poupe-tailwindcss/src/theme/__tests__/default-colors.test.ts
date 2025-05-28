@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable unicorn/no-null */
 import { describe, it, expect } from 'vitest';
 import { defaultColors, withKnownColor } from '../default-colors';
 
@@ -50,9 +52,9 @@ describe('defaultColors', () => {
   it('should have consistent color families', () => {
     // Ensure neutral grays exist
     const neutrals = ['slate', 'gray', 'grey', 'zinc', 'neutral', 'stone'];
-    neutrals.forEach(neutral => {
+    for (const neutral of neutrals) {
       expect(defaultColors).toHaveProperty(neutral);
-    });
+    }
 
     // Ensure vibrant colors exist
     const vibrants = [
@@ -60,9 +62,9 @@ describe('defaultColors', () => {
       'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo',
       'violet', 'purple', 'fuchsia', 'pink', 'rose',
     ];
-    vibrants.forEach(vibrant => {
+    for (const vibrant of vibrants) {
       expect(defaultColors).toHaveProperty(vibrant);
-    });
+    }
   });
 });
 
@@ -205,21 +207,21 @@ describe('withKnownColor', () => {
     it('should provide appropriate colors for semantic use cases', () => {
       // Error/danger colors
       expect(withKnownColor('red')).toBe('#ef4444');
-      
+
       // Success colors
       expect(withKnownColor('green')).toBe('#22c55e');
       expect(withKnownColor('emerald')).toBe('#10b981');
-      
+
       // Warning colors
       expect(withKnownColor('orange')).toBe('#f97316');
       expect(withKnownColor('amber')).toBe('#f59e0b');
       expect(withKnownColor('yellow')).toBe('#eab308');
-      
+
       // Info colors
       expect(withKnownColor('blue')).toBe('#3b82f6');
       expect(withKnownColor('cyan')).toBe('#06b6d4');
       expect(withKnownColor('sky')).toBe('#0ea5e9');
-      
+
       // Neutral colors
       expect(withKnownColor('slate')).toBe('#64748b');
       expect(withKnownColor('gray')).toBe('#6b7280');
