@@ -6,6 +6,10 @@ import {
 } from '@poupe/theme-builder';
 
 import {
+  withKnownColor,
+} from './default-colors';
+
+import {
   getShades,
 } from './shades';
 
@@ -63,13 +67,16 @@ export function validColorOptions(name: string, options: ThemeColorOptions): boo
 const isStandardKeyName = (name: string): boolean => standardPaletteKeys.includes(name as StandardPaletteKey);
 
 export function getColor(name: string, value: Color | undefined): { ok: boolean; color?: string } {
-  const v = value ?? (isStandardKeyName(name) ? undefined : name);
+  let v = value || (isStandardKeyName(name) ? undefined : name);
   if (v === undefined) {
     // standard keys can be undefined.
     // primary will take {@link defaultPrimaryColor},
     // and the other colors will take the generated value.
     return { ok: true };
   }
+
+  // handle named colours early
+  v = withKnownColor(v);
 
   try {
     return { ok: true, color: hexString(v) };

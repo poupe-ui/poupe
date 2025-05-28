@@ -176,12 +176,16 @@ console.log(css.join('\n'))
 
 ## Color System
 
-Material Design 3 compliant colors:
+Comprehensive color palette with Tailwind CSS and CSS named colors:
 
-- **Semantic Colors**: primary, secondary, tertiary, error, surface
+- **Tailwind Colors**: Modern palette (slate, gray/grey, zinc, neutral,
+  stone, red, orange, amber, yellow, lime, green, emerald, teal, cyan,
+  sky, blue, indigo, violet, purple, fuchsia, pink, rose)
+- **CSS Named Colors**: Complete CSS specification fallback (149 colors)
+- **Color Priority**: Tailwind colors take precedence over CSS named
+  colors
+- **Material Design 3**: Semantic colors with automatic dark themes
 - **Color Shades**: Automatic shade variants (50-900)
-- **Dark Mode**: Automatic dark theme with proper contrast
-- **Harmonization**: Optional color harmonization with primary
 - **CSS Variables**: All colors accessible as `--md-*`
 
 ```css
@@ -191,6 +195,27 @@ Material Design 3 compliant colors:
   --md-primary-500: 103, 80, 164;
   --md-primary-900: 30, 27, 38;
 }
+```
+
+### Color Resolution
+
+Colors are resolved with priority order:
+
+```typescript
+import { withKnownColor } from '@poupe/tailwindcss'
+
+// Tailwind colors (highest priority)
+withKnownColor('blue')     // '#3b82f6' (Tailwind blue)
+withKnownColor('red')      // '#ef4444' (Tailwind red)
+withKnownColor('gray')     // '#6b7280' (Tailwind gray)
+withKnownColor('grey')     // '#6b7280' (British spelling alias)
+
+// CSS named colors (fallback)
+withKnownColor('crimson')  // '#dc143c' (CSS named color)
+withKnownColor('navy')     // '#000080' (CSS named color)
+
+// Unknown colors (unchanged)
+withKnownColor('#custom')  // '#custom' (unchanged)
 ```
 
 ### Color Customization
@@ -299,6 +324,10 @@ import flatPlugin, {
   formatTheme,
   colorFormatter
 } from '@poupe/tailwindcss'
+
+// Color system
+import { defaultColors, withKnownColor } from
+  '@poupe/tailwindcss/theme'
 
 // Theme utilities
 import { makeTheme, makeShadows, makeShades } from
