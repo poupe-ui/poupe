@@ -1,19 +1,10 @@
 import {
   type ColorGroup,
+  Hct,
+  DynamicScheme,
   MaterialDynamicColors,
-  SchemeContent,
-  SchemeExpressive,
-  SchemeFidelity,
-  SchemeMonochrome,
-  SchemeNeutral,
-  SchemeTonalSpot,
-  SchemeVibrant,
+  Variant,
 } from '@poupe/material-color-utilities';
-
-import {
-  type standardDynamicSchemeFactory,
-  hct,
-} from './core';
 
 // CustomDynamicColor
 //
@@ -36,76 +27,76 @@ export type CustomDynamicColorKey<T extends string> =
 /** standardDynamicColors are all dynamic colors defined by Material Design 3 */
 export const standardDynamicColors = {
   // surface-{}
-  'surface': MaterialDynamicColors.surface,
-  'surface-dim': MaterialDynamicColors.surfaceDim,
-  'surface-bright': MaterialDynamicColors.surfaceBright,
-  'surface-variant': MaterialDynamicColors.surfaceVariant,
-  'surface-container-lowest': MaterialDynamicColors.surfaceContainerLowest,
-  'surface-container-low': MaterialDynamicColors.surfaceContainerLow,
-  'surface-container': MaterialDynamicColors.surfaceContainer,
-  'surface-container-high': MaterialDynamicColors.surfaceContainerHigh,
-  'surface-container-highest': MaterialDynamicColors.surfaceContainerHighest,
-  'inverse-surface': MaterialDynamicColors.inverseSurface,
+  'surface': (ds: DynamicScheme) => ds.surface,
+  'surface-dim': (ds: DynamicScheme) => ds.surfaceDim,
+  'surface-bright': (ds: DynamicScheme) => ds.surfaceBright,
+  'surface-variant': (ds: DynamicScheme) => ds.surfaceVariant,
+  'surface-container-lowest': (ds: DynamicScheme) => ds.surfaceContainerLowest,
+  'surface-container-low': (ds: DynamicScheme) => ds.surfaceContainerLow,
+  'surface-container': (ds: DynamicScheme) => ds.surfaceContainer,
+  'surface-container-high': (ds: DynamicScheme) => ds.surfaceContainerHigh,
+  'surface-container-highest': (ds: DynamicScheme) => ds.surfaceContainerHighest,
+  'inverse-surface': (ds: DynamicScheme) => ds.inverseSurface,
 
   // on-surface-{}
-  'on-surface': MaterialDynamicColors.onSurface,
-  'on-surface-dim': MaterialDynamicColors.onSurface,
-  'on-surface-bright': MaterialDynamicColors.onSurface,
-  'on-surface-variant': MaterialDynamicColors.onSurfaceVariant,
-  'on-surface-container-lowest': MaterialDynamicColors.onSurface,
-  'on-surface-container-low': MaterialDynamicColors.onSurface,
-  'on-surface-container': MaterialDynamicColors.onSurface,
-  'on-surface-container-high': MaterialDynamicColors.onSurface,
-  'on-surface-container-highest': MaterialDynamicColors.onSurface,
-  'on-inverse-surface': MaterialDynamicColors.inverseOnSurface,
+  'on-surface': (ds: DynamicScheme) => ds.onSurface,
+  'on-surface-dim': (ds: DynamicScheme) => ds.onSurface,
+  'on-surface-bright': (ds: DynamicScheme) => ds.onSurface,
+  'on-surface-variant': (ds: DynamicScheme) => ds.onSurfaceVariant,
+  'on-surface-container-lowest': (ds: DynamicScheme) => ds.onSurface,
+  'on-surface-container-low': (ds: DynamicScheme) => ds.onSurface,
+  'on-surface-container': (ds: DynamicScheme) => ds.onSurface,
+  'on-surface-container-high': (ds: DynamicScheme) => ds.onSurface,
+  'on-surface-container-highest': (ds: DynamicScheme) => ds.onSurface,
+  'on-inverse-surface': (ds: DynamicScheme) => ds.inverseOnSurface,
 
   // primary
-  'primary': MaterialDynamicColors.primary,
-  'primary-container': MaterialDynamicColors.primaryContainer,
-  'primary-fixed': MaterialDynamicColors.secondaryFixed,
-  'primary-fixed-dim': MaterialDynamicColors.secondaryFixedDim,
-  'inverse-primary': MaterialDynamicColors.inversePrimary,
+  'primary': (ds: DynamicScheme) => ds.primary,
+  'primary-container': (ds: DynamicScheme) => ds.primaryContainer,
+  'primary-fixed': (ds: DynamicScheme) => ds.primaryFixed,
+  'primary-fixed-dim': (ds: DynamicScheme) => ds.primaryFixedDim,
+  'inverse-primary': (ds: DynamicScheme) => ds.inversePrimary,
   // on-primary
-  'on-primary': MaterialDynamicColors.onPrimary,
-  'on-primary-container': MaterialDynamicColors.onPrimaryContainer,
-  'on-primary-fixed': MaterialDynamicColors.onSecondaryFixed,
-  'on-primary-fixed-variant': MaterialDynamicColors.onSecondaryFixedVariant,
+  'on-primary': (ds: DynamicScheme) => ds.onPrimary,
+  'on-primary-container': (ds: DynamicScheme) => ds.onPrimaryContainer,
+  'on-primary-fixed': (ds: DynamicScheme) => ds.onPrimaryFixed,
+  'on-primary-fixed-variant': (ds: DynamicScheme) => ds.onPrimaryFixedVariant,
 
   // secondary
-  'secondary': MaterialDynamicColors.secondary,
-  'secondary-container': MaterialDynamicColors.secondaryContainer,
-  'secondary-fixed': MaterialDynamicColors.secondaryFixed,
-  'secondary-fixed-dim': MaterialDynamicColors.secondaryFixedDim,
+  'secondary': (ds: DynamicScheme) => ds.secondary,
+  'secondary-container': (ds: DynamicScheme) => ds.secondaryContainer,
+  'secondary-fixed': (ds: DynamicScheme) => ds.secondaryFixed,
+  'secondary-fixed-dim': (ds: DynamicScheme) => ds.secondaryFixedDim,
   // on-secondary
-  'on-secondary': MaterialDynamicColors.onSecondary,
-  'on-secondary-container': MaterialDynamicColors.onSecondaryContainer,
-  'on-secondary-fixed': MaterialDynamicColors.onSecondaryFixed,
-  'on-secondary-fixed-variant': MaterialDynamicColors.onSecondaryFixedVariant,
+  'on-secondary': (ds: DynamicScheme) => ds.onSecondary,
+  'on-secondary-container': (ds: DynamicScheme) => ds.onSecondaryContainer,
+  'on-secondary-fixed': (ds: DynamicScheme) => ds.onSecondaryFixed,
+  'on-secondary-fixed-variant': (ds: DynamicScheme) => ds.onSecondaryFixedVariant,
 
   // tertiary
-  'tertiary': MaterialDynamicColors.tertiary,
-  'tertiary-container': MaterialDynamicColors.tertiaryContainer,
-  'tertiary-fixed': MaterialDynamicColors.tertiaryFixed,
-  'tertiary-fixed-dim': MaterialDynamicColors.tertiaryFixedDim,
+  'tertiary': (ds: DynamicScheme) => ds.tertiary,
+  'tertiary-container': (ds: DynamicScheme) => ds.tertiaryContainer,
+  'tertiary-fixed': (ds: DynamicScheme) => ds.tertiaryFixed,
+  'tertiary-fixed-dim': (ds: DynamicScheme) => ds.tertiaryFixedDim,
   // on-tertiary
-  'on-tertiary': MaterialDynamicColors.onTertiary,
-  'on-tertiary-container': MaterialDynamicColors.onTertiaryContainer,
-  'on-tertiary-fixed': MaterialDynamicColors.onTertiaryFixed,
-  'on-tertiary-fixed-variant': MaterialDynamicColors.onTertiaryFixedVariant,
+  'on-tertiary': (ds: DynamicScheme) => ds.onTertiary,
+  'on-tertiary-container': (ds: DynamicScheme) => ds.onTertiaryContainer,
+  'on-tertiary-fixed': (ds: DynamicScheme) => ds.onTertiaryFixed,
+  'on-tertiary-fixed-variant': (ds: DynamicScheme) => ds.onTertiaryFixedVariant,
 
   // error
-  'error': MaterialDynamicColors.error,
-  'error-container': MaterialDynamicColors.errorContainer,
+  'error': (ds: DynamicScheme) => ds.error,
+  'error-container': (ds: DynamicScheme) => ds.errorContainer,
   // on-error
-  'on-error': MaterialDynamicColors.onError,
-  'on-error-container': MaterialDynamicColors.onErrorContainer,
+  'on-error': (ds: DynamicScheme) => ds.onError,
+  'on-error-container': (ds: DynamicScheme) => ds.onErrorContainer,
 
   // special
-  'outline': MaterialDynamicColors.outline,
-  'outline-variant': MaterialDynamicColors.outlineVariant,
-  'shadow': MaterialDynamicColors.shadow,
-  'scrim': MaterialDynamicColors.scrim,
-};
+  'outline': (ds: DynamicScheme) => ds.outline,
+  'outline-variant': (ds: DynamicScheme) => ds.outlineVariant,
+  'shadow': (ds: DynamicScheme) => ds.shadow,
+  'scrim': (ds: DynamicScheme) => ds.scrim,
+} satisfies Record<string, (ds: DynamicScheme) => number>;
 
 /** contentAccentToneDelta is re-exported from MaterialDynamicColors for completeness */
 export const contentAccentToneDelta = MaterialDynamicColors.contentAccentToneDelta;
@@ -118,12 +109,12 @@ export const standardDynamicColorKeys = Object.keys(standardDynamicColors) as St
 
 /** standardPaletteKeyColors are all palette key colors defined by MaterialDynamicColors */
 export const standardPaletteKeyColors = {
-  'primary': MaterialDynamicColors.primaryPaletteKeyColor,
-  'secondary': MaterialDynamicColors.secondaryPaletteKeyColor,
-  'tertiary': MaterialDynamicColors.tertiaryPaletteKeyColor,
-  'neutral': MaterialDynamicColors.neutralPaletteKeyColor,
-  'neutral-variant': MaterialDynamicColors.neutralVariantPaletteKeyColor,
-};
+  'primary': (ds: DynamicScheme) => ds.primaryPalette.keyColor,
+  'secondary': (ds: DynamicScheme) => ds.secondaryPalette.keyColor,
+  'tertiary': (ds: DynamicScheme) => ds.tertiaryPalette.keyColor,
+  'neutral': (ds: DynamicScheme) => ds.neutralPalette.keyColor,
+  'neutral-variant': (ds: DynamicScheme) => ds.neutralVariantPalette.keyColor,
+} satisfies Record<string, (ds: DynamicScheme) => Hct>;
 
 /** StandardPaletteKey is a type representing all palette key colors is standardPaletteKeyColors */
 export type StandardPaletteKey = keyof typeof standardPaletteKeyColors;
@@ -134,13 +125,15 @@ export const standardPaletteKeys = Object.keys(standardPaletteKeyColors) as Stan
 // DynamicScheme
 //
 export const standardDynamicSchemes = {
-  content: (primary, isDark = false, contrastLevel = 0) => new SchemeContent(hct(primary), isDark, contrastLevel),
-  expressive: (primary, isDark = false, contrastLevel = 0) => new SchemeExpressive(hct(primary), isDark, contrastLevel),
-  fidelity: (primary, isDark = false, contrastLevel = 0) => new SchemeFidelity(hct(primary), isDark, contrastLevel),
-  monochrome: (primary, isDark = false, contrastLevel = 0) => new SchemeMonochrome(hct(primary), isDark, contrastLevel),
-  neutral: (primary, isDark = false, contrastLevel = 0) => new SchemeNeutral(hct(primary), isDark, contrastLevel),
-  tonalSpot: (primary, isDark = false, contrastLevel = 0) => new SchemeTonalSpot(hct(primary), isDark, contrastLevel),
-  vibrant: (primary, isDark = false, contrastLevel = 0) => new SchemeVibrant(hct(primary), isDark, contrastLevel),
-} satisfies Record<string, standardDynamicSchemeFactory>;
+  content: Variant.CONTENT,
+  expressive: Variant.EXPRESSIVE,
+  fidelity: Variant.FIDELITY,
+  monochrome: Variant.MONOCHROME,
+  neutral: Variant.NEUTRAL,
+  tonalSpot: Variant.TONAL_SPOT,
+  vibrant: Variant.VIBRANT,
+  rainbow: Variant.RAINBOW,
+  fruitSalad: Variant.FRUIT_SALAD,
+} satisfies Record<string, Variant>;
 
 export type StandardDynamicSchemeKey = keyof typeof standardDynamicSchemes;

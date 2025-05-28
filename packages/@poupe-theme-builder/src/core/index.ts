@@ -2,15 +2,10 @@
 //
 import {
   type CustomColor,
-  DynamicScheme,
   Hct,
 
   customColor as customColorFromArgb,
 } from '@poupe/material-color-utilities';
-
-import {
-  type Color,
-} from './types';
 
 // re-export
 //
@@ -28,10 +23,6 @@ export * from './default-colors';
 export * from './formatter';
 export * from './mix';
 export * from './types';
-
-// DynamicScheme
-//
-export type standardDynamicSchemeFactory = (primary: Color, isDark: boolean, contrastLevel: number) => DynamicScheme;
 
 // tools
 //
