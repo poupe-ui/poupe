@@ -1,6 +1,10 @@
 export * from './types';
 
 export {
+  defaultColors,
+} from './default-colors';
+
+export {
   withDefaultThemeOptions,
 } from './options';
 
