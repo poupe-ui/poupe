@@ -65,13 +65,13 @@
     "tailwind-merge": "^3.3.0",
     "tailwind-scrollbar": "^4.0.2",
     "tailwind-variants": "^1.0.0",
-    "tailwindcss": "^4.1.7",
+    "tailwindcss": "^4.1.8",
     "vue": "^3.5.15"
   },
   "devDependencies": {
     "@poupe/eslint-config": "^0.6.4",
-    "@tailwindcss/postcss": "^4.1.7",
-    "@tailwindcss/vite": "^4.1.7",
+    "@tailwindcss/postcss": "^4.1.8",
+    "@tailwindcss/vite": "^4.1.8",
     "@tsconfig/node20": "^20.1.5",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^20.17.47",
