@@ -87,6 +87,15 @@ Scrim overlays with Material Design z-index layering for modal backdrops:
 - Support arbitrary values with `--value(integer, [integer])` syntax
 - Example: `scrim-z-*` supports both `scrim-z-10` and `scrim-z-[999]`
 
+## Color System
+- **Tailwind Colors**: 25 modern colors (slate, gray/grey, zinc, neutral,
+  stone, red, orange, amber, yellow, lime, green, emerald, teal, cyan,
+  sky, blue, indigo, violet, purple, fuchsia, pink, rose, black, white)
+- **CSS Named Colors**: 149 CSS specification colors as fallback
+- **Priority Order**: Tailwind colors override CSS named colors
+- **British Spelling**: `grey` alias points to same value as `gray`
+- **Color Resolution**: `withKnownColor()` function handles precedence
+
 ## Theme System
 - Colors: Material Design 3 color tokens with automatic dark mode
 - Shadows: Elevation-based shadow system (z1-z5)
@@ -96,9 +105,10 @@ Scrim overlays with Material Design z-index layering for modal backdrops:
 
 ## Testing
 - Unit tests in `src/**/__tests__/` directories
-- Test theme generation, plugin functionality, and utilities
+- Test theme generation, plugin functionality, utilities, and colors
 - Use Vitest for testing framework
 - Run specific test: `pnpm vitest run src/path/to/file.test.ts`
+- Color tests: `pnpm test src/theme/__tests__/default-colors.test.ts`
 
 ## Dependencies
 - **Runtime**: `@poupe/css`, `@poupe/theme-builder`, `type-fest`
