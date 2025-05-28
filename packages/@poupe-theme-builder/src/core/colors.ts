@@ -32,6 +32,32 @@ import mixPlugin from 'colord/plugins/mix';
 extend([mixPlugin]);
 
 /**
+ * Determines if the given value is an {@link ObjectColor}
+ *
+ * @param c - The value to check for color object characteristics
+ * @returns A boolean indicating whether the input is a color object
+ */
+export const isObjectColor = (c: unknown): boolean => {
+  if (c === null || typeof c !== 'object')
+    return false;
+  else if (c instanceof Hct || c instanceof Colord)
+    return false;
+  else if (('r' in c && 'g' in c && 'b' in c)
+    || ('h' in c && 'c' in c && 't' in c)
+    || ('h' in c && 's' in c && 'l' in c)
+    || ('h' in c && 's' in c && 'v' in c)
+    || ('h' in c && 'w' in c && 'b' in c)
+    || ('x' in c && 'y' in c && 'z' in c)
+    || ('l' in c && 'a' in c && 'b' in c)
+    || ('l' in c && 'c' in c && 'h' in c)
+    || ('c' in c && 'm' in c && 'y' in c && 'k' in c)
+  )
+    return true;
+  else
+    return false;
+};
+
+/**
  * Normalizes an alpha value to a consistent representation between 0 and 1.
  * @param a - Optional alpha value to normalize
  * @returns Normalized alpha value or undefined if input is undefined
@@ -82,6 +108,9 @@ export function normalizeColor(c: Color): Color {
  * @returns A normalized Colord color object
  */
 function toColord(c: AnyColor | Colord): Colord {
+  if (c instanceof Colord) {
+    return c;
+  }
   return origColord(normalizeColor(c));
 }
 

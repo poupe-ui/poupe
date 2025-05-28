@@ -37,5 +37,8 @@ export interface HctColor {
   a?: number
 }
 
+/** ObjectColor represents a destructured Color object */
+export type ObjectColor = HctColor | Exclude<AnyColor, string>;
+
 /** Color is any accepted color representation */
-export type Color = Hct | Colord | number | AnyColor | HctColor;
+export type Color = Hct | Colord | ObjectColor | number | string;

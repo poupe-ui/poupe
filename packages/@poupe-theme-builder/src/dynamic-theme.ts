@@ -7,10 +7,12 @@ import {
 
 import {
   type Color,
+  type ObjectColor,
   Colord,
   Hct,
 
   hct,
+  isObjectColor,
 } from './core/index';
 
 import {
@@ -41,19 +43,10 @@ function flattenPartialColorOptions(c?: Color | ColorOptions | Partial<ColorOpti
     return { value: c };
   } else if ('name' in c || 'value' in c || 'harmonize' in c) {
     return c;
-  } else if (('r' in c && 'g' in c && 'b' in c)
-    || ('h' in c && 'c' in c && 't' in c)
-    || ('h' in c && 's' in c && 'l' in c)
-    || ('h' in c && 's' in c && 'v' in c)
-    || ('h' in c && 'w' in c && 'b' in c)
-    || ('x' in c && 'y' in c && 'z' in c)
-    || ('l' in c && 'a' in c && 'b' in c)
-    || ('l' in c && 'c' in c && 'h' in c)
-    || ('c' in c && 'm' in c && 'y' in c && 'k' in c)
-  ) {
-    return { value: c };
+  } else if (isObjectColor(c)) {
+    return { value: c as ObjectColor };
   } else {
-    return c;
+    return c as Partial<ColorOptions>;
   }
 }
 
