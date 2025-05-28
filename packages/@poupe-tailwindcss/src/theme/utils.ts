@@ -1,6 +1,7 @@
 /* imports */
 import {
   hexString,
+  StandardPaletteKey,
   standardPaletteKeys,
 } from '@poupe/theme-builder';
 
@@ -59,8 +60,10 @@ export function validColorOptions(name: string, options: ThemeColorOptions): boo
   return colorOK;
 }
 
+const isStandardKeyName = (name: string): boolean => standardPaletteKeys.includes(name as StandardPaletteKey);
+
 export function getColor(name: string, value: Color | undefined): { ok: boolean; color?: string } {
-  const v = value ?? (name in standardPaletteKeys ? undefined : name);
+  const v = value ?? (isStandardKeyName(name) ? undefined : name);
   if (v === undefined) {
     // standard keys can be undefined.
     // primary will take {@link defaultPrimaryColor},
