@@ -1,4 +1,4 @@
-import { unsafeKeys } from '@poupe/theme-builder/utils';
+import { unsafeKeys } from '@poupe/css';
 
 import {
   type ClassValue,

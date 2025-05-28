@@ -10,7 +10,7 @@ import {
 
 import {
   type Color,
-} from './colors';
+} from './types';
 
 // re-export
 //
@@ -24,16 +24,14 @@ export {
 } from '@poupe/css';
 
 export * from './colors';
+export * from './default-colors';
 export * from './formatter';
 export * from './mix';
+export * from './types';
 
 // DynamicScheme
 //
 export type standardDynamicSchemeFactory = (primary: Color, isDark: boolean, contrastLevel: number) => DynamicScheme;
-
-// types
-//
-export type ColorMap<K extends string> = Record<K, Hct>;
 
 // tools
 //

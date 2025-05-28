@@ -1,6 +1,6 @@
 import { expect, test, it, describe } from 'vitest';
-import { Hct } from '../../core/colors';
-import { uint32 } from '../../utils/utils';
+import { Hct } from '../types';
+import { uint32 } from '../utils';
 
 import {
   type Color,

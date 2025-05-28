@@ -1,21 +1,16 @@
 import {
-  colord as origColord,
-} from 'colord';
-
-import {
   type Color,
   type HexColor,
-  Colord,
   Hct,
+} from './types';
 
+import {
   colord,
-  normalizeColor,
   rgba,
 
   hexFromArgb,
   hexFromColord,
   hexFromHct,
-  hexFromHctColor,
 } from './colors';
 
 /**
@@ -54,21 +49,25 @@ export function colorFormatter(v: ColorFormat = 'rgb'): ((c: Hct) => string) {
 export const hexString = (c: Color): HexColor => {
   if (c instanceof Hct) {
     return hexFromHct(c);
-  } else if (c instanceof Colord) {
-    return hexFromColord(c);
   } else if (typeof c === 'number') {
     return hexFromArgb(c);
-  } else if (typeof c === 'object' && 't' in c) {
-    return hexFromHctColor(c);
-  } else {
-    const c1 = origColord(normalizeColor(c));
-    return hexFromColord(c1);
   }
+  const c1 = colord(c);
+  if (!c1.isValid) {
+    throw new Error('Invalid color');
+  }
+
+  return hexFromColord(c1);
 };
 
 /** @returns the HSL or HSLA color string representation of the given {@link Color}, with optional alpha control */
 export function hslString(c: Color, alpha: boolean = true): string {
-  const { h, s, l, a: a0 } = colord(c).toHsl();
+  const c1 = colord(c);
+  if (!c1.isValid) {
+    throw new Error('Invalid color');
+  }
+
+  const { h, s, l, a: a0 } = c1.toHsl();
   const a = alpha === false ? 1 : a0;
 
   if (a < 1) {

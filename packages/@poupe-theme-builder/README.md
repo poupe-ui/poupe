@@ -126,10 +126,9 @@ Functions for generating and transforming themes:
 
 ## Submodules
 
-This package offers several specialized submodules:
+This package offers two specialized submodules:
 
 - `@poupe/theme-builder/core` - Core color manipulation functions
-- `@poupe/theme-builder/utils` - Utility functions for working with tokens
 - `@poupe/theme-builder/server` - Server-side utilities for theme generation
 
 ## Integration with Poupe Ecosystem

@@ -1,17 +1,30 @@
 import {
   uint32,
   uint8,
-} from '../utils/index';
+
+  alphaFromArgb,
+  redFromArgb,
+  greenFromArgb,
+  blueFromArgb,
+} from './utils';
+
+import { withKnownColor } from './default-colors';
+
+import {
+  type Color,
+  type HctColor,
+  type HexColor,
+  type HslaColor,
+  type ObjectColor,
+  type RgbaColor,
+  Colord,
+  Hct,
+} from './types';
 
 /*
  * colord
  */
 import {
-  type AnyColor,
-  type RgbColor,
-  type HslaColor,
-  Colord,
-
   extend,
   colord as origColord,
 } from 'colord';
@@ -20,55 +33,31 @@ import {
 import mixPlugin from 'colord/plugins/mix';
 extend([mixPlugin]);
 
-/*
- * MCU
+/**
+ * Determines if the given value is an {@link ObjectColor}
+ *
+ * @param c - The value to check for color object characteristics
+ * @returns A boolean indicating whether the input is a color object
  */
-import {
-  Hct,
-
-  alphaFromArgb,
-  redFromArgb,
-  greenFromArgb,
-  blueFromArgb,
-} from '@poupe/material-color-utilities';
-
-/*
- * types
- */
-export {
-  type RgbColor,
-  type HslColor,
-  type HslaColor,
-
-  Colord,
-} from 'colord';
-
-export {
-  type CustomColor,
-  DynamicScheme,
-  Hct,
-
-  alphaFromArgb,
-  redFromArgb,
-  greenFromArgb,
-  blueFromArgb,
-} from '@poupe/material-color-utilities';
-
-export type HexColor = `#${string}`;
-
-/** {@link RgbColor} variant with optional alpha value */
-export type RgbaColor = RgbColor & { a?: number };
-
-/** destructured {@link Hct} color with optional alpha value */
-export interface HctColor {
-  h: number
-  c: number
-  t: number
-  a?: number
+export const isObjectColor = (c: unknown): boolean => {
+  if (c === null || typeof c !== 'object')
+    return false;
+  else if (c instanceof Hct || c instanceof Colord)
+    return false;
+  else if (('r' in c && 'g' in c && 'b' in c)
+    || ('h' in c && 'c' in c && 't' in c)
+    || ('h' in c && 's' in c && 'l' in c)
+    || ('h' in c && 's' in c && 'v' in c)
+    || ('h' in c && 'w' in c && 'b' in c)
+    || ('x' in c && 'y' in c && 'z' in c)
+    || ('l' in c && 'a' in c && 'b' in c)
+    || ('l' in c && 'c' in c && 'h' in c)
+    || ('c' in c && 'm' in c && 'y' in c && 'k' in c)
+  )
+    return true;
+  else
+    return false;
 };
-
-/** Color is any accepted color representation */
-export type Color = Hct | Colord | number | AnyColor | HctColor;
 
 /**
  * Normalizes an alpha value to a consistent representation between 0 and 1.
@@ -88,40 +77,21 @@ export function normalizeAlpha(a?: number): number | undefined {
 }
 
 /**
- * Normalizes any Color input, especially handling alpha values consistently.
- * @returns Normalized color object that can be safely used in other factory functions
+ * Normalizes the alpha value of an object color if present.
+ *
+ * @param c - The color object to potentially normalize
+ * @returns A new color object with a normalized alpha value, or the original object if no alpha is present
  */
-export function normalizeColor(argb: number): number;
-export function normalizeColor(s: string): string;
-export function normalizeColor(c: Colord): Colord;
-export function normalizeColor(c: Hct): Hct;
-export function normalizeColor(c: HctColor): HctColor;
-export function normalizeColor<T = Exclude<AnyColor, string>>(c: T): T;
-export function normalizeColor(c: Color): Color {
-  // Already normalized types (pass through)
-  if (c instanceof Hct || c instanceof Colord) {
-    return c;
-  }
-
-  // Object types that may need alpha normalization
-  if (typeof c === 'object' && 'a' in c && c.a !== undefined) {
+export function withNormalizedAlpha(c: ObjectColor): ObjectColor {
+  if ('a' in c && c.a !== undefined) {
+    const a = normalizeAlpha(c.a);
     return {
       ...c,
-      a: normalizeAlpha(c.a),
+      a,
     };
   }
 
-  // String or number (pass through)
   return c;
-};
-
-/**
- * Converts an input color to a Colord color object after normalization.
- * @param c - The color to convert, which can be of various color representations
- * @returns A normalized Colord color object
- */
-function toColord(c: AnyColor | Colord): Colord {
-  return origColord(normalizeColor(c));
 }
 
 /*
@@ -176,10 +146,15 @@ export const argbFromHctColor = (c: HctColor): number => {
 };
 
 /** @returns the ARGB number corresponding to the given {@link Colord} */
-export const argbFromColord = (c: Colord) => argbFromRgbaColor(c.rgba);
+export const argbFromColord = (c: Colord) => {
+  if (!c.isValid()) {
+    throw new Error('Invalid color');
+  }
+  return argbFromRgbaColor(c.rgba);
+};
 
 /** @returns the ARGB number corresponding to the color string */
-export const argbFromString = (s: string) => argbFromColord(origColord(s));
+export const argbFromString = (s: string) => argbFromColord(colordFromString(s));
 
 /** @returns the the decomposed {@link RgbaColor} corresponding to the given ARGB number */
 export const splitArgb = (argb: number): RgbaColor => {
@@ -200,10 +175,12 @@ export const argb = (c: Color): number => {
     return argbFromRgbaColor(c.rgba);
   } else if (typeof c === 'number') {
     return c;
-  } else if (typeof c === 'object' && 't' in c) {
+  } else if (typeof c === 'string') {
+    return argbFromString(c);
+  } else if ('h' in c && 'c' in c && 't' in c) {
     return argbFromHctColor(c);
   } else {
-    return argbFromColord(toColord(c));
+    return argbFromColord(colord(c));
   }
 };
 
@@ -217,6 +194,18 @@ export const colordFromArgb = (argb: number) => origColord(splitArgb(argb));
 /** @returns {@link Colord} from a {@link Hct} color */
 export const colordFromHct = (c: Hct) => colordFromArgb(argbFromHct(c));
 
+/** @returns {@link Colord} from a {@link HctColor} */
+export const colordFromHctColor = (c: HctColor) => colordFromArgb(argbFromHctColor(c));
+
+/** @returns {@link Colord} from a color string, handling known color names */
+export const colordFromString = (c: string) => {
+  const c1 = origColord(withKnownColor(c) as string);
+  if (!c1.isValid()) {
+    throw new Error(`Invalid color '${c}'`);
+  }
+  return c1;
+};
+
 /** @returns {@link Colord} from the given {@link Color}. */
 export const colord = (c: Color): Colord => {
   if (c instanceof Colord) {
@@ -225,11 +214,17 @@ export const colord = (c: Color): Colord => {
     return colordFromHct(c);
   } else if (typeof c === 'number') {
     return colordFromArgb(c);
-  } else if (typeof c === 'object' && 't' in c) {
-    const c1 = argbFromHctColor(c);
-    return colordFromArgb(c1);
+  } else if (typeof c === 'string') {
+    return colordFromString(c);
+  } else if ('h' in c && 'c' in c && 't' in c) {
+    return colordFromHctColor(c);
+  } else if (!isObjectColor(c)) {
+    throw new Error('Invalid color');
+  } else if ('a' in c && c.a !== undefined) {
+    const a = normalizeAlpha(c.a);
+    return origColord({ ...c, a });
   } else {
-    return toColord(c);
+    return origColord(c);
   }
 };
 
@@ -244,10 +239,15 @@ export const hctFromArgb = (argb: number) => Hct.fromInt(argb);
 export const hctFromRgbaColor = (c: RgbaColor): Hct => Hct.fromInt(argbFromRgbaColor(c));
 
 /** @returns {@link Hct} from a {@link Colord} object */
-export const hctFromColord = (c: Colord) => hctFromRgbaColor(c.rgba);
+export const hctFromColord = (c: Colord): Hct => {
+  if (!c.isValid()) {
+    throw new Error('Invalid color');
+  }
+  return hctFromRgbaColor(c.rgba);
+};
 
 /** @returns {@link Hct} from a valid CSS color string */
-export const hctFromString = (s: string): Hct => hctFromColord(origColord(s));
+export const hctFromString = (s: string): Hct => hctFromColord(colordFromString(s));
 
 /** @returns {@link HctColor} decomposing the given {@link Hct} color. */
 export const splitHct = (c: Hct): HctColor => {
@@ -262,11 +262,12 @@ export const hct = (c: Color): Hct => {
     return hctFromColord(c);
   } else if (typeof c === 'number') {
     return hctFromArgb(c);
-  } else if (typeof c === 'object' && 't' in c) {
+  } else if (typeof c === 'string') {
+    return hctFromString(c);
+  } else if ('h' in c && 'c' in c && 't' in c) {
     return Hct.from(c.h, c.c, c.t);
   } else {
-    const c1 = origColord(normalizeColor(c));
-    return hctFromColord(c1);
+    return hctFromColord(colord(c));
   }
 };
 
@@ -275,7 +276,12 @@ export const hct = (c: Color): Hct => {
  */
 
 /** @returns the {@link HslaColor} for the given {@link Colord} */
-export const hslFromColord = (c: Colord) => c.toHsl();
+export const hslFromColord = (c: Colord): HslaColor => {
+  if (!c.isValid()) {
+    throw new Error('Invalid color');
+  }
+  return c.toHsl();
+};
 
 /** @returns the {@link HslaColor} for the given ARGB number */
 export const hslFromArgb = (argb: number) => hslFromColord(colord(splitArgb(argb)));
@@ -284,7 +290,10 @@ export const hslFromArgb = (argb: number) => hslFromColord(colord(splitArgb(argb
 export const hslFromHct = (c: Hct): HslaColor => hslFromArgb(argbFromHct(c));
 
 /** @returns the {@link HslaColor} for the given {@link HctColor} */
-export const hslFromHctColor = (c: HctColor): HslaColor => hslFromColord(toColord(rgbaFromHctColor(c)));
+export const hslFromHctColor = (c: HctColor): HslaColor => hslFromColord(colord(rgbaFromHctColor(c)));
+
+/** @returns the {@link HslaColor} for the given CSS color string */
+export const hslFromString = (s: string): HslaColor => hslFromColord(colordFromString(s));
 
 /** @returns the {@link HslaColor} for the given {@link Color} */
 export const hsl = (c: Color): HslaColor => {
@@ -294,10 +303,12 @@ export const hsl = (c: Color): HslaColor => {
     return hslFromColord(c);
   } else if (typeof c === 'number') {
     return hslFromArgb(c);
-  } else if (typeof c === 'object' && 't' in c) {
+  } else if (typeof c === 'string') {
+    return hslFromString(c);
+  } else if ('h' in c && 'c' in c && 't' in c) {
     return hslFromHctColor(c);
   } else {
-    return hslFromColord(toColord(c));
+    return hslFromColord(colord(c));
   }
 };
 
@@ -306,7 +317,12 @@ export const hsl = (c: Color): HslaColor => {
  */
 
 /** @returns the Hex RGB Color string for the given {@link Colord} */
-export const hexFromColord = (c: Colord) => c.toHex() as HexColor;
+export const hexFromColord = (c: Colord): HexColor => {
+  if (!c.isValid()) {
+    throw new Error('Invalid color');
+  }
+  return c.toHex() as HexColor;
+};
 
 /** @returns the Hex RGB Color string for the given ARGB number */
 export const hexFromArgb = (argb: number) => hexFromColord(colord(splitArgb(argb)));
@@ -315,4 +331,4 @@ export const hexFromArgb = (argb: number) => hexFromColord(colord(splitArgb(argb
 export const hexFromHct = (c: Hct) => hexFromArgb(argbFromHct(c));
 
 /** @returns the Hex RGB Color string for the given {@link HctColor} */
-export const hexFromHctColor = (c: HctColor): HexColor => hexFromColord(toColord(rgbaFromHctColor(c)));
+export const hexFromHctColor = (c: HctColor): HexColor => hexFromColord(origColord(rgbaFromHctColor(c)));
