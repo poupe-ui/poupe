@@ -24,6 +24,7 @@ export {
 } from '@poupe/css';
 
 export * from './colors';
+export * from './default-colors';
 export * from './formatter';
 export * from './mix';
 export * from './types';
