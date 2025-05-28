@@ -1,6 +1,11 @@
 import {
   uint32,
   uint8,
+
+  alphaFromArgb,
+  redFromArgb,
+  greenFromArgb,
+  blueFromArgb,
 } from './utils';
 
 import {
@@ -25,26 +30,6 @@ import {
 // extend colord with the mix plugin
 import mixPlugin from 'colord/plugins/mix';
 extend([mixPlugin]);
-
-/*
- * MCU
- */
-import {
-  alphaFromArgb,
-  redFromArgb,
-  greenFromArgb,
-  blueFromArgb,
-} from '@poupe/material-color-utilities';
-
-/*
- * types
- */
-export {
-  alphaFromArgb,
-  redFromArgb,
-  greenFromArgb,
-  blueFromArgb,
-} from '@poupe/material-color-utilities';
 
 /**
  * Normalizes an alpha value to a consistent representation between 0 and 1.

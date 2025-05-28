@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { kebabCase, uint32, uint8 } from '../utils';
+import { kebabCase, uint32, uint8, alphaFromArgb, redFromArgb, greenFromArgb, blueFromArgb } from '../utils';
 
 describe('kebabCase', () => {
   it('should convert camelCase to kebab-case', () => {
@@ -73,5 +73,93 @@ describe('uint8', () => {
     expect(uint8(300)).toBe(44); // 300 % 256 = 44
     expect(uint8(511)).toBe(255);
     expect(uint8(512)).toBe(0);
+  });
+});
+
+describe('alphaFromArgb', () => {
+  it('should extract alpha channel from ARGB color', () => {
+    expect(alphaFromArgb(0xFF_00_00_00)).toBe(255); // Fully opaque black
+    expect(alphaFromArgb(0x00_FF_FF_FF)).toBe(0); // Fully transparent white
+    expect(alphaFromArgb(0x80_FF_00_00)).toBe(128); // 50% transparent red
+  });
+
+  it('should handle edge cases correctly', () => {
+    expect(alphaFromArgb(0)).toBe(0);
+    expect(alphaFromArgb(0xFF_FF_FF_FF)).toBe(255);
+    expect(alphaFromArgb(0x12_34_56_78)).toBe(18); // 0x12 = 18
+  });
+});
+
+describe('redFromArgb', () => {
+  it('should extract red channel from ARGB color', () => {
+    expect(redFromArgb(0xFF_FF_00_00)).toBe(255); // Pure red
+    expect(redFromArgb(0xFF_00_FF_00)).toBe(0); // Pure green
+    expect(redFromArgb(0xFF_00_00_FF)).toBe(0); // Pure blue
+    expect(redFromArgb(0xFF_80_00_00)).toBe(128); // Dark red
+  });
+
+  it('should handle edge cases correctly', () => {
+    expect(redFromArgb(0)).toBe(0);
+    expect(redFromArgb(0xFF_FF_FF_FF)).toBe(255);
+    expect(redFromArgb(0x12_34_56_78)).toBe(52); // 0x34 = 52
+  });
+});
+
+describe('greenFromArgb', () => {
+  it('should extract green channel from ARGB color', () => {
+    expect(greenFromArgb(0xFF_FF_00_00)).toBe(0); // Pure red
+    expect(greenFromArgb(0xFF_00_FF_00)).toBe(255); // Pure green
+    expect(greenFromArgb(0xFF_00_00_FF)).toBe(0); // Pure blue
+    expect(greenFromArgb(0xFF_00_80_00)).toBe(128); // Dark green
+  });
+
+  it('should handle edge cases correctly', () => {
+    expect(greenFromArgb(0)).toBe(0);
+    expect(greenFromArgb(0xFF_FF_FF_FF)).toBe(255);
+    expect(greenFromArgb(0x12_34_56_78)).toBe(86); // 0x56 = 86
+  });
+});
+
+describe('blueFromArgb', () => {
+  it('should extract blue channel from ARGB color', () => {
+    expect(blueFromArgb(0xFF_FF_00_00)).toBe(0); // Pure red
+    expect(blueFromArgb(0xFF_00_FF_00)).toBe(0); // Pure green
+    expect(blueFromArgb(0xFF_00_00_FF)).toBe(255); // Pure blue
+    expect(blueFromArgb(0xFF_00_00_80)).toBe(128); // Dark blue
+  });
+
+  it('should handle edge cases correctly', () => {
+    expect(blueFromArgb(0)).toBe(0);
+    expect(blueFromArgb(0xFF_FF_FF_FF)).toBe(255);
+    expect(blueFromArgb(0x12_34_56_78)).toBe(120); // 0x78 = 120
+  });
+});
+
+describe('ARGB color extraction integration', () => {
+  it('should correctly extract all channels from a complex color', () => {
+    const color = 0x80_FF_80_40; // 50% transparent, red=255, green=128, blue=64
+
+    expect(alphaFromArgb(color)).toBe(128);
+    expect(redFromArgb(color)).toBe(255);
+    expect(greenFromArgb(color)).toBe(128);
+    expect(blueFromArgb(color)).toBe(64);
+  });
+
+  it('should handle white color correctly', () => {
+    const white = 0xFF_FF_FF_FF;
+
+    expect(alphaFromArgb(white)).toBe(255);
+    expect(redFromArgb(white)).toBe(255);
+    expect(greenFromArgb(white)).toBe(255);
+    expect(blueFromArgb(white)).toBe(255);
+  });
+
+  it('should handle black color correctly', () => {
+    const black = 0xFF_00_00_00;
+
+    expect(alphaFromArgb(black)).toBe(255);
+    expect(redFromArgb(black)).toBe(0);
+    expect(greenFromArgb(black)).toBe(0);
+    expect(blueFromArgb(black)).toBe(0);
   });
 });
