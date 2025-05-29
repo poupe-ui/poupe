@@ -29,6 +29,9 @@ const themes: Record<string, FileThemeOptions<string>> = {
       omitTheme: true,
     },
   },
+  default: {
+    theme: {},
+  },
   lcweb: {
     theme: {
       colors: {
