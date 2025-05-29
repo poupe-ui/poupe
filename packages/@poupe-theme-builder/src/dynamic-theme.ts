@@ -7,13 +7,15 @@ import {
 
 import {
   type Color,
-  type ObjectColor,
-  Colord,
   Hct,
 
   hct,
-  isObjectColor,
 } from './core/index';
+
+import {
+  type ColorOptions,
+  flattenPartialColorOptions,
+} from './theme/index';
 
 import {
   type StandardDynamicSchemeKey,
@@ -28,28 +30,12 @@ import {
 } from './dynamic-color-data';
 
 import {
-  type ColorOptions,
 
   makeCustomColors,
   makeDynamicScheme,
   makeStandardColorsFromScheme,
   makeStandardPaletteKeyColorsFromScheme,
 } from './dynamic-color';
-
-/** flattens ThemeColorOptions or ThemeColors */
-function flattenPartialColorOptions(c?: Color | ColorOptions | Partial<ColorOptions>): Partial<ColorOptions> {
-  if (c === undefined) {
-    return {};
-  } else if (c instanceof Hct || c instanceof Colord || typeof c !== 'object') {
-    return { value: c };
-  } else if ('name' in c || 'value' in c || 'harmonize' in c) {
-    return c;
-  } else if (isObjectColor(c)) {
-    return { value: c as ObjectColor };
-  } else {
-    return c as Partial<ColorOptions>;
-  }
-}
 
 /** flattens ThemeColors */
 function flattenColorOptions(c: Color | ColorOptions | Partial<ColorOptions>): ColorOptions {
