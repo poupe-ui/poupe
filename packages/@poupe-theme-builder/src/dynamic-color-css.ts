@@ -16,12 +16,14 @@ import {
 } from './core/index';
 
 import {
+  ThemeColors,
+} from './theme/index';
+
+import {
   type StandardDynamicSchemeKey,
 } from './dynamic-color-data';
 
 import {
-  type ThemeColors,
-
   makeTheme,
 } from './dynamic-theme';
 

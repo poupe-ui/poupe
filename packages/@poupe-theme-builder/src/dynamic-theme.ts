@@ -6,15 +6,14 @@ import {
 } from '@poupe/css';
 
 import {
-  type Color,
   Hct,
-
-  hct,
 } from './core/index';
 
 import {
   type ColorOptions,
+  type ThemeColors,
   flattenPartialColorOptions,
+  makeThemePalettes,
 } from './theme/index';
 
 import {
@@ -30,68 +29,22 @@ import {
 } from './dynamic-color-data';
 
 import {
-
-  makeCustomColors,
+  makeCustomColorsFromPalettes,
   makeDynamicScheme,
   makeStandardColorsFromScheme,
   makeStandardPaletteKeyColorsFromScheme,
 } from './dynamic-color';
-
-/** flattens ThemeColors */
-function flattenColorOptions(c: Color | ColorOptions | Partial<ColorOptions>): ColorOptions {
-  const p = flattenPartialColorOptions(c);
-
-  if (p.value === undefined)
-    throw new TypeError('color value not specified');
-
-  return {
-    ...p,
-    value: hct(p.value),
-  };
-}
-
-/**
- * ThemeColorOptions defines the colors of the theme but without requiring any particular option
- */
-export type ThemeColorOptions<K extends string> = { primary: Partial<ColorOptions> } & Record<K, Partial<ColorOptions>>;
-
-/**
- * ThemeColors describes colors used to build the theme.
- */
-export type ThemeColors<K extends string> = { primary: Color | ColorOptions } & Record<K, Color | ColorOptions>;
 
 /**
  * FlatThemeColors defines the colors of the theme
  */
 export type FlatThemeColors<K extends string> = { primary: ColorOptions } & Record<K, ColorOptions>;
 
-/** flattens a ThemeColorOptions */
-export function flattenPartialThemeColors<K extends string>(colors: ThemeColorOptions<K> | ThemeColors<K>) {
-  const out = {} as Record<keyof typeof colors, Partial<ColorOptions>>;
-
-  for (const c of unsafeKeys(colors)) {
-    out[c] = flattenPartialColorOptions(colors[c]);
-  }
-
-  return out;
-}
-
-/** flattens a ThemeColors */
-export function flattenThemeColors<K extends string>(colors: ThemeColorOptions<K> | ThemeColors<K>) {
-  const out = {} as Record<keyof typeof colors, ColorOptions>;
-
-  for (const c of unsafeKeys(colors)) {
-    out[c] = flattenColorOptions(colors[c]);
-  }
-
-  return out;
-}
-
 /**
  * makeThemeKeys returns the keys of makeTheme makes without calculating
  * the values.
  */
-export function makeThemeKeys<K extends string>(colors: ThemeColorOptions<K> | ThemeColors<K>) {
+export function makeThemeKeys<K extends string>(colors: Partial<ThemeColors<K>>) {
   type PaletteKey = StandardPaletteKey | KebabCase<K>;
   type ColorKey = PaletteKey | StandardDynamicColorKey | CustomDynamicColorKey<KebabCase<K>>;
 
@@ -130,6 +83,7 @@ export function makeThemeKeys<K extends string>(colors: ThemeColorOptions<K> | T
     colorOptions,
   };
 }
+
 /**
  * @param colors - base colors of the theme.
  * @param scheme - Material color scheme to use.
@@ -140,27 +94,22 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
   scheme: StandardDynamicSchemeKey = 'content',
   contrastLevel: number = 0,
 ) {
-  const { primary, ...extraColors } = flattenThemeColors(colors);
-  const source = hct(primary.value);
+  const { source, corePalettes, extraPalettes, colors: colorOptions } = makeThemePalettes(colors);
+
   const variant = standardDynamicSchemes[scheme] || standardDynamicSchemes.content;
 
-  const darkScheme = makeDynamicScheme(source, variant, contrastLevel, true);
-  const lightScheme = makeDynamicScheme(source, variant, contrastLevel, false);
+  const darkScheme = makeDynamicScheme(source, variant, contrastLevel, true, corePalettes);
+  const lightScheme = makeDynamicScheme(source, variant, contrastLevel, false, corePalettes);
 
   const darkKeyColors = makeStandardPaletteKeyColorsFromScheme(darkScheme);
   const lightKeyColors = makeStandardPaletteKeyColorsFromScheme(lightScheme);
   const darkStandardColors = makeStandardColorsFromScheme(darkScheme);
   const lightStandardColors = makeStandardColorsFromScheme(lightScheme);
 
-  const { colors: customPaletteKeys, dark: darkCustomColors, light: lightCustomColors, colorOptions: customColorOptions } = makeCustomColors(source, extraColors);
+  const { colors: customPaletteKeys, dark: darkCustomColors, light: lightCustomColors } = makeCustomColorsFromPalettes(extraPalettes);
 
   type ColorKey = keyof typeof darkKeyColors & keyof typeof darkStandardColors & keyof typeof darkCustomColors;
   type ThemeKeyColor = keyof typeof darkKeyColors & typeof customPaletteKeys[0];
-
-  const colorOptions: { [P in ThemeKeyColor]: ColorOptions } = {
-    primary,
-    ...customColorOptions,
-  };
 
   const dark: { [P in ColorKey]: Hct } = {
     ...darkKeyColors,

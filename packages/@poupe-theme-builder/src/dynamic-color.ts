@@ -11,12 +11,14 @@ import {
 import {
   type Color,
   type CorePalettes,
-  Hct,
   DynamicScheme,
+  Hct,
+  TonalPalette,
   Variant,
 
   hct,
   makeCustomColor,
+  makeCustomColorFromPalette,
 } from './core/index';
 
 import {
@@ -65,20 +67,19 @@ export function makeCustomColors<K extends string>(source: Color, colors: Record
   const $source = hct(source);
 
   const colorOptions = {} as Record<KebabCase<K>, ColorOptions>;
-  const darkColors: Partial<CustomDynamicColors<K>> = {};
-  const lightColors: Partial<CustomDynamicColors<K>> = {};
+  const palettes = {} as Record<KebabCase<K>, TonalPalette>;
+  const darkColors = {} as CustomDynamicColors<K>;
+  const lightColors = {} as CustomDynamicColors<K>;
 
-  for (const color in colors) {
+  for (const [color, options] of pairs(colors)) {
     const kebabName = kebabCase(color) as KebabCase<K>;
-    const options = colors[color];
     const $color = hct(options.value);
     const harmonize = options.harmonize ?? true;
 
-    const cc = makeCustomColor($color, harmonize ? $source : undefined, kebabName);
-
-    const { dark, light } = cc;
+    const { tones, dark, light } = makeCustomColor($color, harmonize ? $source : undefined, kebabName);
 
     colorOptions[kebabName] = options;
+    palettes[kebabName] = tones;
 
     for (const [pattern, fn] of Object.entries(customDynamicColors)) {
       const name = pattern.replace('{}', kebabName) as keyof CustomDynamicColors<K>;
@@ -91,9 +92,36 @@ export function makeCustomColors<K extends string>(source: Color, colors: Record
   return {
     source,
     colors: unsafeKeys(colorOptions),
-    colorOptions: colorOptions,
-    dark: darkColors as CustomDynamicColors<K>,
-    light: lightColors as CustomDynamicColors<K>,
+    colorOptions,
+    palettes,
+    dark: darkColors,
+    light: lightColors,
+  };
+}
+
+export function makeCustomColorsFromPalettes<K extends string>(colors: Record<K, TonalPalette> = {} as Record<K, TonalPalette>) {
+  const palettes = {} as Record<KebabCase<K>, TonalPalette>;
+  const darkColors = {} as CustomDynamicColors<K>;
+  const lightColors = {} as CustomDynamicColors<K>;
+
+  for (const [color, tones] of pairs(colors)) {
+    const kebabName = kebabCase(color) as KebabCase<K>;
+    const { dark, light } = makeCustomColorFromPalette(tones, kebabName);
+
+    palettes[kebabName] = tones;
+    for (const [pattern, fn] of pairs(customDynamicColors)) {
+      const name = pattern.replace('{}', kebabName) as keyof CustomDynamicColors<K>;
+
+      darkColors[name] = fn(dark);
+      lightColors[name] = fn(light);
+    }
+  }
+
+  return {
+    colors: unsafeKeys(palettes),
+    palettes,
+    dark: darkColors,
+    light: lightColors,
   };
 }
 
