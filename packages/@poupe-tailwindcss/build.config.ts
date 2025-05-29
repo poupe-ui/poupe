@@ -23,14 +23,19 @@ type FileThemeOptions<K extends string> = {
   format?: ColorFormat
 };
 
+const debugThemes = false;
+
 const themes: Record<string, FileThemeOptions<string>> = {
   style: {
     theme: {
+      debug: debugThemes,
       omitTheme: true,
     },
   },
   default: {
-    theme: {},
+    theme: {
+      debug: debugThemes,
+    },
   },
   lcweb: {
     theme: {
@@ -41,6 +46,7 @@ const themes: Record<string, FileThemeOptions<string>> = {
         green: {},
         orange: {},
       },
+      debug: debugThemes,
     },
     format: 'hsl',
   },
