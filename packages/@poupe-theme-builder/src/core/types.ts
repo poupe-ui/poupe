@@ -10,7 +10,6 @@ import {
 } from 'colord';
 
 export {
-  type CustomColor,
   DynamicScheme,
   Hct,
   TonalPalette,
@@ -77,3 +76,32 @@ export const corePaletteKeys: Readonly<CorePaletteKey[]> = [
   'neutralVariant',
   'error',
 ];
+
+/**
+ * Represents a custom color definition with tones and color groups for light and dark schemes
+ * @param name - Optional name for the custom color
+ * @param tones - Readonly tonal palette defining color variations
+ * @param light - Color group representing the light scheme variant
+ * @param dark - Color group representing the dark scheme variant
+ */
+export type CustomColor = {
+  name?: string
+  tones: TonalPalette
+  light: Readonly<ColorGroup>
+  dark: Readonly<ColorGroup>
+};
+
+/**
+ * Represents a color group with specific color roles in a color scheme.
+ * Defines the color and its on-color variants for different contexts and containers.
+ * @param color - The custom color
+ * @param onColor - The color used for content on top of the custom color
+ * @param colorContainer - The container variant of the custom color
+ * @param onColorContainer - The color used for content on the color container
+ */
+export type ColorGroup = {
+  color: Hct
+  onColor: Hct
+  colorContainer: Hct
+  onColorContainer: Hct
+};

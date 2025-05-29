@@ -15,9 +15,8 @@ import {
   DynamicScheme,
   Variant,
 
-  argb,
   hct,
-  customColorFromArgb,
+  makeCustomColor,
 } from './core/index';
 
 import {
@@ -87,17 +86,6 @@ export function makeStandardPaletteKeyColorsFromScheme(scheme: DynamicScheme) {
   return out;
 }
 
-function customColor(source: Hct, name: string, option: ColorOptions) {
-  const value = argb(option.value);
-  const blend = option.harmonize === undefined ? true : option.harmonize;
-
-  return customColorFromArgb(source.toInt(), {
-    name,
-    value,
-    blend,
-  });
-}
-
 export function makeCustomColors<K extends string>(source: Color, colors: Record<K, ColorOptions>) {
   const $source = hct(source);
 
@@ -107,15 +95,21 @@ export function makeCustomColors<K extends string>(source: Color, colors: Record
 
   for (const color in colors) {
     const kebabName = kebabCase(color) as KebabCase<K>;
-    const { dark, light } = customColor($source, color, colors[color]);
+    const options = colors[color];
+    const $color = hct(options.value);
+    const harmonize = options.harmonize ?? true;
 
-    colorOptions[kebabName] = colors[color];
+    const cc = makeCustomColor($color, harmonize ? $source : undefined, kebabName);
+
+    const { dark, light } = cc;
+
+    colorOptions[kebabName] = options;
 
     for (const [pattern, fn] of Object.entries(customDynamicColors)) {
       const name = pattern.replace('{}', kebabName) as keyof CustomDynamicColors<K>;
 
-      darkColors[name] = Hct.fromInt(fn(dark));
-      lightColors[name] = Hct.fromInt(fn(light));
+      darkColors[name] = fn(dark);
+      lightColors[name] = fn(light);
     }
   }
 

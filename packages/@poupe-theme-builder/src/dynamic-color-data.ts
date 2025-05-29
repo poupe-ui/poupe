@@ -1,10 +1,13 @@
 import {
-  type ColorGroup,
-  Hct,
-  DynamicScheme,
   MaterialDynamicColors,
-  Variant,
 } from '@poupe/material-color-utilities';
+
+import {
+  type ColorGroup,
+  DynamicScheme,
+  Hct,
+  Variant,
+} from './core/types';
 
 // CustomDynamicColor
 //
@@ -13,7 +16,7 @@ export const customDynamicColors = {
   '{}-container': (cc: ColorGroup) => cc.colorContainer,
   'on-{}': (cc: ColorGroup) => cc.onColor,
   'on-{}-container': (cc: ColorGroup) => cc.onColorContainer,
-} satisfies Record<string, (cc: ColorGroup) => number>;
+} satisfies Record<string, (cc: ColorGroup) => Hct>;
 
 export type CustomDynamicColorKey<T extends string> =
   `${T}` |
