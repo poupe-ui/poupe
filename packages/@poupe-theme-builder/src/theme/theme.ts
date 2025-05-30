@@ -2,17 +2,21 @@ import type { KebabCase } from 'type-fest';
 
 import {
   kebabCase,
+  pairs,
   unsafeKeys,
 } from '@poupe/css';
 
 import {
+  DynamicScheme,
   Hct,
+  TonalPalette,
 } from '../core';
 
 import {
   makeCustomColorsFromPalettes,
   makeDynamicScheme,
   makeStandardColorsFromScheme,
+  makeStandardPaletteFromScheme,
   makeStandardPaletteKeyColorsFromScheme,
 } from './colors';
 
@@ -101,19 +105,44 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
   const { source, corePalettes, extraPalettes, colors: colorOptions } = makeThemePalettes(colors);
 
   const variant = standardDynamicSchemes[scheme] || standardDynamicSchemes.content;
-
   const darkScheme = makeDynamicScheme(source, variant, contrastLevel, true, corePalettes);
   const lightScheme = makeDynamicScheme(source, variant, contrastLevel, false, corePalettes);
 
-  const darkKeyColors = makeStandardPaletteKeyColorsFromScheme(darkScheme);
-  const lightKeyColors = makeStandardPaletteKeyColorsFromScheme(lightScheme);
-  const darkStandardColors = makeStandardColorsFromScheme(darkScheme);
-  const lightStandardColors = makeStandardColorsFromScheme(lightScheme);
+  return {
+    source,
+    colorOptions,
+    darkScheme,
+    lightScheme,
+    extraPalettes,
+    ...makeThemeFromSchemes(darkScheme, lightScheme, extraPalettes),
+  };
+}
 
-  const { colors: customPaletteKeys, dark: darkCustomColors, light: lightCustomColors } = makeCustomColorsFromPalettes(extraPalettes);
+export function makeThemeFromSchemes<K extends string>(
+  darkScheme: DynamicScheme,
+  lightScheme: DynamicScheme,
+  extraPalettes?: Record<K, TonalPalette>,
+) {
+  const {
+    palettes: darkPalettes,
+    keyColors: darkKeyColors,
+    colors: darkStandardColors,
+  } = cookThemeScheme(darkScheme);
+
+  const {
+    palettes: lightPalettes,
+    keyColors: lightKeyColors,
+    colors: lightStandardColors,
+  } = cookThemeScheme(lightScheme);
+
+  const {
+    dark: darkCustomColors,
+    light: lightCustomColors,
+    keyColors: extraKeyColors,
+  } = cookThemeCustomColors(extraPalettes);
 
   type ColorKey = keyof typeof darkKeyColors & keyof typeof darkStandardColors & keyof typeof darkCustomColors;
-  type ThemeKeyColor = keyof typeof darkKeyColors & typeof customPaletteKeys[0];
+  type ThemeKeyColor = keyof typeof darkKeyColors & keyof typeof extraPalettes;
 
   const dark: { [P in ColorKey]: Hct } = {
     ...darkKeyColors,
@@ -127,27 +156,55 @@ export function makeTheme<K extends string>(colors: ThemeColors<K>,
     ...lightCustomColors,
   };
 
-  const darkThemeKeyColors: Record<string, Hct> = {
+  const $darkKeyColors: { [P in ThemeKeyColor]: Hct } = {
     ...darkKeyColors,
+    ...extraKeyColors,
   };
 
-  const lightThemeKeyColors: Record<string, Hct> = {
+  const $lightKeyColors: { [P in ThemeKeyColor]: Hct } = {
     ...lightKeyColors,
+    ...extraKeyColors,
   };
 
-  for (const k of customPaletteKeys) {
-    darkThemeKeyColors[k] = darkKeyColors[k as keyof typeof darkKeyColors];
-    lightThemeKeyColors[k] = lightKeyColors[k as keyof typeof lightKeyColors];
+  const $darkPalettes: { [P in ThemeKeyColor]: TonalPalette } = {
+    ...darkPalettes,
+    ...extraPalettes,
+  };
+
+  const $lightPalettes: { [P in ThemeKeyColor]: TonalPalette } = {
+    ...lightPalettes,
+    ...extraPalettes,
+  };
+
+  return {
+    darkKeyColors: $darkKeyColors,
+    lightKeyColors: $lightKeyColors,
+    darkPalettes: $darkPalettes,
+    lightPalettes: $lightPalettes,
+    dark,
+    light,
+  };
+}
+
+function cookThemeScheme(scheme: DynamicScheme) {
+  return {
+    palettes: makeStandardPaletteFromScheme(scheme),
+    keyColors: makeStandardPaletteKeyColorsFromScheme(scheme),
+    colors: makeStandardColorsFromScheme(scheme),
+  };
+}
+
+function cookThemeCustomColors<K extends string>(palettes?: Record<K, TonalPalette>) {
+  const { dark, light, palettes: tones } = makeCustomColorsFromPalettes(palettes);
+  const keyColors = {} as Record<keyof typeof tones, Hct>;
+
+  for (const [name, palette] of pairs(tones)) {
+    keyColors[name] = palette.keyColor;
   }
 
   return {
-    source,
-    colorOptions,
-    darkScheme,
-    lightScheme,
-    darkKeyColors: darkThemeKeyColors as { [P in ThemeKeyColor]: Hct },
-    lightKeyColors: lightThemeKeyColors as { [P in ThemeKeyColor]: Hct },
     dark,
     light,
+    keyColors,
   };
 }
