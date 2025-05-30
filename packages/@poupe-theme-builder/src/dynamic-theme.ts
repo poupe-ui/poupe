@@ -19,18 +19,15 @@ import {
 
   customDynamicColors,
   flattenPartialColorOptions,
+  makeCustomColorsFromPalettes,
+  makeDynamicScheme,
+  makeStandardColorsFromScheme,
+  makeStandardPaletteKeyColorsFromScheme,
   makeThemePalettes,
   standardDynamicColorKeys,
   standardDynamicSchemes,
   standardPaletteKeys,
 } from './theme';
-
-import {
-  makeCustomColorsFromPalettes,
-  makeDynamicScheme,
-  makeStandardColorsFromScheme,
-  makeStandardPaletteKeyColorsFromScheme,
-} from './dynamic-color';
 
 /**
  * FlatThemeColors defines the colors of the theme

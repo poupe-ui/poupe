@@ -19,10 +19,9 @@ import {
   hct,
   makeCustomColor,
   makeCustomColorFromPalette,
-} from './core/index';
+} from '../core';
 
 import {
-  type ColorOptions,
   type CustomDynamicColorKey,
   type StandardDynamicColorKey,
   type StandardPaletteKey,
@@ -30,7 +29,11 @@ import {
   standardDynamicColors,
   customDynamicColors,
   standardPalettes,
-} from './theme/index';
+} from './data';
+
+import {
+  type ColorOptions,
+} from './types';
 
 // types
 //
