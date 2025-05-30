@@ -62,7 +62,7 @@ export function makeThemeKeys<K extends string>(colors: Partial<ThemeColors<K>>)
     // preserve config
     colorOptions[kebabName] = flattenPartialColorOptions(colors[name]);
 
-    if (!(kebabName in keys)) {
+    if (!keys.includes(kebabName)) {
       // custom color
       paletteKeys.push(kebabName);
       for (const pattern in customDynamicColors) {
@@ -72,12 +72,12 @@ export function makeThemeKeys<K extends string>(colors: Partial<ThemeColors<K>>)
   }
 
   // additional standard palette colors
-  for (const name of kebabStandardPaletteKeys) {
-    if (!(name in keys)) {
-      keys.push(name);
+  for (const kebabName of kebabStandardPaletteKeys) {
+    if (!keys.includes(kebabName)) {
+      keys.push(kebabName);
     }
-    if (!(name in colorOptions)) {
-      colorOptions[name] = {};
+    if (!(kebabName in colorOptions)) {
+      colorOptions[kebabName] = {};
     }
   }
 
