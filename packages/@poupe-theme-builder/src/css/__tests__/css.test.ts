@@ -60,27 +60,27 @@ describe('defaultCSSThemeOptions', () => {
 
 describe('defaultDarkSelector', () => {
   it('should return .dark for true or .dark', () => {
-    expect(defaultDarkSelector({ darkMode: true })).toBe('.dark, .dark *');
-    expect(defaultDarkSelector({ darkMode: '.dark' })).toBe('.dark, .dark *');
+    expect(defaultDarkSelector({ darkMode: true })).toEqual(['.dark, .dark *']);
+    expect(defaultDarkSelector({ darkMode: '.dark' })).toEqual(['.dark, .dark *']);
   });
 
   it('should return media query for false, empty string, or media', () => {
-    const mediaQuery = '@media not print and (prefers-color-scheme: dark)';
-    expect(defaultDarkSelector({ darkMode: false })).toBe(mediaQuery);
-    expect(defaultDarkSelector({ darkMode: '' })).toBe(mediaQuery);
-    expect(defaultDarkSelector({ darkMode: 'media' })).toBe(mediaQuery);
+    const mediaQuery = '@media (prefers-color-scheme: dark)';
+    expect(defaultDarkSelector({ darkMode: false })).toEqual([mediaQuery]);
+    expect(defaultDarkSelector({ darkMode: '' })).toEqual([mediaQuery]);
+    expect(defaultDarkSelector({ darkMode: 'media' })).toEqual([mediaQuery]);
   });
 
   it('should return custom selector when provided', () => {
     const custom = '.custom-dark-mode';
-    expect(defaultDarkSelector({ darkMode: custom })).toBe(`${custom}, ${custom} *`);
+    expect(defaultDarkSelector({ darkMode: custom })).toEqual([`${custom}, ${custom} *`]);
   });
 });
 
 describe('defaultLightSelector', () => {
   it('should return .light for true or .light', () => {
-    expect(defaultLightSelector({ lightMode: true })).toBe('.light, .light *');
-    expect(defaultLightSelector({ lightMode: '.light' })).toBe('.light, .light *');
+    expect(defaultLightSelector({ lightMode: true })).toEqual(['.light, .light *']);
+    expect(defaultLightSelector({ lightMode: '.light' })).toEqual(['.light, .light *']);
   });
 
   it('should return undefined for false or empty string', () => {
@@ -90,7 +90,7 @@ describe('defaultLightSelector', () => {
 
   it('should return custom selector when provided', () => {
     const custom = '.custom-light-mode';
-    expect(defaultLightSelector({ lightMode: custom })).toBe(`${custom}, ${custom} *`);
+    expect(defaultLightSelector({ lightMode: custom })).toEqual([`${custom}, ${custom} *`]);
   });
 });
 
@@ -416,20 +416,18 @@ describe('deduplication in generateCSSColorVariables', () => {
 });
 
 describe('defaultRootLightSelector', () => {
-  if (typeof defaultRootLightSelector === 'function') {
-    it('should return :root when lightMode is false or empty', () => {
-      expect(defaultRootLightSelector({ lightMode: false })).toBe(':root');
-      expect(defaultRootLightSelector({ lightMode: '' })).toBe(':root');
-    });
+  it('should return :root when lightMode is false or empty', () => {
+    expect(defaultRootLightSelector({ lightMode: false })).toEqual([':root']);
+    expect(defaultRootLightSelector({ lightMode: '' })).toEqual([':root']);
+  });
 
-    it('should combine :root with light selector when lightMode is defined', () => {
-      const selector = defaultRootLightSelector({ lightMode: '.light-theme' });
-      expect(selector).toBe(':root, .light-theme, .light-theme *');
+  it('should combine :root with light selector when lightMode is defined', () => {
+    const selector = defaultRootLightSelector({ lightMode: '.light-theme' });
+    expect(selector).toEqual([':root, .light-theme, .light-theme *']);
 
-      const defaultSelector = defaultRootLightSelector({});
-      expect(defaultSelector).toBe(':root, .light, .light *');
-    });
-  }
+    const defaultSelector = defaultRootLightSelector({});
+    expect(defaultSelector).toEqual([':root, .light, .light *']);
+  });
 });
 
 describe('assembleCSSRules', () => {
@@ -448,6 +446,7 @@ describe('assembleCSSRules', () => {
       expect(result[0][':root']).toEqual(root);
       expect(result[1]).toHaveProperty(':root, .light, .light *');
       expect(result[1][':root, .light, .light *']).toEqual(light);
+      expect(result[1]).toHaveProperty('.dark, .dark *');
       expect(result[1]['.dark, .dark *']).toEqual(dark);
     });
 
