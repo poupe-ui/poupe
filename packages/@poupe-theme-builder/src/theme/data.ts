@@ -8,7 +8,7 @@ import {
   Hct,
   TonalPalette,
   Variant,
-} from './core/types';
+} from './utils';
 
 // CustomDynamicColor
 //

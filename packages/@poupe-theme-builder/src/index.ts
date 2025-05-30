@@ -12,6 +12,5 @@ export {
   makeCSSTheme,
 } from './dynamic-color-css';
 
-export * from './dynamic-color-data';
 export * from './dynamic-theme';
 export * from './from-image';

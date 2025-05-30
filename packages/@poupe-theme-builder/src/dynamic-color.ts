@@ -23,9 +23,6 @@ import {
 
 import {
   type ColorOptions,
-} from './theme/index';
-
-import {
   type CustomDynamicColorKey,
   type StandardDynamicColorKey,
   type StandardPaletteKey,
@@ -33,7 +30,7 @@ import {
   standardDynamicColors,
   customDynamicColors,
   standardPalettes,
-} from './dynamic-color-data';
+} from './theme/index';
 
 // types
 //

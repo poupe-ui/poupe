@@ -7,26 +7,23 @@ import {
 
 import {
   Hct,
-} from './core/index';
+} from './core';
 
 import {
   type ColorOptions,
-  type ThemeColors,
-  flattenPartialColorOptions,
-  makeThemePalettes,
-} from './theme/index';
-
-import {
+  type CustomDynamicColorKey,
   type StandardDynamicSchemeKey,
   type StandardDynamicColorKey,
   type StandardPaletteKey,
-  type CustomDynamicColorKey,
+  type ThemeColors,
 
   customDynamicColors,
+  flattenPartialColorOptions,
+  makeThemePalettes,
   standardDynamicColorKeys,
   standardDynamicSchemes,
   standardPaletteKeys,
-} from './dynamic-color-data';
+} from './theme';
 
 import {
   makeCustomColorsFromPalettes,

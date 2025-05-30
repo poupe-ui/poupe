@@ -13,15 +13,12 @@ import {
   type Hct,
 
   rgbaString,
-} from './core/index';
-
-import {
-  ThemeColors,
-} from './theme/index';
+} from './core';
 
 import {
   type StandardDynamicSchemeKey,
-} from './dynamic-color-data';
+  type ThemeColors,
+} from './theme';
 
 import {
   makeTheme,
