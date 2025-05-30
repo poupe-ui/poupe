@@ -45,11 +45,12 @@ export type FlatThemeColors<K extends string> = { primary: ColorOptions } & Reco
  * the values.
  */
 export function makeThemeKeys<K extends string>(colors: Partial<ThemeColors<K>>) {
-  type PaletteKey = StandardPaletteKey | KebabCase<K>;
+  type PaletteKey = KebabCase<StandardPaletteKey> | KebabCase<K>;
   type ColorKey = PaletteKey | StandardDynamicColorKey | CustomDynamicColorKey<KebabCase<K>>;
 
   const colorOptions = {} as Record<PaletteKey, Partial<ColorOptions>>;
-  const paletteKeys: PaletteKey[] = [...standardPaletteKeys];
+  const kebabStandardPaletteKeys = standardPaletteKeys.map(s => kebabCase(s)) as PaletteKey[];
+  const paletteKeys = [...kebabStandardPaletteKeys];
   const keys: ColorKey[] = [...standardDynamicColorKeys];
 
   for (const name of unsafeKeys(colors)) {
@@ -68,7 +69,7 @@ export function makeThemeKeys<K extends string>(colors: Partial<ThemeColors<K>>)
   }
 
   // additional standard palette colors
-  for (const name of standardPaletteKeys) {
+  for (const name of kebabStandardPaletteKeys) {
     if (!(name in keys)) {
       keys.push(name);
     }

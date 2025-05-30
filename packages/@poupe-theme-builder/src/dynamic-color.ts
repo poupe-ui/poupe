@@ -32,14 +32,15 @@ import {
 
   standardDynamicColors,
   customDynamicColors,
-  standardPaletteKeyColors,
+  standardPalettes,
 } from './dynamic-color-data';
 
 // types
 //
 
 type StandardDynamicColors = { [K in StandardDynamicColorKey]: Hct };
-type StandardPaletteColors = { [K in StandardPaletteKey]: Hct };
+type StandardPaletteColors = { [K in KebabCase<StandardPaletteKey>]: Hct };
+type StandardPalettes = { [K in KebabCase<StandardPaletteKey>]: TonalPalette };
 
 type CustomDynamicColors<T extends string> = { [K in CustomDynamicColorKey<KebabCase<T>>]: Hct };
 
@@ -55,9 +56,18 @@ export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
 
 export function makeStandardPaletteKeyColorsFromScheme(scheme: DynamicScheme) {
   const out = {} as StandardPaletteColors;
+  for (const [kebabName, palette] of pairs(makeStandardPaletteFromScheme(scheme))) {
+    out[kebabName] = palette.keyColor;
+  }
+  return out;
+}
 
-  for (const [name, fn] of pairs(standardPaletteKeyColors)) {
-    out[name] = fn(scheme);
+export function makeStandardPaletteFromScheme(scheme: DynamicScheme) {
+  const out = {} as StandardPalettes;
+
+  for (const [name, fn] of pairs(standardPalettes)) {
+    const kebabName = kebabCase(name) as KebabCase<StandardPaletteKey>;
+    out[kebabName] = fn(scheme);
   }
 
   return out;

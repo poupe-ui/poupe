@@ -6,6 +6,7 @@ import {
   type ColorGroup,
   DynamicScheme,
   Hct,
+  TonalPalette,
   Variant,
 } from './core/types';
 
@@ -111,19 +112,19 @@ export type StandardDynamicColorKey = keyof typeof standardDynamicColors;
 export const standardDynamicColorKeys = Object.keys(standardDynamicColors) as StandardDynamicColorKey[];
 
 /** standardPaletteKeyColors are all palette key colors defined by MaterialDynamicColors */
-export const standardPaletteKeyColors = {
-  'primary': (ds: DynamicScheme) => ds.primaryPalette.keyColor,
-  'secondary': (ds: DynamicScheme) => ds.secondaryPalette.keyColor,
-  'tertiary': (ds: DynamicScheme) => ds.tertiaryPalette.keyColor,
-  'neutral': (ds: DynamicScheme) => ds.neutralPalette.keyColor,
-  'neutral-variant': (ds: DynamicScheme) => ds.neutralVariantPalette.keyColor,
-} satisfies Record<string, (ds: DynamicScheme) => Hct>;
+export const standardPalettes = {
+  primary: (ds: DynamicScheme) => ds.primaryPalette,
+  secondary: (ds: DynamicScheme) => ds.secondaryPalette,
+  tertiary: (ds: DynamicScheme) => ds.tertiaryPalette,
+  neutral: (ds: DynamicScheme) => ds.neutralPalette,
+  neutralVariant: (ds: DynamicScheme) => ds.neutralVariantPalette,
+} satisfies Record<string, (ds: DynamicScheme) => TonalPalette>;
 
-/** StandardPaletteKey is a type representing all palette key colors is standardPaletteKeyColors */
-export type StandardPaletteKey = keyof typeof standardPaletteKeyColors;
+/** StandardPaletteKey is a type representing all core palettes in standardPalettes */
+export type StandardPaletteKey = keyof typeof standardPalettes;
 
 /** standardPaletteKeys is an array of all StandardPaletteKey values */
-export const standardPaletteKeys = Object.keys(standardPaletteKeyColors) as StandardPaletteKey[];
+export const standardPaletteKeys = Object.keys(standardPalettes) as StandardPaletteKey[];
 
 // DynamicScheme
 //
