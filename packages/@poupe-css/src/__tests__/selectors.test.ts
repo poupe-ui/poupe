@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
 import {
-  processCSSRuleChain,
   processCSSSelectors,
   expandSelectorAlias,
 } from '../selectors';
@@ -42,14 +41,32 @@ describe('expandSelectorAlias', () => {
   });
 });
 
-describe('processCSSRuleChain', () => {
+describe('processCSSSelectors', () => {
+  it('should handle single string selectors', () => {
+    expect(processCSSSelectors('.test')).toEqual(['.test, .test *']);
+  });
+
+  it('should handle single string with commas when allowCommaPassthrough is true', () => {
+    expect(processCSSSelectors('.test, .other')).toEqual(['.test, .other']);
+  });
+
+  it('should add star variants when allowCommaPassthrough is false', () => {
+    expect(processCSSSelectors('.test, .other', { allowCommaPassthrough: false }))
+      .toEqual(['.test, .other, .test, .other *']);
+  });
+
+  it('should handle arrays with consecutive selectors', () => {
+    const result = processCSSSelectors(['.test1', '.test2']);
+    expect(result).toEqual(['.test1, .test1 *, .test2, .test2 *']);
+  });
+
   it('should merge consecutive selectors with star variants', () => {
-    const result = processCSSRuleChain(['.test1', '.test2']);
-    expect(result).toBe('.test1, .test1 *, .test2, .test2 *');
+    const result = processCSSSelectors(['.test1', '.test2']);
+    expect(result).toEqual(['.test1, .test1 *, .test2, .test2 *']);
   });
 
   it('should stack at-rules separately', () => {
-    const result = processCSSRuleChain([
+    const result = processCSSSelectors([
       '@media (prefers-color-scheme: dark)',
       '@media (max-width: 768px)',
     ]);
@@ -60,7 +77,7 @@ describe('processCSSRuleChain', () => {
   });
 
   it('should handle mixed selectors and at-rules', () => {
-    const result = processCSSRuleChain([
+    const result = processCSSSelectors([
       '.dark',
       '@media (prefers-color-scheme: dark)',
       '.custom',
@@ -73,40 +90,20 @@ describe('processCSSRuleChain', () => {
   });
 
   it('should disable star variants when addStarVariants is false', () => {
-    const result = processCSSRuleChain(['.test1', '.test2'], false);
-    expect(result).toBe('.test1, .test2');
+    const result = processCSSSelectors(['.test1', '.test2'], { addStarVariants: false });
+    expect(result).toEqual(['.test1, .test2']);
   });
 
   it('should return undefined for empty array', () => {
-    expect(processCSSRuleChain([])).toBeUndefined();
+    expect(processCSSSelectors([])).toBeUndefined();
   });
 
   it('should expand selector aliases', () => {
-    const result = processCSSRuleChain(['.test', 'media']);
+    const result = processCSSSelectors(['.test', 'media']);
     expect(result).toEqual([
       '.test, .test *',
       '@media (prefers-color-scheme: dark)',
     ]);
-  });
-});
-
-describe('processCSSSelectors', () => {
-  it('should handle single string selectors', () => {
-    expect(processCSSSelectors('.test')).toBe('.test, .test *');
-  });
-
-  it('should handle single string with commas when allowCommaPassthrough is true', () => {
-    expect(processCSSSelectors('.test, .other')).toBe('.test, .other');
-  });
-
-  it('should add star variants when allowCommaPassthrough is false', () => {
-    expect(processCSSSelectors('.test, .other', { allowCommaPassthrough: false }))
-      .toBe('.test, .other, .test, .other *');
-  });
-
-  it('should handle arrays with consecutive selectors', () => {
-    const result = processCSSSelectors(['.test1', '.test2']);
-    expect(result).toBe('.test1, .test1 *, .test2, .test2 *');
   });
 
   it('should return undefined for empty arrays', () => {
@@ -115,13 +112,13 @@ describe('processCSSSelectors', () => {
 
   it('should expand aliases in single strings', () => {
     expect(processCSSSelectors('media'))
-      .toBe('@media (prefers-color-scheme: dark), @media (prefers-color-scheme: dark) *');
+      .toEqual(['@media (prefers-color-scheme: dark)']);
   });
 
   it('should use custom aliases when provided', () => {
     const customAliases = { custom: '@media (min-width: 1200px)' };
     const result = processCSSSelectors('custom', { aliases: customAliases });
-    expect(result).toBe('@media (min-width: 1200px), @media (min-width: 1200px) *');
+    expect(result).toEqual(['@media (min-width: 1200px)']);
   });
 
   it('should expand aliases in arrays', () => {

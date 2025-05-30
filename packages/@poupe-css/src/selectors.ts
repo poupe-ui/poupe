@@ -24,19 +24,43 @@ export function expandSelectorAlias(
   return aliases[trimmed] || trimmed;
 }
 
+export interface ProcessCSSSelectorOptions {
+  /** Whether to add "selector *" variants to each selector */
+  addStarVariants?: boolean
+  /** Whether to allow comma-separated selectors to pass through */
+  allowCommaPassthrough?: boolean
+  /** Custom selector aliases to use for expansion */
+  aliases?: Record<string, string>
+}
+
 /**
- * Processes an array of CSS selectors and at-rules, merging consecutive
- * selectors with OR and adding * variants, while keeping at-rules stacked
- * separately.
+ * Processes CSS selectors and at-rules, handling both strings and arrays.
+ * Merges consecutive selectors with OR and adds * variants,
+ * while keeping at-rules stacked separately.
  *
- * @param selectors - Array of CSS selectors and at-rules
- * @param addStarVariants - Whether to add "selector *" variants
- * @returns Single string, array of strings, or undefined
+ * @param selectors - CSS selector(s) and at-rules
+ * @param options - Processing options
+ * @returns Array of processed selector strings or undefined
  */
-export function processCSSRuleChain(
-  selectors: string[],
-  addStarVariants: boolean = true,
-): string | string[] | undefined {
+export function processCSSSelectors(
+  selectors: string | string[],
+  options: ProcessCSSSelectorOptions = {},
+): string[] | undefined {
+  const {
+    addStarVariants = true,
+    allowCommaPassthrough = true,
+    aliases = DEFAULT_SELECTOR_ALIASES,
+  } = options;
+
+  // Convert string to array for unified processing
+  const selectorArray = Array.isArray(selectors) ? selectors : [selectors];
+
+  // Handle comma passthrough for single strings
+  if (!Array.isArray(selectors) && allowCommaPassthrough && selectors.includes(',')) {
+    const expanded = expandSelectorAlias(selectors, aliases);
+    return [expanded];
+  }
+
   const result: string[] = [];
   const currentSelectors: string[] = [];
 
@@ -55,8 +79,8 @@ export function processCSSRuleChain(
     }
   };
 
-  for (const s of selectors) {
-    const expanded = expandSelectorAlias(s);
+  for (const s of selectorArray) {
+    const expanded = expandSelectorAlias(s, aliases);
     const trimmed = expanded.trim();
     if (!trimmed) continue;
 
@@ -73,47 +97,5 @@ export function processCSSRuleChain(
   // Flush any remaining selectors
   flushSelectors();
 
-  if (result.length === 0) {
-    return undefined;
-  }
-  return result.length === 1 ? result[0] : result;
-}
-
-export interface ProcessCSSSelectorOptions {
-  /** Whether to add "selector *" variants to each selector */
-  addStarVariants?: boolean
-  /** Whether to allow comma-separated selectors to pass through */
-  allowCommaPassthrough?: boolean
-  /** Custom selector aliases to use for expansion */
-  aliases?: Record<string, string>
-}
-
-/**
- * Generic function to process CSS selector arrays for any theme mode
- * @param selectors - Array of CSS selectors and at-rules
- * @param options - Processing options
- * @returns Processed selector string(s) or undefined
- */
-export function processCSSSelectors(
-  selectors: string | string[],
-  options: ProcessCSSSelectorOptions = {},
-): string | string[] | undefined {
-  const {
-    addStarVariants = true,
-    allowCommaPassthrough = true,
-    aliases,
-  } = options;
-
-  if (!Array.isArray(selectors)) {
-    const expanded = expandSelectorAlias(selectors, aliases);
-
-    if (allowCommaPassthrough && expanded.includes(',')) {
-      return expanded;
-    }
-    return addStarVariants
-      ? `${expanded}, ${expanded} *`
-      : expanded;
-  }
-
-  return processCSSRuleChain(selectors, addStarVariants);
+  return result.length === 0 ? undefined : result;
 }
