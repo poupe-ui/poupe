@@ -464,21 +464,43 @@ expandSelectorAlias('print', customAliases); // '@media print'
 expandSelectorAlias('.my-class'); // '.my-class'
 ```
 
-#### `processCSSRuleChain(selectors: string[], addStarVariants?: boolean): string | string[] | undefined`
+#### `processCSSSelectors(selectors: string | string[], options?: ProcessCSSSelectorOptions): string[] | undefined`
 
-Processes an array of CSS selectors and at-rules, merging consecutive
-selectors with OR and adding * variants, while keeping at-rules stacked
-separately. Returns `undefined` if no valid selectors are found.
+Processes CSS selectors and at-rules, handling both strings and arrays.
+Merges consecutive selectors with OR and adds * variants, while keeping
+at-rules stacked separately. Returns `undefined` if no valid selectors are
+found.
 
 ```typescript
-import { processCSSRuleChain } from '@poupe/css';
+import { processCSSSelectors } from '@poupe/css';
 
-// Merge consecutive selectors with star variants
-processCSSRuleChain(['.dark', '.custom']);
-// Result: '.dark, .dark *, .custom, .custom *'
+// Single string selector
+processCSSSelectors('.test');
+// Result: ['.test, .test *']
+
+// Array of selectors
+processCSSSelectors(['.dark', '.custom']);
+// Result: ['.dark, .dark *, .custom, .custom *']
+
+// Comma-separated selectors pass through (when allowCommaPassthrough is true)
+processCSSSelectors('.test, .other');
+// Result: ['.test, .other']
+
+// Disable star variants
+processCSSSelectors(['.test1', '.test2'], { addStarVariants: false });
+// Result: ['.test1, .test2']
+
+// Use custom aliases
+const customAliases = { 'custom': '@media (min-width: 1200px)' };
+processCSSSelectors('custom', { aliases: customAliases });
+// Result: ['@media (min-width: 1200px), @media (min-width: 1200px) *']
+
+// Mixed selectors and aliases
+processCSSSelectors(['.test', 'mobile'], { addStarVariants: false });
+// Result: ['.test', '@media (max-width: 768px)']
 
 // At-rules are kept separate
-processCSSRuleChain([
+processCSSSelectors([
   '.dark',
   '@media (max-width: 768px)',
   '.mobile'
@@ -489,65 +511,16 @@ processCSSRuleChain([
 //   '.mobile, .mobile *'
 // ]
 
-// Disable star variants
-processCSSRuleChain(['.test1', '.test2'], false);
-// Result: '.test1, .test2'
-
-// Uses alias expansion
-processCSSRuleChain(['.test', 'media']);
-// Result: [
-//   '.test, .test *',
-//   '@media (prefers-color-scheme: dark)'
-// ]
-
-// Returns undefined for empty arrays
-processCSSRuleChain([]); // undefined
-```
-
-#### `processCSSSelectors(selectors: string | string[], options?: ProcessCSSSelectorOptions): string | string[] | undefined`
-
-Generic function to process CSS selector arrays with support for alias
-expansion and various formatting options. Returns `undefined` if no valid
-selectors are found.
-
-```typescript
-import { processCSSSelectors } from '@poupe/css';
-
-// Single string selector
-processCSSSelectors('.test');
-// Result: '.test, .test *'
-
-// Array of selectors
-processCSSSelectors(['.dark', '.custom']);
-// Result: '.dark, .dark *, .custom, .custom *'
-
-// Comma-separated selectors pass through (when allowCommaPassthrough is true)
-processCSSSelectors('.test, .other');
-// Result: '.test, .other'
-
-// Disable star variants
-processCSSSelectors(['.test1', '.test2'], { addStarVariants: false });
-// Result: '.test1, .test2'
-
-// Use custom aliases
-const customAliases = { 'custom': '@media (min-width: 1200px)' };
-processCSSSelectors('custom', { aliases: customAliases });
-// Result: '@media (min-width: 1200px), @media (min-width: 1200px) *'
-
-// Mixed selectors and aliases
-processCSSSelectors(['.test', 'mobile'], { addStarVariants: false });
-// Result: ['.test', '@media (max-width: 768px)']
-
 // Returns undefined for empty arrays
 processCSSSelectors([]); // undefined
 
 // Alias expansion with single string
 processCSSSelectors('media');
-// Result: '@media (prefers-color-scheme: dark), @media (prefers-color-scheme: dark) *'
+// Result: ['@media (prefers-color-scheme: dark), @media (prefers-color-scheme: dark) *']
 
-// Disable comma passthrough
+// Disable comma pass-through
 processCSSSelectors('.test, .other', { allowCommaPassthrough: false });
-// Result: '.test, .other, .test, .other *'
+// Result: ['.test, .other, .test, .other *']
 ```
 
 ### Utility Functions
