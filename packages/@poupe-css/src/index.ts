@@ -24,6 +24,8 @@ export {
   stringifyCSSRules,
 } from './rules';
 
+export * from './selectors';
+
 export {
   unsafeKeys,
   keys,
