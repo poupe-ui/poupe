@@ -13,14 +13,14 @@ import {
   type Hct,
 
   rgbaString,
-} from './core';
+} from '../core';
 
 import {
   type StandardDynamicSchemeKey,
   type ThemeColors,
 
   makeTheme,
-} from './theme';
+} from '../theme';
 
 export interface CSSThemeOptions {
   /** @defaultValue `'.dark'` */
