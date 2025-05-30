@@ -7,7 +7,7 @@ import {
 
 import {
   type StandardDynamicSchemeKey,
-} from '../dynamic-color-data';
+} from '../theme';
 
 import {
   getParam,
@@ -29,7 +29,7 @@ export {
 
 export {
   type StandardDynamicSchemeKey,
-} from '../dynamic-color-data';
+} from '../theme';
 
 // normalization utils and type checking
 export * from './utils';

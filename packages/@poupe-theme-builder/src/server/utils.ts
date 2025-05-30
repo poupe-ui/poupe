@@ -12,7 +12,7 @@ import {
   type StandardDynamicSchemeKey,
 
   standardDynamicSchemes,
-} from '../dynamic-color-data';
+} from '../theme';
 
 const reHexValue = /^#?(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
 

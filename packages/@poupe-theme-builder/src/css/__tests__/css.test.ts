@@ -7,7 +7,7 @@ import {
   hslString,
   rgbaString,
   splitHct,
-} from '../core';
+} from '../../core';
 
 import {
   type CSSThemeOptions,
@@ -20,7 +20,7 @@ import {
   defaultRootLightSelector,
   generateCSSColorVariables,
   makeCSSTheme,
-} from '../dynamic-color-css';
+} from '../css';
 
 // Mock color data for testing
 const mockDarkColors: ColorMap<string> = {
