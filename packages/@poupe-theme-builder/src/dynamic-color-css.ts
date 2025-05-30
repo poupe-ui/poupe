@@ -18,11 +18,9 @@ import {
 import {
   type StandardDynamicSchemeKey,
   type ThemeColors,
-} from './theme';
 
-import {
   makeTheme,
-} from './dynamic-theme';
+} from './theme';
 
 export interface CSSThemeOptions {
   /** @defaultValue `'.dark'` */

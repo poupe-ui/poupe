@@ -7,27 +7,36 @@ import {
 
 import {
   Hct,
-} from './core';
+} from '../core';
 
 import {
-  type ColorOptions,
-  type CustomDynamicColorKey,
-  type StandardDynamicSchemeKey,
-  type StandardDynamicColorKey,
-  type StandardPaletteKey,
-  type ThemeColors,
-
-  customDynamicColors,
-  flattenPartialColorOptions,
   makeCustomColorsFromPalettes,
   makeDynamicScheme,
   makeStandardColorsFromScheme,
   makeStandardPaletteKeyColorsFromScheme,
-  makeThemePalettes,
+} from './colors';
+
+import {
+  type CustomDynamicColorKey,
+  type StandardDynamicSchemeKey,
+  type StandardDynamicColorKey,
+  type StandardPaletteKey,
+
+  customDynamicColors,
   standardDynamicColorKeys,
   standardDynamicSchemes,
   standardPaletteKeys,
-} from './theme';
+} from './data';
+
+import {
+  flattenPartialColorOptions,
+  makeThemePalettes,
+} from './palettes';
+
+import {
+  type ColorOptions,
+  type ThemeColors,
+} from './types';
 
 /**
  * FlatThemeColors defines the colors of the theme
