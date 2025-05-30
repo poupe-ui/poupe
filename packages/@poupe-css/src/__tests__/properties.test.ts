@@ -7,7 +7,7 @@ import {
   properties,
   stringifyCSSProperties,
   spaceDelimitedProperties,
-} from './properties';
+} from '../properties';
 
 describe('stringifyCSSProperties', () => {
   it('formats with default options', () => {

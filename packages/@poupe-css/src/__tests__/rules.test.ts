@@ -11,7 +11,7 @@ import {
   renameRules,
   setDeepRule,
   stringifyCSSRules,
-} from './rules';
+} from '../rules';
 
 describe('stringifyCSSRules', () => {
   it('formats basic CSS rules', () => {

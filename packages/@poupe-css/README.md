@@ -431,13 +431,134 @@ getDeepRule(rules, []);
 // Result: { components: { ... }, utils: [...] }
 ```
 
+### CSS Selector Functions
+
+#### `expandSelectorAlias(selector: string, aliases?: Record<string, string>): string`
+
+Expands selector aliases into their full forms using built-in or custom
+aliases.
+
+Built-in aliases include:
+- `'media'` → `'@media (prefers-color-scheme: dark)'`
+- `'dark'` → `'@media (prefers-color-scheme: dark)'`
+- `'light'` → `'@media (prefers-color-scheme: light)'`
+- `'mobile'` → `'@media (max-width: 768px)'`
+- `'tablet'` → `'@media (min-width: 769px) and (max-width: 1024px)'`
+- `'desktop'` → `'@media (min-width: 1025px)'`
+
+```typescript
+import { expandSelectorAlias } from '@poupe/css';
+
+// Using built-in aliases
+expandSelectorAlias('media'); // '@media (prefers-color-scheme: dark)'
+expandSelectorAlias('mobile'); // '@media (max-width: 768px)'
+
+// Using custom aliases
+const customAliases = {
+  'print': '@media print',
+  'landscape': '@media (orientation: landscape)'
+};
+expandSelectorAlias('print', customAliases); // '@media print'
+
+// Non-aliased selectors pass through unchanged
+expandSelectorAlias('.my-class'); // '.my-class'
+```
+
+#### `processCSSRuleChain(selectors: string[], addStarVariants?: boolean): string | string[] | undefined`
+
+Processes an array of CSS selectors and at-rules, merging consecutive
+selectors with OR and adding * variants, while keeping at-rules stacked
+separately. Returns `undefined` if no valid selectors are found.
+
+```typescript
+import { processCSSRuleChain } from '@poupe/css';
+
+// Merge consecutive selectors with star variants
+processCSSRuleChain(['.dark', '.custom']);
+// Result: '.dark, .dark *, .custom, .custom *'
+
+// At-rules are kept separate
+processCSSRuleChain([
+  '.dark',
+  '@media (max-width: 768px)',
+  '.mobile'
+]);
+// Result: [
+//   '.dark, .dark *',
+//   '@media (max-width: 768px)',
+//   '.mobile, .mobile *'
+// ]
+
+// Disable star variants
+processCSSRuleChain(['.test1', '.test2'], false);
+// Result: '.test1, .test2'
+
+// Uses alias expansion
+processCSSRuleChain(['.test', 'media']);
+// Result: [
+//   '.test, .test *',
+//   '@media (prefers-color-scheme: dark)'
+// ]
+
+// Returns undefined for empty arrays
+processCSSRuleChain([]); // undefined
+```
+
+#### `processCSSSelectors(selectors: string | string[], options?: ProcessCSSSelectorOptions): string | string[] | undefined`
+
+Generic function to process CSS selector arrays with support for alias
+expansion and various formatting options. Returns `undefined` if no valid
+selectors are found.
+
+```typescript
+import { processCSSSelectors } from '@poupe/css';
+
+// Single string selector
+processCSSSelectors('.test');
+// Result: '.test, .test *'
+
+// Array of selectors
+processCSSSelectors(['.dark', '.custom']);
+// Result: '.dark, .dark *, .custom, .custom *'
+
+// Comma-separated selectors pass through (when allowCommaPassthrough is true)
+processCSSSelectors('.test, .other');
+// Result: '.test, .other'
+
+// Disable star variants
+processCSSSelectors(['.test1', '.test2'], { addStarVariants: false });
+// Result: '.test1, .test2'
+
+// Use custom aliases
+const customAliases = { 'custom': '@media (min-width: 1200px)' };
+processCSSSelectors('custom', { aliases: customAliases });
+// Result: '@media (min-width: 1200px), @media (min-width: 1200px) *'
+
+// Mixed selectors and aliases
+processCSSSelectors(['.test', 'mobile'], { addStarVariants: false });
+// Result: ['.test', '@media (max-width: 768px)']
+
+// Returns undefined for empty arrays
+processCSSSelectors([]); // undefined
+
+// Alias expansion with single string
+processCSSSelectors('media');
+// Result: '@media (prefers-color-scheme: dark), @media (prefers-color-scheme: dark) *'
+
+// Disable comma passthrough
+processCSSSelectors('.test, .other', { allowCommaPassthrough: false });
+// Result: '.test, .other, .test, .other *'
+```
+
 ### Utility Functions
 
 #### `unsafeKeys<T>(object: T): Array<keyof T>`
-A type-safe wrapper around Object.keys that preserves the object's key types.
+
+A type-safe wrapper around Object.keys for preserving the object's key types.
 
 #### `keys<T, K extends keyof T>`
 `(object: T, valid?: (key: keyof T) => boolean): Generator<K>`
+
 A generator function that yields keys of an object that pass an optional
 validation function.
 
@@ -459,6 +580,7 @@ for (const key of keys(obj, k => !k.startsWith('_'))) {
 
 #### `pairs<K extends string, T>`
 `(object: Record<K, T>, valid?: (k: K, v: T) => boolean): Generator<[K, T]>`
+
 A generator function that yields valid key-value pairs from an object. Allows
 providing a custom validation function to determine which pairs to include.
 
@@ -482,12 +604,14 @@ for (const [key, value] of pairs(obj, customValid)) {
 ```
 
 #### `defaultValidPair<K extends string, T>(key: K, value: T): boolean`
+
 Validates if a key-value pair meets default criteria:
 - The value is neither null nor undefined
 - The key doesn't contain spaces
 - The key doesn't start with an underscore (_)
 
 #### `kebabCase(s: string): string`
+
 Converts a given string to kebab-case:
 - Transforms camelCase, PascalCase, and snake_case to kebab-case
 - Adds leading hyphen to recognized vendor prefixes
@@ -502,6 +626,7 @@ kebabCase('WebkitTransition'); // '-webkit-transition'
 ```
 
 #### `camelCase(s: string): string`
+
 Converts a given string to camelCase:
 - Transforms kebab-case, PascalCase, and snake_case to camelCase
 - Properly handles vendor prefixes by removing the leading hyphen
@@ -517,6 +642,8 @@ camelCase('-webkit-transition'); // 'webkitTransition'
 camelCase('HTMLElement');     // 'htmlElement'
 camelCase('BGColor');         // 'bgColor'
 ```
+
+## Usage Examples
 
 ### Case Conversion Example
 
@@ -540,6 +667,32 @@ const cssProperties = Object.entries(styleObject).map(
   ([key, value]) => `${kebabCase(key)}: ${value};`
 );
 // ['background-color: red;', 'font-size: 16px;']
+```
+
+### CSS Selector Processing Example
+
+```typescript
+import { processCSSSelectors, expandSelectorAlias } from '@poupe/css';
+
+// Theme-aware selector processing
+const darkModeSelectors = processCSSSelectors(['.dark', 'media']);
+// Result: ['.dark, .dark *', '@media (prefers-color-scheme: dark)']
+
+// Custom aliases for responsive design
+const customAliases = {
+  'wide': '@media (min-width: 1440px)',
+  'touch': '@media (hover: none) and (pointer: coarse)'
+};
+
+const responsiveSelectors = processCSSSelectors(
+  ['mobile', 'wide'],
+  { aliases: customAliases }
+);
+// Result: ['@media (max-width: 768px)', '@media (min-width: 1440px)']
+
+// Expand individual aliases
+expandSelectorAlias('tablet');
+// '@media (min-width: 769px) and (max-width: 1024px)'
 ```
 
 ## Integration with Poupe Ecosystem
