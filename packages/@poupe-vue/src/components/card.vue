@@ -4,8 +4,8 @@ import {
   tv,
 
   onSlot,
+  containerVariants,
   roundedVariants,
-  surfaceVariants,
   shadowVariants,
 } from './variants';
 
@@ -16,7 +16,7 @@ const card = tv({
   variants: {
     rounded: onSlot('wrapper', roundedVariants),
     shadow: onSlot('wrapper', shadowVariants),
-    surface: onSlot('wrapper', surfaceVariants),
+    surface: onSlot('wrapper', containerVariants),
   },
 });
 
