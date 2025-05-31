@@ -3,12 +3,6 @@ import {
 } from './config';
 
 import {
-  type PluginAPI,
-  type PluginWithOptions,
-  pluginWithOptions,
-} from '../utils';
-
-import {
   type ThemeOptions,
   withDefaultThemeOptions,
 } from './options';
@@ -19,6 +13,16 @@ import {
   makeThemeComponents,
   type Theme,
 } from './theme';
+
+import {
+  type CSSRuleObject,
+  type PluginAPI,
+  type PluginWithOptions,
+  debugLog,
+  pairs,
+  pluginWithOptions,
+  warnLog,
+} from './utils';
 
 import {
   type DarkModeStrategy,
@@ -49,8 +53,22 @@ export function themePluginFunction(api: PluginAPI, theme: Theme): void {
   }
 
   for (const components of makeThemeComponents(theme, api.config('prefix', ''))) {
-    debugLog(theme.options.debug, 'plugin', components);
-    api.addComponents(components);
+    debugLog(theme.options.debug, 'plugin:components', components);
+    addComponents(api, components);
+  }
+}
+
+function addComponents(api: PluginAPI, components: Record<string, CSSRuleObject>) {
+  for (const [name, value] of pairs(components)) {
+    if (name.includes('*')) {
+      // TODO: matchUtility
+      warnLog('skipping component', name);
+      continue;
+    }
+
+    api.addComponents({
+      [name.startsWith('.') ? name : `.${name}`]: value,
+    });
   }
 }
 
@@ -63,5 +81,3 @@ export function makeThemeFromPartialOptions(options: Partial<ThemeOptions> = {})
 
   return makeTheme(withDefaultThemeOptions(options));
 };
-
-import { debugLog } from './utils';
