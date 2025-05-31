@@ -12,7 +12,7 @@ export function makeThemeComponents(theme: Readonly<Theme>, tailwindPrefix: stri
   return [
     makeSurfaceComponents(theme, tailwindPrefix),
     {
-      '.scrim': {
+      scrim: {
         '@apply fixed inset-0 bg-scrim/32': {},
       },
     },
@@ -33,7 +33,7 @@ export function makeZIndexComponents(theme: Readonly<Theme>): Record<string, CSS
 
   // semantic z-index scrim
   for (const name of ['base', 'content', 'drawer', 'modal', 'elevated', 'system']) {
-    out[`.scrim-z-${name}`] = {
+    out[`scrim-z-${name}`] = {
       '@apply scrim': {},
       'z-index': `var(--${themePrefix}z-scrim-${name})`,
     };
@@ -41,7 +41,7 @@ export function makeZIndexComponents(theme: Readonly<Theme>): Record<string, CSS
 
   // semantic z-index
   for (const name of ['navigation-persistent', 'navigation-floating', 'navigation-top', 'drawer', 'modal', 'snackbar', 'tooltip']) {
-    out[`.z-${name}`] = {
+    out[`z-${name}`] = {
       'z-index': `var(--${themePrefix}z-${name})`,
     };
   }
@@ -103,7 +103,7 @@ export function assembleSurfaceComponent(
   if (surfacePrefix === bgPrefix) {
     // extend bg- with text-on-
     return {
-      key: `.${bgPrefix}${colorName}`,
+      key: `${bgPrefix}${colorName}`,
       value: {
         [`@apply ${textPrefix}${onColorName}`]: {},
       },
@@ -112,7 +112,7 @@ export function assembleSurfaceComponent(
   // combine bg- and text-on-
   const surfaceName = makeSurfaceName(colorName, surfacePrefix);
   return {
-    key: `.${surfaceName}`,
+    key: `${surfaceName}`,
     value: {
       [`@apply ${bgPrefix}${colorName} ${textPrefix}${onColorName}`]: {},
     },
