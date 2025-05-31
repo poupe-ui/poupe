@@ -70,9 +70,9 @@ describe('Button', () => {
 
   it('should apply shadow variants correctly', () => {
     const wrapper = mount(Button, {
-      props: { shadow: 'lg' },
+      props: { shadow: 'z3' },
     });
-    expect(wrapper.classes()).toContain('shadow-lg');
+    expect(wrapper.classes()).toContain('shadow-md');
   });
 
   it('should apply surface variants correctly', () => {
@@ -102,7 +102,7 @@ describe('Button', () => {
       size: 'lg',
       border: 'primary',
       rounded: 'lg',
-      shadow: 'lg',
+      shadow: 'z4',
       surface: 'primary',
       expand: true,
     };
