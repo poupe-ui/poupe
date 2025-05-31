@@ -148,6 +148,69 @@ pnpm screenshot:auto --all-viewports      # All viewport sizes
 
 All screenshots are saved in the gitignored `screenshots/` directory.
 
+## Components
+
+### Available Components
+
+The Vue component library provides Material Design 3 components with full
+accessibility support and semantic HTML foundations.
+
+#### Navigation & Layout
+
+- **PScaffold** - Main app structure with header, content, and navigation
+- **PAppBar** - Top/bottom navigation bars (`role="banner"` or `"toolbar"`)
+- **PNavigationBar** - Bottom navigation for mobile (`role="navigation"`)
+- **PNavigationDrawer** - Side navigation panel (`role="navigation"`)
+- **PNavigationRail** - Desktop side navigation (`role="navigation"`)
+- **PSurface** - Base container with elevation and color theming
+
+#### Content Containers
+
+- **PCard** - Flexible content container (`role="group"` or `"article"`)
+- **PBottomSheet** - Slide-up content panel (`role="dialog"`)
+- **PSideSheet** - Slide-in content panel (`role="dialog"`)
+- **PDialog** - Modal dialog (`role="dialog"` or `"alertdialog"`)
+- **PTabs** - Tabbed content organization (`role="tablist"`)
+- **PCarousel** - Scrollable item collection (`role="region"`)
+
+#### Interactive Controls
+
+- **PButton** - Action buttons with multiple variants (`role="button"`)
+- **PCheckbox** - Selection control (`role="checkbox"`)
+- **PRadioButton** - Single choice from group (`role="radio"`)
+- **PSwitch** - Toggle control (`role="switch"`)
+- **PSlider** - Range input (`role="slider"`)
+- **PTextField** - Text input (`role="textbox"`)
+- **PChip** - Compact interactive elements (various roles)
+
+#### Display & Feedback
+
+- **PProgressIndicator** - Progress display (`role="progressbar"`)
+- **PSnackbar** - Brief message display (`role="status"` or `"alert"`)
+- **PTooltip** - Contextual help (`role="tooltip"`)
+- **PBadge** - Status indicators
+- **PMenu** - Action lists (`role="menu"`)
+- **PDivider** - Content separator
+
+#### Material Design 3 Principles
+
+All components follow M3 design tokens with:
+
+- **Tonal Elevation** - Dynamic color based on elevation
+- **Dynamic Color** - Adapts to user's wallpaper
+- **Accessibility First** - Semantic HTML with ARIA support
+- **Theme Integration** - Consistent color and typography system
+
+### Accessibility Guidelines
+
+Components prioritize semantic HTML and use ARIA attributes only when
+necessary. Key principles:
+
+1. **Semantic HTML First** - Use native elements when possible
+2. **Meaningful Labels** - Provide accessible names via text or `aria-label`
+3. **Keyboard Navigation** - Full keyboard support for all interactions
+4. **Screen Reader Support** - Proper ARIA roles and live regions
+
 ## Available Exports
 
 - **Main export**: Core components and configuration
