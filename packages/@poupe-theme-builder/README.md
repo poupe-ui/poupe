@@ -85,7 +85,20 @@ const cssTheme = makeCSSTheme({
   scheme: 'content',
   contrastLevel: 0.5,
   prefix: 'md-',
-  darkMode: '.dark',
+  darkMode: ['.dark', 'media'],    // Multiple selectors with aliases
+  lightMode: '.light',
+})
+
+// Built-in responsive aliases
+makeCSSTheme(colors, { 
+  darkMode: ['dark', 'mobile'],    // Uses media queries
+  lightMode: ['light', 'desktop']  // Now supports arrays too
+})
+
+// Advanced selector configuration
+const advancedTheme = makeCSSTheme(colors, {
+  darkMode: ['mobile', '.dark-mode'],   // Mobile screens + custom class
+  lightMode: ['desktop', '.light-mode'], // Desktop + custom class
 })
 
 // Use generated CSS variables
@@ -254,14 +267,23 @@ cssTheme.styles                   // CSS rule objects
 
 ## Dark Mode
 
-Built-in dark mode support with flexible selectors:
+Built-in dark mode support with flexible selectors and aliases:
 
 ```typescript
 // Class-based dark mode (default)
 makeCSSTheme(colors, { darkMode: '.dark' })
 
-// Media query dark mode
+// Media query dark mode using built-in alias
 makeCSSTheme(colors, { darkMode: 'media' })
+
+// Multiple selectors
+makeCSSTheme(colors, { darkMode: ['.dark', '.theme-dark'] })
+
+// Built-in responsive aliases
+makeCSSTheme(colors, { 
+  darkMode: ['dark', 'mobile'],  // Uses media queries
+  lightMode: 'light'
+})
 
 // Custom selectors
 makeCSSTheme(colors, {
@@ -271,6 +293,24 @@ makeCSSTheme(colors, {
 
 // Disable dark mode
 makeCSSTheme(colors, { darkMode: false })
+```
+
+### Built-in Selector Aliases
+
+The theme builder includes convenient aliases for common media queries:
+
+- `'media'` or `'dark'` → `'@media (prefers-color-scheme: dark)'`
+- `'light'` → `'@media (prefers-color-scheme: light)'`
+- `'mobile'` → `'@media (max-width: 768px)'`
+- `'tablet'` → `'@media (min-width: 769px) and (max-width: 1024px)'`
+- `'desktop'` → `'@media (min-width: 1025px)'`
+
+```typescript
+// Using aliases for responsive theming
+const cssTheme = makeCSSTheme(colors, {
+  darkMode: ['dark', 'tablet'],     // Dark mode + tablet screens
+  lightMode: ['light', 'desktop'],  // Light mode + desktop screens
+})
 ```
 
 ## Integration with Poupe Ecosystem

@@ -307,6 +307,7 @@ export function makeThemeBases(
         darkSuffix: theme.options.darkSuffix,
         lightSuffix: theme.options.lightSuffix,
         stringify: stringify || hslString,
+        addStarVariantsToDark: false,
       },
     );
 

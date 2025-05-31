@@ -6,6 +6,7 @@ import {
   type CSSRuleObject,
   unsafeKeys,
   setDeepRule,
+  processCSSSelectors,
 } from '@poupe/css';
 
 import {
@@ -26,7 +27,7 @@ export interface CSSThemeOptions {
   /** @defaultValue `'.dark'` */
   darkMode: boolean | string | string[]
   /** @defaultValue `'.light'` */
-  lightMode: boolean | string
+  lightMode: boolean | string | string[]
   /** @defaultValue `'md-'` */
   prefix: string
   /** @defaultValue `'-dark'` */
@@ -35,6 +36,10 @@ export interface CSSThemeOptions {
   lightSuffix: string
   /** @defaultValue `rgb('{r} {g} {b}')` */
   stringify: (c: Hct) => string
+  /** @defaultValue `true` */
+  addStarVariantsToDark?: boolean
+  /** @defaultValue `true` */
+  addStarVariantsToLight?: boolean
 };
 
 /** apply defaults to {@link CSSThemeOptions} */
@@ -50,44 +55,54 @@ export function defaultCSSThemeOptions(options: Partial<CSSThemeOptions> = {}): 
 }
 
 /** @returns the dark mode selector or media rule */
-export function defaultDarkSelector(options: Partial<CSSThemeOptions>) {
-  const { darkMode = true } = options;
-  if (darkMode === true || darkMode === '.dark')
-    return '.dark, .dark *';
-  else if (darkMode === false || darkMode === '' || darkMode === 'media')
-    return '@media not print and (prefers-color-scheme: dark)';
-  else if (!Array.isArray(darkMode)) {
-    return darkMode.includes(',') ? darkMode : `${darkMode}, ${darkMode} *`;
-  }
+export function defaultDarkSelector(options: Partial<CSSThemeOptions>): string[] {
+  const { addStarVariantsToDark = true } = options;
+  let { darkMode = true } = options;
 
-  const selectors: string[] = [];
-  for (const s of darkMode) {
-    const trimmed = s.trim();
-    if (trimmed)
-      selectors.push(trimmed);
-  }
+  if (darkMode === true)
+    darkMode = '.dark';
+  else if (darkMode === false || darkMode === '')
+    darkMode = 'media';
 
-  if (selectors.length === 0) return '.dark, .dark *';
-  return selectors;
+  const result = processCSSSelectors(darkMode, {
+    addStarVariants: addStarVariantsToDark,
+  });
+  return result ?? ['.dark, .dark *'];
 }
 
 /** @returns the light mode selector, or undefined if disabled */
-export function defaultLightSelector(options: Partial<CSSThemeOptions>) {
-  const { lightMode = true } = options;
-  if (lightMode === true || lightMode === '.light')
-    return '.light, .light *';
+export function defaultLightSelector(options: Partial<CSSThemeOptions>): string[] | undefined {
+  const { addStarVariantsToLight = true } = options;
+  let { lightMode = true } = options;
+
+  if (lightMode === true)
+    lightMode = '.light';
   else if (lightMode === false || lightMode === '')
     return undefined;
-  else
-    return lightMode.includes(',') ? lightMode : `${lightMode}, ${lightMode} *`;
+
+  const result = processCSSSelectors(lightMode, {
+    addStarVariants: addStarVariantsToLight,
+  });
+  return result ?? ['.light, .light *'];
 }
 
-export function defaultRootLightSelector(options: Partial<CSSThemeOptions>) {
-  const rootSelector = ':root';
+export function defaultRootLightSelector(options: Partial<CSSThemeOptions>): string[] {
+  const rootSelector = [':root'];
   const lightSelector = defaultLightSelector(options);
+
   if (lightSelector) {
-    return `${rootSelector}, ${lightSelector}`;
+    const combined = processCSSSelectors([
+      ...rootSelector,
+      ...lightSelector,
+    ], {
+      addStarVariants: false, // already added.
+    });
+
+    if (combined) { // always true
+      return combined;
+    }
   }
+
   return rootSelector;
 }
 
@@ -110,23 +125,17 @@ export function assembleCSSRules(root: CSSRuleObject | undefined,
     });
   }
 
-  styles.push({
-    ...makeDeepRule(rootLightSelector, light),
-    ...makeDeepRule(darkSelector, dark),
-  });
+  const combinedRules: CSSRuleObject = {};
+
+  // Set light mode rules
+  setDeepRule(combinedRules, rootLightSelector, light);
+
+  // Set dark mode rules
+  setDeepRule(combinedRules, darkSelector, dark);
+
+  styles.push(combinedRules);
 
   return styles;
-}
-
-/**
- * Creates a nested CSS rule object from a selector path and a CSS rule object
- * @param path - Selector path (string or array of strings)
- * @param object - CSS rule object to be nested
- * @returns A CSSRuleObject with the nested structure
- */
-function makeDeepRule(path: string | string[], object: CSSRuleObject): CSSRuleObject {
-  const out: CSSRuleObject = {};
-  return setDeepRule(out, path, object);
 }
 
 export function generateCSSColorVariables<K extends string>(dark: ColorMap<K>, light: ColorMap<K>, options: CSSThemeOptions) {
