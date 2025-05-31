@@ -86,7 +86,7 @@
     "jsdom": "^26.1.0",
     "npm-run-all2": "^8.0.4",
     "pathe": "^2.0.3",
-    "postcss": "^8.5.3",
+    "postcss": "^8.5.4",
     "publint": "^0.3.12",
     "typescript": "~5.8.3",
     "unplugin-vue-components": "^28.7.0",
