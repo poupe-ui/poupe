@@ -41,7 +41,7 @@ const props = withDefaults(defineProps<CardProps>(), {
   title: undefined,
   rounded: 'xl' as const,
   shadow: 'none' as const,
-  surface: 'base' as const,
+  surface: 'high' as const,
 });
 
 const variants = computed(() => card({
