@@ -14,7 +14,6 @@ import {
   type ColorFormat,
 
   colorFormatter,
-  defaultPrimaryColor,
   formatTheme,
   makeThemeFromPartialOptions,
 } from './src/theme/index';
@@ -27,9 +26,6 @@ type FileThemeOptions<K extends string> = {
 const themes: Record<string, FileThemeOptions<string>> = {
   style: {
     theme: {
-      colors: {
-        primary: defaultPrimaryColor,
-      },
       omitTheme: true,
     },
   },
