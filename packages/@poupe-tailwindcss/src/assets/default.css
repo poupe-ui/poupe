@@ -101,13 +101,13 @@
     --md-on-surface-container-highest: rgb(24 28 31);
     --md-on-inverse-surface: rgb(239 241 245);
     --md-primary-container: rgb(116 190 245);
-    --md-primary-fixed: rgb(203 230 255);
-    --md-primary-fixed-dim: rgb(175 202 226);
+    --md-primary-fixed: rgb(202 230 255);
+    --md-primary-fixed-dim: rgb(142 205 255);
     --md-inverse-primary: rgb(142 205 255);
     --md-on-primary: rgb(255 255 255);
     --md-on-primary-container: rgb(0 76 114);
     --md-on-primary-fixed: rgb(0 30 48);
-    --md-on-primary-fixed-variant: rgb(48 73 93);
+    --md-on-primary-fixed-variant: rgb(0 75 112);
     --md-secondary-container: rgb(203 230 255);
     --md-secondary-fixed: rgb(203 230 255);
     --md-secondary-fixed-dim: rgb(175 202 226);
