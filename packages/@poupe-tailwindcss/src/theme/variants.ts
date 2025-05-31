@@ -1,4 +1,5 @@
 import {
+  processCSSSelectors,
   type CSSRuleObject,
 } from '@poupe/css';
 
@@ -94,11 +95,8 @@ export function getDarkMode(darkMode: DarkModeStrategy = 'class'): string[] {
         const [mode, value] = darkMode;
         switch (mode) {
           case 'class':
-          case 'selector': {
-            const v = makeDarkModeSelector(value);
-            if (v.length > 0)
-              return v;
-          }
+          case 'selector':
+            return processCSSSelectors(value) ?? [defaultDarkSelector];
         }
 
         // TODO: variant modes
@@ -107,23 +105,6 @@ export function getDarkMode(darkMode: DarkModeStrategy = 'class'): string[] {
       throw new Error(`Invalid darkMode strategy: ${JSON.stringify(darkMode)}.`);
     }
   }
-}
-
-function makeDarkModeSelector(value: string | string[]): string[] {
-  if (Array.isArray(value)) {
-    const sanitized: string[] = [];
-
-    // remove empty slots
-    for (const v of value) {
-      const trimmed = v.trim();
-      if (trimmed != '') sanitized.push(trimmed);
-    }
-
-    return sanitized.length > 0 ? sanitized : [defaultDarkSelector];
-  }
-
-  const trimmed = value.trim();
-  return trimmed == '' ? [defaultDarkSelector] : [trimmed];
 }
 
 const defaultDarkSelector = '.dark, .dark *';
