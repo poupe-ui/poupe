@@ -42,18 +42,16 @@ export const roundedVariants = {
   ['3xl']: 'rounded-3xl',
 };
 
-// TODO: turn into elevation values
 export const shadowVariants = {
   current: 'shadow-shadow shadow',
   none: 'shadow-none',
 
-  xs: 'shadow-shadow shadow-sm',
-  sm: 'shadow-shadow shadow',
-  md: 'shadow-shadow shadow-md',
-  lg: 'shadow-shadow shadow-lg',
-  xl: 'shadow-shadow shadow-xl',
-  ['2xl']: 'shadow-shadow shadow-2xl',
-  inner: 'shadow-shadow shadow-inner',
+  z1: 'shadow-shadow shadow-z1',
+  z2: 'shadow-shadow shadow-z2',
+  z3: 'shadow-shadow shadow-z3',
+  z4: 'shadow-shadow shadow-z4',
+  z5: 'shadow-shadow shadow-z5',
+  inset: 'inset-shadow-shadow inset-shadow',
 };
 
 export const colorSurfaceVariants = {
