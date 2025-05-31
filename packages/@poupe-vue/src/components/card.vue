@@ -4,8 +4,8 @@ import {
   tv,
 
   onSlot,
+  containerVariants,
   roundedVariants,
-  surfaceVariants,
   shadowVariants,
 } from './variants';
 
@@ -16,7 +16,7 @@ const card = tv({
   variants: {
     rounded: onSlot('wrapper', roundedVariants),
     shadow: onSlot('wrapper', shadowVariants),
-    surface: onSlot('wrapper', surfaceVariants),
+    surface: onSlot('wrapper', containerVariants),
   },
 });
 
@@ -41,7 +41,7 @@ const props = withDefaults(defineProps<CardProps>(), {
   title: undefined,
   rounded: 'xl' as const,
   shadow: 'none' as const,
-  surface: 'base' as const,
+  surface: 'high' as const,
 });
 
 const variants = computed(() => card({
