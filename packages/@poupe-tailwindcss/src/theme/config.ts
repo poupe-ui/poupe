@@ -1,3 +1,5 @@
+import { makeShadows } from './shadows';
+
 import {
   type Theme,
 } from './types';
@@ -47,19 +49,15 @@ export function makeConfig(
     colors[key] = makeConfigColor(key, c.value, c.shades);
   }
 
-  if (extendColors) {
-    return {
-      theme: {
-        extend: {
-          colors,
-        },
-      },
-    };
-  }
+  const { boxShadow, dropShadow } = makeConfigShadows(theme);
 
   return {
     theme: {
-      colors,
+      ...(extendColors
+        ? { extend: { colors } }
+        : { colors }),
+      boxShadow,
+      dropShadow,
     },
   };
 }
@@ -78,6 +76,17 @@ export function makeConfigColor<N extends number>(key: string, value: string, sh
   }
 
   return `var(${value})`;
+}
+
+export function makeConfigShadows(theme: Theme) {
+  const [shadows, insetShadows] = makeShadows(theme, false);
+  return {
+    boxShadow: {
+      ...shadows,
+      inner: insetShadows.DEFAULT,
+    },
+    dropShadow: shadows,
+  };
 }
 
 export const defaultPersistentColors = {
