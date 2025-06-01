@@ -21,13 +21,23 @@ const ariaLabel = computed(() => props.ariaLabel || 'Theme Colors');
 
 <template>
   <div
-    class="grid grid-cols-4 gap-2 text-xs"
+    :class="[
+      'grid grid-cols-4 gap-2 h-full',
+      'text-[length:var(--text-3xs)] sm:text-[length:var(--text-2xs)] md:text-xs lg:text-sm theme-scheme-sizes',
+    ]"
     role="region"
     :aria-label="ariaLabel"
   >
-    <theme-scheme-colors class="col-span-3" />
-    <theme-scheme-error class="self-start" />
-    <theme-scheme-neutral class="col-span-3" />
-    <theme-scheme-extra class="self-start" />
+    <theme-scheme-colors class="col-span-3 h-full" />
+    <theme-scheme-error class="h-full" />
+    <theme-scheme-neutral class="col-span-3 h-full" />
+    <theme-scheme-extra class="h-full" />
   </div>
 </template>
+
+<style scoped>
+.theme-scheme-sizes {
+  --text-3xs: calc(var(--text-base) * 0.5);
+  --text-2xs: calc(var(--text-base) * 0.625);
+}
+</style>

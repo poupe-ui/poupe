@@ -1,10 +1,11 @@
 # @poupe/vue
 
-[![jsDocs.io](https://img.shields.io/badge/jsDocs.io-reference-blue)](https://www.jsdocs.io/package/@poupe/vue)
-[![npm version](https://img.shields.io/npm/v/@poupe/vue.svg)](https://www.npmjs.com/package/@poupe/vue)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](../../LICENCE.txt)
+[![API Reference][jsdocs-shield]][jsdocs-link]
+[![NPM Version][npm-shield]][npm-link]
+[![License][license-shield]][license-link]
 
-Vue component library for Poupe UI framework with theme customization and accessibility support.
+Vue component library for Poupe UI framework with theme customization
+and accessibility support.
 
 ## Features
 
@@ -125,3 +126,10 @@ export default {
 ## License
 
 MIT licensed.
+
+[jsdocs-shield]: https://img.shields.io/badge/jsDocs.io-reference-blue
+[jsdocs-link]: https://www.jsdocs.io/package/@poupe/vue
+[npm-shield]: https://img.shields.io/npm/v/@poupe/vue.svg
+[npm-link]: https://www.npmjs.com/package/@poupe/vue
+[license-shield]: https://img.shields.io/badge/License-MIT-blue.svg
+[license-link]: ../../LICENCE.txt

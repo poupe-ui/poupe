@@ -1,6 +1,6 @@
 {
   "name": "@poupe/vue",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "type": "module",
   "description": "Vue component library for Poupe UI framework with theme customization and accessibility support",
   "author": "Alejandro Mery <amery@apptly.co>",
