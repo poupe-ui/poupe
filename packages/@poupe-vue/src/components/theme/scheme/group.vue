@@ -10,22 +10,30 @@ export type ThemeSchemeGroupEntry = ThemeSchemeGroupItem | Array<ThemeSchemeGrou
 export interface ThemeSchemeGroupProps {
   ariaLabel?: string
   entries: Array<ThemeSchemeGroupEntry>
+  justify?: keyof typeof justifyClasses
 };
 </script>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { gridColsClasses } from './utils';
+
+import {
+  justifyClasses,
+  gridColsClasses,
+} from './utils';
 
 import ThemeSchemeSlot from './slot.vue';
 
-const props = defineProps<ThemeSchemeGroupProps>();
+const props = withDefaults(defineProps<ThemeSchemeGroupProps>(), {
+  justify: 'start',
+  ariaLabel: undefined,
+});
 
 const ariaRole = computed(() => props.ariaLabel ? 'group' : undefined);
 const ariaLabel = computed(() => props.ariaLabel);
+const justifyClass = computed(() => justifyClasses[props.justify]);
 
 const colsClass = (n: number) => gridColsClasses[n];
-
 </script>
 
 <template>
@@ -33,6 +41,7 @@ const colsClass = (n: number) => gridColsClasses[n];
     :role="ariaRole"
     :aria-label="ariaLabel"
     class="flex flex-col overflow-auto"
+    :class="justifyClass"
   >
     <div
       v-for="(v, i) in entries"
@@ -40,7 +49,7 @@ const colsClass = (n: number) => gridColsClasses[n];
     >
       <div
         v-if="Array.isArray(v)"
-        class="grid grid-flow-col mt-2"
+        class="grid grid-flow-col mt-2 h-12"
         :class="colsClass(v.length)"
       >
         <theme-scheme-slot

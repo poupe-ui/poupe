@@ -6,6 +6,7 @@ import {
 
 const group: ThemeSchemeGroupProps = {
   ariaLabel: 'Additional Colors',
+  justify: 'between',
   entries: [
     { bg: 'bg-inverse-surface', text: 'text-on-inverse-surface' },
     { bg: 'bg-on-inverse-surface', text: 'text-inverse-surface' },

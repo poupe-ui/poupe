@@ -24,20 +24,22 @@ const data: Array<Array<ThemeSchemeSlotProps>> = [
     { bg: 'bg-outline-variant', text: 'text-on-surface' },
   ],
 ];
+
 </script>
 
 <template>
   <div
-    class="flex flex-col"
+    class="flex flex-col h-full"
     role="group"
     aria-label="Neutral Colors"
   >
     <div
       v-for="(d, i) in data"
       :key="i"
+      class="flex-1"
     >
       <div
-        class="grid"
+        class="grid h-full items-center"
         :class="gridColsClasses[d.length]"
       >
         <theme-scheme-slot

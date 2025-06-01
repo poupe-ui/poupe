@@ -1,20 +1,23 @@
 <script setup lang="ts">
 import {
-  default as ThemeSchemeGroup,
-  type ThemeSchemeGroupProps,
-} from './group.vue';
+  default as ThemeSchemeGroups,
+  type ThemeSchemeGroupsProps,
+  type ThemeSchemeGroupEntry,
+} from './groups.vue';
 
-const group: ThemeSchemeGroupProps = {
+const error: ThemeSchemeGroupEntry[] = [
+  { bg: 'bg-error', text: 'text-on-error' },
+  { bg: 'bg-on-error', text: 'text-error' },
+  { bg: 'bg-error-container', text: 'text-on-error-container', class: 'mt-1' },
+  { bg: 'bg-on-error-container', text: 'text-error-container' },
+];
+
+const groups: ThemeSchemeGroupsProps = {
   ariaLabel: 'Error Colors',
-  entries: [
-    { bg: 'bg-error', text: 'text-on-error' },
-    { bg: 'bg-on-error', text: 'text-error' },
-    { bg: 'bg-error-container', text: 'text-on-error-container', class: 'mt-1' },
-    { bg: 'bg-on-error-container', text: 'text-error-container' },
-  ],
+  groups: [error],
 };
 </script>
 
 <template>
-  <theme-scheme-group v-bind="group" />
+  <theme-scheme-groups v-bind="groups" />
 </template>

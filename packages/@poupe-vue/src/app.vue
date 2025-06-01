@@ -18,7 +18,7 @@ useHead({
   <div class="flex flex-1 h-screen justify-center items-center">
     <div class="container">
       <card
-        class="m-auto w-full max-w-2xl"
+        class="m-auto w-full max-w-4xl"
         title="@poupe/vue"
         shadow="z2"
         surface="high"
