@@ -1,8 +1,8 @@
-# CLAUDE.md - @poupe/theme-builder
+# AGENT.md - @poupe/theme-builder
 
 This file provides package-specific guidance for the @poupe/theme-builder
 package. For general monorepo guidelines, see the
-[root CLAUDE.md](../../CLAUDE.md).
+[root AGENT.md](../../AGENT.md).
 
 ## Package Overview
 

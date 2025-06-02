@@ -1,7 +1,8 @@
-# CLAUDE.md
+# AGENT.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working
-with code in the Poupe UI Framework monorepo.
+This file provides guidance to AI coding assistants (Claude Code, GitHub
+Copilot, Cody, etc.) when working with code in the Poupe UI Framework
+monorepo.
 
 ## Project Overview
 
@@ -44,7 +45,8 @@ pnpm clean        # Remove dist/ and node_modules/
 ```bash
 pnpm lint         # Run ESLint with auto-fix
 pnpm type-check   # Check TypeScript types
-pnpm prepack      # Full validation (lint, type-check, test, build, publint)
+pnpm prepack      # Full validation (lint, type-check, test, build,
+                   # publint)
 pnpm publint      # Check package publishing configuration
 ```
 
@@ -95,7 +97,6 @@ ESLint):
 - Create files unless necessary - prefer editing existing ones
 - Add external dependencies without careful consideration
 - Ignore TypeScript errors or ESLint warnings
-- Create documentation files unless explicitly requested
 - Mix concerns between packages
 - Use relative imports between packages (use workspace deps)
 
@@ -143,15 +144,40 @@ All packages work together to implement Material Design 3:
 
 ## Package-Specific Guidelines
 
-Each package has its own CLAUDE.md file with specific details:
-- `packages/@poupe-css/CLAUDE.md` - CSS utilities specifics
-- `packages/@poupe-theme-builder/CLAUDE.md` - Theme generation
-  details
-- `packages/@poupe-tailwindcss/CLAUDE.md` - TailwindCSS integration
-- `packages/@poupe-vue/CLAUDE.md` - Vue component development
-- `packages/@poupe-nuxt/CLAUDE.md` - Nuxt module configuration
+Each package has its own AGENT.md file with specific details:
+- `packages/@poupe-css/AGENT.md` - CSS utilities specifics
+- `packages/@poupe-theme-builder/AGENT.md` - Theme generation details
+- `packages/@poupe-tailwindcss/AGENT.md` - TailwindCSS integration
+- `packages/@poupe-vue/AGENT.md` - Vue component development
+- `packages/@poupe-nuxt/AGENT.md` - Nuxt module configuration
 
-Always check the package-specific CLAUDE.md for detailed guidance.
+## Agent-Specific Instructions
+
+### Cody (Sourcegraph) Specific Instructions
+
+#### Response Length Management
+- Acknowledge length limitations when responses approach limits - don't
+  silently cut off
+- For large file changes: Provide targeted fixes with specific line
+  numbers rather than rewriting entire files
+- Break large changes into smaller chunks - focus on one specific issue
+  at a time
+
+#### Code Generation Guidelines
+- Always reference existing code patterns before creating new
+  implementations
+- Use the monorepo's established conventions
+
+### Claude Code Specific Instructions
+- Use TodoWrite tool for complex multi-step tasks
+- Run lint and type-check commands before completing tasks
+
+### GitHub Copilot Specific Instructions
+- Leverage inline suggestions for small fixes
+- Use chat for architectural decisions
+
+### Universal Agent Guidelines
+- Test changes thoroughly before considering tasks complete
 
 ## Debugging Tips
 
