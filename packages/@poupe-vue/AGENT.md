@@ -1,7 +1,7 @@
-# CLAUDE.md - @poupe/vue
+# AGENT.md - @poupe/vue
 
 This file provides package-specific guidance for the @poupe/vue package.
-For general monorepo guidelines, see the [root CLAUDE.md](../../CLAUDE.md).
+For general monorepo guidelines, see the [root AGENT.md](../../AGENT.md).
 
 ## Package Overview
 
@@ -12,7 +12,7 @@ capabilities.
 
 ## Package-Specific Commands
 
-In addition to [common commands](../../CLAUDE.md#common-commands-all-packages):
+In addition to [common commands](../../AGENT.md#common-commands-all-packages):
 
 ```bash
 pnpm preview      # Preview built application (unique to @poupe/vue)

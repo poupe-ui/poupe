@@ -1,7 +1,7 @@
-# CLAUDE.md - @poupe/css
+# AGENT.md - @poupe/css
 
 This file provides package-specific guidance for the @poupe/css package.
-For general monorepo guidelines, see the [root CLAUDE.md](../../CLAUDE.md).
+For general monorepo guidelines, see the [root AGENT.md](../../AGENT.md).
 
 ## Package Overview
 
