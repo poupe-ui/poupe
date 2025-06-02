@@ -8,8 +8,10 @@ import {
 import {
   type ColorMap,
   type ThemeColors as ThemeBuilderColors,
-  assembleCSSColors,
   Hct,
+  TonalPalette,
+
+  assembleCSSColors,
   makeTheme as makeThemeColors,
   makeThemeKeys,
   rgba,
@@ -23,6 +25,7 @@ import {
   type Shades,
   getShades,
   makeShades,
+  makeShadesFromPalette,
 } from './shades';
 
 import {
@@ -43,6 +46,7 @@ import {
   type DarkModeStrategy,
   getDarkMode,
 } from './variants';
+import { K } from 'vitest/dist/chunks/reporters.d.C-cu31ET.js';
 
 /* re-exports */
 export {
@@ -71,19 +75,11 @@ export function makeTheme<K extends string>(options: ThemeOptions<K>) {
   const { omitTheme = false } = options;
 
   if (omitTheme) {
-    const { keys, paletteKeys } = makeThemeKeys($colors);
-
-    return newTheme<K, typeof paletteKeys[number], typeof keys[number]>(options, paletteKeys, keys);
+    const { keys, paletteKeys, colorOptions } = makeThemeKeys($colors);
+    return newTheme<K, typeof paletteKeys[number], typeof keys[number]>(options, paletteKeys, keys, colorOptions);
   }
 
-  const {
-    dark,
-    light,
-    darkKeyColors,
-  } = makeThemeColors($colors, options.scheme, options.contrastLevel);
-
-  const keys = unsafeKeys(dark);
-  const keyColors = unsafeKeys(darkKeyColors);
+  const theme = makeThemeColors($colors, options.scheme, options.contrastLevel);
 
   return newTheme<K, typeof keyColors[number], typeof keys[number]>(options, keyColors, keys, dark, light);
 }
@@ -98,6 +94,8 @@ function newTheme<
   keys: K2[],
   dark?: Record<K2, Hct>,
   light?: Record<K2, Hct>,
+  darkPalette?: Record<K1, TonalPalette>,
+  lightPalette?: Record<K1, TonalPalette>,
 ): Theme {
   const darkColors: ColorMap<string> | undefined = dark ? {} as ColorMap<string> : undefined;
   const lightColors: ColorMap<string> | undefined = light ? {} as ColorMap<string> : undefined;
@@ -111,21 +109,21 @@ function newTheme<
     const color = flattenColorOptions(options.colors[k0]);
     const { shades } = getShades(color?.shades, defaultShades);
 
-    setColor(k0 as K2, themePrefix, shades, colors, darkColors, lightColors, dark, light);
+    setColor(k0 as K2, themePrefix, shades, colors, darkColors, lightColors, dark, light, darkPalette, lightPalette);
   }
 
   // rest of the palette keys take the default shades
   for (const key of paletteKeys as unknown[] as K2[]) {
     if (key in colors) continue;
 
-    setColor(key, themePrefix, defaultShades, colors, darkColors, lightColors, dark, light);
+    setColor(key, themePrefix, defaultShades, colors, darkColors, lightColors, dark, light, darkPalette, lightPalette);
   }
 
   // and the rest have no shades
   for (const key of keys) {
     if (key in colors) continue;
 
-    setColor(key, themePrefix, false, colors, darkColors, lightColors, dark, light);
+    setColor(key, themePrefix, false, colors, darkColors, lightColors, dark, light, darkPalette, lightPalette);
   }
 
   return {
@@ -138,24 +136,30 @@ function newTheme<
   };
 }
 
-function setColor<K extends string>(
-  key: K,
+function setColor<K1 extends string, K2 extends string>(
+  key: K2,
   prefix: string,
   shades: Shades,
-  colors: Record<K, ThemeColorConfig>,
+  colors: Record<K2, ThemeColorConfig>,
   darkColors: ColorMap<string> | undefined,
   lightColors: ColorMap<string> | undefined,
-  dark: Record<K, Hct> | undefined,
-  light: Record<K, Hct> | undefined,
+  dark: Record<K2, Hct> = {} as Record<K2, Hct>,
+  light: Record<K2, Hct> | undefined,
+  darkPalette: Record<K1, TonalPalette> | undefined,
+  lightPalette: Record<K1, TonalPalette> | undefined,
 ) {
   if (dark && darkColors) {
-    for (const [k, v] of newThemeColorHct(key, dark[key], shades)) {
+    const c = dark[key];
+    const p = darkPalette ? darkPalette[key as unknown as K1] : undefined;
+    for (const [k, v] of newThemeColorHct(key, c, p, shades)) {
       darkColors[k] = v;
     }
   }
 
   if (light && lightColors) {
-    for (const [k, v] of newThemeColorHct(key, light[key], shades)) {
+    const c = light[key];
+    const p = lightPalette ? lightPalette[key as unknown as K1] : undefined;
+    for (const [k, v] of newThemeColorHct(key, c, p, shades)) {
       lightColors[k] = v;
     }
   }
@@ -163,13 +167,19 @@ function setColor<K extends string>(
   colors[key] = newThemeColorConfig(key, shades, prefix);
 }
 
-function newThemeColorHct(key: string, value: Hct, shades: Shades): [string, Hct][] {
+function newThemeColorHct(key: string, value: Hct | undefined, palette: TonalPalette | undefined, shades: Shades): [string, Hct][] {
+  function mustHct(key: string, v0?: Hct, v1?: Hct): Hct {
+    if (v0) return v0;
+    if (v1) return v1;
+    throw new Error(`newThemeColorHct(${key}: no color or tonal palette provided`);
+  }
+
   const out: [string, Hct][] = [
-    [key, value],
+    [key, mustHct(key, value, palette?.keyColor)],
   ];
 
   if (shades) {
-    const shadesMap = makeShades(value, shades);
+    const shadesMap = palette ? makeShadesFromPalette(palette, shades) : makeShades(value as Hct, shades);
     for (const shade of shades) {
       out.push([`${key}-${shade}`, shadesMap[shade]]);
     }
