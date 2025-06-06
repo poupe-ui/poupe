@@ -466,6 +466,25 @@ and properties correctly for various UI patterns.
 - **config**: Theme configuration utilities
 - **resolver**: Component resolving for build tools
 
+## Development
+
+### Component Playground
+
+This package includes Histoire for interactive component development:
+
+```bash
+# Start the Histoire dev server
+pnpm story:dev
+
+# Build Histoire for production
+pnpm story:build
+
+# Preview the built Histoire
+pnpm story:preview
+```
+
+Visit the Histoire dev server to see interactive stories for all components with live controls for props and variants.
+
 ## TailwindCSS Integration
 
 For optimal experience, integrate with TailwindCSS:

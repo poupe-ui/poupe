@@ -61,6 +61,7 @@
     "@poupe/tailwindcss": "workspace:^",
     "@poupe/theme-builder": "workspace:^",
     "@unhead/vue": "^2.0.10",
+    "@vueuse/core": "^13.3.0",
     "reka-ui": "2.2.1",
     "tailwind-merge": "^3.3.0",
     "tailwind-scrollbar": "^4.0.2",

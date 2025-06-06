@@ -16,6 +16,9 @@ In addition to [common commands](../../AGENT.md#common-commands-all-packages):
 
 ```bash
 pnpm preview      # Preview built application (unique to @poupe/vue)
+pnpm story:dev    # Start Histoire dev server for component development
+pnpm story:build  # Build Histoire for production
+pnpm story:preview # Preview built Histoire
 ```
 
 ## Build Configuration
@@ -37,6 +40,7 @@ src/
 │   └── css/         # Main CSS imports
 ├── components/       # Vue components
 │   ├── __tests__/   # Component tests (colocated)
+│   ├── *.story.vue  # Histoire story files for components
 │   ├── input/       # Complex component modules
 │   ├── theme/       # Theme-related components
 │   │   └── scheme/  # Color scheme components
@@ -45,9 +49,11 @@ src/
 ├── utils/            # Utility functions
 ├── app.vue          # Demo application component
 ├── config.ts        # TailwindCSS config exports
+├── histoire-setup.ts # Histoire global setup
 ├── index.ts         # Main library exports
 ├── main.ts          # Demo app entry point
 └── resolver.ts      # Component auto-import resolver
+histoire.config.ts    # Histoire configuration
 ```
 
 ## Component Development Guidelines
@@ -114,6 +120,8 @@ src/
 - Use Vitest with Vue Test Utils
 - Run specific test: `pnpm vitest run src/path/to/file.test.ts`
 - Maintain test coverage for all components
+- Create Histoire stories for visual testing and documentation
+- Stories should showcase all component variants and states
 
 ## Dependencies
 
@@ -128,15 +136,18 @@ src/
 1. **Adding new component**: 
    - Create component in `src/components/`
    - Add tests in `src/components/__tests__/`
+   - Create story file `src/components/[component].story.vue`
    - Export from `src/components/index.ts`
    - Update resolver if needed
 
 2. **Updating theme integration**:
    - Modify theme components in `src/components/theme/`
    - Test with demo app (`pnpm dev`)
+   - Update stories if needed (`pnpm story:dev`)
    
 3. **Testing changes**:
    - `pnpm dev` for development with hot reload
+   - `pnpm story:dev` for interactive component development
    - `pnpm test` for test watch mode
    - `pnpm build` to verify production build
 
