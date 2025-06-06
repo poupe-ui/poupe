@@ -22,9 +22,17 @@ src/
 └── utils.ts          # Module utilities
 
 playground/           # Development playground
-├── app.vue          # Test application
+├── app.vue          # Root application component (uses NuxtPage)
 ├── nuxt.config.ts   # Playground config
-└── pages/           # Test pages
+├── pages/           # Application pages
+│   ├── index.vue    # Home page
+│   └── stories.vue  # Stories viewer page
+├── components/      # Playground components
+│   ├── story-viewer.vue # Component stories viewer
+│   └── story-compat.ts  # Story/Variant compatibility components
+├── plugins/         # Nuxt plugins
+│   └── story-components.client.ts # Register story components
+└── public/          # Static assets
 ```
 
 ## Key Features
@@ -69,8 +77,16 @@ The playground provides a full Nuxt app for testing:
 
 ```bash
 cd playground
-pnpm dev  # Start playground dev server
+pnpm dev          # Start playground dev server
 ```
+
+### Stories Viewer
+
+The playground includes a built-in stories viewer to showcase and test all Poupe UI components:
+- Navigate to `/stories` to view all components from @poupe/vue
+- Browse components in the sidebar
+- View different variants and states of each component
+- No external dependencies required
 
 ## Module Hooks
 

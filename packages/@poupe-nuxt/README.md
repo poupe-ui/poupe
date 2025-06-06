@@ -99,6 +99,19 @@ Once installed, all Poupe components are automatically available in your Nuxt ap
 
 For local development, check out the [playground](./playground) directory.
 
+### Component Development
+
+The playground includes a stories viewer page to view and test all Poupe UI components:
+
+```bash
+cd playground
+
+# Start the Nuxt dev server
+pnpm dev
+```
+
+Then navigate to `/stories` to see an interactive environment to explore all components from @poupe/vue.
+
 ## Related Packages
 
 - [@poupe/css](../@poupe-css) - CSS-in-JS utilities
