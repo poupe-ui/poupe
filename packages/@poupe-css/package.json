@@ -59,7 +59,7 @@
   "devDependencies": {
     "@poupe/eslint-config": "^0.6.4",
     "@types/node": "^20.17.47",
-    "eslint": "^9.26.0",
+    "eslint": "^9.28.0",
     "npm-run-all2": "^8.0.4",
     "publint": "^0.3.12",
     "typescript": "~5.8.3",
