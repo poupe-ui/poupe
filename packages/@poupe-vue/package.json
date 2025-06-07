@@ -39,6 +39,10 @@
     "./resolver": {
       "types": "./dist/resolver.d.ts",
       "import": "./dist/resolver.mjs"
+    },
+    "./theme-scheme": {
+      "types": "./dist/theme-scheme.d.ts",
+      "import": "./dist/theme-scheme.mjs"
     }
   },
   "main": "./dist/index.mjs",

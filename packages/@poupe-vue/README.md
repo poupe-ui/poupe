@@ -92,6 +92,22 @@ const inputValue = ref('')
 - **Main export**: Core components and configuration
 - **config**: Theme configuration utilities
 - **resolver**: Component resolving for build tools
+- **theme-scheme**: Theme visualization component
+
+### Theme Scheme Component
+
+The `ThemeScheme` component is exported separately as it's a
+specialized utility component for visualizing and debugging theme colors:
+
+```typescript
+// Import from the separate export
+import { ThemeScheme } from '@poupe/vue/theme-scheme'
+```
+
+This component displays all theme color schemes and is useful for:
+- Visualizing your theme's color palette
+- Debugging theme configurations
+- Showcasing theme variations to stakeholders
 
 ## TailwindCSS Integration
 

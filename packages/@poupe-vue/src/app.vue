@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue';
 
-import {
-  Card,
-
-  ThemeScheme,
-} from './components';
+import { Card } from './components';
+import { ThemeScheme } from './components/theme';
 
 useHead({
   bodyAttrs: {

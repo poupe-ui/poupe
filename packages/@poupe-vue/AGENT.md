@@ -22,7 +22,7 @@ pnpm preview      # Preview built application (unique to @poupe/vue)
 
 Unlike other packages that use `unbuild`, @poupe/vue uses **Vite** for
 better Vue component handling:
-- Library mode with three entry points: `index`, `config`, `resolver`
+- Library mode with four entry points: `index`, `config`, `resolver`, `theme-scheme`
 - Vue plugin with DevTools support
 - TypeScript declarations via `vite-plugin-dts`
 - TailwindCSS v4 integration via `@tailwindcss/vite`
@@ -80,7 +80,12 @@ src/
 - **PIcon**: Icon wrapper component
 - **PInput**: Form input wrapper with label support
 - **PPlaceholder**: Development placeholder component
-- **PThemeScheme**: Theme color scheme provider
+
+### Theme Components (Separate Export)
+- **PThemeScheme**: Theme color scheme visualization component
+  - Exported via `@poupe/vue/theme-scheme`
+  - Used for visualizing and debugging theme colors
+  - Auto-imported by @poupe/nuxt module
 
 ### Component Patterns
 - Use slots for flexible content composition
@@ -125,7 +130,7 @@ src/
 
 ## Common Tasks
 
-1. **Adding new component**: 
+1. **Adding new component**:
    - Create component in `src/components/`
    - Add tests in `src/components/__tests__/`
    - Export from `src/components/index.ts`
@@ -134,7 +139,7 @@ src/
 2. **Updating theme integration**:
    - Modify theme components in `src/components/theme/`
    - Test with demo app (`pnpm dev`)
-   
+
 3. **Testing changes**:
    - `pnpm dev` for development with hot reload
    - `pnpm test` for test watch mode

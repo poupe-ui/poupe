@@ -6,10 +6,14 @@ export const components = [
   'Icon',
   'Input',
   'Placeholder',
+] as const;
+
+export const themeComponents = [
   'ThemeScheme',
 ] as const;
 
 export type ComponentName = typeof components[number];
+export type ThemeComponentName = typeof themeComponents[number];
 
 export const DEFAULT_PREFIX = 'P';
 
@@ -34,11 +38,19 @@ export const createResolver = (options: ResolverOptions = {}): ComponentResolver
     type: 'component',
     resolve: (name: string) => {
       const componentName = prefix ? deprefix(name, prefix) : name;
-      if (componentName && components.includes(componentName as ComponentName)) {
-        return {
-          name: componentName,
-          from: '@poupe/vue',
-        };
+      if (componentName) {
+        if (components.includes(componentName as ComponentName)) {
+          return {
+            name: componentName,
+            from: '@poupe/vue',
+          };
+        }
+        if (themeComponents.includes(componentName as ThemeComponentName)) {
+          return {
+            name: componentName,
+            from: '@poupe/vue/theme-scheme',
+          };
+        }
       }
     },
   };
