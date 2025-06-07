@@ -26,6 +26,11 @@ type FileThemeOptions<K extends string> = {
 const debugThemes = false;
 
 const themes: Record<string, FileThemeOptions<string>> = {
+  default: {
+    theme: {
+      debug: debugThemes,
+    },
+  },
   style: {
     theme: {
       debug: debugThemes,
