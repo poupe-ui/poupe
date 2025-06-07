@@ -15,11 +15,13 @@ elevation, typography, and theme integration.
 ```
 src/
 ├── __tests__/        # Unit tests
-├── plugin/           # TailwindCSS plugin implementation
-├── utilities/        # CSS utility generators
-├── index.ts          # Main plugin export
-├── config.ts         # Configuration utilities
-└── utils.ts          # Helper functions
+├── assets/           # Pre-built CSS files
+│   ├── style.css     # Minimal setup without theme
+│   └── default.css   # Complete example with defaults
+├── flat/             # Flat plugin API
+├── theme/            # Theme generation and utilities
+├── utils/            # Builder and helper utilities
+└── index.ts          # Main exports
 ```
 
 ## Key Features
@@ -32,6 +34,24 @@ src/
   @poupe/theme-builder
 - **Typography scales**: M3 typography system
 - **Motion utilities**: Material motion timing functions
+
+## CSS Assets
+
+The package provides two pre-built CSS files in `src/assets/`:
+
+### style.css
+- Minimal TailwindCSS v4 setup
+- Surface utilities without theme colors
+- Shadow and elevation system
+- Scrim overlay utilities
+- No imposed theme - bring your own colors
+- Exported as package's main CSS via `@import '@poupe/tailwindcss'`
+
+### default.css
+- Complete example with Material Design 3 variables
+- Full set of CSS custom properties with default values
+- All utilities with example theme colors
+- Generated from `build.config.ts` for reference
 
 ## Build Configuration
 

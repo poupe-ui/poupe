@@ -106,6 +106,40 @@ Direct CSS integration:
 }
 ```
 
+### CSS Assets
+
+The package provides two pre-built CSS files:
+
+#### `style.css`
+Minimal TailwindCSS setup without imposing any theme:
+- Base TailwindCSS v4 configuration
+- Surface component utilities
+- Shadow system utilities
+- Scrim overlay utilities
+- No color values - use your own theme
+
+Available via multiple import methods:
+```css
+/* Direct package import (recommended) */
+@import '@poupe/tailwindcss';
+
+/* Or explicit path */
+@import '@poupe/tailwindcss/style.css';
+```
+
+#### `@poupe/tailwindcss/default.css`
+Complete example with all Material Design variables:
+- Full set of Material Design 3 CSS custom properties
+- Default color values for all theme colors
+- Complete shadow and elevation system
+- All surface and scrim utilities
+- Ready-to-use example theme
+
+```css
+@import '@poupe/tailwindcss/default.css';
+/* Override any variables as needed */
+```
+
 Shadow utilities:
 
 ```html
