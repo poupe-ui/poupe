@@ -29,7 +29,7 @@ export default defineConfig({
       entry: {
         index: resolve('src/index.ts'),
         config: resolve('src/config/index.ts'),
-        resolver: resolve('src/resolver.ts'),
+        resolver: resolve('src/resolver/index.ts'),
       },
     },
     rollupOptions: {
