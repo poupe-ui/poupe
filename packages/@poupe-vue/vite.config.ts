@@ -27,9 +27,10 @@ export default defineConfig({
       name: '@poupe/vue',
       fileName: (_, name) => `${name}.mjs`,
       entry: {
-        index: resolve('src/index.ts'),
-        config: resolve('src/config.ts'),
-        resolver: resolve('src/resolver.ts'),
+        'index': resolve('src/index.ts'),
+        'config': resolve('src/config/index.ts'),
+        'resolver': resolve('src/resolver/index.ts'),
+        'theme-scheme': resolve('src/components/theme/index.ts'),
       },
     },
     rollupOptions: {
