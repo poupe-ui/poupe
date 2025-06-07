@@ -68,7 +68,7 @@
     "@types/node": "^20.17.47",
     "changelogen": "^0.6.1",
     "defu": "^6.1.4",
-    "eslint": "^9.26.0",
+    "eslint": "^9.28.0",
     "npm-run-all2": "^8.0.4",
     "nuxt": "^3.17.4",
     "publint": "^0.3.12",
