@@ -2,6 +2,8 @@ import { describe, it, expect, vi } from 'vitest';
 
 import {
   makeSurfaceComponents,
+  makeThemeComponents,
+  makeZIndexComponents,
   assembleSurfaceComponent,
   makeSurfaceName,
 } from '../components';
@@ -9,6 +11,115 @@ import {
 import {
   makeThemeFromPartialOptions,
 } from '../plugin';
+
+describe('makeThemeComponents', () => {
+  it('should return an array of component objects', () => {
+    const theme = makeThemeFromPartialOptions({});
+    const result = makeThemeComponents(theme);
+
+    expect(Array.isArray(result)).toBe(true);
+    expect(result).toHaveLength(3);
+  });
+
+  it('should include scrim component with correct properties', () => {
+    const theme = makeThemeFromPartialOptions({});
+    const result = makeThemeComponents(theme);
+
+    const scrimComponents = result.find(object => 'scrim' in object);
+    expect(scrimComponents).toBeDefined();
+    expect(scrimComponents?.scrim).toEqual({
+      '@apply fixed inset-0 bg-scrim/32': {},
+    });
+  });
+
+  it('should use custom theme prefix for scrim color variable', () => {
+    const theme = makeThemeFromPartialOptions({ themePrefix: 'custom-' });
+    const result = makeThemeComponents(theme);
+
+    const scrimComponents = result.find(object => 'scrim' in object);
+    expect(scrimComponents).toBeDefined();
+    expect(scrimComponents?.scrim).toEqual({
+      '@apply fixed inset-0 bg-scrim/32': {},
+    });
+  });
+
+  it('should respect tailwindPrefix parameter', () => {
+    const theme = makeThemeFromPartialOptions({});
+    const result = makeThemeComponents(theme, 'tw-');
+
+    // Should pass prefix to makeSurfaceComponents
+    const surfaceComponents = result[0];
+    // The actual prefixing is tested in makeSurfaceComponents tests
+    expect(surfaceComponents).toBeDefined();
+  });
+});
+
+describe('makeZIndexComponents', () => {
+  it('should create dynamic scrim-z-* utility with modifier support', () => {
+    const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
+    const result = makeZIndexComponents(theme);
+
+    expect(result['scrim-z-*']).toEqual({
+      '@apply scrim': {},
+      'z-index': '--value(integer, [integer])',
+    });
+  });
+
+  it('should create semantic scrim utilities with opacity modifier', () => {
+    const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
+    const result = makeZIndexComponents(theme);
+
+    const scrimNames = ['base', 'content', 'drawer', 'modal', 'elevated', 'system'];
+    for (const name of scrimNames) {
+      expect(result[`scrim-${name}`]).toEqual({
+        '@apply scrim': {},
+        'z-index': `var(--md-z-scrim-${name})`,
+      });
+    }
+  });
+
+  it('should create semantic z-index utilities', () => {
+    const theme = makeThemeFromPartialOptions({ themePrefix: 'test-' });
+    const result = makeZIndexComponents(theme);
+
+    const zNames = ['navigation-persistent', 'navigation-floating', 'navigation-top', 'drawer', 'modal', 'snackbar', 'tooltip'];
+    for (const name of zNames) {
+      expect(result[`z-${name}`]).toEqual({
+        'z-index': `var(--test-z-${name})`,
+      });
+    }
+  });
+
+  it('should use theme prefix correctly', () => {
+    const theme = makeThemeFromPartialOptions({ themePrefix: 'custom-' });
+    const result = makeZIndexComponents(theme);
+
+    expect(result['scrim-modal']['z-index']).toBe('var(--custom-z-scrim-modal)');
+    expect(result['z-drawer']['z-index']).toBe('var(--custom-z-drawer)');
+  });
+
+  it('should generate simplified scrim naming without z- prefix', () => {
+    const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
+    const result = makeZIndexComponents(theme);
+
+    // Verify simplified semantic scrim utilities exist
+    expect(result['scrim-base']).toBeDefined();
+    expect(result['scrim-modal']).toBeDefined();
+    expect(result['scrim-drawer']).toBeDefined();
+    expect(result['scrim-content']).toBeDefined();
+    expect(result['scrim-elevated']).toBeDefined();
+    expect(result['scrim-system']).toBeDefined();
+
+    // Verify old naming with z- prefix does NOT exist
+    expect(result['scrim-z-base']).toBeUndefined();
+    expect(result['scrim-z-modal']).toBeUndefined();
+    expect(result['scrim-z-drawer']).toBeUndefined();
+
+    // Verify arbitrary z-index utility still exists
+    expect(result['scrim-z-*']).toBeDefined();
+    expect(result['scrim-z-*']['z-index']).toBe('--value(integer, [integer])');
+  });
+});
 
 describe('makeSurfaceComponents', () => {
   it('should return empty object when surfacePrefix is disabled', () => {

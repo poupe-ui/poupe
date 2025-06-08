@@ -33,7 +33,7 @@ export function makeZIndexComponents(theme: Readonly<Theme>): Record<string, CSS
 
   // semantic z-index scrim
   for (const name of ['base', 'content', 'drawer', 'modal', 'elevated', 'system']) {
-    out[`scrim-z-${name}`] = {
+    out[`scrim-${name}`] = {
       '@apply scrim': {},
       'z-index': `var(--${themePrefix}z-scrim-${name})`,
     };

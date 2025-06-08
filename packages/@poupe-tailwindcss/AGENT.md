@@ -56,7 +56,10 @@ examples/
 
 ## Recent Changes
 
-### v0.3.15 - Fixed Color Surface Combinations
+### v0.3.16 - Scrim Utility Simplification and Fixed Color Surface Combinations
+- **BREAKING**: Renamed semantic scrim utilities from `scrim-z-{name}` to `scrim-{name}`
+- The arbitrary z-index utility `scrim-z-*` remains unchanged
+- Migration: Update all CSS classes from `scrim-z-modal` to `scrim-modal`, etc.
 - **NEW**: Added automatic generation of fixed color surface combinations
 - **NEW**: Smart naming prevents redundancy (e.g., `surface-primary-fixed-variant` instead of `surface-primary-fixed-on-primary-fixed-variant`)
 - **NEW**: Support for all combinations of fixed backgrounds with fixed text variants
@@ -128,7 +131,9 @@ Build errors in examples don't fail the main build process.
 
 ### Elevation Utilities
 - `.z{1-5}`: Elevation levels with shadows and tonal elevation
-- `.scrim-{color}`: Overlay utilities for elevated surfaces
+- `.scrim`: Base overlay utility (fixed inset-0 bg-scrim/32)
+- `.scrim-{level}`: Semantic z-index scrims (base, content, drawer, modal, elevated, system)
+- `.scrim-z-*`: Arbitrary z-index scrims
 
 ### State Layer Utilities
 - `.state-hover`: Hover state overlay

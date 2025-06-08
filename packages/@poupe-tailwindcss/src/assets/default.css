@@ -453,27 +453,27 @@
   @apply scrim;
   z-index: --value(integer, [integer]);
 }
-@utility scrim-z-base {
+@utility scrim-base {
   @apply scrim;
   z-index: var(--md-z-scrim-base);
 }
-@utility scrim-z-content {
+@utility scrim-content {
   @apply scrim;
   z-index: var(--md-z-scrim-content);
 }
-@utility scrim-z-drawer {
+@utility scrim-drawer {
   @apply scrim;
   z-index: var(--md-z-scrim-drawer);
 }
-@utility scrim-z-modal {
+@utility scrim-modal {
   @apply scrim;
   z-index: var(--md-z-scrim-modal);
 }
-@utility scrim-z-elevated {
+@utility scrim-elevated {
   @apply scrim;
   z-index: var(--md-z-scrim-elevated);
 }
-@utility scrim-z-system {
+@utility scrim-system {
   @apply scrim;
   z-index: var(--md-z-scrim-system);
 }

@@ -51,6 +51,18 @@ describe('TailwindCSS CLI validation', () => {
     // Verify scrim classes are present and functional
     expect(styleContent).toContain('@utility scrim');
     expect(styleContent).toContain('scrim-z-*');
+
+    // Verify simplified scrim naming (without z- prefix)
+    expect(styleContent).toContain('@utility scrim-base');
+    expect(styleContent).toContain('@utility scrim-modal');
+    expect(styleContent).toContain('@utility scrim-drawer');
+    expect(styleContent).toContain('@utility scrim-content');
+    expect(styleContent).toContain('@utility scrim-elevated');
+    expect(styleContent).toContain('@utility scrim-system');
+
+    // Verify old z- prefixed naming is gone (except for arbitrary scrim-z-*)
+    expect(styleContent).not.toContain('@utility scrim-z-base');
+    expect(styleContent).not.toContain('@utility scrim-z-modal');
   });
 
   test('default.css structure validation', () => {
@@ -66,7 +78,7 @@ describe('TailwindCSS CLI validation', () => {
 
     // Verify scrim classes are present in default.css too
     expect(defaultContent).toContain('@utility scrim');
-    expect(defaultContent).toContain('scrim-z-*');
+    expect(defaultContent).toContain('scrim-z-*'); // arbitrary z-index scrim still exists
   });
 
   test('@plugin workflow with TailwindCSS CLI', () => {
@@ -172,7 +184,7 @@ ${styleContent}`;
 <head><meta charset="utf-8"></head>
 <body>
   <div class="surface-primary z1">Surface with elevation</div>
-  <div class="scrim-z-modal">Modal scrim</div>
+  <div class="scrim-modal">Modal scrim</div>
   <div class="bg-primary text-on-primary">Primary colors</div>
   <div class="surface-container-high">Container surface</div>
 </body>
@@ -198,7 +210,7 @@ ${styleContent}`;
       expect(outputContent.length).toBeGreaterThan(1000);
 
       // Check for our custom utilities in the output
-      expect(outputContent).toMatch(/surface-primary|scrim-z-modal|z1/);
+      expect(outputContent).toMatch(/surface-primary|scrim-modal|z1/);
     }
   });
 

@@ -163,10 +163,10 @@ Modal backdrop overlays with Material Design z-index layering:
 <!-- Basic scrim -->
 <div class="scrim">Overlay</div>
 
-<!-- Semantic z-index levels -->
-<div class="scrim-z-modal">Modal backdrop</div>
-<div class="scrim-z-drawer">Drawer backdrop</div>
-<div class="scrim-z-elevated">High priority overlay</div>
+<!-- Semantic z-index levels (simplified naming) -->
+<div class="scrim-modal">Modal backdrop</div>
+<div class="scrim-drawer">Drawer backdrop</div>
+<div class="scrim-elevated">High priority overlay</div>
 
 <!-- Arbitrary z-index values -->
 <div class="scrim-z-[1250]">Custom z-index</div>
@@ -185,13 +185,13 @@ Material Design z-index scale:
 --md-z-tooltip: 1500;                /* Tooltips */
 ```
 
-Scrim variants:
-- `scrim-z-base` (950) - Basic overlay, below navigation
-- `scrim-z-content` (975) - Content overlay
-- `scrim-z-drawer` (1250) - Drawer overlays
-- `scrim-z-modal` (1275) - Modal preparation
-- `scrim-z-elevated` (1350) - High-priority overlays
-- `scrim-z-system` (1450) - System-level scrims
+Scrim variants (simplified naming):
+- `scrim-base` (950) - Basic overlay, below navigation
+- `scrim-content` (975) - Content overlay
+- `scrim-drawer` (1250) - Drawer overlays
+- `scrim-modal` (1275) - Modal preparation
+- `scrim-elevated` (1350) - High-priority overlays
+- `scrim-system` (1450) - System-level scrims
 
 ### Programmatic Theme Generation
 
