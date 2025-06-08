@@ -1,5 +1,5 @@
 import { defineBuildConfig } from 'unbuild';
-
+import { execSync } from 'node:child_process';
 import {
   mkdirSync,
   writeFileSync,
@@ -54,7 +54,28 @@ function writeTheme<K extends string>(dirname: string, filename: string, format:
   const destdir = join(process.cwd(), dirname);
   mkdirSync(destdir, { recursive: true });
   writeFileSync(join(destdir, filename), content);
-  console.log(`[writeTheme] Wrote ${content.length} bytes to ${join(dirname, filename)}`);
+  console.log(`[assets] ✔ Wrote ${content.length} bytes to ${join(dirname, filename)}`);
+}
+
+function generateCSSForExample(name: string, needsContent: boolean) {
+  const basePath = `examples/${name}`;
+  const inputPath = `${basePath}/input.css`;
+  const outputPath = `${basePath}/output.css`;
+  const contentPath = needsContent ? `${basePath}/index.html` : undefined;
+
+  const command = contentPath
+    ? `pnpx @tailwindcss/cli -i ${inputPath} -o ${outputPath} --content ${contentPath}`
+    : `pnpx @tailwindcss/cli -i ${inputPath} -o ${outputPath}`;
+
+  try {
+    execSync(command, { stdio: 'pipe' });
+    console.log(`[examples] ✔ Successfully generated: ${outputPath}`);
+  } catch (error: unknown) {
+    console.error(`[examples] ✘ Failed to generate: ${outputPath}`);
+    console.error(`Command: ${command}`);
+    console.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw error;
+  }
 }
 
 export default defineBuildConfig({
@@ -72,6 +93,18 @@ export default defineBuildConfig({
       // assemble assets
       for (const [filename, { theme, format }] of Object.entries(themes)) {
         writeTheme('src/assets', `${filename}.css`, format, theme);
+      }
+    },
+    'build:done'() {
+      // generate example CSS files
+      const examples = [
+        { dir: 'plugin-workflow', needsContent: true },
+        { dir: 'flat-plugin', needsContent: false },
+        { dir: 'theme-plugin', needsContent: false },
+      ];
+
+      for (const { dir, needsContent } of examples) {
+        generateCSSForExample(dir, needsContent);
       }
     },
   },

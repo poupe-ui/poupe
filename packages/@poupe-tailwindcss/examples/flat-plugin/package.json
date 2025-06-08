@@ -1,0 +1,14 @@
+{
+  "name": "@poupe/tailwindcss-example-flat-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Example demonstrating flat plugin with @poupe/tailwindcss",
+  "scripts": {
+    "build": "pnpx @tailwindcss/cli -i input.css -o output.css",
+    "watch": "pnpx @tailwindcss/cli -i input.css -o output.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.0-alpha.26"
+  }
+}
