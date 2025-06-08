@@ -63,20 +63,70 @@ export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: st
     }
   }
 
-  // TODO: determine pair of special colors
-  // - primary-fixed-dim
-  // - on-primary-fixed-variant
-  // - secondary-fixed-dim
-  // - on-secondary-fixed-variant
-  // - tertiary-fixed-dim
-  // - on-tertiary-fixed-variant
+  // Handle special fixed color combinations
+  // Each fixed background (primary-fixed, primary-fixed-dim) can pair with
+  // each fixed text variant (on-primary-fixed, on-primary-fixed-variant)
+  const fixedPrefixes = ['primary', 'secondary', 'tertiary'];
+
+  for (const prefix of fixedPrefixes) {
+    const backgrounds = [`${prefix}-fixed`, `${prefix}-fixed-dim`];
+    const texts = [`on-${prefix}-fixed`, `on-${prefix}-fixed-variant`];
+
+    // Create all combinations for fixed colors
+    for (const bg of backgrounds) {
+      for (const text of texts) {
+        if (theme.colors[bg] && theme.colors[text]) {
+          // Use a composite key to avoid overwriting the standard pair
+          const key = bg + ':' + text;
+          pairs.set(key, text);
+        }
+      }
+    }
+  }
 
   const surfaces: Record<string, CSSRuleObject> = {};
 
   const [bgPrefix, textPrefix] = ['bg-', 'text-'].map(prefix => `${tailwindPrefix}${prefix}`);
-  for (const [name, onName] of pairs) {
+  for (const [nameKey, onName] of pairs) {
+    // Handle composite keys for special combinations
+    const name = nameKey.includes(':') ? nameKey.split(':')[0] : nameKey;
     const { key, value } = assembleSurfaceComponent(name, onName, bgPrefix, textPrefix, surfacePrefix);
-    surfaces[key] = value;
+
+    // For composite keys, create unique surface names by finding what's different
+    let surfaceKey = key;
+    if (nameKey.includes(':')) {
+      // Find the common prefix between the background and text colors
+      // Remove 'on-' prefix from text color for comparison
+      const textWithoutOn = onName.startsWith('on-') ? onName.slice(3) : onName;
+
+      // Split both names into parts
+      const bgParts = name.split('-');
+      const textParts = textWithoutOn.split('-');
+
+      // Find common prefix parts
+      let commonParts = 0;
+      for (let i = 0; i < Math.min(bgParts.length, textParts.length); i++) {
+        if (bgParts[i] === textParts[i]) {
+          commonParts++;
+        } else {
+          break;
+        }
+      }
+
+      // Get the unique parts from both colors
+      const bgSuffix = bgParts.slice(commonParts).join('-');
+      const textSuffix = textParts.slice(commonParts).join('-');
+
+      // Build the surface name with both unique parts
+      if (bgSuffix && textSuffix) {
+        surfaceKey = `${key}-${textSuffix}`;
+      } else if (textSuffix) {
+        surfaceKey = `${key}-${textSuffix}`;
+      }
+      // If only bgSuffix exists, key already contains it
+    }
+
+    surfaces[surfaceKey] = value;
   }
 
   debugLog(theme.options.debug, 'surfaces', surfaces);

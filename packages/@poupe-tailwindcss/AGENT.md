@@ -54,6 +54,13 @@ examples/
 - **Motion utilities**: Material motion timing functions
 - **Simplified testing**: CLI validation without complex setup requirements
 
+## Recent Changes
+
+### v0.3.15 - Fixed Color Surface Combinations
+- **NEW**: Added automatic generation of fixed color surface combinations
+- **NEW**: Smart naming prevents redundancy (e.g., `surface-primary-fixed-variant` instead of `surface-primary-fixed-on-primary-fixed-variant`)
+- **NEW**: Support for all combinations of fixed backgrounds with fixed text variants
+
 ## CSS Assets
 
 The package provides two pre-built CSS files in `src/assets/`:
@@ -114,6 +121,10 @@ Build errors in examples don't fail the main build process.
 - `.on-{color}`: Sets appropriate text color for backgrounds
 - `.surface-container-{lowest|low|medium|high|highest}`: Container
   variants
+- **Fixed Color Combinations**: Automatic generation of all combinations
+  between fixed backgrounds (primary-fixed, primary-fixed-dim) and fixed
+  text variants (on-primary-fixed, on-primary-fixed-variant) with smart
+  naming to avoid redundancy
 
 ### Elevation Utilities
 - `.z{1-5}`: Elevation levels with shadows and tonal elevation

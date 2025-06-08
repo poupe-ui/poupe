@@ -417,6 +417,33 @@
 @utility surface-error-container {
   @apply bg-error-container text-on-error-container;
 }
+@utility surface-primary-fixed-variant {
+  @apply bg-primary-fixed text-on-primary-fixed-variant;
+}
+@utility surface-primary-fixed-dim {
+  @apply bg-primary-fixed-dim text-on-primary-fixed;
+}
+@utility surface-primary-fixed-dim-variant {
+  @apply bg-primary-fixed-dim text-on-primary-fixed-variant;
+}
+@utility surface-secondary-fixed-variant {
+  @apply bg-secondary-fixed text-on-secondary-fixed-variant;
+}
+@utility surface-secondary-fixed-dim {
+  @apply bg-secondary-fixed-dim text-on-secondary-fixed;
+}
+@utility surface-secondary-fixed-dim-variant {
+  @apply bg-secondary-fixed-dim text-on-secondary-fixed-variant;
+}
+@utility surface-tertiary-fixed-variant {
+  @apply bg-tertiary-fixed text-on-tertiary-fixed-variant;
+}
+@utility surface-tertiary-fixed-dim {
+  @apply bg-tertiary-fixed-dim text-on-tertiary-fixed;
+}
+@utility surface-tertiary-fixed-dim-variant {
+  @apply bg-tertiary-fixed-dim text-on-tertiary-fixed-variant;
+}
 
 @utility scrim {
   @apply fixed inset-0 bg-scrim/32;

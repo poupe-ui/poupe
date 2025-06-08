@@ -303,6 +303,12 @@ Component utilities with background + text color and proper contrast:
 <div class="surface-container">Standard</div>
 <div class="surface-container-high">High</div>
 <div class="surface-container-highest">Highest</div>
+
+<!-- Fixed color combinations -->
+<div class="surface-primary-fixed">Fixed background with on-fixed text</div>
+<div class="surface-primary-fixed-variant">Fixed background with variant text</div>
+<div class="surface-primary-fixed-dim">Dim fixed background with on-fixed text</div>
+<div class="surface-primary-fixed-dim-variant">Dim fixed with variant text</div>
 ```
 
 ## Dark Mode
