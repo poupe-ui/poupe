@@ -34,6 +34,7 @@
     --md-z-scrim-elevated: var(--md-z-scrim-elevated, 1350);
     --md-z-scrim-system: var(--md-z-scrim-system, 1450);
     --md-shadow-rgb: var(--md-shadow-rgb, from var(--md-shadow) r g b);
+    --md-scrim-rgb: var(--md-scrim-rgb, from var(--md-scrim) r g b);
   }
 }
 
@@ -272,36 +273,44 @@
 }
 
 @utility scrim {
-  @apply fixed inset-0 bg-scrim/32;
+  @apply fixed inset-0;
+  background-color: rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%));
 }
 
 @utility scrim-z-* {
   @apply scrim;
   z-index: --value(integer, [integer]);
+  --md-scrim-opacity: --modifier([percentage]);
 }
 @utility scrim-base {
   @apply scrim;
   z-index: var(--md-z-scrim-base);
+  --md-scrim-opacity: --modifier([percentage]);
 }
 @utility scrim-content {
   @apply scrim;
   z-index: var(--md-z-scrim-content);
+  --md-scrim-opacity: --modifier([percentage]);
 }
 @utility scrim-drawer {
   @apply scrim;
   z-index: var(--md-z-scrim-drawer);
+  --md-scrim-opacity: --modifier([percentage]);
 }
 @utility scrim-modal {
   @apply scrim;
   z-index: var(--md-z-scrim-modal);
+  --md-scrim-opacity: --modifier([percentage]);
 }
 @utility scrim-elevated {
   @apply scrim;
   z-index: var(--md-z-scrim-elevated);
+  --md-scrim-opacity: --modifier([percentage]);
 }
 @utility scrim-system {
   @apply scrim;
   z-index: var(--md-z-scrim-system);
+  --md-scrim-opacity: --modifier([percentage]);
 }
 @utility z-navigation-persistent {
   z-index: var(--md-z-navigation-persistent);

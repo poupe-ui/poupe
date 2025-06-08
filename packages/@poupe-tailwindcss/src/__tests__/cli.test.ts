@@ -97,22 +97,45 @@ describe('TailwindCSS CLI validation', () => {
 `;
     writeFileSync(inputCssPath, inputCSS);
 
-    // Create HTML with utility classes
+    // Create HTML with utility classes including scrim opacity modifiers
     const htmlContent = `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"></head>
 <body>
   <div class="surface-primary z1">@plugin workflow test</div>
+
+  <!-- Test scrim utilities without modifiers (default opacity) -->
+  <div class="scrim-modal">Default modal scrim</div>
+  <div class="scrim-drawer">Default drawer scrim</div>
+
+  <!-- Test scrim utilities with opacity modifiers -->
+  <div class="scrim-modal/50">Modal scrim with 50% opacity</div>
+  <div class="scrim-drawer/75">Drawer scrim with 75% opacity</div>
+  <div class="scrim-elevated/25">Elevated scrim with 25% opacity</div>
+
+  <!-- Test arbitrary z-index with opacity modifiers -->
+  <div class="scrim-z-[100]/25">Custom z-index scrim with 25% opacity</div>
+  <div class="scrim-z-[1250]/60">High z-index scrim with 60% opacity</div>
 </body>
 </html>`;
     writeFileSync(htmlPath, htmlContent);
 
     // Run TailwindCSS CLI with @plugin workflow from package root
-    execSync(
+    let result;
+    try {
+      result = execSync(
+        `pnpx @tailwindcss/cli -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath} 2>&1`,
+        { cwd: process.cwd(), encoding: 'utf8' },
+      );
+    } catch (error) {
+      const errorOutput = error instanceof Error && 'stdout' in error ? String(error.stdout || error.stderr || error.message) : String(error);
+      throw new Error(`TailwindCSS CLI failed: ${errorOutput}`);
+    }
 
-      `pnpx @tailwindcss/cli -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath}`,
-      { cwd: process.cwd(), encoding: 'utf8' },
-    );
+    // Check if stderr contains errors that should fail the test
+    if (result && result.includes('Unsupported bare value data type')) {
+      throw new Error(`TailwindCSS CLI reported errors: ${result}`);
+    }
 
     // Verify the output was generated successfully
     const outputContent = readFileSync(outputCssPath, 'utf8');
@@ -120,7 +143,7 @@ describe('TailwindCSS CLI validation', () => {
     expect(outputContent).toContain('@layer'); // TailwindCSS base structure
   });
 
-  test('example output.css files exist', () => {
+  test('example output.css files exist and contain modifier support', () => {
     // Verify that build.config.ts generated the example CSS files
     const exampleOutputs = [
       paths.examples('plugin-workflow', 'output.css'),
@@ -135,6 +158,12 @@ describe('TailwindCSS CLI validation', () => {
       const content = readFileSync(outputPath, 'utf8');
       expect(content).toContain('tailwindcss');
       expect(content.length).toBeGreaterThan(100); // Should have actual CSS content
+
+      // Verify scrim utilities are present with modifier support
+      expect(content).toMatch(/\.scrim[^{]*\{[^}]*--md-scrim-opacity: --modifier\(\[percentage\]\)[^}]*\}/);
+
+      // Verify the background-color uses RGB variable syntax
+      expect(content).toMatch(/background-color: rgb\(var\(--md-scrim-rgb\)[^}]*var\(--md-scrim-opacity, 32%\)/);
     }
   });
 
@@ -192,15 +221,20 @@ ${styleContent}`;
     writeFileSync(htmlPath, htmlContent);
 
     // Run TailwindCSS CLI to process combined CSS
+    let result;
     try {
-      execSync(
-        `pnpx @tailwindcss/cli -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath}`,
+      result = execSync(
+        `pnpx @tailwindcss/cli -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath} 2>&1`,
         { cwd: process.cwd(), encoding: 'utf8' },
       );
     } catch (error) {
-      // Skip if it fails - the CSS assets might have dependencies
-      console.log('Combined CSS test skipped due to:', error instanceof Error ? error.message : error);
-      return;
+      const errorOutput = error instanceof Error && 'stdout' in error ? String(error.stdout || error.stderr || error.message) : String(error);
+      throw new Error(`TailwindCSS CLI failed: ${errorOutput}`);
+    }
+
+    // Check if stderr contains errors that should fail the test
+    if (result && result.includes('Unsupported bare value data type')) {
+      throw new Error(`TailwindCSS CLI reported errors: ${result}`);
     }
 
     // If it succeeds, verify output contains our utilities
@@ -244,15 +278,20 @@ ${defaultContent}`;
     writeFileSync(htmlPath, htmlContent);
 
     // Run TailwindCSS CLI
+    let result;
     try {
-      execSync(
-        `pnpx @tailwindcss/cli -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath}`,
+      result = execSync(
+        `pnpx @tailwindcss/cli -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath} 2>&1`,
         { cwd: process.cwd(), encoding: 'utf8' },
       );
     } catch (error) {
-      // Skip if it fails
-      console.log('Default CSS test skipped due to:', error instanceof Error ? error.message : error);
-      return;
+      const errorOutput = error instanceof Error && 'stdout' in error ? String(error.stdout || error.stderr || error.message) : String(error);
+      throw new Error(`TailwindCSS CLI failed: ${errorOutput}`);
+    }
+
+    // Check if stderr contains errors that should fail the test
+    if (result && result.includes('Unsupported bare value data type')) {
+      throw new Error(`TailwindCSS CLI reported errors: ${result}`);
     }
 
     // Verify output if successful
@@ -263,5 +302,107 @@ ${defaultContent}`;
       // Check for theme variables
       expect(outputContent).toMatch(/--md-primary|--md-secondary/);
     }
+  });
+
+  test('scrim opacity modifiers generate correct CSS output', () => {
+    const testId = randomUUID().slice(0, 8);
+    const inputCssPath = paths.join(`test-modifier-${testId}.css`);
+    const outputCssPath = paths.join(`test-modifier-output-${testId}.css`);
+    const htmlPath = paths.join(`test-modifier-${testId}.html`);
+
+    temporaryFiles.push(inputCssPath, outputCssPath, htmlPath);
+
+    // Create CSS using TailwindCSS v4 @plugin syntax
+    const pluginPath = paths.dist('index.mjs').replaceAll('\\\\', '/');
+    const inputCSS = `
+@import 'tailwindcss';
+@plugin "${pluginPath}";
+`;
+    writeFileSync(inputCssPath, inputCSS);
+
+    // Create HTML with specific scrim utilities that use opacity modifiers
+    const htmlContent = `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+  <!-- Basic scrim without modifier (should use default opacity) -->
+  <div class="scrim-modal">Default modal scrim</div>
+  <div class="scrim-drawer">Default drawer scrim</div>
+
+  <!-- Scrim with specific opacity modifiers -->
+  <div class="scrim-modal/50">Modal scrim with 50% opacity</div>
+  <div class="scrim-drawer/25">Drawer scrim with 25% opacity</div>
+  <div class="scrim-elevated/75">Elevated scrim with 75% opacity</div>
+
+  <!-- Arbitrary z-index with opacity modifiers -->
+  <div class="scrim-z-[100]/10">Custom z-index scrim with 10% opacity</div>
+  <div class="scrim-z-[1500]/90">High z-index scrim with 90% opacity</div>
+</body>
+</html>`;
+    writeFileSync(htmlPath, htmlContent);
+
+    // Run TailwindCSS CLI
+    let result;
+    try {
+      result = execSync(
+        `pnpx @tailwindcss/cli -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath} 2>&1`,
+        { cwd: process.cwd(), encoding: 'utf8' },
+      );
+    } catch (error) {
+      const errorOutput = error instanceof Error && 'stdout' in error ? String(error.stdout || error.stderr || error.message) : String(error);
+      throw new Error(`TailwindCSS CLI failed: ${errorOutput}`);
+    }
+
+    // Check if stderr contains errors that should fail the test
+    if (result && result.includes('Unsupported bare value data type')) {
+      throw new Error(`TailwindCSS CLI reported errors: ${result}`);
+    }
+
+    // Verify the output was generated successfully
+    expect(existsSync(outputCssPath)).toBe(true);
+    const outputContent = readFileSync(outputCssPath, 'utf8');
+
+    // Verify scrim utilities are present in the output
+    expect(outputContent).toContain('.scrim-modal');
+    expect(outputContent).toContain('.scrim-drawer');
+    expect(outputContent).toContain('.scrim-elevated');
+
+    // Verify the base scrim utility exists (used by @apply scrim)
+    expect(outputContent).toContain('.scrim');
+
+    // Verify each scrim utility has the correct structure
+    const expectedScrimUtilities = ['scrim-modal', 'scrim-drawer', 'scrim-elevated', 'scrim-base', 'scrim-content', 'scrim-system'];
+
+    for (const utility of expectedScrimUtilities) {
+      // Each utility should have the modifier declaration
+      expect(outputContent).toMatch(new RegExp(`\\.${utility}[^{]*\\{[^}]*--md-scrim-opacity: --modifier\\(\\[percentage\\]\\)[^}]*\\}`));
+
+      // Each utility should have the RGB variable background-color
+      expect(outputContent).toMatch(new RegExp(`\\.${utility}[^{]*\\{[^}]*background-color: rgb\\(var\\(--md-scrim-rgb\\)[^}]*\\)`));
+
+      // Each utility should have proper z-index (except base scrim)
+      if (utility !== 'scrim') {
+        expect(outputContent).toMatch(new RegExp(`\\.${utility}[^{]*\\{[^}]*z-index: var\\(--md-z-${utility.replace('scrim-', 'scrim-')}\\)[^}]*\\}`));
+      }
+    }
+
+    // Note: Arbitrary z-index utilities (scrim-z-[100]) are only generated when used
+    // in content. Our test HTML includes them, so let's check if any were generated.
+    // If not found, that's okay as TailwindCSS might not generate unused utilities.
+
+    // Verify the modifier system is correctly set up
+    // All scrim utilities should have --md-scrim-opacity: --modifier([percentage])
+    const modifierDeclarations = outputContent.match(/--md-scrim-opacity: --modifier\(\[percentage\]\)/g) || [];
+    expect(modifierDeclarations.length).toBeGreaterThan(0);
+
+    // Verify the background-color uses percentage syntax
+    expect(outputContent).toMatch(/var\(--md-scrim-opacity, 32%\)/);
+
+    // Verify that TailwindCSS processed our modifier syntax without errors
+    // The fact that we reached this point means no "Unsupported bare value data type" errors occurred
+    expect(outputContent).toContain('tailwindcss v4');
+
+    // Verify the CSS is substantial and complete
+    expect(outputContent.length).toBeGreaterThan(5000);
   });
 });
