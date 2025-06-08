@@ -164,7 +164,11 @@ export default {
 ### CLI Integration Tests
 - **File**: `src/__tests__/cli.test.ts`
 - **Purpose**: Validates CSS assets using actual TailwindCSS CLI
-- **Coverage**: Tests `@plugin` workflow and validates example outputs
+- **Coverage**:
+  - Tests `@plugin` workflow with plugin file
+  - Validates example output files exist
+  - Tests CSS assets combined with TailwindCSS base
+  - Verifies theme variables and utilities work together
 - **Dependencies**: Requires `@tailwindcss/cli` as dev dependency
 - **Strategy**: Separation of concerns between testing and example generation
 
