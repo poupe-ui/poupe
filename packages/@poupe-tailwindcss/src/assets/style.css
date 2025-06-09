@@ -34,6 +34,7 @@
     --md-z-scrim-elevated: var(--md-z-scrim-elevated, 1350);
     --md-z-scrim-system: var(--md-z-scrim-system, 1450);
     --md-shadow-rgb: var(--md-shadow-rgb, from var(--md-shadow) r g b);
+    --md-scrim-rgb: var(--md-scrim-rgb, from var(--md-scrim) r g b);
   }
 }
 
@@ -243,38 +244,75 @@
 @utility surface-error-container {
   @apply bg-error-container text-on-error-container;
 }
-
-@utility scrim {
-  @apply fixed inset-0 bg-scrim/32;
+@utility surface-primary-fixed-variant {
+  @apply bg-primary-fixed text-on-primary-fixed-variant;
+}
+@utility surface-primary-fixed-dim {
+  @apply bg-primary-fixed-dim text-on-primary-fixed;
+}
+@utility surface-primary-fixed-dim-variant {
+  @apply bg-primary-fixed-dim text-on-primary-fixed-variant;
+}
+@utility surface-secondary-fixed-variant {
+  @apply bg-secondary-fixed text-on-secondary-fixed-variant;
+}
+@utility surface-secondary-fixed-dim {
+  @apply bg-secondary-fixed-dim text-on-secondary-fixed;
+}
+@utility surface-secondary-fixed-dim-variant {
+  @apply bg-secondary-fixed-dim text-on-secondary-fixed-variant;
+}
+@utility surface-tertiary-fixed-variant {
+  @apply bg-tertiary-fixed text-on-tertiary-fixed-variant;
+}
+@utility surface-tertiary-fixed-dim {
+  @apply bg-tertiary-fixed-dim text-on-tertiary-fixed;
+}
+@utility surface-tertiary-fixed-dim-variant {
+  @apply bg-tertiary-fixed-dim text-on-tertiary-fixed-variant;
 }
 
-@utility scrim-z-* {
-  @apply scrim;
+@utility scrim-* {
+  @apply fixed inset-0;
   z-index: --value(integer, [integer]);
+  background-color: rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%));
+  --md-scrim-opacity: --modifier([percentage]);
 }
-@utility scrim-z-base {
-  @apply scrim;
+@utility scrim-base {
+  @apply fixed inset-0;
   z-index: var(--md-z-scrim-base);
+  background-color: rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%));
+  --md-scrim-opacity: --modifier([percentage]);
 }
-@utility scrim-z-content {
-  @apply scrim;
+@utility scrim-content {
+  @apply fixed inset-0;
   z-index: var(--md-z-scrim-content);
+  background-color: rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%));
+  --md-scrim-opacity: --modifier([percentage]);
 }
-@utility scrim-z-drawer {
-  @apply scrim;
+@utility scrim-drawer {
+  @apply fixed inset-0;
   z-index: var(--md-z-scrim-drawer);
+  background-color: rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%));
+  --md-scrim-opacity: --modifier([percentage]);
 }
-@utility scrim-z-modal {
-  @apply scrim;
+@utility scrim-modal {
+  @apply fixed inset-0;
   z-index: var(--md-z-scrim-modal);
+  background-color: rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%));
+  --md-scrim-opacity: --modifier([percentage]);
 }
-@utility scrim-z-elevated {
-  @apply scrim;
+@utility scrim-elevated {
+  @apply fixed inset-0;
   z-index: var(--md-z-scrim-elevated);
+  background-color: rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%));
+  --md-scrim-opacity: --modifier([percentage]);
 }
-@utility scrim-z-system {
-  @apply scrim;
+@utility scrim-system {
+  @apply fixed inset-0;
   z-index: var(--md-z-scrim-system);
+  background-color: rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%));
+  --md-scrim-opacity: --modifier([percentage]);
 }
 @utility z-navigation-persistent {
   z-index: var(--md-z-navigation-persistent);

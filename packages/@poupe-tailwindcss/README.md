@@ -108,37 +108,41 @@ Direct CSS integration:
 
 ### CSS Assets
 
-The package provides two pre-built CSS files:
+The package provides two pre-built CSS files that extend TailwindCSS v4:
 
 #### `style.css`
-Minimal TailwindCSS setup without imposing any theme:
-- Base TailwindCSS v4 configuration
+Minimal theme-agnostic utilities and components:
 - Surface component utilities
-- Shadow system utilities
+- Shadow system utilities (z1-z5)
 - Scrim overlay utilities
-- No color values - use your own theme
+- Material Design z-index system
+- No color values - bring your own theme
 
-Available via multiple import methods:
+Usage with TailwindCSS:
 ```css
-/* Direct package import (recommended) */
-@import '@poupe/tailwindcss';
-
-/* Or explicit path */
-@import '@poupe/tailwindcss/style.css';
+/* Import together with TailwindCSS base */
+@import 'tailwindcss';
+@import '@poupe/tailwindcss';  /* or '@poupe/tailwindcss/style.css' */
 ```
 
-#### `@poupe/tailwindcss/default.css`
-Complete example with all Material Design variables:
+#### `default.css`
+Complete example with Material Design 3 theme:
 - Full set of Material Design 3 CSS custom properties
 - Default color values for all theme colors
 - Complete shadow and elevation system
 - All surface and scrim utilities
+- Fixed color surface combinations
 - Ready-to-use example theme
 
+Usage:
 ```css
+/* Import together with TailwindCSS base */
+@import 'tailwindcss';
 @import '@poupe/tailwindcss/default.css';
 /* Override any variables as needed */
 ```
+
+**Note**: These CSS files contain TailwindCSS v4 directives (@theme, @utility) and must be used together with TailwindCSS base styles.
 
 Shadow utilities:
 
@@ -156,17 +160,20 @@ Shadow utilities:
 Modal backdrop overlays with Material Design z-index layering:
 
 ```html
-<!-- Basic scrim -->
-<div class="scrim">Overlay</div>
-
 <!-- Semantic z-index levels -->
-<div class="scrim-z-modal">Modal backdrop</div>
-<div class="scrim-z-drawer">Drawer backdrop</div>
-<div class="scrim-z-elevated">High priority overlay</div>
+<div class="scrim-modal">Modal backdrop</div>
+<div class="scrim-drawer">Drawer backdrop</div>
+<div class="scrim-elevated">High priority overlay</div>
 
-<!-- Arbitrary z-index values -->
-<div class="scrim-z-[1250]">Custom z-index</div>
-<div class="scrim-z-[var(--custom-z)]">CSS variable</div>
+<!-- With opacity modifiers -->
+<div class="scrim-modal/50">Modal with 50% opacity</div>
+<div class="scrim-drawer/75">Drawer with 75% opacity</div>
+<div class="scrim-content/25">Content overlay with 25% opacity</div>
+
+<!-- Arbitrary z-index values with opacity -->
+<div class="scrim-[1250]">Custom z-index</div>
+<div class="scrim-[1250]/40">Custom z-index with 40% opacity</div>
+<div class="scrim-[var(--custom-z)]/60">CSS variable with 60% opacity</div>
 ```
 
 Material Design z-index scale:
@@ -181,13 +188,27 @@ Material Design z-index scale:
 --md-z-tooltip: 1500;                /* Tooltips */
 ```
 
-Scrim variants:
-- `scrim-z-base` (950) - Basic overlay, below navigation
-- `scrim-z-content` (975) - Content overlay
-- `scrim-z-drawer` (1250) - Drawer overlays
-- `scrim-z-modal` (1275) - Modal preparation
-- `scrim-z-elevated` (1350) - High-priority overlays
-- `scrim-z-system` (1450) - System-level scrims
+Scrim variants (simplified naming):
+- `scrim-base` (950) - Basic overlay, below navigation
+- `scrim-content` (975) - Content overlay
+- `scrim-drawer` (1250) - Drawer overlays
+- `scrim-modal` (1275) - Modal preparation
+- `scrim-elevated` (1350) - High-priority overlays
+- `scrim-system` (1450) - System-level scrims
+
+### Opacity Support
+
+All scrim utilities support Tailwind's opacity modifier syntax:
+- Default opacity: 32% (when no modifier is used)
+- Custom opacity: `scrim-modal/50`, `scrim-drawer/75`, etc.
+- Arbitrary z-index with opacity: `scrim-[100]/25`
+
+**Technical Implementation:**
+- Uses `--md-scrim-rgb` variable (following the same pattern as `--md-shadow-rgb`)
+- TailwindCSS v4 `--modifier([percentage])` for capturing modifier values
+- CSS custom properties enable dynamic opacity: `var(--md-scrim-opacity, 32%)`
+- Automatic theme switching for scrim colors in dark/light modes
+- Bridge pattern converts v4 syntax to v3 matchUtilities for broad compatibility
 
 ### Programmatic Theme Generation
 
@@ -275,7 +296,7 @@ Material Design 3 elevation system with 5 z-levels:
 - **z4**: Important modal windows
 - **z5**: Critical/focused elements
 
-Shadow utilities use `--md-shadow-rgb` variable for customization:
+Shadow utilities use `--md-shadow-rgb` variable for customization, while scrim utilities use `--md-scrim-rgb`:
 
 ```css
 --shadow-z1: 0 1px 4px 0 rgba(var(--md-shadow-rgb), 0.37);
@@ -303,6 +324,12 @@ Component utilities with background + text color and proper contrast:
 <div class="surface-container">Standard</div>
 <div class="surface-container-high">High</div>
 <div class="surface-container-highest">Highest</div>
+
+<!-- Fixed color combinations -->
+<div class="surface-primary-fixed">Fixed background with on-fixed text</div>
+<div class="surface-primary-fixed-variant">Fixed background with variant text</div>
+<div class="surface-primary-fixed-dim">Dim fixed background with on-fixed text</div>
+<div class="surface-primary-fixed-dim-variant">Dim fixed with variant text</div>
 ```
 
 ## Dark Mode

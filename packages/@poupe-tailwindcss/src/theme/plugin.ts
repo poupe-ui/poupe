@@ -3,6 +3,10 @@ import {
 } from './config';
 
 import {
+  asMatchUtility,
+} from './match-utilities';
+
+import {
   type ThemeOptions,
   withDefaultThemeOptions,
 } from './options';
@@ -60,16 +64,30 @@ export function themePluginFunction(api: PluginAPI, theme: Theme): void {
 
 function addComponents(api: PluginAPI, components: Record<string, CSSRuleObject>) {
   for (const [name, value] of pairs(components)) {
-    if (name.includes('*')) {
-      // TODO: matchUtility
+    if (!doAddUtility(api, name, value) && !doMatchUtility(api, name, value))
       warnLog('skipping component', name);
-      continue;
-    }
+  }
+}
 
-    api.addComponents({
+function doAddUtility(api: PluginAPI, name: string, value: CSSRuleObject): boolean {
+  if (!name.includes('*')) {
+    api.addUtilities({
       [name.startsWith('.') ? name : `.${name}`]: value,
     });
+    return true;
   }
+
+  return false;
+}
+
+export function doMatchUtility(api: PluginAPI, name: string, value: CSSRuleObject): boolean {
+  const u = asMatchUtility(name, value);
+  if (u?.name && u?.value) {
+    api.matchUtilities({ [u.name]: u.value }, u.options);
+    return true;
+  }
+
+  return false;
 }
 
 /** alias of makeConfig as companion for themePluginFunction */

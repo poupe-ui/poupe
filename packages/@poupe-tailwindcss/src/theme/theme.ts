@@ -261,6 +261,52 @@ function injectShadowRGBIntoStyles(
 }
 
 /**
+ * Injects scrim RGB variables into existing CSS styles from assembleCSSColors().
+ * Finds the appropriate style objects and extends them with scrim RGB definitions.
+ * @param theme - Theme configuration with dark/light color maps
+ * @param styles - Array of CSS rule objects to extend
+ * @param darkSelector - Dark mode selector array
+ */
+function injectScrimRGBIntoStyles(
+  theme: Readonly<Theme>,
+  styles: CSSRuleObject[],
+  darkSelector: string[],
+): void {
+  const { themePrefix } = theme.options;
+  const scrimRGBVariable = `--${themePrefix}scrim-rgb`;
+  const scrimColorKey = 'scrim';
+
+  // Check if scrim colors exist in both dark and light themes
+  const darkScrim = theme.dark?.[scrimColorKey];
+  const lightScrim = theme.light?.[scrimColorKey];
+
+  if (!darkScrim || !lightScrim) {
+    return;
+  }
+
+  // Generate direct RGB values from Hct colors (rgba returns 0-255 integers)
+  const lightRGBA = rgba(lightScrim);
+  const darkRGBA = rgba(darkScrim);
+
+  const lightRGB = `${lightRGBA.r} ${lightRGBA.g} ${lightRGBA.b}`;
+  const darkRGB = `${darkRGBA.r} ${darkRGBA.g} ${darkRGBA.b}`;
+
+  // Find and inject light mode scrim RGB into :root
+  const rootStyle = findLastStyleWithSelector(styles, ':root');
+  if (rootStyle) {
+    setDeepRule(rootStyle, ':root', { [scrimRGBVariable]: lightRGB });
+  }
+
+  // Only inject dark mode scrim RGB if it differs from light mode
+  if (lightRGB !== darkRGB) {
+    const darkStyle = findLastStyleWithSelector(styles, darkSelector);
+    if (darkStyle) {
+      setDeepRule(darkStyle, darkSelector, { [scrimRGBVariable]: darkRGB });
+    }
+  }
+}
+
+/**
  * Generates CSS base styles for a theme with dark and light modes.
  * Includes CSS custom properties for all theme colors and the shadow RGB variable.
  *
@@ -269,9 +315,9 @@ function injectShadowRGBIntoStyles(
  * @param stringify - Optional function to convert HCT colors to string representation (defaults to HSL string)
  * @returns An array of CSS rule objects for theme base styles
  * @remarks
- * Automatically generates `--{prefix}shadow-rgb` variable:
+ * Automatically generates `--{prefix}shadow-rgb` and `--{prefix}scrim-rgb` variables:
  * - When dark/light themes exist: direct RGB values extracted from Hct colors
- * - When dark/light themes don't exist: CSS Level 4 fallback `from var(--{prefix}shadow) r g b`
+ * - When dark/light themes don't exist: CSS Level 4 fallback syntax for both variables
  */
 export function makeThemeBases(
   theme: Readonly<Theme>,
@@ -314,12 +360,19 @@ export function makeThemeBases(
     // Inject shadow RGB variables into existing styles
     injectShadowRGBIntoStyles(theme, styles, darkSelector);
 
+    // Inject scrim RGB variables into existing styles
+    injectScrimRGBIntoStyles(theme, styles, darkSelector);
+
     bases.push(...styles);
   } else {
     // Add fallback for omitted themes
     const shadowVariable = `--${themePrefix}shadow`;
     const shadowRGBVariable = `--${themePrefix}shadow-rgb`;
     constants[shadowRGBVariable] = `var(${shadowRGBVariable}, from var(${shadowVariable}) r g b)`;
+
+    const scrimVariable = `--${themePrefix}scrim`;
+    const scrimRGBVariable = `--${themePrefix}scrim-rgb`;
+    constants[scrimRGBVariable] = `var(${scrimRGBVariable}, from var(${scrimVariable}) r g b)`;
   }
 
   bases.push({

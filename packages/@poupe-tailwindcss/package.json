@@ -1,6 +1,6 @@
 {
   "name": "@poupe/tailwindcss",
-  "version": "0.3.15",
+  "version": "0.4.0",
   "type": "module",
   "description": "TailwindCSS v4 plugin for Poupe UI framework with theme customization support",
   "author": "Alejandro Mery <amery@apptly.co>",
@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "@poupe/eslint-config": "^0.6.4",
+    "@tailwindcss/node": "^4.1.8",
     "@types/node": "^20.17.47",
     "eslint": "^9.26.0",
     "pathe": "^2.0.3",

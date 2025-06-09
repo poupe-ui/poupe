@@ -8,14 +8,12 @@ import {
   debugLog,
 } from './utils';
 
+/** Default opacity for scrim utilities when no modifier is provided */
+export const DEFAULT_SCRIM_OPACITY = '32%';
+
 export function makeThemeComponents(theme: Readonly<Theme>, tailwindPrefix: string = ''): Record<string, CSSRuleObject>[] {
   return [
     makeSurfaceComponents(theme, tailwindPrefix),
-    {
-      scrim: {
-        '@apply fixed inset-0 bg-scrim/32': {},
-      },
-    },
     makeZIndexComponents(theme),
   ];
 }
@@ -24,18 +22,24 @@ export function makeZIndexComponents(theme: Readonly<Theme>): Record<string, CSS
   const { themePrefix } = theme.options;
 
   const out: Record<string, CSSRuleObject> = {
-    ['scrim-z-*']: {
-      // arbitrary z-index scrim
-      '@apply scrim': {},
+    ['scrim-*']: {
+      // Dynamic scrim utility that accepts arbitrary z-index values with optional opacity modifier
+      // The --value() pattern indicates this will be converted to matchUtilities
+      // allowing usage like: scrim-[100], scrim-[1250]/50, scrim-[var(--custom-z)]/75
+      '@apply fixed inset-0': {},
       'z-index': '--value(integer, [integer])',
+      'background-color': `rgb(var(--${themePrefix}scrim-rgb) / var(--${themePrefix}scrim-opacity, ${DEFAULT_SCRIM_OPACITY}))`,
+      [`--${themePrefix}scrim-opacity`]: '--modifier([percentage])',
     },
   };
 
-  // semantic z-index scrim
+  // semantic z-index scrim with opacity modifier support
   for (const name of ['base', 'content', 'drawer', 'modal', 'elevated', 'system']) {
-    out[`scrim-z-${name}`] = {
-      '@apply scrim': {},
+    out[`scrim-${name}`] = {
+      '@apply fixed inset-0': {},
       'z-index': `var(--${themePrefix}z-scrim-${name})`,
+      'background-color': `rgb(var(--${themePrefix}scrim-rgb) / var(--${themePrefix}scrim-opacity, ${DEFAULT_SCRIM_OPACITY}))`,
+      [`--${themePrefix}scrim-opacity`]: '--modifier([percentage])',
     };
   }
 
@@ -47,6 +51,43 @@ export function makeZIndexComponents(theme: Readonly<Theme>): Record<string, CSS
   }
 
   return out;
+}
+
+/**
+ * Generates a composite surface name by finding the unique parts between
+ * background and text color names for special fixed color combinations.
+ */
+function generateCompositeSurfaceName(baseKey: string, bgName: string, textName: string): string {
+  // Find the common prefix between the background and text colors
+  // Remove 'on-' prefix from text color for comparison
+  const textWithoutOn = textName.startsWith('on-') ? textName.slice(3) : textName;
+
+  // Split both names into parts
+  const bgParts = bgName.split('-');
+  const textParts = textWithoutOn.split('-');
+
+  // Find common prefix parts
+  let commonParts = 0;
+  for (let i = 0; i < Math.min(bgParts.length, textParts.length); i++) {
+    if (bgParts[i] === textParts[i]) {
+      commonParts++;
+    } else {
+      break;
+    }
+  }
+
+  // Get the unique parts from both colors
+  const bgSuffix = bgParts.slice(commonParts).join('-');
+  const textSuffix = textParts.slice(commonParts).join('-');
+
+  // Build the surface name with both unique parts
+  if (bgSuffix && textSuffix) {
+    return `${baseKey}-${textSuffix}`;
+  } else if (textSuffix) {
+    return `${baseKey}-${textSuffix}`;
+  }
+  // If only bgSuffix exists, baseKey already contains it
+  return baseKey;
 }
 
 export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: string = ''): Record<string, CSSRuleObject> {
@@ -63,20 +104,42 @@ export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: st
     }
   }
 
-  // TODO: determine pair of special colors
-  // - primary-fixed-dim
-  // - on-primary-fixed-variant
-  // - secondary-fixed-dim
-  // - on-secondary-fixed-variant
-  // - tertiary-fixed-dim
-  // - on-tertiary-fixed-variant
+  // Handle special fixed color combinations
+  // Each fixed background (primary-fixed, primary-fixed-dim) can pair with
+  // each fixed text variant (on-primary-fixed, on-primary-fixed-variant)
+  const fixedPrefixes = ['primary', 'secondary', 'tertiary'];
+
+  for (const prefix of fixedPrefixes) {
+    const backgrounds = [`${prefix}-fixed`, `${prefix}-fixed-dim`];
+    const texts = [`on-${prefix}-fixed`, `on-${prefix}-fixed-variant`];
+
+    // Create all combinations for fixed colors
+    for (const bg of backgrounds) {
+      for (const text of texts) {
+        if (theme.colors[bg] && theme.colors[text]) {
+          // Use a composite key to avoid overwriting the standard pair
+          const key = bg + ':' + text;
+          pairs.set(key, text);
+        }
+      }
+    }
+  }
 
   const surfaces: Record<string, CSSRuleObject> = {};
 
   const [bgPrefix, textPrefix] = ['bg-', 'text-'].map(prefix => `${tailwindPrefix}${prefix}`);
-  for (const [name, onName] of pairs) {
+  for (const [nameKey, onName] of pairs) {
+    // Handle composite keys for special combinations
+    const name = nameKey.includes(':') ? nameKey.split(':')[0] : nameKey;
     const { key, value } = assembleSurfaceComponent(name, onName, bgPrefix, textPrefix, surfacePrefix);
-    surfaces[key] = value;
+
+    // For composite keys, create unique surface names by finding what's different
+    let surfaceKey = key;
+    if (nameKey.includes(':')) {
+      surfaceKey = generateCompositeSurfaceName(key, name, onName);
+    }
+
+    surfaces[surfaceKey] = value;
   }
 
   debugLog(theme.options.debug, 'surfaces', surfaces);
