@@ -8,6 +8,9 @@ import {
   debugLog,
 } from './utils';
 
+/** Default opacity for scrim utilities when no modifier is provided */
+export const DEFAULT_SCRIM_OPACITY = '32%';
+
 export function makeThemeComponents(theme: Readonly<Theme>, tailwindPrefix: string = ''): Record<string, CSSRuleObject>[] {
   return [
     makeSurfaceComponents(theme, tailwindPrefix),
@@ -25,7 +28,7 @@ export function makeZIndexComponents(theme: Readonly<Theme>): Record<string, CSS
       // allowing usage like: scrim-[100], scrim-[1250]/50, scrim-[var(--custom-z)]/75
       '@apply fixed inset-0': {},
       'z-index': '--value(integer, [integer])',
-      'background-color': `rgb(var(--${themePrefix}scrim-rgb) / var(--${themePrefix}scrim-opacity, 32%))`,
+      'background-color': `rgb(var(--${themePrefix}scrim-rgb) / var(--${themePrefix}scrim-opacity, ${DEFAULT_SCRIM_OPACITY}))`,
       [`--${themePrefix}scrim-opacity`]: '--modifier([percentage])',
     },
   };
@@ -35,7 +38,7 @@ export function makeZIndexComponents(theme: Readonly<Theme>): Record<string, CSS
     out[`scrim-${name}`] = {
       '@apply fixed inset-0': {},
       'z-index': `var(--${themePrefix}z-scrim-${name})`,
-      'background-color': `rgb(var(--${themePrefix}scrim-rgb) / var(--${themePrefix}scrim-opacity, 32%))`,
+      'background-color': `rgb(var(--${themePrefix}scrim-rgb) / var(--${themePrefix}scrim-opacity, ${DEFAULT_SCRIM_OPACITY}))`,
       [`--${themePrefix}scrim-opacity`]: '--modifier([percentage])',
     };
   }

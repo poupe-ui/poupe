@@ -3,8 +3,9 @@ import {
   type PluginAPI,
 } from './utils';
 
-/** Default opacity for scrim utilities when no modifier is provided */
-const DEFAULT_SCRIM_OPACITY = '32%';
+import {
+  DEFAULT_SCRIM_OPACITY,
+} from './components';
 
 /** The value type for utilities in {@link PluginAPI.matchUtilities} function */
 export type MatchUtilitiesValue = Parameters<PluginAPI['matchUtilities']>[0][string];
