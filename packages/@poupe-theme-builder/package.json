@@ -64,12 +64,12 @@
   },
   "devDependencies": {
     "@poupe/eslint-config": "workspace:^",
-    "@types/node": "^20.17.47",
-    "eslint": "^9.26.0",
+    "@types/node": "^20.17.50",
+    "eslint": "^9.27.0",
     "publint": "^0.3.12",
     "typescript": "~5.8.3",
     "unbuild": "3.5.0",
-    "vitest": "^3.1.4",
+    "vitest": "^3.2.0",
     "vue-tsc": "~2.2.10"
   },
   "engines": {
