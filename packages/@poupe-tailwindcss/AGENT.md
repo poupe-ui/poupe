@@ -29,19 +29,19 @@ src/
 examples/
 ├── plugin-workflow/     # @plugin syntax example
 │   ├── package.json     # Stand-alone project config
-│   ├── input.css        # Uses @plugin directive
+│   ├── default-plugin.css  # Uses @plugin directive
 │   ├── index.html       # Demo with utility classes
 │   └── output.css       # Generated (auto-created by build)
 ├── flat-plugin/         # Default export usage example
 │   ├── package.json     # Stand-alone project config
-│   ├── tailwind.config.js
-│   ├── input.css        # Uses @config directive
+│   ├── flat-plugin.config.js
+│   ├── flat-plugin.css  # Uses @config directive
 │   ├── index.html       # Demo with utility classes
 │   └── output.css       # Generated (auto-created by build)
 └── theme-plugin/        # Named export usage example
     ├── package.json     # Stand-alone project config
-    ├── tailwind.config.js
-    ├── input.css        # Uses @config directive
+    ├── theme-plugin.config.js
+    ├── theme-plugin.css # Uses @config directive
     ├── index.html       # Demo with utility classes
     └── output.css       # Generated (auto-created by build)
 ```
@@ -155,9 +155,9 @@ pnpm build
 
 #### Example Build Details
 Each example is built using TailwindCSS CLI:
-- **plugin-workflow**: Uses `@plugin` syntax with content scanning
-- **flat-plugin**: Uses config-based plugin with `@config` workflow
-- **theme-plugin**: Uses config-based theme plugin with `@config` workflow
+- **plugin-workflow**: Uses `@plugin` syntax with content scanning (default-plugin.css)
+- **flat-plugin**: Uses config-based plugin with `@config` workflow (flat-plugin.css + flat-plugin.config.js)
+- **theme-plugin**: Uses config-based theme plugin with `@config` workflow (theme-plugin.css + theme-plugin.config.js)
 
 Build errors in examples don't fail the main build process.
 

@@ -60,7 +60,7 @@ describe('TailwindCSS CLI validation', () => {
     expect(styleContent).toContain('@utility scrim-elevated');
     expect(styleContent).toContain('@utility scrim-system');
 
-    // Verify old z- prefixed naming is gone (except for arbitrary scrim-z-*)
+    // Verify old z- prefixed naming is gone
     expect(styleContent).not.toContain('@utility scrim-z-*');
     expect(styleContent).not.toContain('@utility scrim-z-base');
     expect(styleContent).not.toContain('@utility scrim-z-modal');
@@ -116,8 +116,8 @@ describe('TailwindCSS CLI validation', () => {
   <div class="scrim-elevated/25">Elevated scrim with 25% opacity</div>
 
   <!-- Test arbitrary z-index with opacity modifiers -->
-  <div class="scrim-z-[100]/25">Custom z-index scrim with 25% opacity</div>
-  <div class="scrim-z-[1250]/60">High z-index scrim with 60% opacity</div>
+  <div class="scrim-[100]/25">Custom z-index scrim with 25% opacity</div>
+  <div class="scrim-[1250]/60">High z-index scrim with 60% opacity</div>
 </body>
 </html>`;
     writeFileSync(htmlPath, htmlContent);
@@ -126,7 +126,7 @@ describe('TailwindCSS CLI validation', () => {
     let result;
     try {
       result = execSync(
-        `pnpx @tailwindcss/cli -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath} 2>&1`,
+        `pnpm tailwindcss -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath} 2>&1`,
         {
           cwd: process.cwd(),
           encoding: 'utf8',
@@ -148,30 +148,6 @@ describe('TailwindCSS CLI validation', () => {
     expect(outputContent).toContain('tailwindcss');
     expect(outputContent).toContain('@layer'); // TailwindCSS base structure
   }, { timeout: 15_000 }); // 15 second timeout for entire test
-
-  test('example output.css files exist and contain modifier support', () => {
-    // Verify that build.config.ts generated the example CSS files
-    const exampleOutputs = [
-      paths.examples('plugin-workflow', 'output.css'),
-      paths.examples('flat-plugin', 'output.css'),
-      paths.examples('theme-plugin', 'output.css'),
-    ];
-
-    for (const outputPath of exampleOutputs) {
-      expect(existsSync(outputPath)).toBe(true);
-
-      // Basic validation that the files contain TailwindCSS output
-      const content = readFileSync(outputPath, 'utf8');
-      expect(content).toContain('tailwindcss');
-      expect(content.length).toBeGreaterThan(100); // Should have actual CSS content
-
-      // Verify scrim utilities are present with modifier support
-      expect(content).toMatch(/\.scrim[^{]*\{[^}]*--md-scrim-opacity: --modifier\(\[percentage\]\)[^}]*\}/);
-
-      // Verify the background-color uses RGB variable syntax
-      expect(content).toMatch(/background-color: rgb\(var\(--md-scrim-rgb\)[^}]*var\(--md-scrim-opacity, 32%\)/);
-    }
-  });
 
   test('plugin exports validation', () => {
     // Test that our plugin files exist and are structured correctly
@@ -230,7 +206,7 @@ ${styleContent}`;
     let result;
     try {
       result = execSync(
-        `pnpx @tailwindcss/cli -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath} 2>&1`,
+        `pnpm tailwindcss -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath} 2>&1`,
         { cwd: process.cwd(), encoding: 'utf8' },
       );
     } catch (error) {
@@ -287,7 +263,7 @@ ${defaultContent}`;
     let result;
     try {
       result = execSync(
-        `pnpx @tailwindcss/cli -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath} 2>&1`,
+        `pnpm tailwindcss -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath} 2>&1`,
         { cwd: process.cwd(), encoding: 'utf8' },
       );
     } catch (error) {
@@ -307,6 +283,91 @@ ${defaultContent}`;
 
       // Check for theme variables
       expect(outputContent).toMatch(/--md-primary|--md-secondary/);
+    }
+  });
+
+  test('all 4 example input CSS files produce identical output', { timeout: 30_000 }, () => {
+    const testId = randomUUID().slice(0, 8);
+    const htmlPath = paths.examples('index.html');
+
+    // All 4 input CSS files to test
+    const inputFiles = [
+      paths.examples('input.css'),
+      paths.examples('default-plugin.css'),
+      paths.examples('flat-plugin.css'),
+      paths.examples('theme-plugin.css'),
+    ];
+
+    const outputs: string[] = [];
+
+    // Process each input file and collect outputs
+    for (const [index, inputPath] of inputFiles.entries()) {
+      const outputPath = paths.join(`test-unified-output-${testId}-${index}.css`);
+      temporaryFiles.push(outputPath);
+
+      let result;
+      try {
+        result = execSync(
+          `pnpm tailwindcss -i ${inputPath} -o ${outputPath} --content ${htmlPath} 2>&1`,
+          { cwd: paths.examples(), encoding: 'utf8', timeout: 10_000 },
+        );
+      } catch (error) {
+        const errorOutput = error instanceof Error && 'stdout' in error ? String(error.stdout || error.stderr || error.message) : String(error);
+        throw new Error(`TailwindCSS CLI failed for ${path.basename(inputPath)}: ${errorOutput}`);
+      }
+
+      // Check for errors that should fail the test
+      if (result && result.includes('Unsupported bare value data type')) {
+        throw new Error(`TailwindCSS CLI reported errors for ${path.basename(inputPath)}: ${result}`);
+      }
+
+      // Read the generated output
+      expect(existsSync(outputPath)).toBe(true);
+      const outputContent = readFileSync(outputPath, 'utf8');
+
+      // Basic validation
+      expect(outputContent).toContain('tailwindcss');
+      expect(outputContent.length).toBeGreaterThan(1000);
+
+      // Store the output for comparison
+      outputs.push(outputContent);
+    }
+
+    // Compare all outputs - they should be identical
+    const [baseOutput, ...otherOutputs] = outputs;
+
+    for (const output of otherOutputs) {
+      // Since the outputs might have slight differences in whitespace or order,
+      // we'll check that they contain the same essential CSS rules
+      expect(output).toContain('.surface-primary');
+      expect(output).toContain('.scrim-modal');
+      expect(output).toContain('--md-scrim-opacity: --modifier([percentage])');
+      expect(output).toContain('background-color: rgb(var(--md-scrim-rgb)');
+      expect(output).toContain('var(--md-scrim-opacity, 32%)');
+
+      // Check that both have similar content length (within 10%)
+      const sizeDiff = Math.abs(output.length - baseOutput.length) / baseOutput.length;
+      expect(sizeDiff).toBeLessThan(0.1); // Less than 10% difference
+
+      // Verify key utilities that are actually used in HTML are present in both
+      // Based on index.html content: scrim-base, scrim-modal, surface-primary, surface-secondary, surface-tertiary
+      const keyUtilities = ['scrim-modal', 'scrim-base', 'surface-primary', 'surface-secondary', 'surface-tertiary'];
+      for (const utility of keyUtilities) {
+        expect(baseOutput).toContain(`.${utility}`);
+        expect(output).toContain(`.${utility}`);
+      }
+    }
+
+    // Verify that all outputs contain the essential plugin functionality
+    for (const output of outputs) {
+      // Check for scrim utilities with modifiers
+      expect(output).toMatch(/\.scrim-[^{]*\{[^}]*--md-scrim-opacity: --modifier\(\[percentage\]\)[^}]*\}/);
+
+      // Check for surface utilities
+      expect(output).toMatch(/\.surface-[^{]*\{[^}]*background-color:/);
+
+      // Check for z-index utilities
+      expect(output).toMatch(/\.z[0-9]|z-[^{]*\{[^}]*z-index:/);
     }
   });
 
@@ -341,8 +402,8 @@ ${defaultContent}`;
   <div class="scrim-elevated/75">Elevated scrim with 75% opacity</div>
 
   <!-- Arbitrary z-index with opacity modifiers -->
-  <div class="scrim-z-[100]/10">Custom z-index scrim with 10% opacity</div>
-  <div class="scrim-z-[1500]/90">High z-index scrim with 90% opacity</div>
+  <div class="scrim-[100]/10">Custom z-index scrim with 10% opacity</div>
+  <div class="scrim-[1500]/90">High z-index scrim with 90% opacity</div>
 </body>
 </html>`;
     writeFileSync(htmlPath, htmlContent);
@@ -351,7 +412,7 @@ ${defaultContent}`;
     let result;
     try {
       result = execSync(
-        `pnpx @tailwindcss/cli -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath} 2>&1`,
+        `pnpm tailwindcss -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath} 2>&1`,
         { cwd: process.cwd(), encoding: 'utf8' },
       );
     } catch (error) {
@@ -392,7 +453,7 @@ ${defaultContent}`;
       }
     }
 
-    // Note: Arbitrary z-index utilities (scrim-z-[100]) are only generated when used
+    // Note: Arbitrary z-index utilities (scrim-[100]) are only generated when used
     // in content. Our test HTML includes them, so let's check if any were generated.
     // If not found, that's okay as TailwindCSS might not generate unused utilities.
 

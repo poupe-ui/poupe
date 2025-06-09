@@ -57,15 +57,14 @@ function writeTheme<K extends string>(dirname: string, filename: string, format:
   console.log(`[assets] ✔ Wrote ${content.length} bytes to ${join(dirname, filename)}`);
 }
 
-function generateCSSForExample(name: string, needsContent: boolean) {
-  const basePath = `examples/${name}`;
-  const inputPath = `${basePath}/input.css`;
-  const outputPath = `${basePath}/output.css`;
-  const contentPath = needsContent ? `${basePath}/index.html` : undefined;
+function generateCSSForExample(input: string, output: string, content: string) {
+  const inputPath = `examples/${input}`;
+  const outputPath = `examples/${output}`;
+  const contentPath = content ? `examples/${content}` : undefined;
 
   const command = contentPath
-    ? `pnpx @tailwindcss/cli -i ${inputPath} -o ${outputPath} --content ${contentPath}`
-    : `pnpx @tailwindcss/cli -i ${inputPath} -o ${outputPath}`;
+    ? `pnpm tailwindcss -i ${inputPath} -o ${outputPath} --content ${contentPath}`
+    : `pnpm tailwindcss -i ${inputPath} -o ${outputPath}`;
 
   try {
     execSync(command, { stdio: 'pipe' });
@@ -94,18 +93,8 @@ export default defineBuildConfig({
       for (const [filename, { theme, format }] of Object.entries(themes)) {
         writeTheme('src/assets', `${filename}.css`, format, theme);
       }
-    },
-    'build:done'() {
-      // generate example CSS files
-      const examples = [
-        { dir: 'plugin-workflow', needsContent: true },
-        { dir: 'flat-plugin', needsContent: false },
-        { dir: 'theme-plugin', needsContent: false },
-      ];
-
-      for (const { dir, needsContent } of examples) {
-        generateCSSForExample(dir, needsContent);
-      }
+      // output.css for examples/index.html
+      generateCSSForExample('input.css', 'output.css', 'index.html');
     },
   },
 });

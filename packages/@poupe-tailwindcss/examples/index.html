@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>@poupe/tailwindcss Examples</title>
+  <link rel="stylesheet" href="output.css">
+</head>
+<body class="p-8 space-y-4 surface">
+  <h1 class="text-2xl font-bold mb-6">@poupe/tailwindcss Examples</h1>
+
+  <div class="m-2 surface-primary shadow-z1 p-4 rounded">
+    <h2 class="text-lg font-semibold mb-2">Primary Surface with Elevation</h2>
+    <p>Primary surface with z1 elevation shadow demonstrating Material Design 3 theming.</p>
+  </div>
+
+  <div class="m-2 surface-secondary scrim-base p-4 rounded">
+    <h2 class="text-lg font-semibold mb-2">Secondary Surface with Scrim</h2>
+    <p>Secondary surface with base scrim overlay for modal-like effects.</p>
+  </div>
+
+  <div class="m-2 surface-tertiary scrim-modal p-4 rounded">
+    <h2 class="text-lg font-semibold mb-2">Tertiary Surface with Modal Scrim</h2>
+    <p>Tertiary surface with modal scrim overlay demonstrating semantic z-index layering.</p>
+  </div>
+
+  <div class="m-2 z-drawer surface-container p-4 rounded">
+    <h2 class="text-lg font-semibold mb-2">Drawer with Container Surface</h2>
+    <p>Container surface with drawer-level z-index for navigation drawers.</p>
+  </div>
+
+  <div class="m-2 surface-error shadow-z3 p-4 rounded">
+    <h2 class="text-lg font-semibold mb-2">Error Surface with Elevation</h2>
+    <p>Error surface with z3 elevation for important notifications or alerts.</p>
+  </div>
+
+  <!-- Scrim opacity modifier examples -->
+  <div class="m-2 scrim-modal/50 p-4 rounded">
+    <h2 class="text-lg font-semibold mb-2 text-white">Modal Scrim (50% opacity)</h2>
+    <p class="text-white">Demonstrates modal scrim utility with 50% opacity modifier.</p>
+  </div>
+
+  <div class="m-2 scrim-drawer/25 p-4 rounded">
+    <h2 class="text-lg font-semibold mb-2 text-white">Drawer Scrim (25% opacity)</h2>
+    <p class="text-white">Demonstrates drawer scrim utility with 25% opacity modifier.</p>
+  </div>
+
+  <div class="m-2 scrim-[100]/75 p-4 rounded">
+    <h2 class="text-lg font-semibold mb-2 text-white">Custom Z-Index Scrim (75% opacity)</h2>
+    <p class="text-white">Demonstrates arbitrary z-index scrim with 75% opacity modifier.</p>
+  </div>
+
+  <!-- Fixed color surface combinations -->
+  <div class="m-2 surface-primary-fixed p-4 rounded">
+    <h2 class="text-lg font-semibold mb-2">Primary Fixed Surface</h2>
+    <p>Primary fixed surface with automatic text color contrast.</p>
+  </div>
+
+  <div class="m-2 surface-primary-fixed-variant p-4 rounded">
+    <h2 class="text-lg font-semibold mb-2">Primary Fixed Variant Surface</h2>
+    <p>Primary fixed variant surface with variant text color.</p>
+  </div>
+
+  <div class="mt-8 p-4 surface-container-low rounded">
+    <h3 class="font-semibold mb-2">Examples Overview</h3>
+    <p class="text-sm mb-2">This unified example demonstrates:</p>
+    <ul class="text-sm space-y-1 list-disc list-inside">
+      <li><strong>Surface utilities:</strong> Primary, secondary, tertiary, error, and container surfaces</li>
+      <li><strong>Elevation system:</strong> Shadow z-levels (z1, z3) for depth</li>
+      <li><strong>Scrim overlays:</strong> Semantic scrims (modal, drawer, base) with opacity modifiers</li>
+      <li><strong>Z-index system:</strong> Semantic z-index utilities for layering</li>
+      <li><strong>Fixed colors:</strong> Fixed surface combinations for consistent theming</li>
+    </ul>
+  </div>
+
+  <div class="mt-8 p-4 surface-container rounded">
+    <h3 class="font-semibold mb-2">How to build and view:</h3>
+    <pre class="surface-container-high p-2 rounded text-sm overflow-x-auto"><code>pnpm run build
+# Then open examples/index.html in browser</code></pre>
+  </div>
+</body>
+</html>
