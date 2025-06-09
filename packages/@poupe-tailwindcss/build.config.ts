@@ -1,8 +1,8 @@
 import { defineBuildConfig } from 'unbuild';
-import { execSync } from 'node:child_process';
 import {
   mkdirSync,
   writeFileSync,
+  readFileSync,
 } from 'node:fs';
 
 import {
@@ -17,6 +17,8 @@ import {
   formatTheme,
   makeThemeFromPartialOptions,
 } from './src/theme/index';
+
+import { compileCSS } from './src/utils/compile';
 
 type FileThemeOptions<K extends string> = {
   theme: Partial<ThemeOptions<K>>
@@ -57,21 +59,21 @@ function writeTheme<K extends string>(dirname: string, filename: string, format:
   console.log(`[assets] ✔ Wrote ${content.length} bytes to ${join(dirname, filename)}`);
 }
 
-function generateCSSForExample(input: string, output: string, content: string) {
+async function generateCSSForExample(input: string, output: string, content: string) {
   const inputPath = `examples/${input}`;
   const outputPath = `examples/${output}`;
   const contentPath = content ? `examples/${content}` : undefined;
 
-  const command = contentPath
-    ? `pnpm tailwindcss -i ${inputPath} -o ${outputPath} --content ${contentPath}`
-    : `pnpm tailwindcss -i ${inputPath} -o ${outputPath}`;
-
   try {
-    execSync(command, { stdio: 'pipe' });
+    const inputCSS = readFileSync(inputPath, 'utf8');
+    const htmlContent = contentPath ? readFileSync(contentPath, 'utf8') : '';
+    
+    // Use the examples directory as base to properly resolve relative imports
+    const css = await compileCSS(inputCSS, htmlContent, join(process.cwd(), 'examples'));
+    writeFileSync(outputPath, css);
     console.log(`[examples] ✔ Successfully generated: ${outputPath}`);
   } catch (error: unknown) {
     console.error(`[examples] ✘ Failed to generate: ${outputPath}`);
-    console.error(`Command: ${command}`);
     console.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     throw error;
   }
@@ -88,13 +90,13 @@ export default defineBuildConfig({
   sourcemap: true,
 
   hooks: {
-    'build:prepare'() {
+    async 'build:prepare'() {
       // assemble assets
       for (const [filename, { theme, format }] of Object.entries(themes)) {
         writeTheme('src/assets', `${filename}.css`, format, theme);
       }
       // output.css for examples/index.html
-      generateCSSForExample('input.css', 'output.css', 'index.html');
+      await generateCSSForExample('input.css', 'output.css', 'index.html');
     },
   },
 });
