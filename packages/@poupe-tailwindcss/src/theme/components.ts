@@ -9,16 +9,8 @@ import {
 } from './utils';
 
 export function makeThemeComponents(theme: Readonly<Theme>, tailwindPrefix: string = ''): Record<string, CSSRuleObject>[] {
-  const { themePrefix } = theme.options;
-
   return [
     makeSurfaceComponents(theme, tailwindPrefix),
-    {
-      scrim: {
-        '@apply fixed inset-0': {},
-        'background-color': `rgb(var(--${themePrefix}scrim-rgb) / var(--${themePrefix}scrim-opacity, 32%))`,
-      },
-    },
     makeZIndexComponents(theme),
   ];
 }
@@ -27,12 +19,13 @@ export function makeZIndexComponents(theme: Readonly<Theme>): Record<string, CSS
   const { themePrefix } = theme.options;
 
   const out: Record<string, CSSRuleObject> = {
-    ['scrim-z-*']: {
+    ['scrim-*']: {
       // Dynamic scrim utility that accepts arbitrary z-index values with optional opacity modifier
       // The --value() pattern indicates this will be converted to matchUtilities
-      // allowing usage like: scrim-z-[100], scrim-z-[1250]/50, scrim-z-[var(--custom-z)]/75
-      '@apply scrim': {},
+      // allowing usage like: scrim-[100], scrim-[1250]/50, scrim-[var(--custom-z)]/75
+      '@apply fixed inset-0': {},
       'z-index': '--value(integer, [integer])',
+      'background-color': `rgb(var(--${themePrefix}scrim-rgb) / var(--${themePrefix}scrim-opacity, 32%))`,
       [`--${themePrefix}scrim-opacity`]: '--modifier([percentage])',
     },
   };
@@ -40,8 +33,9 @@ export function makeZIndexComponents(theme: Readonly<Theme>): Record<string, CSS
   // semantic z-index scrim with opacity modifier support
   for (const name of ['base', 'content', 'drawer', 'modal', 'elevated', 'system']) {
     out[`scrim-${name}`] = {
-      '@apply scrim': {},
+      '@apply fixed inset-0': {},
       'z-index': `var(--${themePrefix}z-scrim-${name})`,
+      'background-color': `rgb(var(--${themePrefix}scrim-rgb) / var(--${themePrefix}scrim-opacity, 32%))`,
       [`--${themePrefix}scrim-opacity`]: '--modifier([percentage])',
     };
   }

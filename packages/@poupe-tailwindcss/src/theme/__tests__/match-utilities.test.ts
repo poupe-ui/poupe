@@ -16,21 +16,23 @@ describe('asMatchUtility', () => {
     expect(result).toBeUndefined();
   });
 
-  it('should convert scrim-z-* utility correctly', () => {
-    const result = asMatchUtility('scrim-z-*', {
-      '@apply scrim': {},
+  it('should convert scrim-* utility correctly', () => {
+    const result = asMatchUtility('scrim-*', {
+      '@apply fixed inset-0': {},
       'z-index': '--value(integer, [integer])',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
     });
 
     expect(result).toBeDefined();
-    expect(result?.name).toBe('scrim-z');
+    expect(result?.name).toBe('scrim');
     expect(result?.options?.type).toBe('number');
 
     // Test the value function
     const cssResult = result?.value?.('100', { modifier: null });
     expect(cssResult).toEqual({
-      '@apply scrim': {},
+      '@apply fixed inset-0': {},
       'z-index': '100',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
     });
   });
 
@@ -118,30 +120,33 @@ describe('asMatchUtility', () => {
 
   it('should handle --value() with multiple type syntax correctly', () => {
     // In Tailwind v4, --value(integer, [integer]) means accept both
-    // bare values (scrim-z-100) and arbitrary values (scrim-z-[100])
+    // bare values (scrim-100) and arbitrary values (scrim-[100])
     // Since matchUtilities handles arbitrary values automatically,
     // we only need to extract the base type
-    const result = asMatchUtility('scrim-z-*', {
-      '@apply scrim': {},
+    const result = asMatchUtility('scrim-*', {
+      '@apply fixed inset-0': {},
       'z-index': '--value(integer, [integer])',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
     });
 
     expect(result).toBeDefined();
-    expect(result?.name).toBe('scrim-z');
+    expect(result?.name).toBe('scrim');
     expect(result?.options?.type).toBe('number'); // integer maps to number
 
     // The value function should work the same regardless
     const cssResult = result?.value?.('1250', { modifier: null });
     expect(cssResult).toEqual({
-      '@apply scrim': {},
+      '@apply fixed inset-0': {},
       'z-index': '1250',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
     });
   });
 
-  it('should handle opacity modifiers for scrim-z utility with --modifier patterns', () => {
-    const result = asMatchUtility('scrim-z-*', {
-      '@apply scrim': {},
+  it('should handle opacity modifiers for scrim utility with --modifier patterns', () => {
+    const result = asMatchUtility('scrim-*', {
+      '@apply fixed inset-0': {},
       'z-index': '--value(integer, [integer])',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
       '--md-scrim-opacity': '--modifier([percentage])',
     });
 
@@ -151,24 +156,27 @@ describe('asMatchUtility', () => {
     // Test without modifier - uses default opacity (32%)
     const cssResultNoModifier = result?.value?.('1000', { modifier: null });
     expect(cssResultNoModifier).toEqual({
-      '@apply scrim': {},
+      '@apply fixed inset-0': {},
       'z-index': '1000',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
       '--md-scrim-opacity': '32%',
     });
 
     // Test with modifier - uses custom opacity
     const cssResultWithModifier = result?.value?.('1000', { modifier: '50' });
     expect(cssResultWithModifier).toEqual({
-      '@apply scrim': {},
+      '@apply fixed inset-0': {},
       'z-index': '1000',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
       '--md-scrim-opacity': '50%',
     });
 
     // Test with different opacity
     const cssResultDifferentOpacity = result?.value?.('2000', { modifier: '75' });
     expect(cssResultDifferentOpacity).toEqual({
-      '@apply scrim': {},
+      '@apply fixed inset-0': {},
       'z-index': '2000',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
       '--md-scrim-opacity': '75%',
     });
   });

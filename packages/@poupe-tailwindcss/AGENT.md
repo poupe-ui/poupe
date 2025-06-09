@@ -58,15 +58,16 @@ examples/
 
 ## Recent Changes
 
-### v0.3.16 - Scrim Opacity Modifier Support & v4-to-v3 Bridge
+### v0.4.0 - Unified Scrim Utilities & v4-to-v3 Bridge
 - **NEW**: Added opacity modifier support to all scrim utilities (e.g., `scrim-modal/50`)
 - **NEW**: Implemented `--md-scrim-rgb` variable following the same pattern as `--md-shadow-rgb`
 - **NEW**: Automatic theme switching for scrim colors in dark/light modes
 - **NEW**: Uses TailwindCSS v4 `--modifier([percentage])` syntax for modifier capture
 - **NEW**: `asMatchUtility` bridge function converts v4 syntax to v3 matchUtilities API
-- Default opacity is 32% (when no modifier is used) but can be customized with Tailwind modifiers
-- Works with both semantic scrims (`scrim-modal/75`) and arbitrary z-index (`scrim-z-[100]/25`)
+- **BREAKING**: Merged standalone `scrim` and `scrim-z-*` into unified `scrim-*` utilities with variable z-index
 - **BREAKING**: Scrim background-color now uses `rgb(var(--md-scrim-rgb) / ...)` instead of `rgb(from ...)`
+- Default opacity is 32% (when no modifier is used) but can be customized with Tailwind modifiers
+- Works with both semantic scrims (`scrim-modal/75`) and arbitrary z-index (`scrim-[100]/25`)
 - **TECHNICAL**: Bridge pattern enables v4 `--value()` and `--modifier()` patterns to work with v3 matchUtilities
 
 ## TailwindCSS v4-to-v3 Bridge Pattern
@@ -76,14 +77,16 @@ The package includes `asMatchUtility` function at `src/theme/match-utilities.ts`
 ### Bridge Functionality
 - **Detects v4 patterns**: Identifies utilities using `--value()` and `--modifier()` syntax
 - **Converts to matchUtilities**: Transforms them to work with TailwindCSS v3 matchUtilities API
-- **Enables arbitrary values**: Supports patterns like `scrim-z-[100]` or `scrim-z-[var(--custom-z)]`
+- **Enables arbitrary values**: Supports patterns like `scrim-[100]` or `scrim-[var(--custom-z)]`
 - **Handles modifiers**: Processes opacity modifiers with percentage conversion (`/50` → `50%`)
 
 ### Supported Patterns
 ```css
 /* v4 CSS syntax */
-.scrim-z-* {
+.scrim-* {
+  @apply fixed inset-0;
   z-index: --value(integer, [integer]);
+  background-color: rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%));
   --md-scrim-opacity: --modifier([percentage]);
 }
 ```
@@ -91,8 +94,10 @@ The package includes `asMatchUtility` function at `src/theme/match-utilities.ts`
 Becomes v3 matchUtilities:
 ```javascript
 api.matchUtilities({
-  'scrim-z': (value, { modifier }) => ({
+  'scrim': (value, { modifier }) => ({
+    '@apply fixed inset-0': {},
     'z-index': value,
+    'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
     '--md-scrim-opacity': modifier ? `${modifier}%` : '32%'
   })
 }, { type: 'number', modifiers: 'any' })
@@ -170,11 +175,9 @@ Build errors in examples don't fail the main build process.
 
 ### Elevation Utilities
 - `.z{1-5}`: Elevation levels with shadows and tonal elevation
-- `.scrim`: Base overlay utility (fixed position, full screen, no z-index)
-- `.scrim-{level}`: Semantic z-index scrims (base, content, drawer, modal, elevated, system)
-- `.scrim-z-[value]`: Arbitrary z-index overlays
+- `.scrim-[value]`: Arbitrary z-index overlays with full scrim styling
 - `.scrim-{base|content|drawer|modal|elevated|system}`: Semantic overlays with predefined z-index
-- All scrim utilities support opacity modifiers (e.g., `/50`, `/75`)
+- All scrim utilities include fixed positioning, background color, and support opacity modifiers (e.g., `/50`, `/75`)
 
 ### State Layer Utilities
 - `.state-hover`: Hover state overlay

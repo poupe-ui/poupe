@@ -18,44 +18,7 @@ describe('makeThemeComponents', () => {
     const result = makeThemeComponents(theme);
 
     expect(Array.isArray(result)).toBe(true);
-    expect(result).toHaveLength(3);
-  });
-
-  it('should include scrim component with correct properties', () => {
-    const theme = makeThemeFromPartialOptions({});
-    const result = makeThemeComponents(theme);
-
-    const scrimComponents = result.find(object => 'scrim' in object);
-    expect(scrimComponents).toBeDefined();
-    expect(scrimComponents?.scrim).toEqual({
-      '@apply fixed inset-0': {},
-      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
-    });
-  });
-
-  it('should use CSS custom property for scrim opacity with default value', () => {
-    const theme = makeThemeFromPartialOptions({});
-    const result = makeThemeComponents(theme);
-
-    const scrimComponents = result.find(object => 'scrim' in object);
-    const bgColor = scrimComponents?.scrim['background-color'];
-
-    // Should use --md-scrim-opacity custom property with 32% default
-    expect(bgColor).toContain('--md-scrim-opacity');
-    expect(bgColor).toContain('32%');
-
-    // Should use RGB variable syntax
-    expect(bgColor).toContain('--md-scrim-rgb');
-  });
-
-  it('should use custom theme prefix for scrim color variable', () => {
-    const theme = makeThemeFromPartialOptions({ themePrefix: 'custom-' });
-    const result = makeThemeComponents(theme);
-
-    const scrimComponents = result.find(object => 'scrim' in object);
-    expect(scrimComponents?.scrim['background-color']).toBe(
-      'rgb(var(--custom-scrim-rgb) / var(--custom-scrim-opacity, 32%))',
-    );
+    expect(result).toHaveLength(2);
   });
 
   it('should respect tailwindPrefix parameter', () => {
@@ -70,13 +33,14 @@ describe('makeThemeComponents', () => {
 });
 
 describe('makeZIndexComponents', () => {
-  it('should create dynamic scrim-z-* utility with modifier support', () => {
+  it('should create dynamic scrim-* utility with modifier support', () => {
     const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
     const result = makeZIndexComponents(theme);
 
-    expect(result['scrim-z-*']).toEqual({
-      '@apply scrim': {},
+    expect(result['scrim-*']).toEqual({
+      '@apply fixed inset-0': {},
       'z-index': '--value(integer, [integer])',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
       '--md-scrim-opacity': '--modifier([percentage])',
     });
   });
@@ -88,8 +52,9 @@ describe('makeZIndexComponents', () => {
     const scrimNames = ['base', 'content', 'drawer', 'modal', 'elevated', 'system'];
     for (const name of scrimNames) {
       expect(result[`scrim-${name}`]).toEqual({
-        '@apply scrim': {},
+        '@apply fixed inset-0': {},
         'z-index': `var(--md-z-scrim-${name})`,
+        'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
         '--md-scrim-opacity': '--modifier([percentage])',
       });
     }
@@ -103,9 +68,11 @@ describe('makeZIndexComponents', () => {
 
     for (const [, value] of scrimUtilities) {
       expect(value['--md-scrim-opacity']).toBe('--modifier([percentage])');
-      expect(value['@apply scrim']).toEqual({});
+      expect(value['@apply fixed inset-0']).toEqual({});
+      expect(value['background-color']).toContain('--md-scrim-rgb');
     }
 
+    // Should have 7 scrim utilities total (scrim-* plus 6 semantic ones)
     expect(scrimUtilities).toHaveLength(7);
   });
 
@@ -129,11 +96,11 @@ describe('makeZIndexComponents', () => {
     expect(result['z-drawer']['z-index']).toBe('var(--custom-z-drawer)');
   });
 
-  it('should generate simplified scrim naming without z- prefix', () => {
+  it('should generate unified scrim utilities with z-index support', () => {
     const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
     const result = makeZIndexComponents(theme);
 
-    // Verify simplified semantic scrim utilities exist
+    // Verify semantic scrim utilities exist
     expect(result['scrim-base']).toBeDefined();
     expect(result['scrim-modal']).toBeDefined();
     expect(result['scrim-drawer']).toBeDefined();
@@ -141,27 +108,30 @@ describe('makeZIndexComponents', () => {
     expect(result['scrim-elevated']).toBeDefined();
     expect(result['scrim-system']).toBeDefined();
 
-    // Verify old naming with z- prefix does NOT exist
-    expect(result['scrim-z-base']).toBeUndefined();
-    expect(result['scrim-z-modal']).toBeUndefined();
-    expect(result['scrim-z-drawer']).toBeUndefined();
+    // Verify arbitrary z-index utility exists as scrim-*
+    expect(result['scrim-*']).toBeDefined();
+    expect(result['scrim-*']['z-index']).toBe('--value(integer, [integer])');
+    expect(result['scrim-*']['background-color']).toContain('--md-scrim-rgb');
 
-    // Verify arbitrary z-index utility still exists
-    expect(result['scrim-z-*']).toBeDefined();
-    expect(result['scrim-z-*']['z-index']).toBe('--value(integer, [integer])');
+    // Verify old scrim-z-* naming does NOT exist
+    expect(result['scrim-z-*']).toBeUndefined();
   });
 
-  it('should use --md-scrim-rgb variable for background color', () => {
+  it('should use --md-scrim-rgb variable for background color in scrim utilities', () => {
     const theme = makeThemeFromPartialOptions({});
-    const result = makeThemeComponents(theme);
+    const result = makeZIndexComponents(theme);
 
-    const scrimComponents = result.find(object => 'scrim' in object);
-    const bgColor = scrimComponents?.scrim['background-color'];
+    const scrimArbitrary = result['scrim-*'];
+    const scrimSemantic = result['scrim-modal'];
 
-    // Should use --md-scrim-rgb variable instead of rgb(from ...)
-    expect(bgColor).toContain('rgb(var(--md-scrim-rgb)');
-    expect(bgColor).not.toContain('rgb(from');
-    expect(bgColor).toContain('var(--md-scrim-opacity, 32%)');
+    // Both should use --md-scrim-rgb variable instead of rgb(from ...)
+    expect(scrimArbitrary['background-color']).toContain('rgb(var(--md-scrim-rgb)');
+    expect(scrimArbitrary['background-color']).not.toContain('rgb(from');
+    expect(scrimArbitrary['background-color']).toContain('var(--md-scrim-opacity, 32%)');
+
+    expect(scrimSemantic['background-color']).toContain('rgb(var(--md-scrim-rgb)');
+    expect(scrimSemantic['background-color']).not.toContain('rgb(from');
+    expect(scrimSemantic['background-color']).toContain('var(--md-scrim-opacity, 32%)');
   });
 });
 

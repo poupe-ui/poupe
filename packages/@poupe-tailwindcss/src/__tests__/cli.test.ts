@@ -50,7 +50,7 @@ describe('TailwindCSS CLI validation', () => {
 
     // Verify scrim classes are present and functional
     expect(styleContent).toContain('@utility scrim');
-    expect(styleContent).toContain('scrim-z-*');
+    expect(styleContent).toContain('scrim-*');
 
     // Verify simplified scrim naming (without z- prefix)
     expect(styleContent).toContain('@utility scrim-base');
@@ -61,6 +61,7 @@ describe('TailwindCSS CLI validation', () => {
     expect(styleContent).toContain('@utility scrim-system');
 
     // Verify old z- prefixed naming is gone (except for arbitrary scrim-z-*)
+    expect(styleContent).not.toContain('@utility scrim-z-*');
     expect(styleContent).not.toContain('@utility scrim-z-base');
     expect(styleContent).not.toContain('@utility scrim-z-modal');
   });
@@ -78,7 +79,8 @@ describe('TailwindCSS CLI validation', () => {
 
     // Verify scrim classes are present in default.css too
     expect(defaultContent).toContain('@utility scrim');
-    expect(defaultContent).toContain('scrim-z-*'); // arbitrary z-index scrim still exists
+    expect(defaultContent).toContain('scrim-*');
+    expect(defaultContent).not.toContain('scrim-z-*');
   });
 
   test('@plugin workflow with TailwindCSS CLI', () => {
@@ -125,7 +127,11 @@ describe('TailwindCSS CLI validation', () => {
     try {
       result = execSync(
         `pnpx @tailwindcss/cli -i ${inputCssPath} -o ${outputCssPath} --content ${htmlPath} 2>&1`,
-        { cwd: process.cwd(), encoding: 'utf8' },
+        {
+          cwd: process.cwd(),
+          encoding: 'utf8',
+          timeout: 12_000, // 12 second timeout for CLI command
+        },
       );
     } catch (error) {
       const errorOutput = error instanceof Error && 'stdout' in error ? String(error.stdout || error.stderr || error.message) : String(error);
@@ -141,7 +147,7 @@ describe('TailwindCSS CLI validation', () => {
     const outputContent = readFileSync(outputCssPath, 'utf8');
     expect(outputContent).toContain('tailwindcss');
     expect(outputContent).toContain('@layer'); // TailwindCSS base structure
-  });
+  }, { timeout: 15_000 }); // 15 second timeout for entire test
 
   test('example output.css files exist and contain modifier support', () => {
     // Verify that build.config.ts generated the example CSS files

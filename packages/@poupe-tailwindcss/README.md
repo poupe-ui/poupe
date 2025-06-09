@@ -160,10 +160,7 @@ Shadow utilities:
 Modal backdrop overlays with Material Design z-index layering:
 
 ```html
-<!-- Basic scrim -->
-<div class="scrim">Overlay</div>
-
-<!-- Semantic z-index levels (simplified naming) -->
+<!-- Semantic z-index levels -->
 <div class="scrim-modal">Modal backdrop</div>
 <div class="scrim-drawer">Drawer backdrop</div>
 <div class="scrim-elevated">High priority overlay</div>
@@ -174,9 +171,9 @@ Modal backdrop overlays with Material Design z-index layering:
 <div class="scrim-content/25">Content overlay with 25% opacity</div>
 
 <!-- Arbitrary z-index values with opacity -->
-<div class="scrim-z-[1250]">Custom z-index</div>
-<div class="scrim-z-[1250]/40">Custom z-index with 40% opacity</div>
-<div class="scrim-z-[var(--custom-z)]/60">CSS variable with 60% opacity</div>
+<div class="scrim-[1250]">Custom z-index</div>
+<div class="scrim-[1250]/40">Custom z-index with 40% opacity</div>
+<div class="scrim-[var(--custom-z)]/60">CSS variable with 60% opacity</div>
 ```
 
 Material Design z-index scale:
@@ -204,7 +201,7 @@ Scrim variants (simplified naming):
 All scrim utilities support Tailwind's opacity modifier syntax:
 - Default opacity: 32% (when no modifier is used)
 - Custom opacity: `scrim-modal/50`, `scrim-drawer/75`, etc.
-- Arbitrary z-index with opacity: `scrim-z-[100]/25`
+- Arbitrary z-index with opacity: `scrim-[100]/25`
 
 **Technical Implementation:**
 - Uses `--md-scrim-rgb` variable (following the same pattern as `--md-shadow-rgb`)

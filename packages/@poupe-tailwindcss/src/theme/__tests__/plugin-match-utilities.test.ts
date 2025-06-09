@@ -16,103 +16,110 @@ const createMockPluginAPI = () => {
 };
 
 describe('plugin matchUtilities integration', () => {
-  it('should register scrim-z-* utility with matchUtilities', () => {
+  it('should register scrim-* utility with matchUtilities', () => {
     const theme = makeTheme(withDefaultThemeOptions({}));
     const components = makeThemeComponents(theme);
 
-    // Find the component object containing scrim-z-*
-    const componentWithScrimZ = components.find(comp => 'scrim-z-*' in comp);
-    expect(componentWithScrimZ).toBeDefined();
+    // Find the component object containing scrim-*
+    const componentWithScrim = components.find(comp => 'scrim-*' in comp);
+    expect(componentWithScrim).toBeDefined();
 
     const { api, matchUtilitiesMock } = createMockPluginAPI();
 
-    // Process the scrim-z-* utility
-    const scrimZValue = componentWithScrimZ!['scrim-z-*'];
-    const result = doMatchUtility(api, 'scrim-z-*', scrimZValue);
+    // Process the scrim-* utility
+    const scrimValue = componentWithScrim!['scrim-*'];
+    const result = doMatchUtility(api, 'scrim-*', scrimValue);
 
     expect(result).toBe(true);
     expect(matchUtilitiesMock).toHaveBeenCalledOnce();
 
     // Verify the registered utility
     const [utilities, options] = matchUtilitiesMock.mock.calls[0];
-    expect(Object.keys(utilities)).toEqual(['scrim-z']);
+    expect(Object.keys(utilities)).toEqual(['scrim']);
     expect(options?.type).toBe('number');
 
     // Test the generated CSS
-    const scrimZFunction = utilities['scrim-z'];
-    const generatedCSS = scrimZFunction('1250', { modifier: null });
+    const scrimFunction = utilities['scrim'];
+    const generatedCSS = scrimFunction('1250', { modifier: null });
     expect(generatedCSS).toEqual({
-      '@apply scrim': {},
+      '@apply fixed inset-0': {},
       'z-index': '1250',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
       '--md-scrim-opacity': '32%',
     });
   });
 
-  it('should handle arbitrary values for scrim-z utility', () => {
+  it('should handle arbitrary values for scrim utility', () => {
     const theme = makeTheme(withDefaultThemeOptions({}));
     const components = makeThemeComponents(theme);
 
-    const componentWithScrimZ = components.find(comp => 'scrim-z-*' in comp);
+    const componentWithScrim = components.find(comp => 'scrim-*' in comp);
     const { api, matchUtilitiesMock } = createMockPluginAPI();
 
-    doMatchUtility(api, 'scrim-z-*', componentWithScrimZ!['scrim-z-*']);
+    doMatchUtility(api, 'scrim-*', componentWithScrim!['scrim-*']);
 
     const [utilities] = matchUtilitiesMock.mock.calls[0];
-    const scrimZFunction = utilities['scrim-z'];
+    const scrimFunction = utilities['scrim'];
 
     // Test various arbitrary values
-    expect(scrimZFunction('100', { modifier: null })).toEqual({
-      '@apply scrim': {},
+    expect(scrimFunction('100', { modifier: null })).toEqual({
+      '@apply fixed inset-0': {},
       'z-index': '100',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
       '--md-scrim-opacity': '32%',
     });
 
-    expect(scrimZFunction('var(--custom-z)', { modifier: null })).toEqual({
-      '@apply scrim': {},
+    expect(scrimFunction('var(--custom-z)', { modifier: null })).toEqual({
+      '@apply fixed inset-0': {},
       'z-index': 'var(--custom-z)',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
       '--md-scrim-opacity': '32%',
     });
 
-    expect(scrimZFunction('calc(1000 + 250)', { modifier: null })).toEqual({
-      '@apply scrim': {},
+    expect(scrimFunction('calc(1000 + 250)', { modifier: null })).toEqual({
+      '@apply fixed inset-0': {},
       'z-index': 'calc(1000 + 250)',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
       '--md-scrim-opacity': '32%',
     });
   });
 
-  it('should handle opacity modifiers for scrim-z utility', () => {
+  it('should handle opacity modifiers for scrim utility', () => {
     const theme = makeTheme(withDefaultThemeOptions({}));
     const components = makeThemeComponents(theme);
 
-    const componentWithScrimZ = components.find(comp => 'scrim-z-*' in comp);
+    const componentWithScrim = components.find(comp => 'scrim-*' in comp);
     const { api, matchUtilitiesMock } = createMockPluginAPI();
 
-    doMatchUtility(api, 'scrim-z-*', componentWithScrimZ!['scrim-z-*']);
+    doMatchUtility(api, 'scrim-*', componentWithScrim!['scrim-*']);
 
     const [utilities, options] = matchUtilitiesMock.mock.calls[0];
-    const scrimZFunction = utilities['scrim-z'];
+    const scrimFunction = utilities['scrim'];
 
     // Verify modifier support is enabled
     expect(options?.modifiers).toBe('any');
 
     // Test without modifier (default 32% opacity)
-    expect(scrimZFunction('1000', { modifier: null })).toEqual({
-      '@apply scrim': {},
+    expect(scrimFunction('1000', { modifier: null })).toEqual({
+      '@apply fixed inset-0': {},
       'z-index': '1000',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
       '--md-scrim-opacity': '32%',
     });
 
     // Test with opacity modifier - sets custom opacity via CSS custom property
-    expect(scrimZFunction('1000', { modifier: '50' })).toEqual({
-      '@apply scrim': {},
+    expect(scrimFunction('1000', { modifier: '50' })).toEqual({
+      '@apply fixed inset-0': {},
       'z-index': '1000',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
       '--md-scrim-opacity': '50%',
     });
 
     // Test with different opacity
-    expect(scrimZFunction('2000', { modifier: '75' })).toEqual({
-      '@apply scrim': {},
+    expect(scrimFunction('2000', { modifier: '75' })).toEqual({
+      '@apply fixed inset-0': {},
       'z-index': '2000',
+      'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
       '--md-scrim-opacity': '75%',
     });
   });
@@ -120,9 +127,9 @@ describe('plugin matchUtilities integration', () => {
   it('should not register non-dynamic utilities with matchUtilities', () => {
     const { api, matchUtilitiesMock } = createMockPluginAPI();
 
-    // Test static scrim utility
-    const result = doMatchUtility(api, 'scrim', {
-      '@apply fixed inset-0 bg-scrim/32': {},
+    // Test static z-index utility (non-scrim utility)
+    const result = doMatchUtility(api, 'z-modal', {
+      'z-index': 'var(--md-z-modal)',
     });
 
     expect(result).toBe(false);
