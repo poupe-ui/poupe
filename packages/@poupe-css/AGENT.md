@@ -5,51 +5,97 @@ For general monorepo guidelines, see the [root AGENT.md](../../AGENT.md).
 
 ## Package Overview
 
-@poupe/css is a TypeScript utility library for CSS property manipulation
-and formatting. It provides type-safe CSS property parsing, formatting,
-and conversion utilities that form the foundation for other Poupe UI
-packages.
+@poupe/css is a TypeScript utility library for CSS property manipulation,
+CSS rules formatting, and CSS-in-JS operations. It provides type-safe CSS
+property parsing, formatting, conversion utilities, and efficient CSS
+generation that form the foundation for other Poupe UI packages.
 
 ## Package Structure
 
 ```
 src/
 ├── __tests__/        # Unit tests
+│   ├── properties.test.ts    # CSS property tests
+│   ├── rules.test.ts         # CSS rules & generator tests
+│   ├── selectors.test.ts     # CSS selector tests
+│   └── utils.test.ts         # Utility function tests
 ├── index.ts          # Main exports
-├── format.ts         # CSS formatting utilities
-├── types.ts          # TypeScript type definitions
-└── parse.ts          # CSS parsing utilities
+├── properties.ts     # CSS property utilities
+├── rules.ts          # CSS rules formatting & generators
+├── selectors.ts      # CSS selector processing
+└── utils.ts          # Utility functions
 ```
 
 ## Key Features
 
 - **Type-safe CSS properties**: Full TypeScript support for CSS property
-  names and values
-- **Property parsing**: Parse CSS property strings into structured data
-- **Property formatting**: Convert structured data back to CSS strings
-- **Unit conversions**: Handle CSS unit conversions and calculations
+  names and values with kebab-case/camelCase conversion
+- **CSS rules formatting**: Format nested CSS rule objects with proper
+  indentation and structure
+- **Streaming generators**: Memory-efficient CSS generation for large files
+  using generator functions
+- **CSS selector processing**: Handle CSS selectors, at-rules, and
+  responsive aliases
+- **CSS-in-JS support**: Utilities for CSS-in-JS libraries and frameworks
 - **No runtime dependencies**: Lightweight utility library
 
-## API Overview
+## API Categories
 
-The package exports utilities for:
-- CSS property name validation and normalization
-- CSS value parsing and validation
-- CSS unit detection and conversion
-- CSS color format handling
-- CSS shorthand property expansion
+The package exports utilities organized into these categories:
+
+### CSS Properties
+- Property validation and normalization
+- Value parsing and validation
+- Array value formatting (comma vs space-separated)
+- Property stringification with options
+
+### CSS Rules
+- Nested CSS rule object formatting
+- Both array-based and generator-based implementations
+- Support for at-rules and media queries
+- Deep rule manipulation (get/set at paths)
+- Rule renaming and transformation
+
+### CSS Selectors
+- Selector alias expansion (mobile, tablet, dark, etc.)
+- At-rule processing
+- Responsive design utilities
+
+### Utilities
+- Case conversion (camelCase ↔ kebab-case)
+- Object iteration with validation
+- Type-safe key/value pair processing
+
+## Performance Considerations
+
+The package provides both array-based and generator-based implementations:
+
+- **Array functions** (`formatCSSRules`, `formatCSSRulesArray`):
+  - Convenient for small to medium CSS
+  - Returns complete arrays
+  - Good for immediate consumption
+
+- **Generator functions** (`generateCSSRules`, `generateCSSRulesArray`):
+  - Memory-efficient for large CSS generation
+  - Lazy evaluation, yields lines as generated
+  - Ideal for streaming responses or very large CSS files
+
+Both implementations produce identical output and are tested together.
 
 ## Testing Guidelines
 
 - Tests located in `src/__tests__/`
-- Focus on edge cases for CSS parsing
-- Test various CSS property formats
+- Uses shared test utilities to verify both array and generator
+  implementations produce identical results
+- Focus on edge cases for CSS parsing and formatting
+- Test various CSS property formats and nested structures
 - Ensure type safety in all utilities
+- Use `testBothImplementations` helper for dual testing
 
 ## Integration Notes
 
 This package is used by:
-- @poupe/theme-builder for CSS generation
+- @poupe/theme-builder for CSS generation and server responses
 - @poupe/tailwindcss for utility generation
 - @poupe/vue for runtime CSS manipulation
 
@@ -59,3 +105,12 @@ Builds to both ESM and CJS formats:
 - `dist/index.mjs` - ES modules
 - `dist/index.cjs` - CommonJS
 - `dist/index.d.ts` - TypeScript definitions
+
+## Development Notes
+
+- The array-based functions are implemented as wrappers around the
+  generator functions to eliminate code duplication
+- Generator functions are the source of truth for CSS formatting logic
+- All CSS property names are automatically converted between camelCase
+  and kebab-case as needed
+- Vendor prefixes (like `-webkit-`) are handled correctly in conversions

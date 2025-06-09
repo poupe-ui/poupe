@@ -302,6 +302,60 @@ const lines = formatCSSRulesArray(rulesArray);
 // Returns lines with proper indentation for each rule
 ```
 
+#### `generateCSSRules`
+`(rules: CSSRules | CSSRuleObject, options?): Generator<string>`
+Generator version of `formatCSSRules` that yields lines as they're generated.
+This is memory-efficient for large CSS files as it doesn't build arrays in memory.
+
+```typescript
+import { generateCSSRules } from '@poupe/css';
+
+const rules = {
+  '.container': {
+    'max-width': '1200px',
+    'margin': '0 auto'
+  }
+};
+
+// Use with for...of for streaming
+for (const line of generateCSSRules(rules)) {
+  console.log(line); // Yields each line individually
+}
+
+// Or convert to array when needed
+const lines = Array.from(generateCSSRules(rules));
+// Same output as formatCSSRules but generated lazily
+```
+
+#### `generateCSSRulesArray`
+`(rules: (string | CSSRules | CSSRuleObject)[], options?): Generator<string>`
+Generator version of `formatCSSRulesArray` that yields lines as they're generated.
+Ideal for streaming large CSS outputs or when memory efficiency is important.
+
+```typescript
+import { generateCSSRulesArray } from '@poupe/css';
+
+const rulesArray = [
+  { '.header': { height: '60px' } },
+  { '.footer': { height: '40px' } },
+  // ... potentially thousands more rules
+];
+
+// Process one line at a time without building large arrays
+for (const line of generateCSSRulesArray(rulesArray)) {
+  // Stream to response, write to file, etc.
+  process.stdout.write(line + '\n');
+}
+
+// Equivalent output to formatCSSRulesArray but memory-efficient
+const lines = [...generateCSSRulesArray(rulesArray)];
+```
+
+**Performance Note**: The generator functions are the underlying implementation
+for the array-based functions. For small to medium CSS, use the array functions
+for convenience. For large CSS generation or streaming scenarios, use the
+generators directly.
+
 #### `defaultValidCSSRule(key: string, value: CSSRulesValue): boolean`
 Default validation function that determines if a CSS rule key-value pair
 should be included in the output. A rule is considered valid if the key is
