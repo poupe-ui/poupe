@@ -67,7 +67,7 @@ async function generateCSSForExample(input: string, output: string, content: str
   try {
     const inputCSS = readFileSync(inputPath, 'utf8');
     const htmlContent = contentPath ? readFileSync(contentPath, 'utf8') : '';
-    
+
     // Use the examples directory as base to properly resolve relative imports
     const css = await compileCSS(inputCSS, htmlContent, join(process.cwd(), 'examples'));
     writeFileSync(outputPath, css);
