@@ -76,7 +76,7 @@ pnpm test
 
 The flattened examples directory contains:
 
-```
+```text
 examples/
 ├── README.md                # This documentation
 ├── index.html               # Unified demo HTML with utility classes

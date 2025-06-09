@@ -3,6 +3,9 @@ import {
   type PluginAPI,
 } from './utils';
 
+/** Default opacity for scrim utilities when no modifier is provided */
+const DEFAULT_SCRIM_OPACITY = '32%';
+
 /** The value type for utilities in {@link PluginAPI.matchUtilities} function */
 export type MatchUtilitiesValue = Parameters<PluginAPI['matchUtilities']>[0][string];
 
@@ -75,15 +78,20 @@ export function asMatchUtility(name: string, value: CSSRuleObject): ({
 
           if (modifierContent.includes(',')) {
             // Pattern: --modifier(type, default)
-            const [type, value] = modifierContent.split(',').map(s => s.trim());
-            modifierType = type.replaceAll(/[[\\]]/g, '');
-            defaultValue = value;
+            const parts = modifierContent.split(',').map(s => s.trim());
+            if (parts.length >= 2) {
+              modifierType = parts[0].replaceAll(/[[\\]]/g, '');
+              defaultValue = parts[1];
+            } else {
+              // Fallback if comma is present but split doesn't work as expected
+              modifierType = modifierContent.replaceAll(/[[\\]]/g, '');
+            }
           } else {
             // Pattern: --modifier([percentage]) or --modifier(percentage)
             modifierType = modifierContent.replaceAll(/[[\\]]/g, '');
             // Set default based on the CSS property name for known properties
             if (cssProperty.includes('scrim-opacity')) {
-              defaultValue = '32%';
+              defaultValue = DEFAULT_SCRIM_OPACITY;
             }
           }
 

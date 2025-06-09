@@ -50,6 +50,43 @@ export function makeZIndexComponents(theme: Readonly<Theme>): Record<string, CSS
   return out;
 }
 
+/**
+ * Generates a composite surface name by finding the unique parts between
+ * background and text color names for special fixed color combinations.
+ */
+function generateCompositeSurfaceName(baseKey: string, bgName: string, textName: string): string {
+  // Find the common prefix between the background and text colors
+  // Remove 'on-' prefix from text color for comparison
+  const textWithoutOn = textName.startsWith('on-') ? textName.slice(3) : textName;
+
+  // Split both names into parts
+  const bgParts = bgName.split('-');
+  const textParts = textWithoutOn.split('-');
+
+  // Find common prefix parts
+  let commonParts = 0;
+  for (let i = 0; i < Math.min(bgParts.length, textParts.length); i++) {
+    if (bgParts[i] === textParts[i]) {
+      commonParts++;
+    } else {
+      break;
+    }
+  }
+
+  // Get the unique parts from both colors
+  const bgSuffix = bgParts.slice(commonParts).join('-');
+  const textSuffix = textParts.slice(commonParts).join('-');
+
+  // Build the surface name with both unique parts
+  if (bgSuffix && textSuffix) {
+    return `${baseKey}-${textSuffix}`;
+  } else if (textSuffix) {
+    return `${baseKey}-${textSuffix}`;
+  }
+  // If only bgSuffix exists, baseKey already contains it
+  return baseKey;
+}
+
 export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: string = ''): Record<string, CSSRuleObject> {
   const { surfacePrefix = defaultSurfacePrefix } = theme.options;
   if (!surfacePrefix) {
@@ -96,35 +133,7 @@ export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: st
     // For composite keys, create unique surface names by finding what's different
     let surfaceKey = key;
     if (nameKey.includes(':')) {
-      // Find the common prefix between the background and text colors
-      // Remove 'on-' prefix from text color for comparison
-      const textWithoutOn = onName.startsWith('on-') ? onName.slice(3) : onName;
-
-      // Split both names into parts
-      const bgParts = name.split('-');
-      const textParts = textWithoutOn.split('-');
-
-      // Find common prefix parts
-      let commonParts = 0;
-      for (let i = 0; i < Math.min(bgParts.length, textParts.length); i++) {
-        if (bgParts[i] === textParts[i]) {
-          commonParts++;
-        } else {
-          break;
-        }
-      }
-
-      // Get the unique parts from both colors
-      const bgSuffix = bgParts.slice(commonParts).join('-');
-      const textSuffix = textParts.slice(commonParts).join('-');
-
-      // Build the surface name with both unique parts
-      if (bgSuffix && textSuffix) {
-        surfaceKey = `${key}-${textSuffix}`;
-      } else if (textSuffix) {
-        surfaceKey = `${key}-${textSuffix}`;
-      }
-      // If only bgSuffix exists, key already contains it
+      surfaceKey = generateCompositeSurfaceName(key, name, onName);
     }
 
     surfaces[surfaceKey] = value;

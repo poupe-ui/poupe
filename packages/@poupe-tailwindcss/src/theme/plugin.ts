@@ -82,7 +82,7 @@ function doAddUtility(api: PluginAPI, name: string, value: CSSRuleObject): boole
 
 export function doMatchUtility(api: PluginAPI, name: string, value: CSSRuleObject): boolean {
   const u = asMatchUtility(name, value);
-  if (u && u.name && u.value) {
+  if (u?.name && u?.value) {
     api.matchUtilities({ [u.name]: u.value }, u.options);
     return true;
   }
