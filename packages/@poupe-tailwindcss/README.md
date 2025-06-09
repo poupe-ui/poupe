@@ -211,6 +211,7 @@ All scrim utilities support Tailwind's opacity modifier syntax:
 - TailwindCSS v4 `--modifier([percentage])` for capturing modifier values
 - CSS custom properties enable dynamic opacity: `var(--md-scrim-opacity, 32%)`
 - Automatic theme switching for scrim colors in dark/light modes
+- Bridge pattern converts v4 syntax to v3 matchUtilities for broad compatibility
 
 ### Programmatic Theme Generation
 
