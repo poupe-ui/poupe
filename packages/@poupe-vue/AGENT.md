@@ -30,7 +30,7 @@ better Vue component handling:
 
 ## Package Structure
 
-```
+```text
 src/
 ├── __tests__/        # Package-level tests (resolver, etc.)
 ├── assets/           # CSS assets
@@ -122,11 +122,11 @@ src/
 
 ## Dependencies
 
-- **Runtime**: `@poupe/theme-builder`, `vue`
-- **Peer**: `vue@^3.5.13`
-- **Development**: TypeScript, Vite, Vitest, ESLint, Vue Test
-  Utils
-- **Workspace**: Uses workspace protocol for internal dependencies
+- **Runtime**: 
+  - Workspace: @poupe/theme-builder, @poupe/tailwindcss
+  - External: vue, @iconify/vue, @unhead/vue, reka-ui, tailwind-merge, tailwind-variants, tailwindcss
+- **Development**: TypeScript, Vite, Vitest, ESLint, Vue Test Utils
+- **Note**: See package.json for specific versions
 
 ## Common Tasks
 
@@ -157,24 +157,18 @@ src/
 4. CSS assets bundled with components
 5. Supports both ESM and CJS formats
 
-## Important Notes
+## Package-Specific Guidelines
 
-### DO:
-- Run `pnpm lint` and `pnpm type-check` before committing
-- Write tests for all new components
-- Follow Material Design 3 guidelines
+### DO (Package-Specific)
 - Use the existing variant system for component variations
-- Check existing components for patterns before creating new
-  ones
 - Use semantic HTML and ARIA attributes appropriately
+- Include tests in colocated `__tests__` directories
+- Export both default and typed props for components
 
-### DON'T:
-- Create new files unless necessary - prefer editing existing
-  ones
-- Use external libraries without checking if already available
-- Ignore TypeScript errors or ESLint warnings
-- Create documentation files unless explicitly requested
+### DON'T (Package-Specific)
 - Override Material Design principles without justification
+- Skip accessibility requirements (ARIA, keyboard navigation)
+- Create components without proper TypeScript interfaces
 
 ## Debugging
 
@@ -183,8 +177,4 @@ src/
 - **Build issues**: Run `pnpm clean` then rebuild
 - **Test failures**: Use `--reporter=verbose` flag
 
-## Package-Specific Dependencies
 
-- **Vue**: ^3.5.13 (peer dependency)
-- **@poupe/theme-builder**: workspace:^ (runtime dependency)
-- **TailwindCSS**: ^4.1 (for styling integration)

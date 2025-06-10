@@ -12,13 +12,18 @@ packages.
 
 ## Package Structure
 
-```
+```text
 src/
 ├── __tests__/        # Unit tests
+│   ├── properties.test.ts
+│   ├── rules.test.ts
+│   ├── selectors.test.ts
+│   └── utils.test.ts
 ├── index.ts          # Main exports
-├── format.ts         # CSS formatting utilities
-├── types.ts          # TypeScript type definitions
-└── parse.ts          # CSS parsing utilities
+├── properties.ts     # CSS property utilities
+├── rules.ts          # CSS rules formatting
+├── selectors.ts      # CSS selector processing
+└── utils.ts          # Utility functions
 ```
 
 ## Key Features
@@ -28,16 +33,17 @@ src/
 - **Property parsing**: Parse CSS property strings into structured data
 - **Property formatting**: Convert structured data back to CSS strings
 - **Unit conversions**: Handle CSS unit conversions and calculations
-- **No runtime dependencies**: Lightweight utility library
+- **Minimal dependencies**: Only uses `defu` for deep merging
 
 ## API Overview
 
 The package exports utilities for:
-- CSS property name validation and normalization
-- CSS value parsing and validation
-- CSS unit detection and conversion
-- CSS color format handling
-- CSS shorthand property expansion
+- CSS property manipulation and formatting
+- CSS rules and nested object formatting
+- CSS selector processing and expansion
+- CSS unit conversions and calculations
+- Case conversion (camelCase ↔ kebab-case)
+- Type-safe CSS value handling
 
 ## Testing Guidelines
 
