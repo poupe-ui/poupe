@@ -6,12 +6,79 @@ import {
   defaultValidCSSRule,
   formatCSSRules,
   formatCSSRulesArray,
+  generateCSSRules,
+  generateCSSRulesArray,
   getDeepRule,
   interleavedRules,
   renameRules,
   setDeepRule,
   stringifyCSSRules,
 } from '../rules';
+
+// Shared test utilities
+const testCases = {
+  simple: {
+    input: { 'color': 'red', 'font-size': '16px' },
+    expected: ['color: red;', 'font-size: 16px;'],
+  },
+  nested: {
+    input: {
+      '.button': {
+        color: 'white',
+        background: 'blue',
+      },
+    },
+    expected: [
+      '.button {',
+      '  color: white;',
+      '  background: blue;',
+      '}',
+    ],
+  },
+  arrayRules: {
+    input: [
+      { color: 'red' } as CSSRuleObject,
+      'display: block',
+      { background: 'blue' } as CSSRuleObject,
+    ],
+    expected: ['color: red;', 'display: block;', 'background: blue;'],
+  },
+  emptyStrings: {
+    input: [
+      { color: 'red' } as CSSRuleObject,
+      '',
+      { background: 'blue' } as CSSRuleObject,
+    ],
+    expected: ['color: red;', '', 'background: blue;'],
+  },
+};
+
+/**
+ * Test helper to verify both array and generator implementations produce identical output
+ */
+function testBothImplementations<T extends readonly unknown[]>(
+  name: string,
+  arrayFn: (...arguments_: T) => string[],
+  generatorFn: (...arguments_: T) => Generator<string>,
+  arguments_: T,
+  expected: string[],
+) {
+  it(`${name} (array implementation)`, () => {
+    const result = arrayFn(...arguments_);
+    expect(result).toEqual(expected);
+  });
+
+  it(`${name} (generator implementation)`, () => {
+    const result = [...generatorFn(...arguments_)];
+    expect(result).toEqual(expected);
+  });
+
+  it(`${name} (implementations match)`, () => {
+    const arrayResult = arrayFn(...arguments_);
+    const generatorResult = [...generatorFn(...arguments_)];
+    expect(arrayResult).toEqual(generatorResult);
+  });
+}
 
 describe('stringifyCSSRules', () => {
   it('formats basic CSS rules', () => {
@@ -1053,5 +1120,137 @@ describe('getDeepRule', () => {
   it('returns undefined for out-of-bounds array access', () => {
     const result = getDeepRule(testRules, ['utils', '10']);
     expect(result).toBeUndefined();
+  });
+});
+
+// Consolidated tests for both array and generator implementations
+describe('formatCSSRules vs generateCSSRules', () => {
+  testBothImplementations(
+    'should handle empty objects',
+    formatCSSRules,
+    generateCSSRules,
+    [{}],
+    [],
+  );
+
+  testBothImplementations(
+    'should format simple properties',
+    formatCSSRules,
+    generateCSSRules,
+    [testCases.simple.input],
+    testCases.simple.expected,
+  );
+
+  testBothImplementations(
+    'should handle nested rules',
+    formatCSSRules,
+    generateCSSRules,
+    [testCases.nested.input],
+    testCases.nested.expected,
+  );
+
+  testBothImplementations(
+    'should apply custom indentation',
+    formatCSSRules,
+    generateCSSRules,
+    [testCases.nested.input, { indent: '    ' }],
+    [
+      '.button {',
+      '    color: white;',
+      '    background: blue;',
+      '}',
+    ],
+  );
+
+  testBothImplementations(
+    'should handle at-rules with empty content',
+    formatCSSRules,
+    generateCSSRules,
+    [{ '@supports (display: grid)': {} }],
+    ['@supports (display: grid);'],
+  );
+});
+
+describe('formatCSSRulesArray vs generateCSSRulesArray', () => {
+  testBothImplementations(
+    'should handle empty arrays',
+    formatCSSRulesArray,
+    generateCSSRulesArray,
+    [[]],
+    [],
+  );
+
+  testBothImplementations(
+    'should handle array rules',
+    formatCSSRulesArray,
+    generateCSSRulesArray,
+    [testCases.arrayRules.input],
+    testCases.arrayRules.expected,
+  );
+
+  testBothImplementations(
+    'should handle empty strings as blank lines',
+    formatCSSRulesArray,
+    generateCSSRulesArray,
+    [testCases.emptyStrings.input],
+    testCases.emptyStrings.expected,
+  );
+
+  testBothImplementations(
+    'should avoid consecutive blank lines',
+    formatCSSRulesArray,
+    generateCSSRulesArray,
+    [[{ color: 'red' }, '', '', '', { background: 'blue' }]],
+    ['color: red;', '', 'background: blue;'],
+  );
+
+  testBothImplementations(
+    'should handle nested rules in arrays',
+    formatCSSRulesArray,
+    generateCSSRulesArray,
+    [[testCases.nested.input]],
+    testCases.nested.expected,
+  );
+});
+
+describe('Generator-specific behavior', () => {
+  it('should yield lines lazily', () => {
+    const generator = generateCSSRules(testCases.simple.input);
+
+    const first = generator.next();
+    expect(first.done).toBe(false);
+    expect(first.value).toBe('color: red;');
+
+    const second = generator.next();
+    expect(second.done).toBe(false);
+    expect(second.value).toBe('font-size: 16px;');
+
+    const third = generator.next();
+    expect(third.done).toBe(true);
+  });
+
+  it('should handle deeply nested structures efficiently', () => {
+    const deepRules = {
+      '@media (min-width: 768px)': {
+        '.container': {
+          'max-width': '1200px',
+          '.button': {
+            padding: '10px',
+          },
+        },
+      },
+    };
+
+    const result = [...generateCSSRules(deepRules)];
+    expect(result).toEqual([
+      '@media (min-width: 768px) {',
+      '  .container {',
+      '    max-width: 1200px;',
+      '    .button {',
+      '      padding: 10px;',
+      '    }',
+      '  }',
+      '}',
+    ]);
   });
 });

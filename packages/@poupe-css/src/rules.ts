@@ -36,7 +36,8 @@ export type CSSRules = {
 /**
  * Represents the possible value types that can be assigned to a CSS rule.
  *
- * This is a type alias for the union of all possible values in a CSSRules object.
+ * This is a type alias for the union of all possible values in a CSSRules
+ * object.
  */
 export type CSSRulesValue = CSSRules[string];
 
@@ -89,7 +90,7 @@ export type CSSRuleObject = {
  *
  * @example
  * ```
- * // Simple example of stringifying CSS rules
+ * // Simple example of converting CSS rules to string format
  * const rules = {
  *   'body': {
  *     'color': 'red',
@@ -109,11 +110,12 @@ export function stringifyCSSRules(
   rules: CSSRules | CSSRuleObject = {},
   options: CSSRulesFormatOptions & {
     /**
-             * Character(s) to use for line breaks.
-             * @defaultValue `'\n'`
-             */
+     * Character(s) to use for line breaks.
+     * @defaultValue `'\n'`
+     */
     newLine?: string
-  } = {}): string {
+  } = {},
+): string {
   const {
     newLine = '\n',
   } = options;
@@ -125,12 +127,14 @@ export function stringifyCSSRules(
  * Formats CSS rule objects into an array of formatted lines.
  *
  * This function processes a CSS rule object and returns an array of strings,
- * where each string represents a line in the formatted CSS output. It handles
- * various value types including strings, numbers, arrays, and nested objects.
+ * where each string represents a line in the formatted CSS output. It
+ * handles various value types including strings, numbers, arrays, and nested
+ * objects.
  *
  * @param rules - The CSS rules to format
  * @param options - Configuration options for formatting
- * @returns An array of strings, each representing a line in the formatted CSS
+ * @returns An array of strings, each representing a line in the formatted
+ *   CSS
  *
  * @example
  * ```
@@ -144,76 +148,32 @@ export function stringifyCSSRules(
  * // Returns: ['body {', '  color: red;', '}']
  * ```
  */
-export function formatCSSRules(rules: CSSRules | CSSRuleObject = {}, options: CSSRulesFormatOptions = {}): string[] {
-  const {
-    indent = '  ',
-    prefix = '',
-    valid = defaultValidCSSRule,
-  } = options;
-
-  const out: string[] = [];
-  const nextOptions: CSSRulesFormatOptions = {
-    ...options,
-    prefix: prefix + indent,
-  };
-
-  for (const [key, value] of pairs(rules, valid)) {
-    if (atRuleException(key, value)) {
-      // at-function
-      out.push(`${prefix}${key};`);
-    } else if (typeof value === 'number') {
-      out.push(`${prefix}${key}: ${value};`);
-    } else if (typeof value === 'string') {
-      // string, omit empty.
-      if (value) {
-        out.push(`${prefix}${key}: ${value};`);
-      }
-    } else if (Array.isArray(value)) {
-      if (value.length === 0) {
-        continue;
-      } else if (typeof value[0] === 'string') {
-        // multi-value
-        const useComma = !spaceDelimitedProperties.has(key);
-        const inner = formatCSSValue(value as string[], useComma);
-        if (inner) {
-          out.push(`${prefix}${key}: ${inner};`);
-        }
-      } else {
-        // nested, omit empty
-        const inner = formatCSSRulesArray(value, nextOptions);
-        if (inner) {
-          out.push(`${prefix}${key} {`, ...inner, `${prefix}}`);
-        }
-      }
-    } else if (value) {
-      // nested, omit empty
-      const inner = formatCSSRules(value, nextOptions);
-      if (inner) {
-        out.push(`${prefix}${key} {`, ...inner, `${prefix}}`);
-      }
-    }
-  }
-
-  return out;
+export function formatCSSRules(
+  rules: CSSRules | CSSRuleObject = {},
+  options: CSSRulesFormatOptions = {},
+): string[] {
+  return [...generateCSSRules(rules, options)];
 }
 
 /**
  * Formats an array of CSS rules into an array of formatted string lines.
  *
- * This function processes various CSS rule representations recursively and converts them
- * into strings representing CSS code with proper formatting. It handles:
+ * This function processes various CSS rule representations recursively and
+ * converts them into strings representing CSS code with proper formatting.
+ * It handles:
  *
  * - String values (treated as direct CSS with semicolons added)
  * - Empty strings (converted to blank lines for spacing if appropriate)
  * - CSS rule objects (recursively processed with formatCSSRules)
  * - Empty rule objects (possibly generating blank lines)
  *
- * The function maintains proper whitespace by tracking whether the last inserted
- * item was a blank line to avoid consecutive empty lines.
+ * The function maintains proper whitespace by tracking whether the last
+ * inserted item was a blank line to avoid consecutive empty lines.
  *
  * @param rules - The array of CSS rules to format (strings or rule objects)
  * @param options - Configuration options for formatting
- * @returns An array of strings, each representing a line in the formatted CSS
+ * @returns An array of strings, each representing a line in the formatted
+ *   CSS
  *
  * @example
  * ```
@@ -227,35 +187,11 @@ export function formatCSSRules(rules: CSSRules | CSSRuleObject = {}, options: CS
  * // Returns: ['display: block;', 'color: red;', '', 'fontSize: 16px;']
  * ```
  */
-export function formatCSSRulesArray(rules: (string | CSSRules | CSSRuleObject)[] = [], options: CSSRulesFormatOptions = {}): string[] {
-  const out: string[] = [];
-
-  // track if the last item was a blank line, to avoid consecutive empty lines.
-  let first = true;
-  for (const value of rules) {
-    if (typeof value === 'string') {
-      // string, preserve empty for whitespace.
-      if (value) {
-        out.push(`${value};`);
-        first = false;
-      } else if (!first) {
-        out.push('');
-        first = true;
-      }
-    } else if (value !== null && value !== undefined) {
-      // object
-      const entries = value ? formatCSSRules(value, options) : [];
-      if (entries.length > 0) {
-        out.push(...entries);
-        first = false;
-      } else if (!first) {
-        out.push('');
-        first = true;
-      }
-    }
-  }
-
-  return out;
+export function formatCSSRulesArray(
+  rules: (string | CSSRules | CSSRuleObject)[] = [],
+  options: CSSRulesFormatOptions = {},
+): string[] {
+  return [...generateCSSRulesArray(rules, options)];
 }
 
 /**
@@ -270,7 +206,10 @@ export function formatCSSRulesArray(rules: (string | CSSRules | CSSRuleObject)[]
  * @param value - The rule value to validate
  * @returns `true` if the rule should be included, `false` otherwise
  */
-export function defaultValidCSSRule(key: string, value: CSSRulesValue): boolean {
+export function defaultValidCSSRule(
+  key: string,
+  value: CSSRulesValue,
+): boolean {
   if (key === '' || value === undefined || value === null) {
     return false;
   }
@@ -280,8 +219,10 @@ export function defaultValidCSSRule(key: string, value: CSSRulesValue): boolean 
 /**
  * Special handling for CSS at-rules with empty content.
  *
- * At-rules (rules starting with `@`) with empty content are treated differently:
- * - Empty at-rules (like `@import`, `@charset`) are rendered as a single line with semicolon
+ * At-rules (rules starting with `@`) with empty content are treated
+ * differently:
+ * - Empty at-rules (like `@import`, `@charset`) are rendered as a single
+ *   line with semicolon
  * - Normal CSS rules with empty content would be omitted entirely
  *
  * @example
@@ -296,6 +237,143 @@ function atRuleException(key: string, value: CSSRulesValue): boolean {
     return Object.keys(value).length === 0;
   } else {
     return false;
+  }
+}
+
+/**
+ * Generator version of formatCSSRulesArray that yields lines as they're
+ * generated. This avoids building arrays in memory and is more efficient for
+ * large files.
+ *
+ * @param rules - The array of CSS rules to format
+ * @param options - Configuration options for formatting
+ * @returns Generator that yields individual CSS lines without line
+ *   endings
+ */
+export function* generateCSSRulesArray(
+  rules: (string | CSSRules | CSSRuleObject)[] = [],
+  options: CSSRulesFormatOptions = {},
+): Generator<string, void, unknown> {
+  // Track if the last item was a blank line to avoid consecutive empty lines
+  let wasBlankLine = true;
+
+  for (const value of rules) {
+    if (typeof value === 'string') {
+      // String rule, preserve empty for whitespace
+      if (value) {
+        yield `${value};`;
+        wasBlankLine = false;
+      } else if (!wasBlankLine) {
+        yield '';
+        wasBlankLine = true;
+      }
+    } else if (value !== null && value !== undefined) {
+      // Object rule
+      let hasContent = false;
+      const innerLines: string[] = [];
+
+      // Collect to check if empty (we need to peek ahead)
+      for (const line of generateCSSRules(value, options)) {
+        innerLines.push(line);
+        hasContent = true;
+      }
+
+      if (hasContent) {
+        for (const line of innerLines) {
+          yield line;
+        }
+        wasBlankLine = false;
+      } else if (!wasBlankLine) {
+        yield '';
+        wasBlankLine = true;
+      }
+    }
+  }
+}
+
+/**
+ * Generator version of formatCSSRules that yields lines as they're
+ * generated.
+ *
+ * @param rules - The CSS rules to format
+ * @param options - Configuration options for formatting
+ * @returns Generator that yields individual CSS lines without line
+ *   endings
+ */
+export function* generateCSSRules(
+  rules: CSSRules | CSSRuleObject = {},
+  options: CSSRulesFormatOptions = {},
+): Generator<string, void, unknown> {
+  const {
+    indent = '  ',
+    prefix = '',
+    valid = defaultValidCSSRule,
+  } = options;
+
+  const nextOptions: CSSRulesFormatOptions = {
+    ...options,
+    prefix: prefix + indent,
+  };
+
+  for (const [key, value] of pairs(rules, valid)) {
+    if (atRuleException(key, value)) {
+      // at-function
+      yield `${prefix}${key};`;
+    } else if (typeof value === 'number') {
+      yield `${prefix}${key}: ${value};`;
+    } else if (typeof value === 'string') {
+      // string, omit empty
+      if (value) {
+        yield `${prefix}${key}: ${value};`;
+      }
+    } else if (Array.isArray(value)) {
+      if (value.length === 0) {
+        // Skip empty arrays
+      } else if (typeof value[0] === 'string') {
+        // multi-value
+        const useComma = !spaceDelimitedProperties.has(key);
+        const inner = formatCSSValue(value as string[], useComma);
+        if (inner) {
+          yield `${prefix}${key}: ${inner};`;
+        }
+      } else {
+        // nested rules array
+        let hasContent = false;
+        const innerLines: string[] = [];
+
+        // Collect to check if empty
+        for (const line of generateCSSRulesArray(value, nextOptions)) {
+          innerLines.push(line);
+          hasContent = true;
+        }
+
+        if (hasContent) {
+          yield `${prefix}${key} {`;
+          for (const line of innerLines) {
+            yield line;
+          }
+          yield `${prefix}}`;
+        }
+      }
+    } else if (value) {
+      // nested rules object
+      let hasContent = false;
+      const innerLines: string[] = [];
+
+      // Collect to check if empty
+      for (const line of generateCSSRules(value, nextOptions)) {
+        innerLines.push(line);
+        hasContent = true;
+      }
+
+      if (hasContent) {
+        yield `${prefix}${key} {`;
+        for (const line of innerLines) {
+          yield line;
+        }
+        yield `${prefix}}`;
+      }
+    }
   }
 }
 
@@ -330,16 +408,21 @@ export function interleavedRules(rules: CSSRules[]): CSSRules[] {
  * Renames the keys in a CSS rules object using the provided function.
  *
  * @param rules - The CSS rules object whose keys should be renamed
- * @param fn - A function that takes an original key name and returns a new key name (or falsy value to skip)
+ * @param fn - A function that takes an original key name and returns a new
+ *   key name (or falsy value to skip)
  * @returns A new CSS rules object with renamed keys
  *
  * @example
  * ```
- * // Input: { '.button': { color: 'blue' } }, key => `@utility ${key.slice(1)}`
+ * // Input: { '.button': { color: 'blue' } }, key => `@utility
+ * //   ${key.slice(1)}`
  * // Output: { '@utility button': { color: 'blue' } }
  * ```
  */
-export function renameRules(rules: CSSRules, fn: (name: string) => string): CSSRules {
+export function renameRules(
+  rules: CSSRules,
+  fn: (name: string) => string,
+): CSSRules {
   if (!fn) return rules;
 
   const map = new Map<string, CSSRules[string]>();
@@ -388,9 +471,21 @@ export function renameRules(rules: CSSRules, fn: (name: string) => string): CSSR
  * // Result: { button: { color: 'blue', margin: '5px', padding: '10px' } }
  * ```
  */
-export function setDeepRule(target: CSSRuleObject, path: string | string[], object: CSSRuleObject): CSSRuleObject;
-export function setDeepRule(target: CSSRules, path: string | string[], object: CSSRules): CSSRules;
-export function setDeepRule(target: CSSRules, path: string | string[], object: CSSRules): CSSRules {
+export function setDeepRule(
+  target: CSSRuleObject,
+  path: string | string[],
+  object: CSSRuleObject,
+): CSSRuleObject;
+export function setDeepRule(
+  target: CSSRules,
+  path: string | string[],
+  object: CSSRules,
+): CSSRules;
+export function setDeepRule(
+  target: CSSRules,
+  path: string | string[],
+  object: CSSRules,
+): CSSRules {
   let p: CSSRules = target;
   let lastKey = '';
 
@@ -403,7 +498,10 @@ export function setDeepRule(target: CSSRules, path: string | string[], object: C
       if (p[k] === undefined) {
         p[k] = {} as CSSRules;
       } else if (typeof p[k] !== 'object' || p[k] === null) {
-        throw new Error(`Invalid path at segment ${i}: "${k}" in path: ${path.join('.')}: ${typeof p[k]}`);
+        throw new Error(
+          `Invalid path at segment ${i}: "${k}" in path: `
+          + `${path.join('.')}: ${typeof p[k]}`,
+        );
       }
 
       p = p[k] as CSSRules;
@@ -460,9 +558,18 @@ export function setDeepRule(target: CSSRules, path: string | string[], object: C
  * // Result: { components: { ... }, utils: [...] }
  * ```
  */
-export function getDeepRule(target: CSSRuleObject, path: string | string[]): CSSRuleObject | undefined;
-export function getDeepRule(target: CSSRules, path: string | string[]): CSSRulesValue | undefined;
-export function getDeepRule(target: CSSRules, path: string | string[]): CSSRulesValue | undefined {
+export function getDeepRule(
+  target: CSSRuleObject,
+  path: string | string[],
+): CSSRuleObject | undefined;
+export function getDeepRule(
+  target: CSSRules,
+  path: string | string[],
+): CSSRulesValue | undefined;
+export function getDeepRule(
+  target: CSSRules,
+  path: string | string[],
+): CSSRulesValue | undefined {
   const segments = typeof path === 'string' ? [path] : path;
 
   if (segments.length === 0) {
