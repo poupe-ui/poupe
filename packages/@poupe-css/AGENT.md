@@ -47,6 +47,8 @@ The package exports utilities for:
 - CSS unit conversions and calculations
 - Case conversion (camelCase ↔ kebab-case)
 - Type-safe CSS value handling
+- Property name normalization (camelCase to kebab-case) with intelligent
+  preservation of selectors and at-rules
 
 ## Performance Considerations
 

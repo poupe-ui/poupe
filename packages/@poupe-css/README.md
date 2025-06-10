@@ -113,6 +113,8 @@ interface CSSRulesFormatOptions {
   prefix?: string
   /** Optional validation function to determine which rules to include. */
   valid?: (key: string, value: CSSRulesValue) => boolean
+  /** Whether to normalize CSS property names from camelCase to kebab-case. */
+  normalizeProperties?: boolean
 }
 ```
 
@@ -280,6 +282,33 @@ const lines = formatCSSRules(rules);
 // Custom indentation
 const indentedLines = formatCSSRules(rules, { indent: '    ' });
 // Returns: ['body {', '    color: red;', '    font-size: 16px;', '}']
+
+// Property name normalization (camelCase to kebab-case)
+const camelRules = {
+  body: {
+    fontSize: '16px',
+    backgroundColor: 'blue',
+    marginTop: '20px'
+  }
+};
+
+const normalized = formatCSSRules(camelRules, { normalizeProperties: true });
+// Returns: ['body {', '  font-size: 16px;', '  background-color: blue;', '  margin-top: 20px;', '}']
+
+// Selectors and at-rules are intelligently preserved
+const complexRules = {
+  fontSize: '18px',  // Will be normalized to font-size
+  '.button': {       // Selector preserved as-is
+    paddingLeft: '10px'  // Will be normalized to padding-left
+  },
+  '@media print': {  // At-rule preserved as-is
+    backgroundColor: 'white'  // Will be normalized to background-color
+  }
+};
+
+const result = formatCSSRules(complexRules, { normalizeProperties: true });
+// Returns:
+// ['font-size: 18px;', '.button {', '  padding-left: 10px;', '}', '@media print {', '  background-color: white;', '}']
 ```
 
 #### `generateCSSRules(rules: CSSRules | CSSRuleObject, options?): Generator<string>`
