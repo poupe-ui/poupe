@@ -4,9 +4,11 @@ export {
   type CSSPropertiesOptions,
   stringifyCSSProperties,
   formatCSSProperties,
+  formatCSSValue,
   properties,
+  spaceDelimitedProperties,
 
-  // omit internal - formatCSSValue, quoted and spaceDelimitedProperties
+  // omit internal - quoted
 } from './properties';
 
 export {
@@ -17,6 +19,8 @@ export {
   defaultValidCSSRule,
   formatCSSRules,
   formatCSSRulesArray,
+  generateCSSRules,
+  generateCSSRulesArray,
   interleavedRules,
   renameRules,
   getDeepRule,

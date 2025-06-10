@@ -6,12 +6,79 @@ import {
   defaultValidCSSRule,
   formatCSSRules,
   formatCSSRulesArray,
+  generateCSSRules,
+  generateCSSRulesArray,
   getDeepRule,
   interleavedRules,
   renameRules,
   setDeepRule,
   stringifyCSSRules,
 } from '../rules';
+
+// Shared test utilities
+const testCases = {
+  simple: {
+    input: { 'color': 'red', 'font-size': '16px' },
+    expected: ['color: red;', 'font-size: 16px;'],
+  },
+  nested: {
+    input: {
+      '.button': {
+        color: 'white',
+        background: 'blue',
+      },
+    },
+    expected: [
+      '.button {',
+      '  color: white;',
+      '  background: blue;',
+      '}',
+    ],
+  },
+  arrayRules: {
+    input: [
+      { color: 'red' } as CSSRuleObject,
+      'display: block',
+      { background: 'blue' } as CSSRuleObject,
+    ],
+    expected: ['color: red;', 'display: block;', 'background: blue;'],
+  },
+  emptyStrings: {
+    input: [
+      { color: 'red' } as CSSRuleObject,
+      '',
+      { background: 'blue' } as CSSRuleObject,
+    ],
+    expected: ['color: red;', '', 'background: blue;'],
+  },
+};
+
+/**
+ * Test helper to verify both array and generator implementations produce identical output
+ */
+function testBothImplementations<T extends readonly unknown[]>(
+  name: string,
+  arrayFn: (...arguments_: T) => string[],
+  generatorFn: (...arguments_: T) => Generator<string>,
+  arguments_: T,
+  expected: string[],
+) {
+  it(`${name} (array implementation)`, () => {
+    const result = arrayFn(...arguments_);
+    expect(result).toEqual(expected);
+  });
+
+  it(`${name} (generator implementation)`, () => {
+    const result = [...generatorFn(...arguments_)];
+    expect(result).toEqual(expected);
+  });
+
+  it(`${name} (implementations match)`, () => {
+    const arrayResult = arrayFn(...arguments_);
+    const generatorResult = [...generatorFn(...arguments_)];
+    expect(arrayResult).toEqual(generatorResult);
+  });
+}
 
 describe('stringifyCSSRules', () => {
   it('formats basic CSS rules', () => {
@@ -1053,5 +1120,320 @@ describe('getDeepRule', () => {
   it('returns undefined for out-of-bounds array access', () => {
     const result = getDeepRule(testRules, ['utils', '10']);
     expect(result).toBeUndefined();
+  });
+});
+
+// Consolidated tests for both array and generator implementations
+describe('formatCSSRules vs generateCSSRules', () => {
+  testBothImplementations(
+    'should handle empty objects',
+    formatCSSRules,
+    generateCSSRules,
+    [{}],
+    [],
+  );
+
+  testBothImplementations(
+    'should format simple properties',
+    formatCSSRules,
+    generateCSSRules,
+    [testCases.simple.input],
+    testCases.simple.expected,
+  );
+
+  testBothImplementations(
+    'should handle nested rules',
+    formatCSSRules,
+    generateCSSRules,
+    [testCases.nested.input],
+    testCases.nested.expected,
+  );
+
+  testBothImplementations(
+    'should apply custom indentation',
+    formatCSSRules,
+    generateCSSRules,
+    [testCases.nested.input, { indent: '    ' }],
+    [
+      '.button {',
+      '    color: white;',
+      '    background: blue;',
+      '}',
+    ],
+  );
+
+  testBothImplementations(
+    'should handle at-rules with empty content',
+    formatCSSRules,
+    generateCSSRules,
+    [{ '@supports (display: grid)': {} }],
+    ['@supports (display: grid);'],
+  );
+});
+
+describe('formatCSSRulesArray vs generateCSSRulesArray', () => {
+  testBothImplementations(
+    'should handle empty arrays',
+    formatCSSRulesArray,
+    generateCSSRulesArray,
+    [[]],
+    [],
+  );
+
+  testBothImplementations(
+    'should handle array rules',
+    formatCSSRulesArray,
+    generateCSSRulesArray,
+    [testCases.arrayRules.input],
+    testCases.arrayRules.expected,
+  );
+
+  testBothImplementations(
+    'should handle empty strings as blank lines',
+    formatCSSRulesArray,
+    generateCSSRulesArray,
+    [testCases.emptyStrings.input],
+    testCases.emptyStrings.expected,
+  );
+
+  testBothImplementations(
+    'should avoid consecutive blank lines',
+    formatCSSRulesArray,
+    generateCSSRulesArray,
+    [[{ color: 'red' }, '', '', '', { background: 'blue' }]],
+    ['color: red;', '', 'background: blue;'],
+  );
+
+  testBothImplementations(
+    'should handle nested rules in arrays',
+    formatCSSRulesArray,
+    generateCSSRulesArray,
+    [[testCases.nested.input]],
+    testCases.nested.expected,
+  );
+});
+
+describe('normalizeProperties option', () => {
+  it('converts camelCase properties to kebab-case when enabled', () => {
+    const rules: CSSRules = {
+      fontSize: '16px',
+      backgroundColor: 'blue',
+      marginTop: '10px',
+    };
+
+    const result = formatCSSRules(rules, { normalizeProperties: true });
+
+    expect(result).toEqual([
+      'font-size: 16px;',
+      'background-color: blue;',
+      'margin-top: 10px;',
+    ]);
+  });
+
+  it('leaves properties unchanged when disabled (default)', () => {
+    const rules: CSSRules = {
+      fontSize: '16px',
+      backgroundColor: 'blue',
+      marginTop: '10px',
+    };
+
+    const result = formatCSSRules(rules);
+
+    expect(result).toEqual([
+      'fontSize: 16px;',
+      'backgroundColor: blue;',
+      'marginTop: 10px;',
+    ]);
+  });
+
+  it('does NOT normalize at-rules when enabled', () => {
+    const rules: CSSRules = {
+      'fontSize': '16px', // Should be normalized
+      '@media (max-width: 768px)': { // Should NOT be normalized
+        backgroundColor: 'blue', // Should be normalized inside
+      },
+      '@keyframes slideIn': { // Should NOT be normalized
+        '0%': { transform: 'translateX(-100%)' },
+        '100%': { transform: 'translateX(0)' },
+      },
+      '@supports (display: grid)': {}, // Should NOT be normalized
+    };
+
+    const result = formatCSSRules(rules, { normalizeProperties: true });
+
+    // Check that at-rules are preserved exactly
+    expect(result).toContain('@media (max-width: 768px) {');
+    expect(result).toContain('@keyframes slideIn {');
+    expect(result).toContain('@supports (display: grid);');
+
+    // Check that properties inside at-rules are normalized
+    expect(result).toContain('  background-color: blue;');
+
+    // Check that top-level properties are normalized
+    expect(result).toContain('font-size: 16px;');
+  });
+
+  it('does NOT normalize selectors when enabled', () => {
+    const rules: CSSRules = {
+      'fontSize': '16px', // Should be normalized
+      '.button': { // Should NOT be normalized
+        marginTop: '10px', // Should be normalized inside
+      },
+      '#header': { // Should NOT be normalized
+        paddingLeft: '20px', // Should be normalized inside
+      },
+      ':hover': { // Should NOT be normalized
+        textDecoration: 'underline', // Should be normalized inside
+      },
+      'body h1': { // Should NOT be normalized (contains space)
+        lineHeight: '1.5', // Should be normalized inside
+      },
+    };
+
+    const result = formatCSSRules(rules, { normalizeProperties: true });
+
+    // Check that selectors are preserved exactly
+    expect(result).toContain('.button {');
+    expect(result).toContain('#header {');
+    expect(result).toContain(':hover {');
+    expect(result).toContain('body h1 {');
+
+    // Check that properties inside selectors are normalized
+    expect(result).toContain('  margin-top: 10px;');
+    expect(result).toContain('  padding-left: 20px;');
+    expect(result).toContain('  text-decoration: underline;');
+    expect(result).toContain('  line-height: 1.5;');
+
+    // Check that top-level properties are normalized
+    expect(result).toContain('font-size: 16px;');
+  });
+
+  it('normalizes array properties correctly', () => {
+    const rules: CSSRules = {
+      fontFamily: ['Arial', 'sans-serif'], // Should be normalized
+      backgroundImage: ['url(bg1.jpg)', 'url(bg2.jpg)'], // Should be normalized
+    };
+
+    const result = formatCSSRules(rules, { normalizeProperties: true });
+
+    expect(result).toContain('font-family: Arial, sans-serif;');
+    expect(result).toContain('background-image: url(bg1.jpg), url(bg2.jpg);');
+  });
+
+  it('works with deeply nested structures', () => {
+    const rules: CSSRules = {
+      'fontSize': '18px', // Should be normalized
+      '@media (max-width: 768px)': { // Should NOT be normalized
+        '.container': { // Should NOT be normalized
+          'backgroundColor': 'white', // Should be normalized
+          '@supports (display: grid)': { // Should NOT be normalized
+            gridTemplateColumns: 'repeat(3, 1fr)', // Should be normalized
+          },
+        },
+      },
+    };
+
+    const result = formatCSSRules(rules, { normalizeProperties: true });
+
+    expect(result).toContain('font-size: 18px;');
+    expect(result).toContain('@media (max-width: 768px) {');
+    expect(result).toContain('  .container {');
+    expect(result).toContain('    background-color: white;');
+    expect(result).toContain('    @supports (display: grid) {');
+    expect(result).toContain('      grid-template-columns: repeat(3, 1fr);');
+  });
+
+  it('preserves at-rules in array format', () => {
+    const rules: (string | CSSRules | CSSRuleObject)[] = [
+      { fontSize: '16px' }, // Should be normalized
+      { '@media print': { backgroundColor: 'white' } }, // At-rule NOT normalized, property inside normalized
+      { '@keyframes fade': { '0%': { opacity: '0' }, '100%': { opacity: '1' } } },
+    ];
+
+    const result = formatCSSRulesArray(rules, { normalizeProperties: true });
+
+    expect(result).toContain('font-size: 16px;');
+    expect(result).toContain('@media print {');
+    expect(result).toContain('  background-color: white;');
+    expect(result).toContain('@keyframes fade {');
+  });
+
+  it('works with generator functions', () => {
+    const rules: CSSRules = {
+      'fontSize': '16px',
+      '@media (max-width: 768px)': {
+        backgroundColor: 'blue',
+      },
+    };
+
+    const generatorResult = [...generateCSSRules(rules, { normalizeProperties: true })];
+    const arrayResult = formatCSSRules(rules, { normalizeProperties: true });
+
+    expect(generatorResult).toEqual(arrayResult);
+    expect(generatorResult).toContain('font-size: 16px;');
+    expect(generatorResult).toContain('@media (max-width: 768px) {');
+    expect(generatorResult).toContain('  background-color: blue;');
+  });
+
+  it('preserves complex at-rules with parameters', () => {
+    const rules: CSSRules = {
+      'fontSize': '16px', // Should be normalized
+      '@media (min-width: 768px) and (max-width: 1200px)': { // Complex at-rule - should NOT be normalized
+        paddingLeft: '20px', // Should be normalized inside
+      },
+      '@supports (display: flex) and (gap: 1rem)': { // Complex at-rule - should NOT be normalized
+        flexDirection: 'column', // Should be normalized inside
+      },
+    };
+
+    const result = formatCSSRules(rules, { normalizeProperties: true });
+
+    expect(result).toContain('font-size: 16px;');
+    expect(result).toContain('@media (min-width: 768px) and (max-width: 1200px) {');
+    expect(result).toContain('  padding-left: 20px;');
+    expect(result).toContain('@supports (display: flex) and (gap: 1rem) {');
+    expect(result).toContain('  flex-direction: column;');
+  });
+});
+
+describe('Generator-specific behavior', () => {
+  it('should yield lines lazily', () => {
+    const generator = generateCSSRules(testCases.simple.input);
+
+    const first = generator.next();
+    expect(first.done).toBe(false);
+    expect(first.value).toBe('color: red;');
+
+    const second = generator.next();
+    expect(second.done).toBe(false);
+    expect(second.value).toBe('font-size: 16px;');
+
+    const third = generator.next();
+    expect(third.done).toBe(true);
+  });
+
+  it('should handle deeply nested structures efficiently', () => {
+    const deepRules = {
+      '@media (min-width: 768px)': {
+        '.container': {
+          'max-width': '1200px',
+          '.button': {
+            padding: '10px',
+          },
+        },
+      },
+    };
+
+    const result = [...generateCSSRules(deepRules)];
+    expect(result).toEqual([
+      '@media (min-width: 768px) {',
+      '  .container {',
+      '    max-width: 1200px;',
+      '    .button {',
+      '      padding: 10px;',
+      '    }',
+      '  }',
+      '}',
+    ]);
   });
 });

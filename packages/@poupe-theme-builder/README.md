@@ -90,7 +90,7 @@ const cssTheme = makeCSSTheme({
 })
 
 // Built-in responsive aliases
-makeCSSTheme(colors, { 
+makeCSSTheme(colors, {
   darkMode: ['dark', 'mobile'],    // Uses media queries
   lightMode: ['light', 'desktop']  // Now supports arrays too
 })
@@ -204,7 +204,7 @@ import {
 
 ### Server Utilities
 
-Server-side color processing and validation:
+Server-side color processing, validation, and CSS response utilities:
 
 ```typescript
 import {
@@ -212,11 +212,47 @@ import {
   getColorParam,
   getThemeSchemeParam,
 
+  // CSS formatting utilities
+  stringifyCSSRulesArray,
+  stringifyCSSRulesArrayStream,
+  stringifyCSSRulesArrayAsStream,
+  stringifyCSSRulesArrayAsResponse,
+  stringifyCSSRulesArrayAsStreamingResponse,
+
   // Color types (re-exported)
   type HexColor,
   hct,
   colord,
 } from '@poupe/theme-builder/server'
+
+// Convert to CSS string (no trailing newline)
+const cssString = stringifyCSSRulesArray([
+  { '.theme': { '--primary': '#6750A4' } }
+])
+
+// Convert with camelCase to kebab-case normalization
+const normalizedCSS = stringifyCSSRulesArray([
+  { fontSize: '16px', backgroundColor: 'blue' }
+], { normalizeProperties: true })
+// Result: 'font-size: 16px;\nbackground-color: blue;'
+
+// Create ReadableStream (perfect for Cloudflare Workers)
+const stream = stringifyCSSRulesArrayAsStream([
+  { '.theme': { '--primary': '#6750A4' } }
+])
+const response = new Response(stream, {
+  headers: { 'Content-Type': 'text/css' }
+})
+
+// Create Response object with headers
+const response = stringifyCSSRulesArrayAsResponse([
+  { '.theme': { '--primary': '#6750A4' } }
+])
+
+// Create streaming Response for large CSS files
+const streamingResponse = stringifyCSSRulesArrayAsStreamingResponse([
+  // Large array of CSS rules
+])
 ```
 
 ## Color System
@@ -280,7 +316,7 @@ makeCSSTheme(colors, { darkMode: 'media' })
 makeCSSTheme(colors, { darkMode: ['.dark', '.theme-dark'] })
 
 // Built-in responsive aliases
-makeCSSTheme(colors, { 
+makeCSSTheme(colors, {
   darkMode: ['dark', 'mobile'],  // Uses media queries
   lightMode: 'light'
 })

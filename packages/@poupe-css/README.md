@@ -28,6 +28,7 @@ CSS-in-JS operations.
 - 🎨 CSS-in-JS helpers and type definitions
 - 📦 Lightweight, tree-shakable API
 - 🧩 Support for nested CSS rules and at-rules
+- ⚡ Memory-efficient generators for large CSS files
 
 ## Installation
 
@@ -112,6 +113,8 @@ interface CSSRulesFormatOptions {
   prefix?: string
   /** Optional validation function to determine which rules to include. */
   valid?: (key: string, value: CSSRulesValue) => boolean
+  /** Whether to normalize CSS property names from camelCase to kebab-case. */
+  normalizeProperties?: boolean
 }
 ```
 
@@ -260,7 +263,8 @@ const cssString = stringifyCSSRules(rules);
 
 #### `formatCSSRules(rules: CSSRules | CSSRuleObject, options?): string[]`
 Processes a CSS rule object and returns an array of strings, where each
-string represents a line in the formatted CSS output.
+string represents a line in the formatted CSS output. Internally uses the
+`generateCSSRules` generator for memory efficiency.
 
 ```typescript
 import { formatCSSRules } from '@poupe/css';
@@ -278,11 +282,68 @@ const lines = formatCSSRules(rules);
 // Custom indentation
 const indentedLines = formatCSSRules(rules, { indent: '    ' });
 // Returns: ['body {', '    color: red;', '    font-size: 16px;', '}']
+
+// Property name normalization (camelCase to kebab-case)
+const camelRules = {
+  body: {
+    fontSize: '16px',
+    backgroundColor: 'blue',
+    marginTop: '20px'
+  }
+};
+
+const normalized = formatCSSRules(camelRules, { normalizeProperties: true });
+// Returns: ['body {', '  font-size: 16px;', '  background-color: blue;', '  margin-top: 20px;', '}']
+
+// Selectors and at-rules are intelligently preserved
+const complexRules = {
+  fontSize: '18px',  // Will be normalized to font-size
+  '.button': {       // Selector preserved as-is
+    paddingLeft: '10px'  // Will be normalized to padding-left
+  },
+  '@media print': {  // At-rule preserved as-is
+    backgroundColor: 'white'  // Will be normalized to background-color
+  }
+};
+
+const result = formatCSSRules(complexRules, { normalizeProperties: true });
+// Returns:
+// ['font-size: 18px;', '.button {', '  padding-left: 10px;', '}', '@media print {', '  background-color: white;', '}']
+```
+
+#### `generateCSSRules(rules: CSSRules | CSSRuleObject, options?): Generator<string>`
+Generator version of `formatCSSRules` that yields lines as they're generated.
+More memory-efficient for large CSS files as it doesn't build the entire
+array in memory.
+
+```typescript
+import { generateCSSRules } from '@poupe/css';
+
+const rules = {
+  'body': {
+    'color': 'red',
+    'font-size': '16px'
+  }
+};
+
+// Use generator for streaming or large files
+for (const line of generateCSSRules(rules)) {
+  console.log(line);
+}
+// Output:
+// body {
+//   color: red;
+//   font-size: 16px;
+// }
+
+// Or collect all lines (same as formatCSSRules)
+const lines = [...generateCSSRules(rules)];
 ```
 
 #### `formatCSSRulesArray`
 `(rules: (string | CSSRules | CSSRuleObject)[], options?): string[]`
-Formats an array of CSS rules into indented lines recursively.
+Formats an array of CSS rules into indented lines recursively. Internally uses
+the `generateCSSRulesArray` generator for memory efficiency.
 
 ```typescript
 import { formatCSSRulesArray } from '@poupe/css';
@@ -300,6 +361,27 @@ const rulesArray = [
 
 const lines = formatCSSRulesArray(rulesArray);
 // Returns lines with proper indentation for each rule
+```
+
+#### `generateCSSRulesArray`
+`(rules: (string | CSSRules | CSSRuleObject)[], options?): Generator<string>`
+Generator version of `formatCSSRulesArray` that yields lines as they're
+generated. Efficiently handles large arrays of CSS rules without building
+the entire result in memory.
+
+```typescript
+import { generateCSSRulesArray } from '@poupe/css';
+
+const rulesArray = [
+  { 'color': 'red' },
+  '',  // Empty string creates blank line
+  { 'font-size': '16px' }
+];
+
+// Stream through large rule arrays
+for (const line of generateCSSRulesArray(rulesArray)) {
+  process.stdout.write(line + '\n');
+}
 ```
 
 #### `defaultValidCSSRule(key: string, value: CSSRulesValue): boolean`

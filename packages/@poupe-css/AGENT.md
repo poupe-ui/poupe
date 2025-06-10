@@ -30,6 +30,9 @@ src/
 
 - **Type-safe CSS properties**: Full TypeScript support for CSS property
   names and values
+- **CSS rules formatting**: Format nested CSS rule objects with proper
+  indentation
+- **Memory-efficient generators**: Generator functions for large CSS files
 - **Property parsing**: Parse CSS property strings into structured data
 - **Property formatting**: Convert structured data back to CSS strings
 - **Unit conversions**: Handle CSS unit conversions and calculations
@@ -44,6 +47,25 @@ The package exports utilities for:
 - CSS unit conversions and calculations
 - Case conversion (camelCase ↔ kebab-case)
 - Type-safe CSS value handling
+- Property name normalization (camelCase to kebab-case) with intelligent
+  preservation of selectors and at-rules
+
+## Performance Considerations
+
+The package provides both array-based and generator-based implementations:
+
+- **Array functions** (`formatCSSRules`, `formatCSSRulesArray`):
+  - Convenient for small to medium CSS
+  - Returns complete arrays
+  - Good for immediate consumption
+
+- **Generator functions** (`generateCSSRules`, `generateCSSRulesArray`):
+  - Memory-efficient for large CSS generation
+  - Lazy evaluation, yields lines as generated
+  - Ideal for streaming or writing large CSS files
+
+Both implementations produce identical output and the array functions use
+generators internally.
 
 ## Testing Guidelines
 
@@ -51,6 +73,7 @@ The package exports utilities for:
 - Focus on edge cases for CSS parsing
 - Test various CSS property formats
 - Ensure type safety in all utilities
+- Verify array and generator functions produce identical output
 
 ## Integration Notes
 
