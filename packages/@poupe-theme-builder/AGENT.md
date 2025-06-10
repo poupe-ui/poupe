@@ -50,6 +50,13 @@ Exports two entry points via unbuild:
 - Server-side theme generation
 - Image color extraction
 - Theme caching utilities
+- CSS formatting utilities
+  - `stringifyCSSRulesArray`: String format (no trailing newline, optional property normalization)
+  - `stringifyCSSRulesArrayStream`: Async generator for streaming
+  - `stringifyCSSRulesArrayAsStream`: ReadableStream for edge environments
+  - `stringifyCSSRulesArrayAsResponse`: Response object creation
+  - `stringifyCSSRulesArrayAsStreamingResponse`: Streaming Response with ReadableStream
+  - All functions support `normalizeProperties` option for camelCase to kebab-case conversion
 
 ## Design Token Categories
 
