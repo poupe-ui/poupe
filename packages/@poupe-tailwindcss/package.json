@@ -60,7 +60,7 @@
     "@poupe/eslint-config": "^0.6.4",
     "@tailwindcss/node": "^4.1.8",
     "@types/node": "^20.17.47",
-    "eslint": "^9.26.0",
+    "eslint": "^9.28.0",
     "pathe": "^2.0.3",
     "publint": "^0.3.12",
     "tailwindcss": "^4.1.8",
