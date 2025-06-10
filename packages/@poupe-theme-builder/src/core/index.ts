@@ -3,6 +3,8 @@
 export {
   formatCSSRules,
   formatCSSRulesArray,
+  generateCSSRules,
+  generateCSSRulesArray,
 } from '@poupe/css';
 
 export * from './colors';

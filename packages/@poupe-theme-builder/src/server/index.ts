@@ -34,6 +34,9 @@ export {
 // normalization utils and type checking
 export * from './utils';
 
+// CSS stringification utilities
+export * from './stringify';
+
 /** Attempts to convert a parameter to a valid hex color.
  * @param param - An optional string or string array representing a color
  * @param filter - Optional function to pre-process the parameter before validation
