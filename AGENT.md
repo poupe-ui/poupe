@@ -84,14 +84,24 @@ ESLint):
 
 ## Development Practices
 
+### Pre-commit Checklist (MANDATORY)
+Before finishing any task, ALWAYS run:
+1. `pnpm lint` - Fix all ESLint issues
+2. `pnpm type-check` - Resolve all TypeScript errors
+3. `pnpm test` - Ensure all tests pass
+4. Check IDE diagnostics panel for warnings
+5. Update AGENT.md if guidelines change
+6. Update README.md if public API changes
+
 ### DO:
 - Use workspace protocol (`workspace:^`) for internal dependencies
-- Run `pnpm lint` and `pnpm type-check` before committing
 - Write tests for all new functionality
 - Follow Material Design 3 principles throughout
 - Check existing code patterns before creating new ones
 - Use semantic versioning for releases
 - Keep packages focused on their specific purpose
+- Add explicit type annotations for union types
+- Follow strict TypeScript practices
 
 ### DON'T:
 - Create files unless necessary - prefer editing existing ones
@@ -99,6 +109,23 @@ ESLint):
 - Ignore TypeScript errors or ESLint warnings
 - Mix concerns between packages
 - Use relative imports between packages (use workspace deps)
+- Do not skip pre-commit checks
+- Do not ignore warnings or AGENT.md guidelines
+
+### Git Workflow
+
+#### Commits
+- Always use `-s` flag for sign-off
+- Use `git commit --fixup` for small fixes to existing commits
+- Write clear messages describing actual changes
+- No AI advertising in commit messages
+
+#### Branches
+- NEVER push or delete branches without explicit request
+- Use cherry-pick workflow for applying fixes
+
+#### Reviews
+- Ensure commit messages reflect final diff, not iterations
 
 ## Workspace Dependencies
 
@@ -170,7 +197,6 @@ Each package has its own AGENT.md file with specific details:
 
 ### Claude Code Specific Instructions
 - Use TodoWrite tool for complex multi-step tasks
-- Run lint and type-check commands before completing tasks
 
 ### GitHub Copilot Specific Instructions
 - Leverage inline suggestions for small fixes
@@ -178,6 +204,8 @@ Each package has its own AGENT.md file with specific details:
 
 ### Universal Agent Guidelines
 - Test changes thoroughly before considering tasks complete
+- Reference code locations using `file_path:line_number` format
+- Follow the pre-commit checklist strictly
 
 ## Debugging Tips
 

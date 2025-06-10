@@ -13,7 +13,7 @@ elevation, typography, and theme integration.
 
 ## Package Structure
 
-```
+```text
 src/
 ├── __tests__/        # Unit and CLI integration tests
 ├── assets/           # Pre-built CSS files
@@ -278,6 +278,7 @@ plugin generates working CSS for end users.
 
 ### Dependencies
 
-- **@poupe/css**: workspace:^ (for CSS utilities)
-- **tailwindcss**: ^4.0.0 (peer dependency)
-- **@tailwindcss/cli**: ^4.0.0 (dev dependency for examples and testing)
+- **Runtime**: @poupe/css, @poupe/theme-builder (workspace deps), type-fest
+- **Peer**: tailwindcss v4
+- **Development**: @tailwindcss/node for testing
+

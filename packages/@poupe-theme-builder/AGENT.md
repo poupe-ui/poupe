@@ -12,15 +12,25 @@ theme variations, and provides runtime theme switching capabilities.
 
 ## Package Structure
 
-```
+```text
 src/
-├── __tests__/        # Unit tests
 ├── core/             # Core theme generation logic
+│   ├── __tests__/   # Core tests
+│   ├── colors.ts    # Color utilities
+│   ├── palettes.ts  # Palette generation
+│   └── utils.ts     # Core utilities
+├── css/              # CSS generation utilities
+│   └── css.ts       # CSS output formatting
 ├── server/           # Server-side utilities
-├── tokens/           # Design token definitions
-├── utils/            # Utility functions
-├── index.ts          # Main exports
-└── server.ts         # Server module exports
+│   ├── index.ts     # Server exports
+│   └── utils.ts     # Server utilities
+├── theme/            # Theme system
+│   ├── colors.ts    # Theme colors
+│   ├── data.ts      # Theme data structures
+│   ├── palettes.ts  # Theme palettes
+│   └── theme.ts     # Main theme logic
+├── from-image.ts    # Image color extraction
+└── index.ts         # Main exports
 ```
 
 ## Key Features
@@ -34,8 +44,9 @@ src/
 
 ## Build Configuration
 
-Exports two entry points via unbuild:
-- `index` - Core theme builder functionality
+Exports three entry points via unbuild:
+- `index` - Main theme builder functionality
+- `core` - Core utilities and algorithms
 - `server` - Server-side utilities for SSR
 
 ## API Overview
@@ -75,5 +86,8 @@ This package is used by:
 
 ## Dependencies
 
-- **@poupe/css**: workspace:^ (for CSS utilities)
-- **@material/material-color-utilities**: For M3 color algorithms
+- **@poupe/css**: CSS utilities (workspace dependency)
+- **@poupe/material-color-utilities**: Material Design 3 color algorithms
+- **colord**: Color manipulation and conversion
+- **defu**: Deep object merging
+- **type-fest**: TypeScript type utilities

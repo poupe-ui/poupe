@@ -11,7 +11,7 @@ configuration, color mode integration, and SSR support.
 
 ## Package Structure
 
-```
+```text
 src/
 ├── runtime/           # Runtime code (client & server)
 │   ├── components/   # Nuxt-specific components
@@ -98,6 +98,14 @@ The module provides several Nuxt hooks:
 - Ensure hydration works properly
 - Test with different Nuxt configurations
 
+## Dependencies
+
+- **Runtime**:
+  - Workspace: @poupe/css, @poupe/tailwindcss, @poupe/theme-builder, @poupe/vue
+  - External: @nuxt/icon, @nuxtjs/color-mode, @tailwindcss/vite, tailwindcss
+- **Development**: Nuxt 3.x, TypeScript, Vitest
+- **Note**: See package.json for specific versions
+
 ## Integration Notes
 
 - Requires Nuxt 3.x
@@ -118,4 +126,4 @@ Module package includes:
 - Check `.nuxt/poupe/` for generated files
 - Use Nuxt DevTools to inspect module state
 - Enable module debug mode in nuxt.config
-- Check hydration mismatches in browser console
+- Check hydration mismatches in the browser console
