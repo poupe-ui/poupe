@@ -96,16 +96,16 @@ describe('stringifyCSSRulesArray', () => {
     ];
     const result = stringifyCSSRulesArray(rules);
     expect(result).toBe(
-      'fontSize: 16px;\n' +
-      'backgroundColor: blue;\n' +
-      'borderTopLeftRadius: 4px;\n' +
-      'WebkitTransform: scale(1);\n' +
-      'msFlexDirection: row;\n' +
-      'textDecoration: underline;\n' +
-      'marginTop: 10px;\n' +
-      'paddingBottom: 5px;\n' +
-      'zIndex: 999;\n' +
-      'lineHeight: 1.5;'
+      'fontSize: 16px;\n'
+      + 'backgroundColor: blue;\n'
+      + 'borderTopLeftRadius: 4px;\n'
+      + 'WebkitTransform: scale(1);\n'
+      + 'msFlexDirection: row;\n'
+      + 'textDecoration: underline;\n'
+      + 'marginTop: 10px;\n'
+      + 'paddingBottom: 5px;\n'
+      + 'zIndex: 999;\n'
+      + 'lineHeight: 1.5;',
     );
   });
 
@@ -120,10 +120,10 @@ describe('stringifyCSSRulesArray', () => {
     ];
     const result = stringifyCSSRulesArray(rules);
     expect(result).toBe(
-      'font-size: 14px;\n' +
-      'background-color: red;\n' +
-      'margin-top: 8px;\n' +
-      'border-radius: 2px;'
+      'font-size: 14px;\n'
+      + 'background-color: red;\n'
+      + 'margin-top: 8px;\n'
+      + 'border-radius: 2px;',
     );
   });
 
@@ -138,10 +138,10 @@ describe('stringifyCSSRulesArray', () => {
     ];
     const result = stringifyCSSRulesArray(rules);
     expect(result).toBe(
-      '-webkit-transform: rotate(45deg);\n' +
-      '-moz-user-select: none;\n' +
-      '-ms-transition: all 0.3s;\n' +
-      '-o-transform: skew(10deg);'
+      '-webkit-transform: rotate(45deg);\n'
+      + '-moz-user-select: none;\n'
+      + '-ms-transition: all 0.3s;\n'
+      + '-o-transform: skew(10deg);',
     );
   });
 
@@ -162,16 +162,16 @@ describe('stringifyCSSRulesArray', () => {
     ];
     const result = stringifyCSSRulesArray(rules, { normalizeProperties: true });
     expect(result).toBe(
-      'font-size: 16px;\n' +
-      'background-color: blue;\n' +
-      'border-top-left-radius: 4px;\n' +
-      '-webkit-transform: scale(1);\n' +
-      '-ms-flex-direction: row;\n' +
-      'text-decoration: underline;\n' +
-      'margin-top: 10px;\n' +
-      'padding-bottom: 5px;\n' +
-      'z-index: 999;\n' +
-      'line-height: 1.5;'
+      'font-size: 16px;\n'
+      + 'background-color: blue;\n'
+      + 'border-top-left-radius: 4px;\n'
+      + '-webkit-transform: scale(1);\n'
+      + '-ms-flex-direction: row;\n'
+      + 'text-decoration: underline;\n'
+      + 'margin-top: 10px;\n'
+      + 'padding-bottom: 5px;\n'
+      + 'z-index: 999;\n'
+      + 'line-height: 1.5;',
     );
   });
 
@@ -192,34 +192,34 @@ describe('stringifyCSSRulesArray', () => {
     ];
     const result = stringifyCSSRulesArray(rules, { normalizeProperties: true });
     expect(result).toBe(
-      '.button {\n' +
-      '  font-size: 14px;\n' +
-      '  background-color: red;\n' +
-      '}\n' +
-      '@media (max-width: 768px) {\n' +
-      '  margin-top: 8px;\n' +
-      '}\n' +
-      ':hover {\n' +
-      '  border-radius: 2px;\n' +
-      '}'
+      '.button {\n'
+      + '  font-size: 14px;\n'
+      + '  background-color: red;\n'
+      + '}\n'
+      + '@media (max-width: 768px) {\n'
+      + '  margin-top: 8px;\n'
+      + '}\n'
+      + ':hover {\n'
+      + '  border-radius: 2px;\n'
+      + '}',
     );
   });
 
   it('should handle mixed camelCase and kebab-case with normalization', () => {
     const rules = [
       {
-        'font-size': '14px',        // kebab-case (should stay)
-        backgroundColor: 'red',      // camelCase (should convert)
-        'margin-top': '8px',        // kebab-case (should stay)
-        borderRadius: '2px',        // camelCase (should convert)
+        'font-size': '14px', // kebab-case (should stay)
+        'backgroundColor': 'red', // camelCase (should convert)
+        'margin-top': '8px', // kebab-case (should stay)
+        'borderRadius': '2px', // camelCase (should convert)
       },
     ];
     const result = stringifyCSSRulesArray(rules, { normalizeProperties: true });
     expect(result).toBe(
-      'font-size: 14px;\n' +
-      'background-color: red;\n' +
-      'margin-top: 8px;\n' +
-      'border-radius: 2px;'
+      'font-size: 14px;\n'
+      + 'background-color: red;\n'
+      + 'margin-top: 8px;\n'
+      + 'border-radius: 2px;',
     );
   });
 });
