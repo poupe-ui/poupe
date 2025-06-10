@@ -1,5 +1,5 @@
 import { defu } from 'defu';
-import { pairs } from './utils';
+import { pairs, kebabCase } from './utils';
 
 import {
   formatCSSValue,
@@ -46,24 +46,31 @@ export type CSSRulesValue = CSSRules[string];
  */
 export interface CSSRulesFormatOptions {
   /**
-       * Indentation string to use for each level of nesting.
-       * @defaultValue `'  '` (two spaces)
-       */
+   * Indentation string to use for each level of nesting.
+   * @defaultValue `'  '` (two spaces)
+   */
   indent?: string
 
   /**
-       * Prefix string added before each line.
-       * @defaultValue `''` (empty string)
-       */
+   * Prefix string added before each line.
+   * @defaultValue `''` (empty string)
+   */
   prefix?: string
 
   /**
-       * Optional validation function to determine which rules to include.
-       * @param key - The rule name/selector
-       * @param value - The rule value
-       * @returns `true` if the rule should be included, `false` otherwise
-       */
+   * Optional validation function to determine which rules to include.
+   * @param key - The rule name/selector
+   * @param value - The rule value
+   * @returns `true` if the rule should be included, `false` otherwise
+   */
   valid?: (key: string, value: CSSRulesValue) => boolean
+
+  /**
+   * Whether to normalize CSS property names from camelCase to kebab-case.
+   * Only applies to property names, not selectors.
+   * @defaultValue `false`
+   */
+  normalizeProperties?: boolean
 }
 
 /**
@@ -308,6 +315,7 @@ export function* generateCSSRules(
     indent = '  ',
     prefix = '',
     valid = defaultValidCSSRule,
+    normalizeProperties = false,
   } = options;
 
   const nextOptions: CSSRulesFormatOptions = {
@@ -315,26 +323,41 @@ export function* generateCSSRules(
     prefix: prefix + indent,
   };
 
+  // Helper to normalize key if appropriate (property vs selector/at-rule)
+  const mayNormalize = (key: string): string => {
+    if (!normalizeProperties) return key;
+    // Don't normalize selectors or at-rules
+    if (key.startsWith('.') || key.startsWith('#')
+      || key.startsWith('@') || key.startsWith(':')
+      || key.includes(' ')) {
+      return key;
+    }
+    return kebabCase(key);
+  };
+
   for (const [key, value] of pairs(rules, valid)) {
     if (atRuleException(key, value)) {
       // at-function
       yield `${prefix}${key};`;
     } else if (typeof value === 'number') {
-      yield `${prefix}${key}: ${value};`;
+      // Apply kebab-case conversion only to properties, like formatCSSProperties
+      yield `${prefix}${mayNormalize(key)}: ${value};`;
     } else if (typeof value === 'string') {
       // string, omit empty
       if (value) {
-        yield `${prefix}${key}: ${value};`;
+        // Apply kebab-case conversion only to properties, like formatCSSProperties
+        yield `${prefix}${mayNormalize(key)}: ${value};`;
       }
     } else if (Array.isArray(value)) {
       if (value.length === 0) {
         continue;
       } else if (typeof value[0] === 'string') {
-        // multi-value
-        const useComma = !spaceDelimitedProperties.has(key);
+        // multi-value - follow formatCSSProperties pattern
+        const normalizedKey = mayNormalize(key);
+        const useComma = !spaceDelimitedProperties.has(normalizedKey);
         const inner = formatCSSValue(value as string[], useComma);
         if (inner) {
-          yield `${prefix}${key}: ${inner};`;
+          yield `${prefix}${normalizedKey}: ${inner};`;
         }
       } else {
         // nested rules array

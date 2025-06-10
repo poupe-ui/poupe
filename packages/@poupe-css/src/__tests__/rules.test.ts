@@ -1213,6 +1213,205 @@ describe('formatCSSRulesArray vs generateCSSRulesArray', () => {
   );
 });
 
+describe('normalizeProperties option', () => {
+  it('converts camelCase properties to kebab-case when enabled', () => {
+    const rules: CSSRules = {
+      fontSize: '16px',
+      backgroundColor: 'blue',
+      marginTop: '10px',
+    };
+
+    const result = formatCSSRules(rules, { normalizeProperties: true });
+
+    expect(result).toEqual([
+      'font-size: 16px;',
+      'background-color: blue;',
+      'margin-top: 10px;',
+    ]);
+  });
+
+  it('leaves properties unchanged when disabled (default)', () => {
+    const rules: CSSRules = {
+      fontSize: '16px',
+      backgroundColor: 'blue',
+      marginTop: '10px',
+    };
+
+    const result = formatCSSRules(rules);
+
+    expect(result).toEqual([
+      'fontSize: 16px;',
+      'backgroundColor: blue;',
+      'marginTop: 10px;',
+    ]);
+  });
+
+  it('does NOT normalize at-rules when enabled', () => {
+    const rules: CSSRules = {
+      fontSize: '16px', // Should be normalized
+      '@media (max-width: 768px)': { // Should NOT be normalized
+        backgroundColor: 'blue', // Should be normalized inside
+      },
+      '@keyframes slideIn': { // Should NOT be normalized
+        '0%': { transform: 'translateX(-100%)' },
+        '100%': { transform: 'translateX(0)' },
+      },
+      '@supports (display: grid)': {}, // Should NOT be normalized
+    };
+
+    const result = formatCSSRules(rules, { normalizeProperties: true });
+
+    // Check that at-rules are preserved exactly
+    expect(result).toContain('@media (max-width: 768px) {');
+    expect(result).toContain('@keyframes slideIn {');
+    expect(result).toContain('@supports (display: grid);');
+
+    // Check that properties inside at-rules are normalized
+    expect(result).toContain('  background-color: blue;');
+
+    // Check that top-level properties are normalized
+    expect(result).toContain('font-size: 16px;');
+  });
+
+  it('does NOT normalize selectors when enabled', () => {
+    const rules: CSSRules = {
+      fontSize: '16px', // Should be normalized
+      '.button': { // Should NOT be normalized
+        marginTop: '10px', // Should be normalized inside
+      },
+      '#header': { // Should NOT be normalized
+        paddingLeft: '20px', // Should be normalized inside
+      },
+      ':hover': { // Should NOT be normalized
+        textDecoration: 'underline', // Should be normalized inside
+      },
+      'body h1': { // Should NOT be normalized (contains space)
+        lineHeight: '1.5', // Should be normalized inside
+      },
+    };
+
+    const result = formatCSSRules(rules, { normalizeProperties: true });
+
+    // Check that selectors are preserved exactly
+    expect(result).toContain('.button {');
+    expect(result).toContain('#header {');
+    expect(result).toContain(':hover {');
+    expect(result).toContain('body h1 {');
+
+    // Check that properties inside selectors are normalized
+    expect(result).toContain('  margin-top: 10px;');
+    expect(result).toContain('  padding-left: 20px;');
+    expect(result).toContain('  text-decoration: underline;');
+    expect(result).toContain('  line-height: 1.5;');
+
+    // Check that top-level properties are normalized
+    expect(result).toContain('font-size: 16px;');
+  });
+
+  it('normalizes array properties correctly', () => {
+    const rules: CSSRules = {
+      fontFamily: ['Arial', 'sans-serif'], // Should be normalized
+      backgroundImage: ['url(bg1.jpg)', 'url(bg2.jpg)'], // Should be normalized
+    };
+
+    const result = formatCSSRules(rules, { normalizeProperties: true });
+
+    expect(result).toContain('font-family: Arial, sans-serif;');
+    expect(result).toContain('background-image: url(bg1.jpg), url(bg2.jpg);');
+  });
+
+  it('normalizes number properties correctly', () => {
+    const rules: CSSRules = {
+      fontSize: 16, // Should be normalized
+      lineHeight: 1.5, // Should be normalized
+      zIndex: 100, // Should be normalized
+    };
+
+    const result = formatCSSRules(rules, { normalizeProperties: true });
+
+    expect(result).toEqual([
+      'font-size: 16;',
+      'line-height: 1.5;',
+      'z-index: 100;',
+    ]);
+  });
+
+  it('works with deeply nested structures', () => {
+    const rules: CSSRules = {
+      fontSize: '18px', // Should be normalized
+      '@media (max-width: 768px)': { // Should NOT be normalized
+        '.container': { // Should NOT be normalized
+          backgroundColor: 'white', // Should be normalized
+          '@supports (display: grid)': { // Should NOT be normalized
+            gridTemplateColumns: 'repeat(3, 1fr)', // Should be normalized
+          },
+        },
+      },
+    };
+
+    const result = formatCSSRules(rules, { normalizeProperties: true });
+
+    expect(result).toContain('font-size: 18px;');
+    expect(result).toContain('@media (max-width: 768px) {');
+    expect(result).toContain('  .container {');
+    expect(result).toContain('    background-color: white;');
+    expect(result).toContain('    @supports (display: grid) {');
+    expect(result).toContain('      grid-template-columns: repeat(3, 1fr);');
+  });
+
+  it('preserves at-rules in array format', () => {
+    const rules = [
+      { fontSize: '16px' }, // Should be normalized
+      { '@media print': { backgroundColor: 'white' } }, // At-rule NOT normalized, property inside normalized
+      { '@keyframes fade': { '0%': { opacity: 0 }, '100%': { opacity: 1 } } },
+    ];
+
+    const result = formatCSSRulesArray(rules, { normalizeProperties: true });
+
+    expect(result).toContain('font-size: 16px;');
+    expect(result).toContain('@media print {');
+    expect(result).toContain('  background-color: white;');
+    expect(result).toContain('@keyframes fade {');
+  });
+
+  it('works with generator functions', () => {
+    const rules: CSSRules = {
+      fontSize: '16px',
+      '@media (max-width: 768px)': {
+        backgroundColor: 'blue',
+      },
+    };
+
+    const generatorResult = [...generateCSSRules(rules, { normalizeProperties: true })];
+    const arrayResult = formatCSSRules(rules, { normalizeProperties: true });
+
+    expect(generatorResult).toEqual(arrayResult);
+    expect(generatorResult).toContain('font-size: 16px;');
+    expect(generatorResult).toContain('@media (max-width: 768px) {');
+    expect(generatorResult).toContain('  background-color: blue;');
+  });
+
+  it('preserves complex at-rules with parameters', () => {
+    const rules: CSSRules = {
+      fontSize: '16px', // Should be normalized
+      '@media (min-width: 768px) and (max-width: 1200px)': { // Complex at-rule - should NOT be normalized
+        paddingLeft: '20px', // Should be normalized inside
+      },
+      '@supports (display: flex) and (gap: 1rem)': { // Complex at-rule - should NOT be normalized
+        flexDirection: 'column', // Should be normalized inside
+      },
+    };
+
+    const result = formatCSSRules(rules, { normalizeProperties: true });
+
+    expect(result).toContain('font-size: 16px;');
+    expect(result).toContain('@media (min-width: 768px) and (max-width: 1200px) {');
+    expect(result).toContain('  padding-left: 20px;');
+    expect(result).toContain('@supports (display: flex) and (gap: 1rem) {');
+    expect(result).toContain('  flex-direction: column;');
+  });
+});
+
 describe('Generator-specific behavior', () => {
   it('should yield lines lazily', () => {
     const generator = generateCSSRules(testCases.simple.input);

@@ -112,6 +112,8 @@ interface CSSRulesFormatOptions {
   prefix?: string
   /** Optional validation function to determine which rules to include. */
   valid?: (key: string, value: CSSRulesValue) => boolean
+  /** Whether to normalize CSS property names from camelCase to kebab-case. */
+  normalizeProperties?: boolean
 }
 ```
 
@@ -355,6 +357,42 @@ const lines = [...generateCSSRulesArray(rulesArray)];
 for the array-based functions. For small to medium CSS, use the array functions
 for convenience. For large CSS generation or streaming scenarios, use the
 generators directly.
+
+#### Property Normalization
+
+All CSS rules functions support the `normalizeProperties` option to automatically
+convert camelCase property names to kebab-case while preserving selectors and at-rules:
+
+```typescript
+import { formatCSSRules } from '@poupe/css';
+
+const rules = {
+  fontSize: '16px',           // Property - will be normalized
+  backgroundColor: 'blue',    // Property - will be normalized
+  '@media (max-width: 768px)': {  // At-rule - preserved
+    marginTop: '10px'         // Property inside - will be normalized
+  },
+  '.button': {                // Selector - preserved
+    paddingLeft: '20px'       // Property inside - will be normalized
+  }
+};
+
+// Without normalization (default)
+const defaultLines = formatCSSRules(rules);
+// Output includes: "fontSize: 16px;", "backgroundColor: blue;"
+
+// With normalization enabled
+const normalizedLines = formatCSSRules(rules, { normalizeProperties: true });
+// Output includes: "font-size: 16px;", "background-color: blue;"
+// At-rules and selectors unchanged: "@media (max-width: 768px) {", ".button {"
+```
+
+**Key Features:**
+- ✅ **Properties normalized**: `fontSize` → `font-size`, `backgroundColor` → `background-color`
+- ✅ **At-rules preserved**: `@media`, `@keyframes`, `@supports` stay unchanged
+- ✅ **Selectors preserved**: `.button`, `#header`, `:hover`, `body h1` stay unchanged
+- ✅ **Nested properties normalized**: Properties inside at-rules and selectors are converted
+- ✅ **Works with all data types**: Strings, numbers, arrays are all handled correctly
 
 #### `defaultValidCSSRule(key: string, value: CSSRulesValue): boolean`
 Default validation function that determines if a CSS rule key-value pair

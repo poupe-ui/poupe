@@ -53,6 +53,7 @@ The package exports utilities organized into these categories:
 - Nested CSS rule object formatting
 - Both array-based and generator-based implementations
 - Support for at-rules and media queries
+- Property normalization (camelCase to kebab-case) with smart detection
 - Deep rule manipulation (get/set at paths)
 - Rule renaming and transformation
 
@@ -111,6 +112,30 @@ Builds to both ESM and CJS formats:
 - The array-based functions are implemented as wrappers around the
   generator functions to eliminate code duplication
 - Generator functions are the source of truth for CSS formatting logic
+- Property normalization via `normalizeProperties` option smartly detects
+  CSS properties vs selectors/at-rules using the `mayNormalize()` helper
 - All CSS property names are automatically converted between camelCase
   and kebab-case as needed
 - Vendor prefixes (like `-webkit-`) are handled correctly in conversions
+- At-rules (`@media`, `@keyframes`) and selectors (`.class`, `#id`) are
+  never normalized to preserve their validity
+
+## Property Normalization
+
+The `normalizeProperties` option enables automatic camelCase to kebab-case
+conversion for CSS properties while intelligently preserving selectors and at-rules:
+
+**What gets normalized:**
+- CSS properties: `fontSize` → `font-size`, `backgroundColor` → `background-color`
+- Properties in all contexts: top-level, nested in selectors, nested in at-rules
+
+**What stays unchanged:**
+- At-rules: `@media (max-width: 768px)`, `@keyframes slideIn`, `@supports (display: grid)`
+- CSS selectors: `.button`, `#header`, `:hover`, `body h1`
+- Complex selectors with spaces: `nav ul li`
+
+**Implementation:**
+- Uses `mayNormalize(key: string): string` helper that returns either the original
+  key or the kebab-case version based on context
+- Applied in `generateCSSRules()` for all property types (strings, numbers, arrays)
+- Seamlessly integrated with existing space vs comma-delimited property handling
