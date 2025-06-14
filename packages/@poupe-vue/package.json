@@ -43,6 +43,10 @@
     "./theme-scheme": {
       "types": "./dist/theme-scheme.d.ts",
       "import": "./dist/theme-scheme.mjs"
+    },
+    "./story-viewer": {
+      "types": "./dist/story-viewer.d.ts",
+      "import": "./dist/story-viewer.mjs"
     }
   },
   "main": "./dist/index.mjs",
