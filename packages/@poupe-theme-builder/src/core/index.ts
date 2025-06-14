@@ -12,6 +12,7 @@ export * from './default-colors';
 export * from './formatter';
 export * from './mix';
 export * from './palettes';
+export * from './states';
 export * from './types';
 
 // tools
