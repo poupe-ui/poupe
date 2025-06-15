@@ -481,6 +481,44 @@ The WAI-ARIA Authoring Practices Guide (APG) from the W3C is the
 definitive resource for understanding and implementing ARIA roles, states,
 and properties correctly for various UI patterns.
 
+## Development Tools
+
+### Screenshot Helpers
+
+The package includes Playwright-based screenshot utilities for capturing component states:
+
+#### Manual Screenshots
+
+```bash
+# Start dev server first
+pnpm dev
+
+# In another terminal, take screenshots
+pnpm screenshot                           # Theme page
+pnpm screenshot button                    # Specific component
+pnpm screenshot theme theme-dark.png --dark     # Dark mode
+pnpm screenshot --all-viewports           # Multiple screen sizes
+```
+
+#### Automated Screenshots
+
+For CI/CD or quick captures without managing the dev server:
+
+```bash
+# Automatically starts dev server, takes screenshot, and cleans up
+pnpm screenshot:auto                      # Theme page
+pnpm screenshot:auto button --dark        # Button in dark mode
+pnpm screenshot:auto --all-viewports      # All viewport sizes
+```
+
+**Options:**
+- `--dark` - Enable dark mode
+- `--mobile` - Use mobile viewport
+- `--full-page` - Capture full page
+- `--all-viewports` - Capture mobile, tablet, and desktop sizes
+
+All screenshots are saved in the gitignored `screenshots/` directory.
+
 ## Available Exports
 
 - **Main export**: Core components and configuration
