@@ -64,11 +64,13 @@
     "clean": "rm -rf dist node_modules"
   },
   "dependencies": {
+    "@iconify-json/material-symbols": "^1.2.12",
     "@iconify-json/svg-spinners": "^1.2.2",
     "@iconify/vue": "^5.0.0",
     "@poupe/tailwindcss": "workspace:^",
     "@poupe/theme-builder": "workspace:^",
     "@unhead/vue": "^2.0.10",
+    "@vueuse/core": "^13.3.0",
     "reka-ui": "2.3.1",
     "tailwind-merge": "^3.3.0",
     "tailwind-scrollbar": "^4.0.2",
