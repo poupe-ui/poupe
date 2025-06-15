@@ -87,6 +87,14 @@ src/
   - Used for visualizing and debugging theme colors
   - Auto-imported by @poupe/nuxt module
 
+### Story Components (Separate Export)
+- **StoryViewer**: Main container for component documentation
+  - Exported via `@poupe/vue/story-viewer`
+  - Responsive sidebar navigation
+  - Supports nested story structure
+- **StorySection**: Content sections with title and description
+- **StoryShowcase**: Flexible layout for displaying component variants
+
 ### Component Patterns
 - Use slots for flexible content composition
 - Implement variant props for different styles

@@ -87,11 +87,33 @@ const inputValue = ref('')
 </script>
 ```
 
+## Story Viewer
+
+The package includes a built-in story viewer for component documentation:
+
+```vue
+<template>
+  <StoryViewer :stories="stories" />
+</template>
+
+<script setup>
+import { StoryViewer } from '@poupe/vue/story-viewer'
+import buttonStories from './components/button.stories.vue'
+import cardStories from './components/card.stories.vue'
+
+const stories = [
+  { name: 'Button', component: buttonStories },
+  { name: 'Card', component: cardStories }
+]
+</script>
+```
+
 ## Available Exports
 
 - **Main export**: Core components and configuration
 - **config**: Theme configuration utilities
 - **resolver**: Component resolving for build tools
+- **story-viewer**: Components viewer
 - **theme-scheme**: Theme visualization component
 
 ### Theme Scheme Component
