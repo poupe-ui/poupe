@@ -119,6 +119,69 @@ Before finishing any task, ALWAYS run:
 - Use `git commit --fixup` for small fixes to existing commits
 - Write clear messages describing actual changes
 - No AI advertising in commit messages
+- Focus commit messages on the final result, not the iterations to get there
+- When creating new files, describe what the file provides, not that it was created
+
+#### Direct Commits (Recommended)
+Always commit files directly without staging to ensure you're
+committing exactly what you intend:
+```bash
+# First write commit message to file using Write tool
+# Then commit specific files directly
+git commit -sF /tmp/commit-msg.txt src/file1.ts src/file2.vue
+
+# For fixup commits
+git commit --fixup=<commit-sha> src/components/story/utils.ts
+```
+
+**Why direct commits?**
+- The stage might contain unexpected changes
+- Ensures you commit only the files you've explicitly reviewed
+- Prevents accidental commits of unrelated changes
+
+#### Clean History with Fixup Commits
+When fixing issues in recent commits:
+1. Make your fix in the relevant files
+2. Create a fixup commit with direct file specification:
+   `git commit --fixup=<commit-sha> <files>`
+3. Rebase with autosquash:
+   `git rebase -i --autosquash <commit-sha>~1`
+4. This maintains a clean history without "fix" commits
+
+Example workflow:
+```bash
+# Fix an issue in commit abc123
+git commit --fixup=abc123 src/components/story/utils.ts
+git rebase -i --autosquash abc123~1
+```
+
+#### Amending Commit Messages
+To improve a commit message while rebasing:
+1. Start interactive rebase: `git rebase -i <commit-sha>~1`
+2. Change 'pick' to 'edit' for the target commit
+3. When rebase pauses:
+   - Write commit message using Write tool: `Write /tmp/commit-msg.txt`
+   - Amend commit: `git commit --amend -sF /tmp/commit-msg.txt`
+4. Continue rebase: `git rebase --continue`
+
+#### Commit Message Guidelines
+- First line: type(scope): brief description (50 chars max)
+- Blank line
+- Body: what and why, not how (wrap at 72 chars)
+- Use bullet points for multiple changes
+- Reference issues/PRs when relevant
+
+Good example:
+```
+feat(vue): add comprehensive button component stories
+
+Create button.stories.ts with complete variant coverage:
+- Surface variants: all Material Design 3 surfaces
+- Size, border, rounded, shadow, and expand variants
+- State variants and real-world combinations
+
+Provides documentation and testing coverage for all button props.
+```
 
 #### Branches
 - NEVER push or delete branches without explicit request
@@ -126,6 +189,7 @@ Before finishing any task, ALWAYS run:
 
 #### Reviews
 - Ensure commit messages reflect final diff, not iterations
+- Keep history clean - squash related changes before review
 
 ## Workspace Dependencies
 
@@ -206,6 +270,8 @@ Each package has its own AGENT.md file with specific details:
 - Test changes thoroughly before considering tasks complete
 - Reference code locations using `file_path:line_number` format
 - Follow the pre-commit checklist strictly
+- Use Write tool for commit messages, not heredocs or echo commands
+- Don't rely on git staging for commits, use direct file references
 
 ## Debugging Tips
 
