@@ -31,6 +31,7 @@ export default defineConfig({
         'config': resolve('src/config/index.ts'),
         'resolver': resolve('src/resolver/index.ts'),
         'theme-scheme': resolve('src/components/theme/index.ts'),
+        'story-viewer': resolve('src/components/story/index.ts'),
       },
     },
     rollupOptions: {

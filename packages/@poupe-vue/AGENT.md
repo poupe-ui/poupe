@@ -87,6 +87,14 @@ src/
   - Used for visualizing and debugging theme colors
   - Auto-imported by @poupe/nuxt module
 
+### Story Components (Separate Export)
+- **StoryViewer**: Main container for component documentation
+  - Exported via `@poupe/vue/story-viewer`
+  - Responsive sidebar navigation
+  - Supports nested story structure
+- **StorySection**: Content sections with title and description
+- **StoryShowcase**: Flexible layout for displaying component variants
+
 ### Component Patterns
 - Use slots for flexible content composition
 - Implement variant props for different styles
@@ -149,6 +157,12 @@ src/
    - `pnpm prepack` runs all validation steps
    - Ensures lint, type-check, test, and build pass
 
+5. **Screenshot helpers**:
+   - `pnpm screenshot` - Manual screenshots (requires running dev server)
+   - `pnpm screenshot:auto` - Automated screenshots with dev server management
+   - Screenshots are saved in gitignored `screenshots/` directory
+   - Supports dark mode, mobile viewport, and multiple screen sizes
+
 ## Build Process
 
 1. Vite compiles TypeScript and Vue components
@@ -169,6 +183,24 @@ src/
 - Override Material Design principles without justification
 - Skip accessibility requirements (ARIA, keyboard navigation)
 - Create components without proper TypeScript interfaces
+
+## Development Tools
+
+### Screenshot Helpers
+
+The package includes Playwright-based screenshot tools for capturing component states:
+
+1. **Manual screenshots** (`pnpm screenshot`):
+   - Requires dev server running separately
+   - Usage: `pnpm screenshot [component] [filename] [options]`
+   - Options: `--dark`, `--mobile`, `--full-page`, `--all-viewports`
+
+2. **Automated screenshots** (`pnpm screenshot:auto`):
+   - Automatically manages dev server lifecycle
+   - Same options as manual tool
+   - Perfect for CI/CD pipelines
+
+All screenshots are saved in the gitignored `screenshots/` directory.
 
 ## Debugging
 

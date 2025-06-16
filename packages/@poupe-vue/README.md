@@ -87,11 +87,71 @@ const inputValue = ref('')
 </script>
 ```
 
+## Story Viewer
+
+The package includes a built-in story viewer for component documentation:
+
+```vue
+<template>
+  <StoryViewer :stories="stories" />
+</template>
+
+<script setup>
+import { StoryViewer } from '@poupe/vue/story-viewer'
+import buttonStories from './components/button.stories.vue'
+import cardStories from './components/card.stories.vue'
+
+const stories = [
+  { name: 'Button', component: buttonStories },
+  { name: 'Card', component: cardStories }
+]
+</script>
+```
+
+## Development Tools
+
+### Screenshot Helpers
+
+The package includes Playwright-based screenshot utilities for capturing component states:
+
+#### Manual Screenshots
+
+```bash
+# Start dev server first
+pnpm dev
+
+# In another terminal, take screenshots
+pnpm screenshot                           # Theme page
+pnpm screenshot button                    # Specific component
+pnpm screenshot theme theme-dark.png --dark     # Dark mode
+pnpm screenshot --all-viewports           # Multiple screen sizes
+```
+
+#### Automated Screenshots
+
+For CI/CD or quick captures without managing the dev server:
+
+```bash
+# Automatically starts dev server, takes screenshot, and cleans up
+pnpm screenshot:auto                      # Theme page
+pnpm screenshot:auto button --dark        # Button in dark mode
+pnpm screenshot:auto --all-viewports      # All viewport sizes
+```
+
+**Options:**
+- `--dark` - Enable dark mode
+- `--mobile` - Use mobile viewport
+- `--full-page` - Capture full page
+- `--all-viewports` - Capture mobile, tablet, and desktop sizes
+
+All screenshots are saved in the gitignored `screenshots/` directory.
+
 ## Available Exports
 
 - **Main export**: Core components and configuration
 - **config**: Theme configuration utilities
 - **resolver**: Component resolving for build tools
+- **story-viewer**: Components viewer
 - **theme-scheme**: Theme visualization component
 
 ### Theme Scheme Component
