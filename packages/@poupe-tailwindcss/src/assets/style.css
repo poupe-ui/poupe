@@ -49,6 +49,7 @@
 
   --color-error: var(--md-error);
   --color-error-container: var(--md-error-container);
+  --color-error-dim: var(--md-error-dim);
   --color-inverse-primary: var(--md-inverse-primary);
   --color-inverse-surface: var(--md-inverse-surface);
   --color-neutral: var(--md-neutral);
@@ -114,6 +115,7 @@
   --color-primary-900: var(--md-primary-900);
   --color-primary-950: var(--md-primary-950);
   --color-primary-container: var(--md-primary-container);
+  --color-primary-dim: var(--md-primary-dim);
   --color-primary-fixed: var(--md-primary-fixed);
   --color-primary-fixed-dim: var(--md-primary-fixed-dim);
   --color-scrim: var(--md-scrim);
@@ -130,6 +132,7 @@
   --color-secondary-900: var(--md-secondary-900);
   --color-secondary-950: var(--md-secondary-950);
   --color-secondary-container: var(--md-secondary-container);
+  --color-secondary-dim: var(--md-secondary-dim);
   --color-secondary-fixed: var(--md-secondary-fixed);
   --color-secondary-fixed-dim: var(--md-secondary-fixed-dim);
   --color-shadow: var(--md-shadow);
@@ -155,6 +158,7 @@
   --color-tertiary-900: var(--md-tertiary-900);
   --color-tertiary-950: var(--md-tertiary-950);
   --color-tertiary-container: var(--md-tertiary-container);
+  --color-tertiary-dim: var(--md-tertiary-dim);
   --color-tertiary-fixed: var(--md-tertiary-fixed);
   --color-tertiary-fixed-dim: var(--md-tertiary-fixed-dim);
 

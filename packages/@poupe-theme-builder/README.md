@@ -4,7 +4,7 @@
 [![npm version][npm-badge]][npm-url]
 [![License: MIT][license-badge]][license-url]
 
-Design token management and theme generation system for Material Design 3
+Design token management and theme generation system for Material Design 2025
 themes with automatic dark mode, CSS variables, and image-based color
 extraction.
 
@@ -30,7 +30,7 @@ extraction.
 
 ## Features
 
-- 🎨 Material Design 3 color system with automatic dark themes
+- 🎨 Material Design 2025 color system with automatic dark themes
 - 🌓 Built-in dark mode support with CSS custom properties
 - 🖼️ Generate color palettes from images using Material algorithms
 - 🔧 Advanced color manipulation utilities (HCT, RGB, HSL, ARGB)
@@ -59,7 +59,7 @@ pnpm add -D @poupe/theme-builder
 ```typescript
 import { makeTheme } from '@poupe/theme-builder'
 
-// Create Material Design 3 theme with color roles
+// Create Material Design 2025 theme with color roles
 const { dark, light } = makeTheme({
   primary: '#1976d2',
   secondary: '#9c27b0',
@@ -67,8 +67,8 @@ const { dark, light } = makeTheme({
 }, 'vibrant', 0.0)
 
 // Access color roles
-console.log(light.primary.value)      // Primary color in light theme
-console.log(dark.onPrimary.value)     // Text color on primary in dark theme
+console.log(light.primary.value)    // Primary color in light theme
+console.log(dark.onPrimary.value)   // Text on primary in dark theme
 ```
 
 ### CSS Theme Generation
@@ -85,7 +85,7 @@ const cssTheme = makeCSSTheme({
   scheme: 'content',
   contrastLevel: 0.5,
   prefix: 'md-',
-  darkMode: ['.dark', 'media'],    // Multiple selectors with aliases
+  darkMode: ['.dark', 'media'],    // Multiple selectors + aliases
   lightMode: '.light',
 })
 
@@ -97,13 +97,13 @@ makeCSSTheme(colors, {
 
 // Advanced selector configuration
 const advancedTheme = makeCSSTheme(colors, {
-  darkMode: ['mobile', '.dark-mode'],   // Mobile screens + custom class
-  lightMode: ['desktop', '.light-mode'], // Desktop + custom class
+  darkMode: ['mobile', '.dark-mode'],    // Mobile + custom class
+  lightMode: ['desktop', '.light-mode'],  // Desktop + custom class
 })
 
 // Use generated CSS variables
-console.log(cssTheme.vars.primary)     // '--md-primary'
-console.log(cssTheme.styles)           // CSS rule objects
+console.log(cssTheme.vars.primary)   // '--md-primary'
+console.log(cssTheme.styles)         // CSS rule objects
 ```
 
 ### Theme from Image
@@ -126,26 +126,28 @@ async function createImageTheme(imageElement: HTMLImageElement) {
 ### Color Manipulation
 
 ```typescript
-import { hct, colord, hexString, makeTonalPalette } from '@poupe/theme-builder/core'
+import {
+  hct, colord, hexString, makeTonalPalette
+} from '@poupe/theme-builder/core'
 
 // HCT color space (Hue, Chroma, Tone)
 const color = hct('#1976d2')
-const lighter = color.withTone(80)     // Lighter variant
-const muted = color.withChroma(30)     // Lower saturation
+const lighter = color.withTone(80)   // Lighter variant
+const muted = color.withChroma(30)   // Lower saturation
 
 // Advanced color utilities
 const c = colord('#1976d2')
-console.log(c.toHsl())                 // HSL representation
-console.log(c.lighten(0.2).toHex())    // Lightened color
+console.log(c.toHsl())               // HSL representation
+console.log(c.lighten(0.2).toHex())  // Lightened color
 
 // Format colors
-console.log(hexString(lighter))        // Convert to hex string
+console.log(hexString(lighter))      // Convert to hex string
 
 // Create tonal palette with full tone range (0-100)
 const palette = makeTonalPalette('#1976d2')
-console.log(palette.tone(50))          // Medium tone
-console.log(palette.tone(90))          // Light tone
-console.log(palette.tone(10))          // Dark tone
+console.log(palette.tone(50))        // Medium tone
+console.log(palette.tone(90))        // Light tone
+console.log(palette.tone(10))        // Dark tone
 
 // Harmonize colors to create cohesive palettes
 const primary = hct('#1976d2')
@@ -257,13 +259,18 @@ const streamingResponse = stringifyCSSRulesArrayAsStreamingResponse([
 
 ## Color System
 
-Material Design 3 color roles and theming:
+Material Design 2025 color roles and theming:
 
-- **Primary**: Main brand color and variants (primary, onPrimary, primaryContainer, onPrimaryContainer)
-- **Secondary**: Supporting colors (secondary, onSecondary, secondaryContainer, onSecondaryContainer)
-- **Tertiary**: Accent colors (tertiary, onTertiary, tertiaryContainer, onTertiaryContainer)
-- **Error**: Error states (error, onError, errorContainer, onErrorContainer)
-- **Neutral**: Surface and outline colors (surface, onSurface, outline, etc.)
+- **Primary**: Main brand color and variants (primary, primaryDim,
+  onPrimary, primaryContainer, onPrimaryContainer)
+- **Secondary**: Supporting colors (secondary, secondaryDim,
+  onSecondary, secondaryContainer, onSecondaryContainer)
+- **Tertiary**: Accent colors (tertiary, tertiaryDim, onTertiary,
+  tertiaryContainer, onTertiaryContainer)
+- **Error**: Error states (error, errorDim, onError, errorContainer,
+  onErrorContainer)
+- **Neutral**: Surface and outline colors (surface, onSurface,
+  outline, etc.)
 
 ```typescript
 const { dark, light } = makeTheme({
@@ -276,8 +283,8 @@ const { dark, light } = makeTheme({
 }, 'content', 0.0)
 
 // Access all color roles
-console.log(light.primaryContainer.value)    // Primary container color
-console.log(dark.onSurfaceVariant.value)     // Text on surface variant
+console.log(light.primaryContainer.value)  // Primary container color
+console.log(dark.onSurfaceVariant.value)   // Text on surface variant
 ```
 
 ## CSS Variables
@@ -288,17 +295,17 @@ Automatic CSS custom property generation:
 const cssTheme = makeCSSTheme({
   primary: '#6750A4',
 }, {
-  prefix: 'md-',           // Variable prefix
-  darkMode: '.dark',       // Dark mode selector
-  lightMode: '.light',     // Light mode selector (optional)
-  darkSuffix: '-dark',     // Dark variable suffix
-  lightSuffix: '-light',   // Light variable suffix
+  prefix: 'md-',         // Variable prefix
+  darkMode: '.dark',     // Dark mode selector
+  lightMode: '.light',   // Light mode selector (optional)
+  darkSuffix: '-dark',   // Dark variable suffix
+  lightSuffix: '-light', // Light variable suffix
 })
 
 // Generated variables
-cssTheme.vars.primary              // '--md-primary'
-cssTheme.vars.onPrimary           // '--md-on-primary'
-cssTheme.styles                   // CSS rule objects
+cssTheme.vars.primary            // '--md-primary'
+cssTheme.vars.onPrimary          // '--md-on-primary'
+cssTheme.styles                  // CSS rule objects
 ```
 
 ## Dark Mode
@@ -344,8 +351,8 @@ The theme builder includes convenient aliases for common media queries:
 ```typescript
 // Using aliases for responsive theming
 const cssTheme = makeCSSTheme(colors, {
-  darkMode: ['dark', 'tablet'],     // Dark mode + tablet screens
-  lightMode: ['light', 'desktop'],  // Light mode + desktop screens
+  darkMode: ['dark', 'tablet'],    // Dark mode + tablet screens
+  lightMode: ['light', 'desktop'], // Light mode + desktop screens
 })
 ```
 

@@ -6,7 +6,7 @@ package. For general monorepo guidelines, see the
 
 ## Package Overview
 
-@poupe/theme-builder is a Material Design 3 theme generation system. It
+@poupe/theme-builder is a Material Design 2025 theme generation system. It
 generates design tokens, handles color extraction from images, manages
 theme variations, and provides runtime theme switching capabilities.
 
@@ -35,7 +35,8 @@ src/
 
 ## Key Features
 
-- **Material Design 3 tokens**: Complete M3 design token generation
+- **Material Design 2025 tokens**: Complete Material Design 2025 token
+  generation with dim color variants
 - **Dynamic color**: Extract colors from images for personalized
   themes
 - **Theme variations**: Support for light/dark modes and color variants
@@ -52,26 +53,32 @@ Exports three entry points via unbuild:
 ## API Overview
 
 ### Core Module (`@poupe/theme-builder`)
-- Theme generation from source colors
-- Design token calculation
+- Theme generation from source colors (Material Design 2025 spec only)
+- Design token calculation with dim color variants
 - CSS variable generation
 - Theme contrast validation
+- Fixed to phone platform and 2025 spec
 
 ### Server Module (`@poupe/theme-builder/server`)
 - Server-side theme generation
 - Image color extraction
 - Theme caching utilities
 - CSS formatting utilities
-  - `stringifyCSSRulesArray`: String format (no trailing newline, optional property normalization)
+  - `stringifyCSSRulesArray`: String format (no trailing newline,
+    optional property normalization)
   - `stringifyCSSRulesArrayStream`: Async generator for streaming
   - `stringifyCSSRulesArrayAsStream`: ReadableStream for edge environments
   - `stringifyCSSRulesArrayAsResponse`: Response object creation
-  - `stringifyCSSRulesArrayAsStreamingResponse`: Streaming Response with ReadableStream
-  - All functions support `normalizeProperties` option for camelCase to kebab-case conversion
+  - `stringifyCSSRulesArrayAsStreamingResponse`: Streaming Response
+    with ReadableStream
+  - All functions support `normalizeProperties` option for camelCase
+    to kebab-case conversion
 
 ## Design Token Categories
 
-- **Color tokens**: Primary, secondary, tertiary, error, neutral
+- **Color tokens**: Primary (with dim variant), secondary (with dim
+  variant), tertiary (with dim variant), error (with dim variant),
+  neutral
 - **Typography tokens**: Type scales and font families
 - **Shape tokens**: Corner radii definitions
 - **Motion tokens**: Animation and transition values
@@ -94,7 +101,7 @@ This package is used by:
 ## Dependencies
 
 - **@poupe/css**: CSS utilities (workspace dependency)
-- **@poupe/material-color-utilities**: Material Design 3 color algorithms
+- **@poupe/material-color-utilities**: Material Design 2025 color algorithms
 - **colord**: Color manipulation and conversion
 - **defu**: Deep object merging
 - **type-fest**: TypeScript type utilities
