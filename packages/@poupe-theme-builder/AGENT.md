@@ -18,6 +18,7 @@ src/
 │   ├── __tests__/   # Core tests
 │   ├── colors.ts    # Color utilities
 │   ├── palettes.ts  # Palette generation
+│   ├── states.ts    # State layer utilities
 │   └── utils.ts     # Core utilities
 ├── css/              # CSS generation utilities
 │   └── css.ts       # CSS output formatting
@@ -28,6 +29,7 @@ src/
 │   ├── colors.ts    # Theme colors
 │   ├── data.ts      # Theme data structures
 │   ├── palettes.ts  # Theme palettes
+│   ├── states.ts    # State color variants
 │   └── theme.ts     # Main theme logic
 ├── from-image.ts    # Image color extraction
 └── index.ts         # Main exports
@@ -42,6 +44,8 @@ src/
 - **Theme variations**: Support for light/dark modes and color variants
 - **Runtime theming**: CSS variable-based theme switching
 - **Type-safe tokens**: Full TypeScript support for design tokens
+- **State layer colors**: Material Design 3 interactive state variants
+  (hover, focus, pressed, dragged, disabled)
 
 ## Build Configuration
 
@@ -58,6 +62,8 @@ Exports three entry points via unbuild:
 - CSS variable generation
 - Theme contrast validation
 - Fixed to phone platform and 2025 spec
+- State layer color generation with M3 opacities
+- CSS color-mix parameter calculation for state colors
 
 ### Server Module (`@poupe/theme-builder/server`)
 - Server-side theme generation
@@ -79,6 +85,12 @@ Exports three entry points via unbuild:
 - **Color tokens**: Primary (with dim variant), secondary (with dim
   variant), tertiary (with dim variant), error (with dim variant),
   neutral
+- **State color tokens**: Interactive state variants for all color roles
+  - Hover (8% opacity)
+  - Focus (12% opacity)
+  - Pressed (12% opacity)
+  - Dragged (16% opacity)
+  - Disabled (12% for containers, 38% for content)
 - **Typography tokens**: Type scales and font families
 - **Shape tokens**: Corner radii definitions
 - **Motion tokens**: Animation and transition values

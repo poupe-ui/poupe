@@ -4,6 +4,10 @@ import {
   TonalPalette,
 } from '../core';
 
+import {
+  type StandardDynamicSchemeKey,
+} from './data';
+
 /**
  * Configuration options for defining a color in a palette.
  */
@@ -52,3 +56,15 @@ export type ThemeColors<K extends string> = Record<K, Color | CustomColorOptions
  * @typeParam K - Custom palette key names
  */
 export type Palettes<K extends string> = CorePalettes & Record<K, TonalPalette>;
+
+/**
+ * Options for theme generation
+ */
+export interface ThemeGenerationOptions {
+  /** Material color scheme to use. Defaults to 'content' */
+  scheme?: StandardDynamicSchemeKey
+  /** Contrast level from -1 (minimum) to 1 (maximum). 0 represents standard. Defaults to 0 */
+  contrastLevel?: number
+  /** Use CSS color-mix() for state colors instead of generating pre-computed variants. Defaults to false */
+  useColorMix?: boolean
+}

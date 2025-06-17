@@ -38,6 +38,7 @@ extraction.
 - 🧩 CSS variables generation for external customization
 - 🎭 Theme scheme variants (vibrant, expressive, content, etc.)
 - 🛠️ Server-side utilities for build-time theme generation
+- 🎯 Material Design 3 state layer colors for interactive states
 
 ## Installation
 
@@ -69,6 +70,16 @@ const { dark, light } = makeTheme({
 // Access color roles
 console.log(light.primary.value)    // Primary color in light theme
 console.log(dark.onPrimary.value)   // Text on primary in dark theme
+
+// Theme with state colors included by default
+console.log(light['primary-hover'])  // Primary hover state
+console.log(dark['on-primary-disabled']) // Disabled text on primary
+
+// Use CSS color-mix() for runtime state color generation
+// Fourth parameter accepts additional theme generation options
+const runtimeTheme = makeTheme({
+  primary: '#1976d2',
+}, 'content', 0.0, { useColorMix: true })
 ```
 
 ### CSS Theme Generation
@@ -154,6 +165,45 @@ const primary = hct('#1976d2')
 const harmonized = makeTonalPalette('#9c27b0', primary)
 ```
 
+### State Layer Colors
+
+Material Design 3 interactive state support:
+
+```typescript
+import {
+  makeStandardStateVariants,
+  getStateColorMixParams,
+  stateLayerOpacities
+} from '@poupe/theme-builder'
+
+// Generate state variants for theme colors
+const theme = makeTheme({ primary: '#6750A4' })
+const stateColors = makeStandardStateVariants(theme.light)
+
+// Access state colors
+console.log(stateColors['primary-hover'])     // 8% opacity
+console.log(stateColors['primary-focus'])     // 12% opacity
+console.log(stateColors['primary-pressed'])   // 12% opacity
+console.log(stateColors['on-primary-disabled']) // 38% opacity
+
+// Get CSS color-mix parameters for dynamic theming
+const params = getStateColorMixParams('primary', 'hover', '--md-')
+// Returns: {
+//   state: 'hover',
+//   baseColor: '--md-primary',
+//   onColor: '--md-on-primary',
+//   opacityPercent: 8
+// }
+
+// Material Design 3 opacity values
+console.log(stateLayerOpacities.hover)    // 0.08
+console.log(stateLayerOpacities.focus)    // 0.12
+console.log(stateLayerOpacities.pressed)  // 0.12
+console.log(stateLayerOpacities.dragged)  // 0.16
+console.log(stateLayerOpacities.disabled) // 0.12
+console.log(stateLayerOpacities.onDisabled) // 0.38
+```
+
 ## API Reference
 
 ### Main Exports
@@ -170,6 +220,10 @@ import {
 
   // Image extraction
   fromImageElement,
+
+  // State layer colors
+  makeStandardStateVariants,
+  makeCustomStateVariants,
 
   // Color utilities (re-exported from core)
   hct,
@@ -198,6 +252,12 @@ import {
   // Color conversion
   argb,
   rgb,
+
+  // State layer utilities
+  stateLayerOpacities,
+  makeStateLayerColors,
+  makeStateVariants,
+  getStateColorMixParams,
 
   // CSS utilities (re-exported)
   formatCSSRules,
@@ -267,7 +327,7 @@ Material Design 2025 color roles and theming:
   onSecondary, secondaryContainer, onSecondaryContainer)
 - **Tertiary**: Accent colors (tertiary, tertiaryDim, onTertiary,
   tertiaryContainer, onTertiaryContainer)
-- **Error**: Error states (error, errorDim, onError, errorContainer,
+- **Error**: Error states (error, onError, errorContainer,
   onErrorContainer)
 - **Neutral**: Surface and outline colors (surface, onSurface,
   outline, etc.)
