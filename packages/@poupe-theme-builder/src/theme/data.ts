@@ -56,6 +56,7 @@ export const standardDynamicColors = {
 
   // primary
   'primary': (ds: DynamicScheme) => ds.primary,
+  'primary-dim': (ds: DynamicScheme) => ds.primaryDim,
   'primary-container': (ds: DynamicScheme) => ds.primaryContainer,
   'primary-fixed': (ds: DynamicScheme) => ds.primaryFixed,
   'primary-fixed-dim': (ds: DynamicScheme) => ds.primaryFixedDim,
@@ -68,6 +69,7 @@ export const standardDynamicColors = {
 
   // secondary
   'secondary': (ds: DynamicScheme) => ds.secondary,
+  'secondary-dim': (ds: DynamicScheme) => ds.secondaryDim,
   'secondary-container': (ds: DynamicScheme) => ds.secondaryContainer,
   'secondary-fixed': (ds: DynamicScheme) => ds.secondaryFixed,
   'secondary-fixed-dim': (ds: DynamicScheme) => ds.secondaryFixedDim,
@@ -79,6 +81,7 @@ export const standardDynamicColors = {
 
   // tertiary
   'tertiary': (ds: DynamicScheme) => ds.tertiary,
+  'tertiary-dim': (ds: DynamicScheme) => ds.tertiaryDim,
   'tertiary-container': (ds: DynamicScheme) => ds.tertiaryContainer,
   'tertiary-fixed': (ds: DynamicScheme) => ds.tertiaryFixed,
   'tertiary-fixed-dim': (ds: DynamicScheme) => ds.tertiaryFixedDim,
@@ -90,6 +93,7 @@ export const standardDynamicColors = {
 
   // error
   'error': (ds: DynamicScheme) => ds.error,
+  'error-dim': (ds: DynamicScheme) => ds.errorDim,
   'error-container': (ds: DynamicScheme) => ds.errorContainer,
   // on-error
   'on-error': (ds: DynamicScheme) => ds.onError,

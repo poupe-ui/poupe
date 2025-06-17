@@ -137,6 +137,7 @@ export function makeCustomColorsFromPalettes<K extends string>(colors: Record<K,
 
 /**
  * Creates a dynamic color scheme based on the provided source color, variant, and other parameters.
+ * Uses Material Design 2025 specification with phone platform.
  *
  * @param source - The source color in HCT color space
  * @param variant - The color scheme to apply
@@ -145,7 +146,13 @@ export function makeCustomColorsFromPalettes<K extends string>(colors: Record<K,
  * @param palettes - Optional color palettes to customize the scheme
  * @returns A configured DynamicScheme instance
  */
-export function makeDynamicScheme(source: Hct, variant: Variant, contrastLevel: number, isDark: boolean, palettes: Partial<CorePalettes> = {}): DynamicScheme {
+export function makeDynamicScheme(
+  source: Hct,
+  variant: Variant,
+  contrastLevel: number,
+  isDark: boolean,
+  palettes: Partial<CorePalettes> = {},
+): DynamicScheme {
   return new DynamicScheme({
     sourceColorHct: source,
     variant,
@@ -157,5 +164,7 @@ export function makeDynamicScheme(source: Hct, variant: Variant, contrastLevel: 
     neutralPalette: palettes.neutral,
     neutralVariantPalette: palettes.neutralVariant,
     errorPalette: palettes.error,
+    specVersion: '2025',
+    platform: 'phone',
   });
 }
