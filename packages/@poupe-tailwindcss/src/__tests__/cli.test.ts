@@ -272,6 +272,72 @@ ${styleContent}`;
     }
   });
 
+  test('state colors are generated in @plugin workflow', async () => {
+    const pluginPath = paths.dist('index.mjs').replaceAll('\\', '/');
+    const inputCSS = `
+@import 'tailwindcss';
+@plugin "${pluginPath}" {
+  primary: #30338f;
+}`;
+
+    // HTML content testing state colors
+    const htmlContent = `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+  <!-- Test base surface colors -->
+  <div class="bg-surface-bright">Surface Bright</div>
+  <div class="interactive-surface-bright">Interactive Surface Bright</div>
+  
+  <!-- Test state color utilities directly -->
+  <div class="bg-surface-bright-hover">Surface Bright Hover</div>
+  <div class="bg-primary-hover">Primary Hover</div>
+  
+  <!-- Test with interactive surface components -->
+  <button class="interactive-surface-primary">Primary Button</button>
+  <button class="interactive-surface-surface-bright">
+    Bright Surface Button
+  </button>
+</body>
+</html>`;
+
+    try {
+      const { css: outputCSS } = await compile(inputCSS, {
+        content: htmlContent,
+        base: process.cwd(),
+      });
+
+      // Verify state color utilities are present
+      expect(outputCSS).toContain('.bg-surface-bright-hover');
+      expect(outputCSS).toContain('.bg-primary-hover');
+
+      // Verify interactive surface components are present
+      expect(outputCSS).toContain('.interactive-surface-bright');
+      expect(outputCSS).toContain('.interactive-surface-primary');
+
+      // Verify the CSS variables are defined in :root
+      expect(outputCSS).toContain(':root');
+      expect(outputCSS).toContain('--md-primary:');
+      expect(outputCSS).toContain('--md-surface-bright:');
+
+      // Verify state color utilities work
+      // (they should reference the theme variables)
+      expect(outputCSS).toMatch(
+        /\.bg-surface-bright-hover\s*\{[^}]*background-color:[^}]*var\(--md-surface-bright-hover\)[^}]*\}/,
+      );
+      expect(outputCSS).toMatch(
+        /\.bg-primary-hover\s*\{[^}]*background-color:[^}]*var\(--md-primary-hover\)[^}]*\}/,
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new TypeError(
+          `State colors test failed: ${error.message}\n${error.stack}`,
+        );
+      }
+      throw error;
+    }
+  });
+
   test('scrim opacity modifiers generate correct CSS with programmatic API', async () => {
     const pluginPath = paths.dist('index.mjs').replaceAll('\\', '/');
     const inputCSS = `

@@ -1,6 +1,11 @@
 import { makeShadows } from './shadows';
 
 import {
+  getInteractiveColors,
+  stateSuffixes,
+} from './theme';
+
+import {
   type Theme,
 } from './types';
 
@@ -47,6 +52,23 @@ export function makeConfig(
   for (const key of theme.keys) {
     const c = theme.colors[key];
     colors[key] = makeConfigColor(key, c.value, c.shades);
+  }
+
+  // Generate state color configs for interactive colors
+  const { themePrefix } = theme.options;
+  const interactiveColors = getInteractiveColors(theme);
+
+  for (const baseColor of interactiveColors) {
+    // Only add state colors if the base color exists
+    if (baseColor in colors) {
+      for (const state of stateSuffixes) {
+        const stateKey = `${baseColor}-${state}`;
+        // Only add if not already defined (in case it has custom shades)
+        if (!(stateKey in colors)) {
+          colors[stateKey] = `var(--${themePrefix}${stateKey})`;
+        }
+      }
+    }
   }
 
   const { boxShadow, dropShadow } = makeConfigShadows(theme);
