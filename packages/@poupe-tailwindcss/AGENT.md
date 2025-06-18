@@ -89,7 +89,7 @@ examples/
 - **IMPROVED**: Configuration-based surface pair generation using pattern
   matching with `{}` placeholders
 - **FIXED**: Interactive surfaces now correctly use `interactive-` prefix
-- Includes transition timing via `--md-state-transition-duration` CSS
+- Includes transition timing with `--md-state-transition-duration` CSS
   variable
 
 ## TailwindCSS v4-to-v3 Bridge Pattern
