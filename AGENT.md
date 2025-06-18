@@ -45,8 +45,7 @@ pnpm clean        # Remove dist/ and node_modules/
 ```bash
 pnpm lint         # Run ESLint with auto-fix
 pnpm type-check   # Check TypeScript types
-pnpm prepack      # Full validation (lint, type-check, test, build,
-                   # publint)
+pnpm prepack      # Full validation (lint, type-check, test, build, publint)
 pnpm publint      # Check package publishing configuration
 ```
 
@@ -77,8 +76,7 @@ ESLint):
 - **Line Length**: Max 78 characters preferred
 - **Comments**: Use TSDoc format for documentation
 - **Module System**: ES modules (`type: "module"`)
-- **Naming**: camelCase for variables/functions, PascalCase for
-  types/interfaces
+- **Naming**: camelCase for variables/functions, PascalCase for types/interfaces
 - **Final Newline**: Always insert
 - **Trailing Whitespace**: Always trim
 
