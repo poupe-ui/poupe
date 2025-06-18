@@ -22,8 +22,11 @@ pnpm preview      # Preview built application (unique to @poupe/vue)
 
 Unlike other packages that use `unbuild`, @poupe/vue uses **Vite** for
 better Vue component handling:
-- Library mode with four entry points: `index`, `config`, `resolver`,
-  `theme-scheme`
+- Library mode with four entry points:
+  - `index`
+  - `config`
+  - `resolver`
+  - `theme-scheme`
 - Vue plugin with DevTools support
 - TypeScript declarations via `vite-plugin-dts`
 - TailwindCSS v4 integration via `@tailwindcss/vite`
@@ -134,8 +137,14 @@ src/
 
 - **Runtime**:
   - Workspace: @poupe/theme-builder, @poupe/tailwindcss
-  - External: vue, @iconify/vue, @unhead/vue, reka-ui, tailwind-merge,
-    tailwind-variants, tailwindcss
+  - External:
+    - vue
+    - @iconify/vue
+    - @unhead/vue
+    - reka-ui
+    - tailwind-merge
+    - tailwind-variants
+    - tailwindcss
 - **Development**: TypeScript, Vite, Vitest, ESLint, Vue Test Utils
 - **Note**: See package.json for specific versions
 
@@ -191,8 +200,7 @@ src/
 
 ### Screenshot Helpers
 
-The package includes Playwright-based screenshot tools for capturing component
-states:
+The package includes Playwright-based screenshot tools for capturing component states:
 
 1. **Manual screenshots** (`pnpm screenshot`):
    - Requires dev server running separately
@@ -208,11 +216,11 @@ All screenshots are saved in the gitignored `screenshots/` directory.
 
 ## Story Components Best Practices
 
-When working with the story viewer components:
+When working with the StoryViewer components:
 
 1. **StoryRenderer**: Uses computed properties for proper reactivity
    - The `:is` directive accepts the computed `componentToRender` property
-   - Handles both component definitions and render functions automatically
+   - Handles both component definitions and render functions automatically.
 
 2. **Creating Stories**: Use the utility functions from `story/utils.ts`
    - `createStory()` for individual component examples
