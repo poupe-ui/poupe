@@ -80,6 +80,64 @@ ESLint):
 - **Final Newline**: Always insert
 - **Trailing Whitespace**: Always trim
 
+## Documentation Formatting Guidelines
+
+Follow these rules for consistent documentation across all AGENT.md and README.md files:
+
+### Lists and Bullets
+- **Entry Points**: Break multi-item lists into sub-bullets for clarity
+  ```markdown
+  # Good
+  - Library mode with four entry points:
+    - `index`
+    - `config`
+    - `resolver`
+    - `theme-scheme`
+  
+  # Avoid
+  - Library mode with four entry points: `index`, `config`, `resolver`, `theme-scheme`
+  ```
+
+- **Dependencies**: Use sub-bullets for better organization
+  ```markdown
+  # Good
+  - **Runtime**:
+    - Workspace: @poupe/theme-builder, @poupe/tailwindcss
+    - External:
+      - vue
+      - @iconify/vue
+      - tailwind-merge
+  
+  # Avoid
+  - **Runtime**: @poupe/theme-builder, @poupe/tailwindcss, vue, @iconify/vue
+  ```
+
+### Line Length and Wrapping
+- **Single Line Descriptions**: Keep descriptions on one line when possible
+  ```markdown
+  # Good
+  - Property normalization with intelligent preservation of selectors
+  
+  # Avoid
+  - Property normalization with intelligent
+    preservation of selectors
+  ```
+
+- **Command Descriptions**: Keep command descriptions on same line
+  ```markdown
+  # Good
+  pnpm prepack  # Full validation (lint, type-check, test, build, publint)
+  
+  # Avoid
+  pnpm prepack  # Full validation (lint, type-check, test, build,
+                # publint)
+  ```
+
+### Consistency
+- **List Item Punctuation**: Be consistent - either use periods for all items or none
+- **Section Headings**: Add blank line after headings before content
+- **Wording**: Prefer "with" over "via" for describing relationships
+
 ## Development Practices
 
 ### Pre-commit Checklist (MANDATORY)
@@ -90,6 +148,7 @@ Before finishing any task, ALWAYS run:
 4. Check IDE diagnostics panel for warnings
 5. Update AGENT.md if guidelines change
 6. Update README.md if public API changes
+7. Review documentation formatting follows guidelines
 
 ### DO:
 - Use workspace protocol (`workspace:^`) for internal dependencies
