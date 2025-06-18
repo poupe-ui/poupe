@@ -38,11 +38,11 @@ import {
 // types
 //
 
-type StandardDynamicColors = { [K in StandardDynamicColorKey]: Hct };
+export type StandardDynamicColors = { [K in StandardDynamicColorKey]: Hct };
 type StandardPaletteColors = { [K in KebabCase<StandardPaletteKey>]: Hct };
 type StandardPalettes = { [K in KebabCase<StandardPaletteKey>]: TonalPalette };
 
-type CustomDynamicColors<T extends string> = { [K in CustomDynamicColorKey<KebabCase<T>>]: Hct };
+export type CustomDynamicColors<T extends string> = { [K in CustomDynamicColorKey<KebabCase<T>>]: Hct };
 
 export function makeStandardColorsFromScheme(scheme: DynamicScheme) {
   const out = {} as StandardDynamicColors;

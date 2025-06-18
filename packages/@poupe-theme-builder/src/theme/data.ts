@@ -93,7 +93,6 @@ export const standardDynamicColors = {
 
   // error
   'error': (ds: DynamicScheme) => ds.error,
-  'error-dim': (ds: DynamicScheme) => ds.errorDim,
   'error-container': (ds: DynamicScheme) => ds.errorContainer,
   // on-error
   'on-error': (ds: DynamicScheme) => ds.onError,

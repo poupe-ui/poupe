@@ -14,7 +14,7 @@ import {
 
   borderVariants,
   borderInFocusVariants,
-  containerVariants,
+  containerInteractiveVariants,
   roundedVariants,
 
   ps, pe, px, py,
@@ -45,12 +45,12 @@ export const inputWrapperVariants = tv({
     ],
     field: 'flex-1',
     start: 'flex items-center',
-    input: 'w-full focus:outline-none',
+    input: 'w-full focus:outline-none bg-transparent',
     unit: 'text-xs font-medium justify-end',
     end: 'flex items-center',
   },
   variants: {
-    surface: onSlot(['wrapper', 'input'], containerVariants),
+    surface: onSlot('wrapper', containerInteractiveVariants),
     border: onSlot('wrapper', borderVariants),
     outline: onSlot('wrapper', borderInFocusVariants),
     rounded: onSlot('wrapper', {

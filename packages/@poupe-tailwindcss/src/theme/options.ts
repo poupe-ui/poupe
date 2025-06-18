@@ -44,6 +44,7 @@ export function withDefaultThemeOptions<K extends string = string>(options: Part
     surfacePrefix: options.surfacePrefix ?? defaultSurfacePrefix,
     omitTheme: options.omitTheme ?? false,
     extendColors: options.extendColors ?? false,
+    useColorMix: options.useColorMix ?? false,
 
     darkSuffix: options.darkSuffix ?? defaultThemeDarkSuffix,
     lightSuffix: options.lightSuffix ?? defaultThemeLightSuffix,

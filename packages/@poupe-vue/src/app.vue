@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useHead } from '@unhead/vue';
 import { useDark, useToggle } from '@vueuse/core';
 
@@ -14,7 +14,8 @@ useHead({
 });
 
 // Page state
-const currentPage = ref<'theme' | 'stories'>('theme');
+type Page = 'theme' | 'stories';
+const currentPage = ref<Page>('theme');
 const fabMenuOpen = ref(false);
 
 // Dark mode with VueUse
@@ -25,6 +26,38 @@ const isDark = useDark({
   valueLight: '',
 });
 const toggleDark = useToggle(isDark);
+
+// Page navigation helpers
+const pageOrder: Page[] = ['theme', 'stories'];
+const togglePage = () => {
+  const currentIndex = pageOrder.indexOf(currentPage.value);
+  const nextIndex = (currentIndex + 1) % pageOrder.length;
+  currentPage.value = pageOrder[nextIndex];
+  fabMenuOpen.value = false;
+};
+
+// Computed properties for page toggle button
+const pageToggleIcon = computed(() => {
+  switch (currentPage.value) {
+    case 'theme':
+      return 'material-symbols:widgets-rounded';
+    case 'stories':
+      return 'material-symbols:palette';
+    default:
+      return 'material-symbols:palette';
+  }
+});
+
+const pageToggleLabel = computed(() => {
+  switch (currentPage.value) {
+    case 'theme':
+      return 'Show Component Stories';
+    case 'stories':
+      return 'Show Theme Colors';
+    default:
+      return 'Toggle Page';
+  }
+});
 </script>
 
 <template>
@@ -45,11 +78,15 @@ const toggleDark = useToggle(isDark);
             rounded="full"
             shadow="z2"
             class="min-w-0 w-12 h-12 p-0 flex items-center justify-center"
-            :aria-label="isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+            :aria-label="isDark
+              ? 'Switch to Light Mode'
+              : 'Switch to Dark Mode'"
             @click="toggleDark()"
           >
             <Icon
-              :icon="isDark ? 'material-symbols:light-mode' : 'material-symbols:dark-mode'"
+              :icon="isDark
+                ? 'material-symbols:light-mode'
+                : 'material-symbols:dark-mode'"
               size="text-xl"
             />
           </Button>
@@ -67,11 +104,11 @@ const toggleDark = useToggle(isDark);
             rounded="full"
             shadow="z2"
             class="min-w-0 w-12 h-12 p-0 flex items-center justify-center"
-            :aria-label="currentPage === 'theme' ? 'Show Component Stories' : 'Show Theme Colors'"
-            @click="currentPage = currentPage === 'theme' ? 'stories' : 'theme'; fabMenuOpen = false"
+            :aria-label="pageToggleLabel"
+            @click="togglePage"
           >
             <Icon
-              :icon="currentPage === 'theme' ? 'material-symbols:widgets-rounded' : 'material-symbols:palette'"
+              :icon="pageToggleIcon"
               size="text-xl"
             />
           </Button>
@@ -89,7 +126,9 @@ const toggleDark = useToggle(isDark);
         @click="fabMenuOpen = !fabMenuOpen"
       >
         <Icon
-          :icon="fabMenuOpen ? 'material-symbols:close' : 'material-symbols:add'"
+          :icon="fabMenuOpen
+            ? 'material-symbols:close'
+            : 'material-symbols:add'"
           size="text-2xl"
           :class="{ 'rotate-45': fabMenuOpen }"
           class="transition-transform duration-200"
@@ -106,7 +145,8 @@ const toggleDark = useToggle(isDark);
       <div
         v-if="currentPage === 'theme'"
         key="theme"
-        class="flex flex-1 justify-center items-center min-h-screen py-4 sm:py-8"
+        class="flex flex-1 justify-center items-center min-h-screen py-4
+          sm:py-8"
       >
         <div class="container px-4 sm:px-6 lg:px-8">
           <Card

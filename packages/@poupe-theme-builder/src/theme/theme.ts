@@ -13,12 +13,18 @@ import {
 } from '../core';
 
 import {
+  type StandardDynamicColors,
   makeCustomColorsFromPalettes,
   makeDynamicScheme,
   makeStandardColorsFromScheme,
   makeStandardPaletteFromScheme,
   makeStandardPaletteKeyColorsFromScheme,
 } from './colors';
+
+import {
+  makeStandardStateVariants,
+  makeCustomStateVariants,
+} from './states';
 
 import {
   type CustomDynamicColorKey,
@@ -40,7 +46,12 @@ import {
 import {
   type ColorOptions,
   type ThemeColors,
+  type ThemeGenerationOptions,
 } from './types';
+
+import {
+  isNonEmpty,
+} from './utils';
 
 /**
  * FlatThemeColors defines the colors of the theme
@@ -96,25 +107,70 @@ export function makeThemeKeys<K extends string>(colors: Partial<ThemeColors<K>>)
  * @param colors - base colors of the theme.
  * @param scheme - Material color scheme to use.
  * @param contrastLevel - contrast level from -1 (minimum) to 1 (maximum). 0 represents standard.
+ * @param extraOptions - Additional theme generation options.
  * @returns dark and light themes.
  */
-export function makeTheme<K extends string>(colors: ThemeColors<K>,
+export function makeTheme<K extends string>(
+  colors: ThemeColors<K>,
   scheme: StandardDynamicSchemeKey = 'content',
   contrastLevel: number = 0,
+  extraOptions?: Partial<ThemeGenerationOptions>,
+) {
+  const options: ThemeGenerationOptions = {
+    scheme,
+    contrastLevel,
+    useColorMix: false,
+    ...extraOptions,
+  };
+
+  return makeThemeWithOptions(colors, options);
+}
+
+function makeThemeWithOptions<K extends string>(
+  colors: ThemeColors<K>,
+  options: ThemeGenerationOptions,
 ) {
   const { source, corePalettes, extraPalettes, colors: colorOptions } = makeThemePalettes(colors);
+  const { contrastLevel = 0, scheme = 'content' } = options;
 
   const variant = standardDynamicSchemes[scheme] || standardDynamicSchemes.content;
   const darkScheme = makeDynamicScheme(source, variant, contrastLevel, true, corePalettes);
   const lightScheme = makeDynamicScheme(source, variant, contrastLevel, false, corePalettes);
 
-  return {
+  const baseResult = {
     source,
     colorOptions,
     darkScheme,
     lightScheme,
     extraPalettes,
     ...makeThemeFromSchemes(darkScheme, lightScheme, extraPalettes),
+  };
+
+  if (options.useColorMix) {
+    return baseResult;
+  }
+
+  // Generate state colors
+  const { dark, light } = baseResult;
+  const darkStateColors = makeStandardStateVariants(dark as StandardDynamicColors);
+  const lightStateColors = makeStandardStateVariants(light as StandardDynamicColors);
+
+  // Add custom state colors if there are extra palettes
+  const darkCustomStateColors = isNonEmpty(extraPalettes) ? makeCustomStateVariants(baseResult.dark) : {};
+  const lightCustomStateColors = isNonEmpty(extraPalettes) ? makeCustomStateVariants(baseResult.light) : {};
+
+  return {
+    ...baseResult,
+    dark: {
+      ...dark,
+      ...darkStateColors,
+      ...darkCustomStateColors,
+    },
+    light: {
+      ...light,
+      ...lightStateColors,
+      ...lightCustomStateColors,
+    },
   };
 }
 

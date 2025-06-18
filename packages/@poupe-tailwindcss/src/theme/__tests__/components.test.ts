@@ -18,7 +18,7 @@ describe('makeThemeComponents', () => {
     const result = makeThemeComponents(theme);
 
     expect(Array.isArray(result)).toBe(true);
-    expect(result).toHaveLength(2);
+    expect(result).toHaveLength(3);
   });
 
   it('should respect tailwindPrefix parameter', () => {
@@ -273,5 +273,49 @@ describe('makeSurfaceName', () => {
   it('should handle edge cases', () => {
     expect(makeSurfaceName('', 'surface-')).toBe('surface-');
     expect(makeSurfaceName('color', 'prefix')).toBe('prefixcolor');
+  });
+});
+
+describe('interactive surface components', () => {
+  it('should apply text opacity of 38% for disabled state', () => {
+    const theme = makeThemeFromPartialOptions({});
+    const components = makeThemeComponents(theme);
+
+    // Components is an array, find the one containing interactive surfaces
+    const interactiveSurfaceGroup = components.find((group) => {
+      return group && typeof group === 'object' && 'interactive-surface-primary' in group;
+    });
+
+    expect(interactiveSurfaceGroup).toBeDefined();
+
+    // Check that disabled state uses opacity modifier
+    const surfacePrimary = interactiveSurfaceGroup!['interactive-surface-primary'];
+    const applyRule = Object.keys(surfacePrimary)[0];
+
+    expect(applyRule).toContain('disabled:text-on-primary/38');
+    expect(applyRule).toContain('disabled:bg-primary-disabled');
+  });
+
+  it('should use opacity modifier for all interactive surfaces with disabled state', () => {
+    const theme = makeThemeFromPartialOptions({});
+    const components = makeThemeComponents(theme);
+
+    // Find the component group containing interactive surfaces
+    const interactiveSurfaceGroup = components.find((group) => {
+      return group && typeof group === 'object' && 'interactive-surface-primary' in group;
+    });
+
+    expect(interactiveSurfaceGroup).toBeDefined();
+
+    // Check various surface types
+    const surfaceTypes = ['primary', 'secondary', 'tertiary', 'surface', 'surface-variant'];
+
+    for (const surfaceType of surfaceTypes) {
+      const componentKey = `interactive-surface-${surfaceType}`;
+      if (interactiveSurfaceGroup![componentKey]) {
+        const applyRule = Object.keys(interactiveSurfaceGroup![componentKey])[0];
+        expect(applyRule).toMatch(/disabled:text-[^/]+\/38/);
+      }
+    }
   });
 });
