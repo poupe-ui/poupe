@@ -112,7 +112,7 @@ function getSurfaceName(bgColor: string, textColor: string): string {
   if (bgColor === 'inverse-surface' && textColor === 'on-inverse-surface') {
     return 'inverse';
   }
-  
+
   // Special naming for inverse-surface + inverse-primary
   if (bgColor === 'inverse-surface' && textColor === 'inverse-primary') {
     return 'inverse-primary';
