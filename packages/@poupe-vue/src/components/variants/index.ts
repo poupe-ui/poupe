@@ -55,38 +55,77 @@ export const shadowVariants = {
 };
 
 export const colorSurfaceVariants = {
-  primary: 'bg-primary text-on-primary border-on-primary',
-  secondary: 'bg-secondary text-on-secondary border-on-secondary',
-  tertiary: 'bg-tertiary text-on-tertiary border-on-tertiary',
-  error: 'bg-error text-on-error border-on-error',
+  primary: 'surface-primary',
+  secondary: 'surface-secondary',
+  tertiary: 'surface-tertiary',
+  error: 'surface-error',
 
-  ['primary-fixed']: 'bg-primary-fixed text-on-primary-fixed border-on-primary-fixed',
-  ['secondary-fixed']: 'bg-secondary-fixed text-on-secondary-fixed border-on-secondary-fixed',
-  ['tertiary-fixed']: 'bg-tertiary-fixed text-on-tertiary-fixed border-on-tertiary-fixed',
+  ['primary-fixed']: 'surface-primary-fixed',
+  ['secondary-fixed']: 'surface-secondary-fixed',
+  ['tertiary-fixed']: 'surface-tertiary-fixed',
 
-  ['primary-container']: 'bg-primary-container text-on-primary-container border-on-primary-container',
-  ['secondary-container']: 'bg-secondary-container text-on-secondary-container border-on-secondary-container',
-  ['tertiary-container']: 'bg-tertiary-container text-on-tertiary-container border-on-tertiary-container',
-  ['error-container']: 'bg-error-container text-on-error-container border-on-error-container',
+  ['primary-container']: 'surface-primary-container',
+  ['secondary-container']: 'surface-secondary-container',
+  ['tertiary-container']: 'surface-tertiary-container',
+  ['error-container']: 'surface-error-container',
 
-  inverse: 'bg-inverse-surface text-on-inverse-surface border-on-inverse-surface',
+  inverse: 'surface-inverse',
+  ['inverse-primary']: 'surface-inverse-primary',
 };
 
 export const surfaceVariants = {
   ...colorSurfaceVariants,
 
-  dim: 'bg-surface-dim text-on-surface-dim border-on-surface-dim',
-  base: 'bg-surface text-on-surface border-on-surface',
-  bright: 'bg-surface-bright text-on-surface-bright border-on-surface-bright',
-  variant: 'bg-surface-variant text-on-surface-variant border-on-surface-variant',
+  dim: 'surface-dim',
+  base: 'surface',
+  bright: 'surface-bright',
+  variant: 'surface-variant',
 };
 
 export const containerVariants = {
   ...colorSurfaceVariants,
 
-  lowest: 'bg-surface-container-lowest text-on-surface-container-lowest border-on-surface-container-lowest',
-  low: 'bg-surface-container-low text-on-surface-container-low border-on-surface-container-low',
-  base: 'bg-surface-container text-on-surface-container border-on-surface-container',
-  high: 'bg-surface-container-high text-on-surface-container-high border-on-surface-container-high',
-  highest: 'bg-surface-container-highest text-on-surface-container-highest border-on-surface-container-highest',
+  lowest: 'surface-container-lowest',
+  low: 'surface-container-low',
+  base: 'surface-container',
+  high: 'surface-container-high',
+  highest: 'surface-container-highest',
+};
+
+export const colorSurfaceInteractiveVariants = {
+  primary: 'interactive-surface-primary',
+  secondary: 'interactive-surface-secondary',
+  tertiary: 'interactive-surface-tertiary',
+  error: 'interactive-surface-error',
+
+  ['primary-fixed']: 'interactive-surface-primary-fixed',
+  ['secondary-fixed']: 'interactive-surface-secondary-fixed',
+  ['tertiary-fixed']: 'interactive-surface-tertiary-fixed',
+
+  ['primary-container']: 'interactive-surface-primary-container',
+  ['secondary-container']: 'interactive-surface-secondary-container',
+  ['tertiary-container']: 'interactive-surface-tertiary-container',
+  ['error-container']: 'interactive-surface-error-container',
+
+  inverse: 'interactive-surface-inverse',
+  ['inverse-primary']: 'interactive-surface-inverse-primary',
+};
+
+export const surfaceInteractiveVariants = {
+  ...colorSurfaceInteractiveVariants,
+
+  dim: 'interactive-surface-dim',
+  base: 'interactive-surface',
+  bright: 'interactive-surface-bright',
+  variant: 'interactive-surface-variant',
+};
+
+export const containerInteractiveVariants = {
+  ...colorSurfaceInteractiveVariants,
+
+  lowest: 'interactive-surface-container-lowest',
+  low: 'interactive-surface-container-low',
+  base: 'interactive-surface-container',
+  high: 'interactive-surface-container-high',
+  highest: 'interactive-surface-container-highest',
 };

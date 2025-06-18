@@ -22,7 +22,8 @@ pnpm preview      # Preview built application (unique to @poupe/vue)
 
 Unlike other packages that use `unbuild`, @poupe/vue uses **Vite** for
 better Vue component handling:
-- Library mode with four entry points: `index`, `config`, `resolver`, `theme-scheme`
+- Library mode with four entry points: `index`, `config`, `resolver`,
+  `theme-scheme`
 - Vue plugin with DevTools support
 - TypeScript declarations via `vite-plugin-dts`
 - TailwindCSS v4 integration via `@tailwindcss/vite`
@@ -70,15 +71,16 @@ src/
 - Use TailwindCSS v4 with @poupe/tailwindcss plugin
 - Leverage the variant system for component variations
 - Use surface utilities for background/text color pairing
+- Use interactive-surface-* utilities for MD3 state layers
 - Apply Material Design elevation shadows (z1-z5)
 
 ## Key Components
 
 ### Current Components
-- **PButton**: Material Design 3 button with multiple variants
-- **PCard**: Content container with header/footer slots
+- **PButton**: Material Design 3 button with interactive states
+- **PCard**: Content container with optional interactive states
 - **PIcon**: Icon wrapper component
-- **PInput**: Form input wrapper with label support
+- **PInput**: Form input wrapper with interactive states
 - **PPlaceholder**: Development placeholder component
 
 ### Theme Components (Separate Export)
@@ -130,9 +132,10 @@ src/
 
 ## Dependencies
 
-- **Runtime**: 
+- **Runtime**:
   - Workspace: @poupe/theme-builder, @poupe/tailwindcss
-  - External: vue, @iconify/vue, @unhead/vue, reka-ui, tailwind-merge, tailwind-variants, tailwindcss
+  - External: vue, @iconify/vue, @unhead/vue, reka-ui, tailwind-merge,
+    tailwind-variants, tailwindcss
 - **Development**: TypeScript, Vite, Vitest, ESLint, Vue Test Utils
 - **Note**: See package.json for specific versions
 
@@ -188,7 +191,8 @@ src/
 
 ### Screenshot Helpers
 
-The package includes Playwright-based screenshot tools for capturing component states:
+The package includes Playwright-based screenshot tools for capturing component
+states:
 
 1. **Manual screenshots** (`pnpm screenshot`):
    - Requires dev server running separately
@@ -202,11 +206,29 @@ The package includes Playwright-based screenshot tools for capturing component s
 
 All screenshots are saved in the gitignored `screenshots/` directory.
 
+## Story Components Best Practices
+
+When working with the story viewer components:
+
+1. **StoryRenderer**: Uses computed properties for proper reactivity
+   - The `:is` directive accepts the computed `componentToRender` property
+   - Handles both component definitions and render functions automatically
+
+2. **Creating Stories**: Use the utility functions from `story/utils.ts`
+   - `createStory()` for individual component examples
+   - `createStoryGroup()` for organizing related examples
+
+3. **Interactive States**: All components should support MD3 state layers
+   - Use `containerInteractiveVariants` for interactive components
+   - Include hover, focus, pressed, and disabled states
+   - Transition timing uses `--md-state-transition-duration` CSS variable
+
 ## Debugging
 
 - **ESLint issues**: `DEBUG=eslint:eslint pnpm lint`
 - **Type errors**: Check `tsconfig.json` settings
 - **Build issues**: Run `pnpm clean` then rebuild
 - **Test failures**: Use `--reporter=verbose` flag
+- **Story viewer issues**: Check browser console for render errors
 
 

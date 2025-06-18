@@ -5,6 +5,7 @@ import {
 
   onSlot,
   containerVariants,
+  containerInteractiveVariants,
   roundedVariants,
   shadowVariants,
 } from './variants';
@@ -17,6 +18,12 @@ const card = tv({
     rounded: onSlot('wrapper', roundedVariants),
     shadow: onSlot('wrapper', shadowVariants),
     surface: onSlot('wrapper', containerVariants),
+    interactive: {
+      true: {
+        wrapper: 'cursor-pointer',
+      },
+      false: {},
+    },
   },
 });
 
@@ -29,6 +36,7 @@ export interface CardProps {
   rounded?: CardVariantProps['rounded']
   shadow?: CardVariantProps['shadow']
   surface?: CardVariantProps['surface']
+  interactive?: CardVariantProps['interactive']
 };
 </script>
 
@@ -42,16 +50,32 @@ const props = withDefaults(defineProps<CardProps>(), {
   rounded: 'xl' as const,
   shadow: 'none' as const,
   surface: 'high' as const,
+  interactive: false,
 });
 
-const variants = computed(() => card({
-  rounded: props.rounded,
-  shadow: props.shadow,
-  surface: props.surface,
-}));
+const variants = computed(() => {
+  const baseVariants = card({
+    rounded: props.rounded,
+    shadow: props.shadow,
+    surface: props.surface,
+    interactive: props.interactive,
+  });
+
+  // If interactive, use the interactive surface variant
+  if (props.interactive && props.surface
+    && containerInteractiveVariants[props.surface]) {
+    return {
+      wrapper: () => `${baseVariants.wrapper()} ${
+        containerInteractiveVariants[props.surface]}`,
+    };
+  }
+
+  return baseVariants;
+});
 
 const slots = useSlots();
-const hasHeader = computed<boolean>(() => props.title !== undefined || slots.header !== undefined);
+const hasHeader = computed<boolean>(() => props.title !== undefined
+  || slots.header !== undefined);
 const hasFooter = computed<boolean>(() => slots.footer !== undefined);
 </script>
 

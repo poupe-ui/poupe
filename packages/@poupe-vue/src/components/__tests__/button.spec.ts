@@ -79,7 +79,7 @@ describe('Button', () => {
     const wrapper = mount(Button, {
       props: { surface: 'primary' },
     });
-    expect(wrapper.classes()).toContain('bg-primary');
+    expect(wrapper.classes()).toContain('interactive-surface-primary');
   });
 
   it('should expand when expand prop is true', () => {
@@ -112,7 +112,7 @@ describe('Button', () => {
     expect(wrapper.classes()).toContain('border-primary');
     expect(wrapper.classes()).toContain('rounded-lg');
     expect(wrapper.classes()).toContain('shadow-z1');
-    expect(wrapper.classes()).toContain('bg-primary');
+    expect(wrapper.classes()).toContain('interactive-surface-primary');
     expect(wrapper.classes()).toContain('w-full');
   });
 });

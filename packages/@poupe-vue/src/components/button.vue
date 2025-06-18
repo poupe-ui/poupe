@@ -11,7 +11,7 @@ import {
   borderVariants,
   roundedVariants,
   shadowVariants,
-  containerVariants,
+  containerInteractiveVariants,
 } from './variants';
 
 const sizeVariantProps = {
@@ -30,7 +30,7 @@ const button = tv({
     ],
   },
   variants: {
-    surface: onSlot('wrapper', containerVariants),
+    surface: onSlot('wrapper', containerInteractiveVariants),
     border: onSlot('wrapper', borderVariants),
     rounded: onSlot('wrapper', roundedVariants),
     shadow: onSlot('wrapper', shadowVariants),

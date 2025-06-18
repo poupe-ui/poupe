@@ -10,11 +10,12 @@ and accessibility support.
 ## Features
 
 - 🧩 Feature-rich Vue 3 component library
-- 🎨 Built-in theme customization
+- 🎨 Built-in theme customization with Material Design 3
 - ♿ Strong focus on accessibility
 - 🌓 Dark/light mode theming
 - 🔧 Fully typed with TypeScript
 - 📱 Responsive design out of the box
+- ✨ Interactive state layers (hover, focus, pressed, disabled)
 
 ## Installation
 
@@ -112,7 +113,8 @@ const stories = [
 
 ### Screenshot Helpers
 
-The package includes Playwright-based screenshot utilities for capturing component states:
+The package includes Playwright-based screenshot utilities for capturing
+component states:
 
 #### Manual Screenshots
 
