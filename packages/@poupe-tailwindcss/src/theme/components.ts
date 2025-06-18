@@ -1,4 +1,8 @@
 import {
+  stateLayerOpacities,
+} from '@poupe/theme-builder';
+
+import {
   type Theme,
   defaultSurfacePrefix,
 } from './types';
@@ -14,6 +18,7 @@ export const DEFAULT_SCRIM_OPACITY = '32%';
 export function makeThemeComponents(theme: Readonly<Theme>, tailwindPrefix: string = ''): Record<string, CSSRuleObject>[] {
   return [
     makeSurfaceComponents(theme, tailwindPrefix),
+    makeInteractiveSurfaceComponents(theme, tailwindPrefix),
     makeZIndexComponents(theme),
   ];
 }
@@ -54,40 +59,194 @@ export function makeZIndexComponents(theme: Readonly<Theme>): Record<string, CSS
 }
 
 /**
- * Generates a composite surface name by finding the unique parts between
- * background and text color names for special fixed color combinations.
+ * Configuration for special surface color pairings using patterns
+ * `{}` will be replaced with the color name (primary, secondary, tertiary, etc.)
+ * Each entry maps a background pattern to an array of text color patterns
+ *
+ * Pattern types determine which colors to expand:
+ * - 'standard': primary, secondary, tertiary only (Material Design core colors)
+ * - 'fixed': primary, secondary, tertiary only (fixed color variants)
+ * - 'static': no pattern expansion (like inverse-surface)
+ *
+ * Note: Custom colors (blue, green, orange, etc.) get standard pairings
+ * automatically through the first loop in findSurfacePairs()
  */
-function generateCompositeSurfaceName(baseKey: string, bgName: string, textName: string): string {
-  // Find the common prefix between the background and text colors
-  // Remove 'on-' prefix from text color for comparison
-  const textWithoutOn = textName.startsWith('on-') ? textName.slice(3) : textName;
+const SURFACE_PAIRING_PATTERNS: Record<string, { patterns: string[]; type: 'standard' | 'fixed' | 'static' }> = {
+  // Dim variants (Material Design 2025) - use standard on-color
+  '{}-dim': {
+    patterns: ['on-{}'],
+    type: 'standard',
+  },
 
-  // Split both names into parts
-  const bgParts = bgName.split('-');
-  const textParts = textWithoutOn.split('-');
+  // Fixed color pairings - {} replaced with primary/secondary/tertiary
+  '{}-fixed': {
+    patterns: ['on-{}-fixed', 'on-{}-fixed-variant'],
+    type: 'fixed',
+  },
+  '{}-fixed-dim': {
+    patterns: ['on-{}-fixed', 'on-{}-fixed-variant'],
+    type: 'fixed',
+  },
 
-  // Find common prefix parts
-  let commonParts = 0;
-  for (let i = 0; i < Math.min(bgParts.length, textParts.length); i++) {
-    if (bgParts[i] === textParts[i]) {
-      commonParts++;
+  // Inverse surface (no pattern needed)
+  'inverse-surface': {
+    patterns: ['on-inverse-surface', 'inverse-primary'],
+    type: 'static',
+  },
+};
+
+/**
+ * Represents a surface pair configuration
+ */
+interface SurfacePair {
+  bgColor: string
+  textColor: string
+  surfaceName: string
+}
+
+/**
+ * Generates the surface name for a color pair
+ */
+function getSurfaceName(bgColor: string, textColor: string): string {
+  // Special naming for inverse-surface + on-inverse-surface (standard inverse)
+  if (bgColor === 'inverse-surface' && textColor === 'on-inverse-surface') {
+    return 'inverse';
+  }
+  
+  // Special naming for inverse-surface + inverse-primary
+  if (bgColor === 'inverse-surface' && textColor === 'inverse-primary') {
+    return 'inverse-primary';
+  }
+
+  // Special naming for fixed color variants
+  if ((bgColor.endsWith('-fixed') || bgColor.endsWith('-fixed-dim')) && textColor.endsWith('-fixed-variant')) {
+    // Extract the unique part from text color
+    const prefix = textColor.replace(/-fixed-variant$/, '').replace(/^on-/, '');
+    const bgSuffix = bgColor.endsWith('-dim') ? '-dim' : '';
+    return `${prefix}-fixed${bgSuffix}-variant`;
+  }
+
+  // Default: just use the background color name
+  return bgColor;
+}
+
+/**
+ * Adds a surface pair to the map with the appropriate key
+ */
+function addSurfacePair(
+  pairs: Map<string, SurfacePair>,
+  bgColor: string,
+  textColor: string,
+): void {
+  const surfaceName = getSurfaceName(bgColor, textColor);
+  const key = textColor === `on-${bgColor}` ? bgColor : `${bgColor}:${textColor}`;
+  pairs.set(key, {
+    bgColor,
+    textColor,
+    surfaceName,
+  });
+}
+
+/**
+ * Finds standard color pairs (color + on-color, including containers)
+ */
+function findStandardPairs(theme: Readonly<Theme>, pairs: Map<string, SurfacePair>): void {
+  for (const name of theme.keys) {
+    const onName = `on-${name}`;
+    if (theme.colors[name] && theme.colors[onName]) {
+      addSurfacePair(pairs, name, onName);
+    }
+  }
+}
+
+/**
+ * Processes static surface patterns (non-expandable like inverse-surface)
+ */
+function processStaticPattern(
+  theme: Readonly<Theme>,
+  pairs: Map<string, SurfacePair>,
+  bgPattern: string,
+  textPatterns: string[],
+): void {
+  if (!theme.colors[bgPattern]) return;
+
+  for (const textPattern of textPatterns) {
+    if (theme.colors[textPattern]) {
+      addSurfacePair(pairs, bgPattern, textPattern);
+    }
+  }
+}
+
+/**
+ * Checks if a color key is a base color (not on-*, *-container, etc.)
+ */
+function isBaseColor(colorKey: string): boolean {
+  return !colorKey.includes('-') && !colorKey.startsWith('on-');
+}
+
+/**
+ * Checks if a color should be processed for the given pattern type
+ */
+function shouldProcessColor(colorKey: string, type: 'standard' | 'fixed'): boolean {
+  if (type === 'fixed' || type === 'standard') {
+    return ['primary', 'secondary', 'tertiary'].includes(colorKey);
+  }
+  return true;
+}
+
+/**
+ * Expands pattern-based surface pairings
+ */
+function expandPatternPairings(
+  theme: Readonly<Theme>,
+  pairs: Map<string, SurfacePair>,
+  bgPattern: string,
+  textPatterns: string[],
+  type: 'standard' | 'fixed',
+): void {
+  for (const colorKey of theme.keys) {
+    // Skip if it's not a base color
+    if (!isBaseColor(colorKey)) continue;
+
+    const bg = bgPattern.replace('{}', colorKey);
+
+    // Check if this specific pattern exists in the theme
+    if (!theme.colors[bg]) continue;
+
+    // Check if this color should be processed for this pattern type
+    if (!shouldProcessColor(colorKey, type)) continue;
+
+    // Try each text pattern
+    for (const textPattern of textPatterns) {
+      const text = textPattern.replace('{}', colorKey);
+      if (theme.colors[text]) {
+        addSurfacePair(pairs, bg, text);
+      }
+    }
+  }
+}
+
+/**
+ * Finds all valid surface color pairs in the theme
+ */
+function findSurfacePairs(theme: Readonly<Theme>): Map<string, SurfacePair> {
+  const pairs = new Map<string, SurfacePair>();
+
+  // First, find all standard pairs (color + on-color)
+  findStandardPairs(theme, pairs);
+
+  // Then, expand pattern-based pairings
+  for (const [bgPattern, config] of Object.entries(SURFACE_PAIRING_PATTERNS)) {
+    const { patterns: textPatterns, type } = config;
+
+    if (type === 'static') {
+      processStaticPattern(theme, pairs, bgPattern, textPatterns);
     } else {
-      break;
+      expandPatternPairings(theme, pairs, bgPattern, textPatterns, type);
     }
   }
 
-  // Get the unique parts from both colors
-  const bgSuffix = bgParts.slice(commonParts).join('-');
-  const textSuffix = textParts.slice(commonParts).join('-');
-
-  // Build the surface name with both unique parts
-  if (bgSuffix && textSuffix) {
-    return `${baseKey}-${textSuffix}`;
-  } else if (textSuffix) {
-    return `${baseKey}-${textSuffix}`;
-  }
-  // If only bgSuffix exists, baseKey already contains it
-  return baseKey;
+  return pairs;
 }
 
 export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: string = ''): Record<string, CSSRuleObject> {
@@ -96,49 +255,18 @@ export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: st
     return {};
   }
 
-  // find surface pairs
-  const pairs = new Map<string, string>();
-  for (const name of theme.keys) {
-    if (theme.colors[name] && theme.colors[`on-${name}`]) {
-      pairs.set(name, `on-${name}`);
-    }
-  }
-
-  // Handle special fixed color combinations
-  // Each fixed background (primary-fixed, primary-fixed-dim) can pair with
-  // each fixed text variant (on-primary-fixed, on-primary-fixed-variant)
-  const fixedPrefixes = ['primary', 'secondary', 'tertiary'];
-
-  for (const prefix of fixedPrefixes) {
-    const backgrounds = [`${prefix}-fixed`, `${prefix}-fixed-dim`];
-    const texts = [`on-${prefix}-fixed`, `on-${prefix}-fixed-variant`];
-
-    // Create all combinations for fixed colors
-    for (const bg of backgrounds) {
-      for (const text of texts) {
-        if (theme.colors[bg] && theme.colors[text]) {
-          // Use a composite key to avoid overwriting the standard pair
-          const key = bg + ':' + text;
-          pairs.set(key, text);
-        }
-      }
-    }
-  }
+  const pairs = findSurfacePairs(theme);
 
   const surfaces: Record<string, CSSRuleObject> = {};
 
   const [bgPrefix, textPrefix] = ['bg-', 'text-'].map(prefix => `${tailwindPrefix}${prefix}`);
-  for (const [nameKey, onName] of pairs) {
-    // Handle composite keys for special combinations
-    const name = nameKey.includes(':') ? nameKey.split(':')[0] : nameKey;
-    const { key, value } = assembleSurfaceComponent(name, onName, bgPrefix, textPrefix, surfacePrefix);
 
-    // For composite keys, create unique surface names by finding what's different
-    let surfaceKey = key;
-    if (nameKey.includes(':')) {
-      surfaceKey = generateCompositeSurfaceName(key, name, onName);
-    }
+  for (const pair of pairs.values()) {
+    const { bgColor, textColor, surfaceName } = pair;
+    const { value } = assembleSurfaceComponent(bgColor, textColor, bgPrefix, textPrefix, surfacePrefix);
 
+    // Use the preferred surface name from the pair
+    const surfaceKey = makeSurfaceName(surfaceName, surfacePrefix);
     surfaces[surfaceKey] = value;
   }
 
@@ -190,9 +318,158 @@ export function assembleSurfaceComponent(
  * @returns A surface name that avoids prefix duplication
  */
 export function makeSurfaceName(colorName: string, prefix: string): string {
+  // Special case for inverse in interactive context - maintain consistency
+  if (colorName === 'inverse' && prefix === 'interactive-surface-') {
+    return 'interactive-surface-inverse';
+  }
+
   if (colorName.startsWith(prefix) || `${colorName}-` === prefix) {
     // prevent duplication
     return colorName;
   }
+
+  // Use the component name generator logic to avoid duplicates
+  if (prefix.endsWith('-')) {
+    const prefixParts = prefix.slice(0, -1).split('-');
+    const colorParts = colorName.split('-');
+
+    // Find common parts to avoid duplication
+    let commonParts = 0;
+    for (let i = 0; i < Math.min(prefixParts.length, colorParts.length); i++) {
+      if (prefixParts[prefixParts.length - 1 - i] === colorParts[i]) {
+        commonParts++;
+      } else {
+        break;
+      }
+    }
+
+    if (commonParts > 0) {
+      // Remove common parts from the beginning of colorName
+      const uniqueParts = colorParts.slice(commonParts).join('-');
+      if (uniqueParts) {
+        return `${prefix}${uniqueParts}`;
+      }
+      // If all parts are common, just use the prefix without dash
+      return prefix.slice(0, -1);
+    }
+  }
+
   return `${prefix}${colorName}`;
+}
+
+/**
+ * Checks if a color should have interactive states
+ */
+function isInteractiveColor(theme: Readonly<Theme>, colorName: string): boolean {
+  // Interactive colors that always have state variants in MD3
+  const knownInteractiveColors = new Set([
+    'primary', 'secondary', 'tertiary', 'error',
+    'surface', 'surface-dim', 'surface-bright', 'surface-variant',
+    'surface-container', 'surface-container-lowest',
+    'surface-container-low', 'surface-container-high',
+    'surface-container-highest', 'inverse-surface',
+    'primary-container', 'secondary-container',
+    'tertiary-container', 'error-container',
+    'primary-fixed', 'secondary-fixed', 'tertiary-fixed',
+  ]);
+
+  // Include custom palette colors from theme
+  for (const key of theme.paletteKeys) {
+    knownInteractiveColors.add(key);
+    knownInteractiveColors.add(`${key}-container`);
+    knownInteractiveColors.add(`${key}-fixed`);
+  }
+
+  // Check if it's a known interactive color or has state variants defined
+  return knownInteractiveColors.has(colorName)
+    || theme.keys.includes(`${colorName}-hover`)
+    || theme.keys.includes(`${colorName}-focus`)
+    || theme.keys.includes(`${colorName}-pressed`)
+    || theme.keys.includes(`${colorName}-disabled`);
+}
+
+/**
+ * Generates interactive surface components that combine base surface colors
+ * with their Material Design 3 state layers (hover, focus, pressed, disabled).
+ */
+export function makeInteractiveSurfaceComponents(
+  theme: Readonly<Theme>,
+  tailwindPrefix: string = '',
+): Record<string, CSSRuleObject> {
+  const { themePrefix } = theme.options;
+
+  const interactiveSurfaces: Record<string, CSSRuleObject> = {};
+
+  // Find all surface pairs that have interactive states
+  const pairs = findSurfacePairs(theme);
+  const interactivePairs: SurfacePair[] = [];
+
+  // Filter pairs to only include those with interactive states
+  for (const pair of pairs.values()) {
+    if (isInteractiveColor(theme, pair.bgColor)) {
+      interactivePairs.push(pair);
+    }
+  }
+
+  const [bgPrefix, textPrefix, borderPrefix] = ['bg-', 'text-', 'border-']
+    .map(prefix => `${tailwindPrefix}${prefix}`);
+
+  // Calculate disabled text opacity once
+  const onDisabledOpacity = Math.round(stateLayerOpacities.onDisabled * 100);
+
+  for (const pair of interactivePairs) {
+    const { bgColor, textColor, surfaceName } = pair;
+
+    // Generate the interactive surface name
+    const interactiveSurfaceName = makeSurfaceName(surfaceName, 'interactive-surface-');
+
+    // Build the interactive surface utility
+    const stateClasses: string[] = [
+      `${bgPrefix}${bgColor}`,
+      `${textPrefix}${textColor}`,
+      `${borderPrefix}${textColor}`,
+    ];
+
+    // Add hover state (only background changes)
+    if (isInteractiveColor(theme, bgColor) || theme.keys.includes(`${bgColor}-hover`)) {
+      stateClasses.push(`hover:${bgPrefix}${bgColor}-hover`);
+    }
+
+    // Add focus states (only background changes)
+    if (isInteractiveColor(theme, bgColor) || theme.keys.includes(`${bgColor}-focus`)) {
+      stateClasses.push(
+        `focus:${bgPrefix}${bgColor}-focus`,
+        `focus-visible:${bgPrefix}${bgColor}-focus`,
+        `focus-within:${bgPrefix}${bgColor}-focus`,
+      );
+    }
+
+    // Add pressed/active state (only background changes)
+    if (isInteractiveColor(theme, bgColor) || theme.keys.includes(`${bgColor}-pressed`)) {
+      stateClasses.push(`active:${bgPrefix}${bgColor}-pressed`);
+    }
+
+    // Add disabled state
+    const hasDisabledBg = isInteractiveColor(theme, bgColor)
+      || theme.keys.includes(`${bgColor}-disabled`);
+
+    if (hasDisabledBg) {
+      stateClasses.push(
+        `disabled:${bgPrefix}${bgColor}-disabled`,
+        `disabled:${textPrefix}${textColor}/${onDisabledOpacity}`,
+      );
+    }
+
+    // Add transition for smooth state changes
+    stateClasses.push('transition-colors',
+      `duration-[var(--${themePrefix}state-transition-duration,150ms)]`,
+    );
+
+    interactiveSurfaces[interactiveSurfaceName] = {
+      [`@apply ${stateClasses.join(' ')}`]: {},
+    };
+  }
+
+  debugLog(theme.options.debug, 'interactive-surfaces', interactiveSurfaces);
+  return interactiveSurfaces;
 }

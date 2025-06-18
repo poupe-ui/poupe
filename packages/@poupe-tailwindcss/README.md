@@ -142,7 +142,8 @@ Usage:
 /* Override any variables as needed */
 ```
 
-**Note**: These CSS files contain TailwindCSS v4 directives (@theme, @utility) and must be used together with TailwindCSS base styles.
+**Note**: These CSS files contain TailwindCSS v4 directives (@theme,
+@utility) and must be used together with TailwindCSS base styles.
 
 Shadow utilities:
 
@@ -204,11 +205,14 @@ All scrim utilities support Tailwind's opacity modifier syntax:
 - Arbitrary z-index with opacity: `scrim-[100]/25`
 
 **Technical Implementation:**
-- Uses `--md-scrim-rgb` variable (following the same pattern as `--md-shadow-rgb`)
+- Uses `--md-scrim-rgb` variable (following the same pattern as
+  `--md-shadow-rgb`)
 - TailwindCSS v4 `--modifier([percentage])` for capturing modifier values
-- CSS custom properties enable dynamic opacity: `var(--md-scrim-opacity, 32%)`
+- CSS custom properties enable dynamic opacity:
+  `var(--md-scrim-opacity, 32%)`
 - Automatic theme switching for scrim colors in dark/light modes
-- Bridge pattern converts v4 syntax to v3 matchUtilities for broad compatibility
+- Bridge pattern converts v4 syntax to v3 matchUtilities for broad
+  compatibility
 
 ### Programmatic Theme Generation
 
@@ -296,7 +300,8 @@ Material Design 3 elevation system with 5 z-levels:
 - **z4**: Important modal windows
 - **z5**: Critical/focused elements
 
-Shadow utilities use `--md-shadow-rgb` variable for customization, while scrim utilities use `--md-scrim-rgb`:
+Shadow utilities use `--md-shadow-rgb` variable for customization, while
+scrim utilities use `--md-scrim-rgb`:
 
 ```css
 --shadow-z1: 0 1px 4px 0 rgba(var(--md-shadow-rgb), 0.37);
@@ -327,10 +332,47 @@ Component utilities with background + text color and proper contrast:
 
 <!-- Fixed color combinations -->
 <div class="surface-primary-fixed">Fixed background with on-fixed text</div>
-<div class="surface-primary-fixed-variant">Fixed background with variant text</div>
-<div class="surface-primary-fixed-dim">Dim fixed background with on-fixed text</div>
-<div class="surface-primary-fixed-dim-variant">Dim fixed with variant text</div>
+<div class="surface-primary-fixed-variant">
+  Fixed background with variant text
+</div>
+<div class="surface-primary-fixed-dim">
+  Dim fixed background with on-fixed text
+</div>
+<div class="surface-primary-fixed-dim-variant">
+  Dim fixed with variant text
+</div>
 ```
+
+### Interactive Surface Components
+
+Interactive surface utilities combine surface styling with Material Design 3
+state layer support. They automatically include hover, focus, and pressed
+states with proper transition timing:
+
+```html
+<!-- Interactive surfaces with built-in state layers -->
+<button class="interactive-surface-primary">Primary Interactive</button>
+<button class="interactive-surface-secondary">Secondary Interactive</button>
+<button class="interactive-surface-tertiary">Tertiary Interactive</button>
+
+<!-- Container variants with interaction states -->
+<div class="interactive-surface-container-lowest">Interactive Lowest</div>
+<div class="interactive-surface-container">Interactive Standard</div>
+<div class="interactive-surface-container-highest">Interactive Highest</div>
+
+<!-- Special interactive surfaces -->
+<button class="interactive-surface-inverse-primary">Inverse Primary</button>
+<button class="interactive-surface-error">Error Interactive</button>
+
+<!-- Fixed color interactive surfaces -->
+<button class="interactive-surface-primary-fixed">Fixed Interactive</button>
+```
+
+Interactive surfaces include:
+- **Automatic state layers**: hover, focus, and pressed states
+- **Smooth transitions**: Uses `--md-state-transition-duration` CSS variable
+- **Proper contrast**: Maintains accessible text/background combinations
+- **All surface variants**: Available for every standard surface utility
 
 ## Dark Mode
 

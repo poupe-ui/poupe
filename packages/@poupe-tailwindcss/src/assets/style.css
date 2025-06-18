@@ -35,6 +35,146 @@
     --md-z-scrim-system: var(--md-z-scrim-system, 1450);
     --md-shadow-rgb: var(--md-shadow-rgb, from var(--md-shadow) r g b);
     --md-scrim-rgb: var(--md-scrim-rgb, from var(--md-scrim) r g b);
+    --md-primary-hover: var(--md-primary-hover, color-mix(in srgb, var(--md-primary) 8%, var(--md-on-primary)));
+    --md-primary-focus: var(--md-primary-focus, color-mix(in srgb, var(--md-primary) 12%, var(--md-on-primary)));
+    --md-primary-pressed: var(--md-primary-pressed, color-mix(in srgb, var(--md-primary) 12%, var(--md-on-primary)));
+    --md-primary-dragged: var(--md-primary-dragged, color-mix(in srgb, var(--md-primary) 16%, var(--md-on-primary)));
+    --md-primary-disabled: var(--md-primary-disabled, color-mix(in srgb, var(--md-primary) 12%, var(--md-on-primary)));
+    --md-secondary-hover: var(--md-secondary-hover, color-mix(in srgb, var(--md-secondary) 8%, var(--md-on-secondary)));
+    --md-secondary-focus: var(--md-secondary-focus, color-mix(in srgb, var(--md-secondary) 12%, var(--md-on-secondary)));
+    --md-secondary-pressed: var(--md-secondary-pressed, color-mix(in srgb, var(--md-secondary) 12%, var(--md-on-secondary)));
+    --md-secondary-dragged: var(--md-secondary-dragged, color-mix(in srgb, var(--md-secondary) 16%, var(--md-on-secondary)));
+    --md-secondary-disabled: var(--md-secondary-disabled, color-mix(in srgb, var(--md-secondary) 12%, var(--md-on-secondary)));
+    --md-tertiary-hover: var(--md-tertiary-hover, color-mix(in srgb, var(--md-tertiary) 8%, var(--md-on-tertiary)));
+    --md-tertiary-focus: var(--md-tertiary-focus, color-mix(in srgb, var(--md-tertiary) 12%, var(--md-on-tertiary)));
+    --md-tertiary-pressed: var(--md-tertiary-pressed, color-mix(in srgb, var(--md-tertiary) 12%, var(--md-on-tertiary)));
+    --md-tertiary-dragged: var(--md-tertiary-dragged, color-mix(in srgb, var(--md-tertiary) 16%, var(--md-on-tertiary)));
+    --md-tertiary-disabled: var(--md-tertiary-disabled, color-mix(in srgb, var(--md-tertiary) 12%, var(--md-on-tertiary)));
+    --md-error-hover: var(--md-error-hover, color-mix(in srgb, var(--md-error) 8%, var(--md-on-error)));
+    --md-error-focus: var(--md-error-focus, color-mix(in srgb, var(--md-error) 12%, var(--md-on-error)));
+    --md-error-pressed: var(--md-error-pressed, color-mix(in srgb, var(--md-error) 12%, var(--md-on-error)));
+    --md-error-dragged: var(--md-error-dragged, color-mix(in srgb, var(--md-error) 16%, var(--md-on-error)));
+    --md-error-disabled: var(--md-error-disabled, color-mix(in srgb, var(--md-error) 12%, var(--md-on-error)));
+    --md-surface-hover: var(--md-surface-hover, color-mix(in srgb, var(--md-surface) 8%, var(--md-on-surface)));
+    --md-surface-focus: var(--md-surface-focus, color-mix(in srgb, var(--md-surface) 12%, var(--md-on-surface)));
+    --md-surface-pressed: var(--md-surface-pressed, color-mix(in srgb, var(--md-surface) 12%, var(--md-on-surface)));
+    --md-surface-dragged: var(--md-surface-dragged, color-mix(in srgb, var(--md-surface) 16%, var(--md-on-surface)));
+    --md-surface-disabled: var(--md-surface-disabled, color-mix(in srgb, var(--md-surface) 12%, var(--md-on-surface)));
+    --md-surface-dim-hover: var(--md-surface-dim-hover, color-mix(in srgb, var(--md-surface-dim) 8%, var(--md-on-surface-dim)));
+    --md-surface-dim-focus: var(--md-surface-dim-focus, color-mix(in srgb, var(--md-surface-dim) 12%, var(--md-on-surface-dim)));
+    --md-surface-dim-pressed: var(--md-surface-dim-pressed, color-mix(in srgb, var(--md-surface-dim) 12%, var(--md-on-surface-dim)));
+    --md-surface-dim-dragged: var(--md-surface-dim-dragged, color-mix(in srgb, var(--md-surface-dim) 16%, var(--md-on-surface-dim)));
+    --md-surface-dim-disabled: var(--md-surface-dim-disabled, color-mix(in srgb, var(--md-surface-dim) 12%, var(--md-on-surface-dim)));
+    --md-surface-bright-hover: var(--md-surface-bright-hover, color-mix(in srgb, var(--md-surface-bright) 8%, var(--md-on-surface-bright)));
+    --md-surface-bright-focus: var(--md-surface-bright-focus, color-mix(in srgb, var(--md-surface-bright) 12%, var(--md-on-surface-bright)));
+    --md-surface-bright-pressed: var(--md-surface-bright-pressed, color-mix(in srgb, var(--md-surface-bright) 12%, var(--md-on-surface-bright)));
+    --md-surface-bright-dragged: var(--md-surface-bright-dragged, color-mix(in srgb, var(--md-surface-bright) 16%, var(--md-on-surface-bright)));
+    --md-surface-bright-disabled: var(--md-surface-bright-disabled, color-mix(in srgb, var(--md-surface-bright) 12%, var(--md-on-surface-bright)));
+    --md-surface-variant-hover: var(--md-surface-variant-hover, color-mix(in srgb, var(--md-surface-variant) 8%, var(--md-on-surface-variant)));
+    --md-surface-variant-focus: var(--md-surface-variant-focus, color-mix(in srgb, var(--md-surface-variant) 12%, var(--md-on-surface-variant)));
+    --md-surface-variant-pressed: var(--md-surface-variant-pressed, color-mix(in srgb, var(--md-surface-variant) 12%, var(--md-on-surface-variant)));
+    --md-surface-variant-dragged: var(--md-surface-variant-dragged, color-mix(in srgb, var(--md-surface-variant) 16%, var(--md-on-surface-variant)));
+    --md-surface-variant-disabled: var(--md-surface-variant-disabled, color-mix(in srgb, var(--md-surface-variant) 12%, var(--md-on-surface-variant)));
+    --md-surface-container-hover: var(--md-surface-container-hover, color-mix(in srgb, var(--md-surface-container) 8%, var(--md-on-surface-container)));
+    --md-surface-container-focus: var(--md-surface-container-focus, color-mix(in srgb, var(--md-surface-container) 12%, var(--md-on-surface-container)));
+    --md-surface-container-pressed: var(--md-surface-container-pressed, color-mix(in srgb, var(--md-surface-container) 12%, var(--md-on-surface-container)));
+    --md-surface-container-dragged: var(--md-surface-container-dragged, color-mix(in srgb, var(--md-surface-container) 16%, var(--md-on-surface-container)));
+    --md-surface-container-disabled: var(--md-surface-container-disabled, color-mix(in srgb, var(--md-surface-container) 12%, var(--md-on-surface-container)));
+    --md-surface-container-lowest-hover: var(--md-surface-container-lowest-hover, color-mix(in srgb, var(--md-surface-container-lowest) 8%, var(--md-on-surface-container-lowest)));
+    --md-surface-container-lowest-focus: var(--md-surface-container-lowest-focus, color-mix(in srgb, var(--md-surface-container-lowest) 12%, var(--md-on-surface-container-lowest)));
+    --md-surface-container-lowest-pressed: var(--md-surface-container-lowest-pressed, color-mix(in srgb, var(--md-surface-container-lowest) 12%, var(--md-on-surface-container-lowest)));
+    --md-surface-container-lowest-dragged: var(--md-surface-container-lowest-dragged, color-mix(in srgb, var(--md-surface-container-lowest) 16%, var(--md-on-surface-container-lowest)));
+    --md-surface-container-lowest-disabled: var(--md-surface-container-lowest-disabled, color-mix(in srgb, var(--md-surface-container-lowest) 12%, var(--md-on-surface-container-lowest)));
+    --md-surface-container-low-hover: var(--md-surface-container-low-hover, color-mix(in srgb, var(--md-surface-container-low) 8%, var(--md-on-surface-container-low)));
+    --md-surface-container-low-focus: var(--md-surface-container-low-focus, color-mix(in srgb, var(--md-surface-container-low) 12%, var(--md-on-surface-container-low)));
+    --md-surface-container-low-pressed: var(--md-surface-container-low-pressed, color-mix(in srgb, var(--md-surface-container-low) 12%, var(--md-on-surface-container-low)));
+    --md-surface-container-low-dragged: var(--md-surface-container-low-dragged, color-mix(in srgb, var(--md-surface-container-low) 16%, var(--md-on-surface-container-low)));
+    --md-surface-container-low-disabled: var(--md-surface-container-low-disabled, color-mix(in srgb, var(--md-surface-container-low) 12%, var(--md-on-surface-container-low)));
+    --md-surface-container-high-hover: var(--md-surface-container-high-hover, color-mix(in srgb, var(--md-surface-container-high) 8%, var(--md-on-surface-container-high)));
+    --md-surface-container-high-focus: var(--md-surface-container-high-focus, color-mix(in srgb, var(--md-surface-container-high) 12%, var(--md-on-surface-container-high)));
+    --md-surface-container-high-pressed: var(--md-surface-container-high-pressed, color-mix(in srgb, var(--md-surface-container-high) 12%, var(--md-on-surface-container-high)));
+    --md-surface-container-high-dragged: var(--md-surface-container-high-dragged, color-mix(in srgb, var(--md-surface-container-high) 16%, var(--md-on-surface-container-high)));
+    --md-surface-container-high-disabled: var(--md-surface-container-high-disabled, color-mix(in srgb, var(--md-surface-container-high) 12%, var(--md-on-surface-container-high)));
+    --md-surface-container-highest-hover: var(--md-surface-container-highest-hover, color-mix(in srgb, var(--md-surface-container-highest) 8%, var(--md-on-surface-container-highest)));
+    --md-surface-container-highest-focus: var(--md-surface-container-highest-focus, color-mix(in srgb, var(--md-surface-container-highest) 12%, var(--md-on-surface-container-highest)));
+    --md-surface-container-highest-pressed: var(--md-surface-container-highest-pressed, color-mix(in srgb, var(--md-surface-container-highest) 12%, var(--md-on-surface-container-highest)));
+    --md-surface-container-highest-dragged: var(--md-surface-container-highest-dragged, color-mix(in srgb, var(--md-surface-container-highest) 16%, var(--md-on-surface-container-highest)));
+    --md-surface-container-highest-disabled: var(--md-surface-container-highest-disabled, color-mix(in srgb, var(--md-surface-container-highest) 12%, var(--md-on-surface-container-highest)));
+    --md-primary-container-hover: var(--md-primary-container-hover, color-mix(in srgb, var(--md-primary-container) 8%, var(--md-on-primary-container)));
+    --md-primary-container-focus: var(--md-primary-container-focus, color-mix(in srgb, var(--md-primary-container) 12%, var(--md-on-primary-container)));
+    --md-primary-container-pressed: var(--md-primary-container-pressed, color-mix(in srgb, var(--md-primary-container) 12%, var(--md-on-primary-container)));
+    --md-primary-container-dragged: var(--md-primary-container-dragged, color-mix(in srgb, var(--md-primary-container) 16%, var(--md-on-primary-container)));
+    --md-primary-container-disabled: var(--md-primary-container-disabled, color-mix(in srgb, var(--md-primary-container) 12%, var(--md-on-primary-container)));
+    --md-secondary-container-hover: var(--md-secondary-container-hover, color-mix(in srgb, var(--md-secondary-container) 8%, var(--md-on-secondary-container)));
+    --md-secondary-container-focus: var(--md-secondary-container-focus, color-mix(in srgb, var(--md-secondary-container) 12%, var(--md-on-secondary-container)));
+    --md-secondary-container-pressed: var(--md-secondary-container-pressed, color-mix(in srgb, var(--md-secondary-container) 12%, var(--md-on-secondary-container)));
+    --md-secondary-container-dragged: var(--md-secondary-container-dragged, color-mix(in srgb, var(--md-secondary-container) 16%, var(--md-on-secondary-container)));
+    --md-secondary-container-disabled: var(--md-secondary-container-disabled, color-mix(in srgb, var(--md-secondary-container) 12%, var(--md-on-secondary-container)));
+    --md-tertiary-container-hover: var(--md-tertiary-container-hover, color-mix(in srgb, var(--md-tertiary-container) 8%, var(--md-on-tertiary-container)));
+    --md-tertiary-container-focus: var(--md-tertiary-container-focus, color-mix(in srgb, var(--md-tertiary-container) 12%, var(--md-on-tertiary-container)));
+    --md-tertiary-container-pressed: var(--md-tertiary-container-pressed, color-mix(in srgb, var(--md-tertiary-container) 12%, var(--md-on-tertiary-container)));
+    --md-tertiary-container-dragged: var(--md-tertiary-container-dragged, color-mix(in srgb, var(--md-tertiary-container) 16%, var(--md-on-tertiary-container)));
+    --md-tertiary-container-disabled: var(--md-tertiary-container-disabled, color-mix(in srgb, var(--md-tertiary-container) 12%, var(--md-on-tertiary-container)));
+    --md-error-container-hover: var(--md-error-container-hover, color-mix(in srgb, var(--md-error-container) 8%, var(--md-on-error-container)));
+    --md-error-container-focus: var(--md-error-container-focus, color-mix(in srgb, var(--md-error-container) 12%, var(--md-on-error-container)));
+    --md-error-container-pressed: var(--md-error-container-pressed, color-mix(in srgb, var(--md-error-container) 12%, var(--md-on-error-container)));
+    --md-error-container-dragged: var(--md-error-container-dragged, color-mix(in srgb, var(--md-error-container) 16%, var(--md-on-error-container)));
+    --md-error-container-disabled: var(--md-error-container-disabled, color-mix(in srgb, var(--md-error-container) 12%, var(--md-on-error-container)));
+    --md-primary-fixed-hover: var(--md-primary-fixed-hover, color-mix(in srgb, var(--md-primary-fixed) 8%, var(--md-on-primary-fixed)));
+    --md-primary-fixed-focus: var(--md-primary-fixed-focus, color-mix(in srgb, var(--md-primary-fixed) 12%, var(--md-on-primary-fixed)));
+    --md-primary-fixed-pressed: var(--md-primary-fixed-pressed, color-mix(in srgb, var(--md-primary-fixed) 12%, var(--md-on-primary-fixed)));
+    --md-primary-fixed-dragged: var(--md-primary-fixed-dragged, color-mix(in srgb, var(--md-primary-fixed) 16%, var(--md-on-primary-fixed)));
+    --md-primary-fixed-disabled: var(--md-primary-fixed-disabled, color-mix(in srgb, var(--md-primary-fixed) 12%, var(--md-on-primary-fixed)));
+    --md-secondary-fixed-hover: var(--md-secondary-fixed-hover, color-mix(in srgb, var(--md-secondary-fixed) 8%, var(--md-on-secondary-fixed)));
+    --md-secondary-fixed-focus: var(--md-secondary-fixed-focus, color-mix(in srgb, var(--md-secondary-fixed) 12%, var(--md-on-secondary-fixed)));
+    --md-secondary-fixed-pressed: var(--md-secondary-fixed-pressed, color-mix(in srgb, var(--md-secondary-fixed) 12%, var(--md-on-secondary-fixed)));
+    --md-secondary-fixed-dragged: var(--md-secondary-fixed-dragged, color-mix(in srgb, var(--md-secondary-fixed) 16%, var(--md-on-secondary-fixed)));
+    --md-secondary-fixed-disabled: var(--md-secondary-fixed-disabled, color-mix(in srgb, var(--md-secondary-fixed) 12%, var(--md-on-secondary-fixed)));
+    --md-tertiary-fixed-hover: var(--md-tertiary-fixed-hover, color-mix(in srgb, var(--md-tertiary-fixed) 8%, var(--md-on-tertiary-fixed)));
+    --md-tertiary-fixed-focus: var(--md-tertiary-fixed-focus, color-mix(in srgb, var(--md-tertiary-fixed) 12%, var(--md-on-tertiary-fixed)));
+    --md-tertiary-fixed-pressed: var(--md-tertiary-fixed-pressed, color-mix(in srgb, var(--md-tertiary-fixed) 12%, var(--md-on-tertiary-fixed)));
+    --md-tertiary-fixed-dragged: var(--md-tertiary-fixed-dragged, color-mix(in srgb, var(--md-tertiary-fixed) 16%, var(--md-on-tertiary-fixed)));
+    --md-tertiary-fixed-disabled: var(--md-tertiary-fixed-disabled, color-mix(in srgb, var(--md-tertiary-fixed) 12%, var(--md-on-tertiary-fixed)));
+    --md-primary-fixed-dim-hover: var(--md-primary-fixed-dim-hover, color-mix(in srgb, var(--md-primary-fixed-dim) 8%, var(--md-on-primary-fixed-dim)));
+    --md-primary-fixed-dim-focus: var(--md-primary-fixed-dim-focus, color-mix(in srgb, var(--md-primary-fixed-dim) 12%, var(--md-on-primary-fixed-dim)));
+    --md-primary-fixed-dim-pressed: var(--md-primary-fixed-dim-pressed, color-mix(in srgb, var(--md-primary-fixed-dim) 12%, var(--md-on-primary-fixed-dim)));
+    --md-primary-fixed-dim-dragged: var(--md-primary-fixed-dim-dragged, color-mix(in srgb, var(--md-primary-fixed-dim) 16%, var(--md-on-primary-fixed-dim)));
+    --md-primary-fixed-dim-disabled: var(--md-primary-fixed-dim-disabled, color-mix(in srgb, var(--md-primary-fixed-dim) 12%, var(--md-on-primary-fixed-dim)));
+    --md-secondary-fixed-dim-hover: var(--md-secondary-fixed-dim-hover, color-mix(in srgb, var(--md-secondary-fixed-dim) 8%, var(--md-on-secondary-fixed-dim)));
+    --md-secondary-fixed-dim-focus: var(--md-secondary-fixed-dim-focus, color-mix(in srgb, var(--md-secondary-fixed-dim) 12%, var(--md-on-secondary-fixed-dim)));
+    --md-secondary-fixed-dim-pressed: var(--md-secondary-fixed-dim-pressed, color-mix(in srgb, var(--md-secondary-fixed-dim) 12%, var(--md-on-secondary-fixed-dim)));
+    --md-secondary-fixed-dim-dragged: var(--md-secondary-fixed-dim-dragged, color-mix(in srgb, var(--md-secondary-fixed-dim) 16%, var(--md-on-secondary-fixed-dim)));
+    --md-secondary-fixed-dim-disabled: var(--md-secondary-fixed-dim-disabled, color-mix(in srgb, var(--md-secondary-fixed-dim) 12%, var(--md-on-secondary-fixed-dim)));
+    --md-tertiary-fixed-dim-hover: var(--md-tertiary-fixed-dim-hover, color-mix(in srgb, var(--md-tertiary-fixed-dim) 8%, var(--md-on-tertiary-fixed-dim)));
+    --md-tertiary-fixed-dim-focus: var(--md-tertiary-fixed-dim-focus, color-mix(in srgb, var(--md-tertiary-fixed-dim) 12%, var(--md-on-tertiary-fixed-dim)));
+    --md-tertiary-fixed-dim-pressed: var(--md-tertiary-fixed-dim-pressed, color-mix(in srgb, var(--md-tertiary-fixed-dim) 12%, var(--md-on-tertiary-fixed-dim)));
+    --md-tertiary-fixed-dim-dragged: var(--md-tertiary-fixed-dim-dragged, color-mix(in srgb, var(--md-tertiary-fixed-dim) 16%, var(--md-on-tertiary-fixed-dim)));
+    --md-tertiary-fixed-dim-disabled: var(--md-tertiary-fixed-dim-disabled, color-mix(in srgb, var(--md-tertiary-fixed-dim) 12%, var(--md-on-tertiary-fixed-dim)));
+    --md-inverse-surface-hover: var(--md-inverse-surface-hover, color-mix(in srgb, var(--md-inverse-surface) 8%, var(--md-on-inverse-surface)));
+    --md-inverse-surface-focus: var(--md-inverse-surface-focus, color-mix(in srgb, var(--md-inverse-surface) 12%, var(--md-on-inverse-surface)));
+    --md-inverse-surface-pressed: var(--md-inverse-surface-pressed, color-mix(in srgb, var(--md-inverse-surface) 12%, var(--md-on-inverse-surface)));
+    --md-inverse-surface-dragged: var(--md-inverse-surface-dragged, color-mix(in srgb, var(--md-inverse-surface) 16%, var(--md-on-inverse-surface)));
+    --md-inverse-surface-disabled: var(--md-inverse-surface-disabled, color-mix(in srgb, var(--md-inverse-surface) 12%, var(--md-on-inverse-surface)));
+    --md-neutral-hover: var(--md-neutral-hover, color-mix(in srgb, var(--md-neutral) 8%, var(--md-on-neutral)));
+    --md-neutral-focus: var(--md-neutral-focus, color-mix(in srgb, var(--md-neutral) 12%, var(--md-on-neutral)));
+    --md-neutral-pressed: var(--md-neutral-pressed, color-mix(in srgb, var(--md-neutral) 12%, var(--md-on-neutral)));
+    --md-neutral-dragged: var(--md-neutral-dragged, color-mix(in srgb, var(--md-neutral) 16%, var(--md-on-neutral)));
+    --md-neutral-disabled: var(--md-neutral-disabled, color-mix(in srgb, var(--md-neutral) 12%, var(--md-on-neutral)));
+    --md-neutral-container-hover: var(--md-neutral-container-hover, color-mix(in srgb, var(--md-neutral-container) 8%, var(--md-on-neutral-container)));
+    --md-neutral-container-focus: var(--md-neutral-container-focus, color-mix(in srgb, var(--md-neutral-container) 12%, var(--md-on-neutral-container)));
+    --md-neutral-container-pressed: var(--md-neutral-container-pressed, color-mix(in srgb, var(--md-neutral-container) 12%, var(--md-on-neutral-container)));
+    --md-neutral-container-dragged: var(--md-neutral-container-dragged, color-mix(in srgb, var(--md-neutral-container) 16%, var(--md-on-neutral-container)));
+    --md-neutral-container-disabled: var(--md-neutral-container-disabled, color-mix(in srgb, var(--md-neutral-container) 12%, var(--md-on-neutral-container)));
+    --md-neutral-variant-hover: var(--md-neutral-variant-hover, color-mix(in srgb, var(--md-neutral-variant) 8%, var(--md-on-neutral-variant)));
+    --md-neutral-variant-focus: var(--md-neutral-variant-focus, color-mix(in srgb, var(--md-neutral-variant) 12%, var(--md-on-neutral-variant)));
+    --md-neutral-variant-pressed: var(--md-neutral-variant-pressed, color-mix(in srgb, var(--md-neutral-variant) 12%, var(--md-on-neutral-variant)));
+    --md-neutral-variant-dragged: var(--md-neutral-variant-dragged, color-mix(in srgb, var(--md-neutral-variant) 16%, var(--md-on-neutral-variant)));
+    --md-neutral-variant-disabled: var(--md-neutral-variant-disabled, color-mix(in srgb, var(--md-neutral-variant) 12%, var(--md-on-neutral-variant)));
+    --md-neutral-variant-container-hover: var(--md-neutral-variant-container-hover, color-mix(in srgb, var(--md-neutral-variant-container) 8%, var(--md-on-neutral-variant-container)));
+    --md-neutral-variant-container-focus: var(--md-neutral-variant-container-focus, color-mix(in srgb, var(--md-neutral-variant-container) 12%, var(--md-on-neutral-variant-container)));
+    --md-neutral-variant-container-pressed: var(--md-neutral-variant-container-pressed, color-mix(in srgb, var(--md-neutral-variant-container) 12%, var(--md-on-neutral-variant-container)));
+    --md-neutral-variant-container-dragged: var(--md-neutral-variant-container-dragged, color-mix(in srgb, var(--md-neutral-variant-container) 16%, var(--md-on-neutral-variant-container)));
+    --md-neutral-variant-container-disabled: var(--md-neutral-variant-container-disabled, color-mix(in srgb, var(--md-neutral-variant-container) 12%, var(--md-on-neutral-variant-container)));
   }
 }
 
@@ -49,8 +189,23 @@
 
   --color-error: var(--md-error);
   --color-error-container: var(--md-error-container);
+  --color-error-container-disabled: var(--md-error-container-disabled);
+  --color-error-container-dragged: var(--md-error-container-dragged);
+  --color-error-container-focus: var(--md-error-container-focus);
+  --color-error-container-hover: var(--md-error-container-hover);
+  --color-error-container-pressed: var(--md-error-container-pressed);
+  --color-error-disabled: var(--md-error-disabled);
+  --color-error-dragged: var(--md-error-dragged);
+  --color-error-focus: var(--md-error-focus);
+  --color-error-hover: var(--md-error-hover);
+  --color-error-pressed: var(--md-error-pressed);
   --color-inverse-primary: var(--md-inverse-primary);
   --color-inverse-surface: var(--md-inverse-surface);
+  --color-inverse-surface-disabled: var(--md-inverse-surface-disabled);
+  --color-inverse-surface-dragged: var(--md-inverse-surface-dragged);
+  --color-inverse-surface-focus: var(--md-inverse-surface-focus);
+  --color-inverse-surface-hover: var(--md-inverse-surface-hover);
+  --color-inverse-surface-pressed: var(--md-inverse-surface-pressed);
   --color-neutral: var(--md-neutral);
   --color-neutral-50: var(--md-neutral-50);
   --color-neutral-100: var(--md-neutral-100);
@@ -63,6 +218,11 @@
   --color-neutral-800: var(--md-neutral-800);
   --color-neutral-900: var(--md-neutral-900);
   --color-neutral-950: var(--md-neutral-950);
+  --color-neutral-disabled: var(--md-neutral-disabled);
+  --color-neutral-dragged: var(--md-neutral-dragged);
+  --color-neutral-focus: var(--md-neutral-focus);
+  --color-neutral-hover: var(--md-neutral-hover);
+  --color-neutral-pressed: var(--md-neutral-pressed);
   --color-neutral-variant: var(--md-neutral-variant);
   --color-neutral-variant-50: var(--md-neutral-variant-50);
   --color-neutral-variant-100: var(--md-neutral-variant-100);
@@ -75,6 +235,11 @@
   --color-neutral-variant-800: var(--md-neutral-variant-800);
   --color-neutral-variant-900: var(--md-neutral-variant-900);
   --color-neutral-variant-950: var(--md-neutral-variant-950);
+  --color-neutral-variant-disabled: var(--md-neutral-variant-disabled);
+  --color-neutral-variant-dragged: var(--md-neutral-variant-dragged);
+  --color-neutral-variant-focus: var(--md-neutral-variant-focus);
+  --color-neutral-variant-hover: var(--md-neutral-variant-hover);
+  --color-neutral-variant-pressed: var(--md-neutral-variant-pressed);
   --color-on-error: var(--md-on-error);
   --color-on-error-container: var(--md-on-error-container);
   --color-on-inverse-surface: var(--md-on-inverse-surface);
@@ -114,9 +279,29 @@
   --color-primary-900: var(--md-primary-900);
   --color-primary-950: var(--md-primary-950);
   --color-primary-container: var(--md-primary-container);
+  --color-primary-container-disabled: var(--md-primary-container-disabled);
+  --color-primary-container-dragged: var(--md-primary-container-dragged);
+  --color-primary-container-focus: var(--md-primary-container-focus);
+  --color-primary-container-hover: var(--md-primary-container-hover);
+  --color-primary-container-pressed: var(--md-primary-container-pressed);
   --color-primary-dim: var(--md-primary-dim);
+  --color-primary-disabled: var(--md-primary-disabled);
+  --color-primary-dragged: var(--md-primary-dragged);
   --color-primary-fixed: var(--md-primary-fixed);
   --color-primary-fixed-dim: var(--md-primary-fixed-dim);
+  --color-primary-fixed-dim-disabled: var(--md-primary-fixed-dim-disabled);
+  --color-primary-fixed-dim-dragged: var(--md-primary-fixed-dim-dragged);
+  --color-primary-fixed-dim-focus: var(--md-primary-fixed-dim-focus);
+  --color-primary-fixed-dim-hover: var(--md-primary-fixed-dim-hover);
+  --color-primary-fixed-dim-pressed: var(--md-primary-fixed-dim-pressed);
+  --color-primary-fixed-disabled: var(--md-primary-fixed-disabled);
+  --color-primary-fixed-dragged: var(--md-primary-fixed-dragged);
+  --color-primary-fixed-focus: var(--md-primary-fixed-focus);
+  --color-primary-fixed-hover: var(--md-primary-fixed-hover);
+  --color-primary-fixed-pressed: var(--md-primary-fixed-pressed);
+  --color-primary-focus: var(--md-primary-focus);
+  --color-primary-hover: var(--md-primary-hover);
+  --color-primary-pressed: var(--md-primary-pressed);
   --color-scrim: var(--md-scrim);
   --color-secondary: var(--md-secondary);
   --color-secondary-50: var(--md-secondary-50);
@@ -131,19 +316,84 @@
   --color-secondary-900: var(--md-secondary-900);
   --color-secondary-950: var(--md-secondary-950);
   --color-secondary-container: var(--md-secondary-container);
+  --color-secondary-container-disabled: var(--md-secondary-container-disabled);
+  --color-secondary-container-dragged: var(--md-secondary-container-dragged);
+  --color-secondary-container-focus: var(--md-secondary-container-focus);
+  --color-secondary-container-hover: var(--md-secondary-container-hover);
+  --color-secondary-container-pressed: var(--md-secondary-container-pressed);
   --color-secondary-dim: var(--md-secondary-dim);
+  --color-secondary-disabled: var(--md-secondary-disabled);
+  --color-secondary-dragged: var(--md-secondary-dragged);
   --color-secondary-fixed: var(--md-secondary-fixed);
   --color-secondary-fixed-dim: var(--md-secondary-fixed-dim);
+  --color-secondary-fixed-dim-disabled: var(--md-secondary-fixed-dim-disabled);
+  --color-secondary-fixed-dim-dragged: var(--md-secondary-fixed-dim-dragged);
+  --color-secondary-fixed-dim-focus: var(--md-secondary-fixed-dim-focus);
+  --color-secondary-fixed-dim-hover: var(--md-secondary-fixed-dim-hover);
+  --color-secondary-fixed-dim-pressed: var(--md-secondary-fixed-dim-pressed);
+  --color-secondary-fixed-disabled: var(--md-secondary-fixed-disabled);
+  --color-secondary-fixed-dragged: var(--md-secondary-fixed-dragged);
+  --color-secondary-fixed-focus: var(--md-secondary-fixed-focus);
+  --color-secondary-fixed-hover: var(--md-secondary-fixed-hover);
+  --color-secondary-fixed-pressed: var(--md-secondary-fixed-pressed);
+  --color-secondary-focus: var(--md-secondary-focus);
+  --color-secondary-hover: var(--md-secondary-hover);
+  --color-secondary-pressed: var(--md-secondary-pressed);
   --color-shadow: var(--md-shadow);
   --color-surface: var(--md-surface);
   --color-surface-bright: var(--md-surface-bright);
+  --color-surface-bright-disabled: var(--md-surface-bright-disabled);
+  --color-surface-bright-dragged: var(--md-surface-bright-dragged);
+  --color-surface-bright-focus: var(--md-surface-bright-focus);
+  --color-surface-bright-hover: var(--md-surface-bright-hover);
+  --color-surface-bright-pressed: var(--md-surface-bright-pressed);
   --color-surface-container: var(--md-surface-container);
+  --color-surface-container-disabled: var(--md-surface-container-disabled);
+  --color-surface-container-dragged: var(--md-surface-container-dragged);
+  --color-surface-container-focus: var(--md-surface-container-focus);
   --color-surface-container-high: var(--md-surface-container-high);
+  --color-surface-container-high-disabled: var(--md-surface-container-high-disabled);
+  --color-surface-container-high-dragged: var(--md-surface-container-high-dragged);
+  --color-surface-container-high-focus: var(--md-surface-container-high-focus);
+  --color-surface-container-high-hover: var(--md-surface-container-high-hover);
+  --color-surface-container-high-pressed: var(--md-surface-container-high-pressed);
   --color-surface-container-highest: var(--md-surface-container-highest);
+  --color-surface-container-highest-disabled: var(--md-surface-container-highest-disabled);
+  --color-surface-container-highest-dragged: var(--md-surface-container-highest-dragged);
+  --color-surface-container-highest-focus: var(--md-surface-container-highest-focus);
+  --color-surface-container-highest-hover: var(--md-surface-container-highest-hover);
+  --color-surface-container-highest-pressed: var(--md-surface-container-highest-pressed);
+  --color-surface-container-hover: var(--md-surface-container-hover);
   --color-surface-container-low: var(--md-surface-container-low);
+  --color-surface-container-low-disabled: var(--md-surface-container-low-disabled);
+  --color-surface-container-low-dragged: var(--md-surface-container-low-dragged);
+  --color-surface-container-low-focus: var(--md-surface-container-low-focus);
+  --color-surface-container-low-hover: var(--md-surface-container-low-hover);
+  --color-surface-container-low-pressed: var(--md-surface-container-low-pressed);
   --color-surface-container-lowest: var(--md-surface-container-lowest);
+  --color-surface-container-lowest-disabled: var(--md-surface-container-lowest-disabled);
+  --color-surface-container-lowest-dragged: var(--md-surface-container-lowest-dragged);
+  --color-surface-container-lowest-focus: var(--md-surface-container-lowest-focus);
+  --color-surface-container-lowest-hover: var(--md-surface-container-lowest-hover);
+  --color-surface-container-lowest-pressed: var(--md-surface-container-lowest-pressed);
+  --color-surface-container-pressed: var(--md-surface-container-pressed);
   --color-surface-dim: var(--md-surface-dim);
+  --color-surface-dim-disabled: var(--md-surface-dim-disabled);
+  --color-surface-dim-dragged: var(--md-surface-dim-dragged);
+  --color-surface-dim-focus: var(--md-surface-dim-focus);
+  --color-surface-dim-hover: var(--md-surface-dim-hover);
+  --color-surface-dim-pressed: var(--md-surface-dim-pressed);
+  --color-surface-disabled: var(--md-surface-disabled);
+  --color-surface-dragged: var(--md-surface-dragged);
+  --color-surface-focus: var(--md-surface-focus);
+  --color-surface-hover: var(--md-surface-hover);
+  --color-surface-pressed: var(--md-surface-pressed);
   --color-surface-variant: var(--md-surface-variant);
+  --color-surface-variant-disabled: var(--md-surface-variant-disabled);
+  --color-surface-variant-dragged: var(--md-surface-variant-dragged);
+  --color-surface-variant-focus: var(--md-surface-variant-focus);
+  --color-surface-variant-hover: var(--md-surface-variant-hover);
+  --color-surface-variant-pressed: var(--md-surface-variant-pressed);
   --color-tertiary: var(--md-tertiary);
   --color-tertiary-50: var(--md-tertiary-50);
   --color-tertiary-100: var(--md-tertiary-100);
@@ -157,9 +407,29 @@
   --color-tertiary-900: var(--md-tertiary-900);
   --color-tertiary-950: var(--md-tertiary-950);
   --color-tertiary-container: var(--md-tertiary-container);
+  --color-tertiary-container-disabled: var(--md-tertiary-container-disabled);
+  --color-tertiary-container-dragged: var(--md-tertiary-container-dragged);
+  --color-tertiary-container-focus: var(--md-tertiary-container-focus);
+  --color-tertiary-container-hover: var(--md-tertiary-container-hover);
+  --color-tertiary-container-pressed: var(--md-tertiary-container-pressed);
   --color-tertiary-dim: var(--md-tertiary-dim);
+  --color-tertiary-disabled: var(--md-tertiary-disabled);
+  --color-tertiary-dragged: var(--md-tertiary-dragged);
   --color-tertiary-fixed: var(--md-tertiary-fixed);
   --color-tertiary-fixed-dim: var(--md-tertiary-fixed-dim);
+  --color-tertiary-fixed-dim-disabled: var(--md-tertiary-fixed-dim-disabled);
+  --color-tertiary-fixed-dim-dragged: var(--md-tertiary-fixed-dim-dragged);
+  --color-tertiary-fixed-dim-focus: var(--md-tertiary-fixed-dim-focus);
+  --color-tertiary-fixed-dim-hover: var(--md-tertiary-fixed-dim-hover);
+  --color-tertiary-fixed-dim-pressed: var(--md-tertiary-fixed-dim-pressed);
+  --color-tertiary-fixed-disabled: var(--md-tertiary-fixed-disabled);
+  --color-tertiary-fixed-dragged: var(--md-tertiary-fixed-dragged);
+  --color-tertiary-fixed-focus: var(--md-tertiary-fixed-focus);
+  --color-tertiary-fixed-hover: var(--md-tertiary-fixed-hover);
+  --color-tertiary-fixed-pressed: var(--md-tertiary-fixed-pressed);
+  --color-tertiary-focus: var(--md-tertiary-focus);
+  --color-tertiary-hover: var(--md-tertiary-hover);
+  --color-tertiary-pressed: var(--md-tertiary-pressed);
 
   --shadow-*: initial;
   --shadow-z1: 0 1px 4px 0 rgb(var(--md-shadow-rgb) / 0.37);
@@ -211,7 +481,7 @@
 @utility surface-container-highest {
   @apply bg-surface-container-highest text-on-surface-container-highest;
 }
-@utility surface-inverse-surface {
+@utility surface-inverse {
   @apply bg-inverse-surface text-on-inverse-surface;
 }
 @utility surface-primary {
@@ -247,8 +517,23 @@
 @utility surface-error-container {
   @apply bg-error-container text-on-error-container;
 }
+@utility surface-primary-dim {
+  @apply bg-primary-dim text-on-primary;
+}
+@utility surface-secondary-dim {
+  @apply bg-secondary-dim text-on-secondary;
+}
+@utility surface-tertiary-dim {
+  @apply bg-tertiary-dim text-on-tertiary;
+}
 @utility surface-primary-fixed-variant {
   @apply bg-primary-fixed text-on-primary-fixed-variant;
+}
+@utility surface-secondary-fixed-variant {
+  @apply bg-secondary-fixed text-on-secondary-fixed-variant;
+}
+@utility surface-tertiary-fixed-variant {
+  @apply bg-tertiary-fixed text-on-tertiary-fixed-variant;
 }
 @utility surface-primary-fixed-dim {
   @apply bg-primary-fixed-dim text-on-primary-fixed;
@@ -256,23 +541,96 @@
 @utility surface-primary-fixed-dim-variant {
   @apply bg-primary-fixed-dim text-on-primary-fixed-variant;
 }
-@utility surface-secondary-fixed-variant {
-  @apply bg-secondary-fixed text-on-secondary-fixed-variant;
-}
 @utility surface-secondary-fixed-dim {
   @apply bg-secondary-fixed-dim text-on-secondary-fixed;
 }
 @utility surface-secondary-fixed-dim-variant {
   @apply bg-secondary-fixed-dim text-on-secondary-fixed-variant;
 }
-@utility surface-tertiary-fixed-variant {
-  @apply bg-tertiary-fixed text-on-tertiary-fixed-variant;
-}
 @utility surface-tertiary-fixed-dim {
   @apply bg-tertiary-fixed-dim text-on-tertiary-fixed;
 }
 @utility surface-tertiary-fixed-dim-variant {
   @apply bg-tertiary-fixed-dim text-on-tertiary-fixed-variant;
+}
+@utility surface-inverse-primary {
+  @apply bg-inverse-surface text-inverse-primary;
+}
+
+@utility interactive-surface {
+  @apply bg-surface text-on-surface border-on-surface hover:bg-surface-hover focus:bg-surface-focus focus-visible:bg-surface-focus focus-within:bg-surface-focus active:bg-surface-pressed disabled:bg-surface-disabled disabled:text-on-surface/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-dim {
+  @apply bg-surface-dim text-on-surface-dim border-on-surface-dim hover:bg-surface-dim-hover focus:bg-surface-dim-focus focus-visible:bg-surface-dim-focus focus-within:bg-surface-dim-focus active:bg-surface-dim-pressed disabled:bg-surface-dim-disabled disabled:text-on-surface-dim/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-bright {
+  @apply bg-surface-bright text-on-surface-bright border-on-surface-bright hover:bg-surface-bright-hover focus:bg-surface-bright-focus focus-visible:bg-surface-bright-focus focus-within:bg-surface-bright-focus active:bg-surface-bright-pressed disabled:bg-surface-bright-disabled disabled:text-on-surface-bright/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-variant {
+  @apply bg-surface-variant text-on-surface-variant border-on-surface-variant hover:bg-surface-variant-hover focus:bg-surface-variant-focus focus-visible:bg-surface-variant-focus focus-within:bg-surface-variant-focus active:bg-surface-variant-pressed disabled:bg-surface-variant-disabled disabled:text-on-surface-variant/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-container-lowest {
+  @apply bg-surface-container-lowest text-on-surface-container-lowest border-on-surface-container-lowest hover:bg-surface-container-lowest-hover focus:bg-surface-container-lowest-focus focus-visible:bg-surface-container-lowest-focus focus-within:bg-surface-container-lowest-focus active:bg-surface-container-lowest-pressed disabled:bg-surface-container-lowest-disabled disabled:text-on-surface-container-lowest/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-container-low {
+  @apply bg-surface-container-low text-on-surface-container-low border-on-surface-container-low hover:bg-surface-container-low-hover focus:bg-surface-container-low-focus focus-visible:bg-surface-container-low-focus focus-within:bg-surface-container-low-focus active:bg-surface-container-low-pressed disabled:bg-surface-container-low-disabled disabled:text-on-surface-container-low/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-container {
+  @apply bg-surface-container text-on-surface-container border-on-surface-container hover:bg-surface-container-hover focus:bg-surface-container-focus focus-visible:bg-surface-container-focus focus-within:bg-surface-container-focus active:bg-surface-container-pressed disabled:bg-surface-container-disabled disabled:text-on-surface-container/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-container-high {
+  @apply bg-surface-container-high text-on-surface-container-high border-on-surface-container-high hover:bg-surface-container-high-hover focus:bg-surface-container-high-focus focus-visible:bg-surface-container-high-focus focus-within:bg-surface-container-high-focus active:bg-surface-container-high-pressed disabled:bg-surface-container-high-disabled disabled:text-on-surface-container-high/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-container-highest {
+  @apply bg-surface-container-highest text-on-surface-container-highest border-on-surface-container-highest hover:bg-surface-container-highest-hover focus:bg-surface-container-highest-focus focus-visible:bg-surface-container-highest-focus focus-within:bg-surface-container-highest-focus active:bg-surface-container-highest-pressed disabled:bg-surface-container-highest-disabled disabled:text-on-surface-container-highest/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-inverse {
+  @apply bg-inverse-surface text-on-inverse-surface border-on-inverse-surface hover:bg-inverse-surface-hover focus:bg-inverse-surface-focus focus-visible:bg-inverse-surface-focus focus-within:bg-inverse-surface-focus active:bg-inverse-surface-pressed disabled:bg-inverse-surface-disabled disabled:text-on-inverse-surface/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-primary {
+  @apply bg-primary text-on-primary border-on-primary hover:bg-primary-hover focus:bg-primary-focus focus-visible:bg-primary-focus focus-within:bg-primary-focus active:bg-primary-pressed disabled:bg-primary-disabled disabled:text-on-primary/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-primary-container {
+  @apply bg-primary-container text-on-primary-container border-on-primary-container hover:bg-primary-container-hover focus:bg-primary-container-focus focus-visible:bg-primary-container-focus focus-within:bg-primary-container-focus active:bg-primary-container-pressed disabled:bg-primary-container-disabled disabled:text-on-primary-container/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-primary-fixed {
+  @apply bg-primary-fixed text-on-primary-fixed border-on-primary-fixed hover:bg-primary-fixed-hover focus:bg-primary-fixed-focus focus-visible:bg-primary-fixed-focus focus-within:bg-primary-fixed-focus active:bg-primary-fixed-pressed disabled:bg-primary-fixed-disabled disabled:text-on-primary-fixed/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-secondary {
+  @apply bg-secondary text-on-secondary border-on-secondary hover:bg-secondary-hover focus:bg-secondary-focus focus-visible:bg-secondary-focus focus-within:bg-secondary-focus active:bg-secondary-pressed disabled:bg-secondary-disabled disabled:text-on-secondary/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-secondary-container {
+  @apply bg-secondary-container text-on-secondary-container border-on-secondary-container hover:bg-secondary-container-hover focus:bg-secondary-container-focus focus-visible:bg-secondary-container-focus focus-within:bg-secondary-container-focus active:bg-secondary-container-pressed disabled:bg-secondary-container-disabled disabled:text-on-secondary-container/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-secondary-fixed {
+  @apply bg-secondary-fixed text-on-secondary-fixed border-on-secondary-fixed hover:bg-secondary-fixed-hover focus:bg-secondary-fixed-focus focus-visible:bg-secondary-fixed-focus focus-within:bg-secondary-fixed-focus active:bg-secondary-fixed-pressed disabled:bg-secondary-fixed-disabled disabled:text-on-secondary-fixed/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-tertiary {
+  @apply bg-tertiary text-on-tertiary border-on-tertiary hover:bg-tertiary-hover focus:bg-tertiary-focus focus-visible:bg-tertiary-focus focus-within:bg-tertiary-focus active:bg-tertiary-pressed disabled:bg-tertiary-disabled disabled:text-on-tertiary/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-tertiary-container {
+  @apply bg-tertiary-container text-on-tertiary-container border-on-tertiary-container hover:bg-tertiary-container-hover focus:bg-tertiary-container-focus focus-visible:bg-tertiary-container-focus focus-within:bg-tertiary-container-focus active:bg-tertiary-container-pressed disabled:bg-tertiary-container-disabled disabled:text-on-tertiary-container/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-tertiary-fixed {
+  @apply bg-tertiary-fixed text-on-tertiary-fixed border-on-tertiary-fixed hover:bg-tertiary-fixed-hover focus:bg-tertiary-fixed-focus focus-visible:bg-tertiary-fixed-focus focus-within:bg-tertiary-fixed-focus active:bg-tertiary-fixed-pressed disabled:bg-tertiary-fixed-disabled disabled:text-on-tertiary-fixed/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-error {
+  @apply bg-error text-on-error border-on-error hover:bg-error-hover focus:bg-error-focus focus-visible:bg-error-focus focus-within:bg-error-focus active:bg-error-pressed disabled:bg-error-disabled disabled:text-on-error/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-error-container {
+  @apply bg-error-container text-on-error-container border-on-error-container hover:bg-error-container-hover focus:bg-error-container-focus focus-visible:bg-error-container-focus focus-within:bg-error-container-focus active:bg-error-container-pressed disabled:bg-error-container-disabled disabled:text-on-error-container/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-primary-fixed-variant {
+  @apply bg-primary-fixed text-on-primary-fixed-variant border-on-primary-fixed-variant hover:bg-primary-fixed-hover focus:bg-primary-fixed-focus focus-visible:bg-primary-fixed-focus focus-within:bg-primary-fixed-focus active:bg-primary-fixed-pressed disabled:bg-primary-fixed-disabled disabled:text-on-primary-fixed-variant/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-secondary-fixed-variant {
+  @apply bg-secondary-fixed text-on-secondary-fixed-variant border-on-secondary-fixed-variant hover:bg-secondary-fixed-hover focus:bg-secondary-fixed-focus focus-visible:bg-secondary-fixed-focus focus-within:bg-secondary-fixed-focus active:bg-secondary-fixed-pressed disabled:bg-secondary-fixed-disabled disabled:text-on-secondary-fixed-variant/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-tertiary-fixed-variant {
+  @apply bg-tertiary-fixed text-on-tertiary-fixed-variant border-on-tertiary-fixed-variant hover:bg-tertiary-fixed-hover focus:bg-tertiary-fixed-focus focus-visible:bg-tertiary-fixed-focus focus-within:bg-tertiary-fixed-focus active:bg-tertiary-fixed-pressed disabled:bg-tertiary-fixed-disabled disabled:text-on-tertiary-fixed-variant/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
+}
+@utility interactive-surface-inverse-primary {
+  @apply bg-inverse-surface text-inverse-primary border-inverse-primary hover:bg-inverse-surface-hover focus:bg-inverse-surface-focus focus-visible:bg-inverse-surface-focus focus-within:bg-inverse-surface-focus active:bg-inverse-surface-pressed disabled:bg-inverse-surface-disabled disabled:text-inverse-primary/38 transition-colors duration-[var(--md-state-transition-duration,150ms)];
 }
 
 @utility scrim-* {

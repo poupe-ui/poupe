@@ -3,12 +3,14 @@ import {
   type CSSRuleObject,
   getDeepRule,
   setDeepRule,
+  unsafeKeys,
 } from '@poupe/css';
 
 import {
   type ColorMap,
   type ThemeColors as ThemeBuilderColors,
   assembleCSSColors,
+  getStateColorMixParams,
   Hct,
   makeTheme as makeThemeColors,
   makeThemeKeys,
@@ -36,7 +38,6 @@ import {
   debugLog,
   hexString,
   hslString,
-  unsafeKeys,
 } from './utils';
 
 import {
@@ -128,7 +129,8 @@ function newTheme<
     setColor(key, themePrefix, false, colors, darkColors, lightColors, dark, light);
   }
 
-  return {
+  // Add state colors to theme (they reference --md-* variables)
+  const theme = {
     options,
     keys,
     paletteKeys,
@@ -136,6 +138,9 @@ function newTheme<
     light: lightColors,
     colors,
   };
+  addStateColors(colors, theme);
+
+  return theme;
 }
 
 function setColor<K extends string>(
@@ -307,6 +312,100 @@ function injectScrimRGBIntoStyles(
 }
 
 /**
+ * Gets all interactive colors that need state variants.
+ *
+ * @param theme - The theme configuration
+ * @returns Array of color names that should have state variants
+ */
+function getInteractiveColors(theme: Readonly<Theme>): string[] {
+  const interactiveColors: string[] = [
+    'primary', 'secondary', 'tertiary', 'error',
+    'surface', 'surface-dim', 'surface-bright', 'surface-variant',
+    'surface-container', 'surface-container-lowest',
+    'surface-container-low', 'surface-container-high',
+    'surface-container-highest',
+    'primary-container', 'secondary-container',
+    'tertiary-container', 'error-container',
+    'primary-fixed', 'secondary-fixed', 'tertiary-fixed',
+    'primary-fixed-dim', 'secondary-fixed-dim', 'tertiary-fixed-dim',
+    'inverse-surface',
+  ];
+
+  // Add custom palette colors from theme
+  for (const key of theme.paletteKeys) {
+    if (!interactiveColors.includes(key)) {
+      interactiveColors.push(key, `${key}-container`);
+    }
+  }
+
+  return interactiveColors;
+}
+
+/**
+ * Adds state color entries to the theme colors that reference --md-* variables.
+ * This ensures TailwindCSS recognizes utilities like bg-surface-hover.
+ *
+ * @param colors - The theme colors object to add state colors to
+ * @param theme - The theme configuration
+ */
+function addStateColors<K extends string>(
+  colors: Record<K, ThemeColorConfig>,
+  theme: Readonly<Theme>,
+): void {
+  const { themePrefix } = theme.options;
+  const interactiveColors = getInteractiveColors(theme);
+  const states = ['hover', 'focus', 'pressed', 'dragged', 'disabled'];
+
+  // Add state colors for each interactive color that exists in the theme
+  for (const baseColor of interactiveColors) {
+    if (theme.keys.includes(baseColor as K)) {
+      for (const state of states) {
+        const stateKey = `${baseColor}-${state}` as K;
+        if (!colors[stateKey]) {
+          colors[stateKey] = {
+            value: `--${themePrefix}${stateKey}`,
+          };
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Generates CSS variables for state colors using CSS color-mix() function.
+ * Creates variables for hover, focus, pressed, dragged, and disabled states.
+ *
+ * @param theme - The theme configuration
+ * @returns A CSS rule object containing state color variables
+ */
+function generateStateColorVariables(
+  theme: Readonly<Theme>,
+): CSSRuleObject {
+  const { themePrefix } = theme.options;
+  const rules: CSSRuleObject = {};
+  const interactiveColors = getInteractiveColors(theme);
+  const states = ['hover', 'focus', 'pressed', 'dragged', 'disabled'] as const;
+
+  const createStateVariable = (
+    colorName: string,
+    state: typeof states[number],
+  ) => {
+    const params = getStateColorMixParams(colorName, state, `--${themePrefix}`);
+    const variableName = `--${themePrefix}${colorName}-${state}`;
+    const colorMixValue = `color-mix(in srgb, var(${params.baseColor}) ${params.opacityPercent}%, var(${params.onColor}))`;
+    rules[variableName] = `var(${variableName}, ${colorMixValue})`;
+  };
+
+  // Generate color-mix variables for each interactive color and state
+  for (const colorName of interactiveColors) {
+    // Standard states
+    for (const state of states) createStateVariable(colorName, state);
+  }
+
+  return rules;
+}
+
+/**
  * Generates CSS base styles for a theme with dark and light modes.
  * Includes CSS custom properties for all theme colors and the shadow RGB variable.
  *
@@ -363,6 +462,19 @@ export function makeThemeBases(
     // Inject scrim RGB variables into existing styles
     injectScrimRGBIntoStyles(theme, styles, darkSelector);
 
+    // Add state color variables if useColorMix is enabled
+    if (theme.options.useColorMix) {
+      const stateColors = generateStateColorVariables(theme);
+      // Find the :root rule in styles and add state colors
+      const rootRule = styles.find(style => ':root' in style);
+      if (rootRule) {
+        Object.assign(rootRule[':root'], stateColors);
+      } else {
+        // Create a new :root rule if none exists
+        styles.unshift({ ':root': stateColors });
+      }
+    }
+
     bases.push(...styles);
   } else {
     // Add fallback for omitted themes
@@ -373,6 +485,10 @@ export function makeThemeBases(
     const scrimVariable = `--${themePrefix}scrim`;
     const scrimRGBVariable = `--${themePrefix}scrim-rgb`;
     constants[scrimRGBVariable] = `var(${scrimRGBVariable}, from var(${scrimVariable}) r g b)`;
+
+    // Always add state colors when themes are omitted (as a fallback)
+    const stateColors = generateStateColorVariables(theme);
+    Object.assign(constants, stateColors);
   }
 
   bases.push({

@@ -82,6 +82,11 @@ export type ThemeOptions<K extends string = string> = {
   /** Disable print mode, @defaultValue `false` */
   disablePrintMode?: boolean
 
+  /** Use CSS color-mix() for state colors instead of pre-calculated values
+   * @defaultValue false
+   */
+  useColorMix?: boolean
+
   /** Color configuration for the theme. */
   colors: ThemeColors<K>
 };

@@ -59,26 +59,54 @@ examples/
 ## Recent Changes
 
 ### v0.4.0 - Unified Scrim Utilities & v4-to-v3 Bridge
-- **NEW**: Added opacity modifier support to all scrim utilities (e.g., `scrim-modal/50`)
-- **NEW**: Implemented `--md-scrim-rgb` variable following the same pattern as `--md-shadow-rgb`
+- **NEW**: Added opacity modifier support to all scrim utilities
+  (e.g., `scrim-modal/50`)
+- **NEW**: Implemented `--md-scrim-rgb` variable following the same pattern
+  as `--md-shadow-rgb`
 - **NEW**: Automatic theme switching for scrim colors in dark/light modes
-- **NEW**: Uses TailwindCSS v4 `--modifier([percentage])` syntax for modifier capture
-- **NEW**: `asMatchUtility` bridge function converts v4 syntax to v3 matchUtilities API
-- **BREAKING**: Merged standalone `scrim` and `scrim-z-*` into unified `scrim-*` utilities with variable z-index
-- **BREAKING**: Scrim background-color now uses `rgb(var(--md-scrim-rgb) / ...)` instead of `rgb(from ...)`
-- Default opacity is 32% (when no modifier is used) but can be customized with Tailwind modifiers
-- Works with both semantic scrims (`scrim-modal/75`) and arbitrary z-index (`scrim-[100]/25`)
-- **TECHNICAL**: Bridge pattern enables v4 `--value()` and `--modifier()` patterns to work with v3 matchUtilities
+- **NEW**: Uses TailwindCSS v4 `--modifier([percentage])` syntax for
+  modifier capture
+- **NEW**: `asMatchUtility` bridge function converts v4 syntax to v3
+  matchUtilities API
+- **BREAKING**: Merged standalone `scrim` and `scrim-z-*` into unified
+  `scrim-*` utilities with variable z-index
+- **BREAKING**: Scrim background-color now uses
+  `rgb(var(--md-scrim-rgb) / ...)` instead of `rgb(from ...)`
+- Default opacity is 32% (when no modifier is used) but can be customized
+  with Tailwind modifiers
+- Works with both semantic scrims (`scrim-modal/75`) and arbitrary z-index
+  (`scrim-[100]/25`)
+- **TECHNICAL**: Bridge pattern enables v4 `--value()` and `--modifier()`
+  patterns to work with v3 matchUtilities
+
+### Interactive Surface Components
+- **NEW**: Added `interactive-surface-*` utilities that combine surface
+  styling with MD3 state layers
+- **NEW**: All surface utilities now have interactive counterparts with
+  built-in hover/focus/pressed states
+- **NEW**: Proper naming for special surfaces like
+  `interactive-surface-inverse-primary`
+- **IMPROVED**: Configuration-based surface pair generation using pattern
+  matching with `{}` placeholders
+- **FIXED**: Interactive surfaces now correctly use `interactive-` prefix
+- Includes transition timing via `--md-state-transition-duration` CSS
+  variable
 
 ## TailwindCSS v4-to-v3 Bridge Pattern
 
-The package includes `asMatchUtility` function at `src/theme/match-utilities.ts` that bridges TailwindCSS v4 CSS syntax to v3 JavaScript API:
+The package includes `asMatchUtility` function at
+`src/theme/match-utilities.ts` that bridges TailwindCSS v4 CSS syntax to v3
+JavaScript API:
 
 ### Bridge Functionality
-- **Detects v4 patterns**: Identifies utilities using `--value()` and `--modifier()` syntax
-- **Converts to matchUtilities**: Transforms them to work with TailwindCSS v3 matchUtilities API
-- **Enables arbitrary values**: Supports patterns like `scrim-[100]` or `scrim-[var(--custom-z)]`
-- **Handles modifiers**: Processes opacity modifiers with percentage conversion (`/50` → `50%`)
+- **Detects v4 patterns**: Identifies utilities using `--value()` and
+  `--modifier()` syntax
+- **Converts to matchUtilities**: Transforms them to work with TailwindCSS
+  v3 matchUtilities API
+- **Enables arbitrary values**: Supports patterns like `scrim-[100]` or
+  `scrim-[var(--custom-z)]`
+- **Handles modifiers**: Processes opacity modifiers with percentage
+  conversion (`/50` → `50%`)
 
 ### Supported Patterns
 ```css
@@ -97,16 +125,20 @@ api.matchUtilities({
   'scrim': (value, { modifier }) => ({
     '@apply fixed inset-0': {},
     'z-index': value,
-    'background-color': 'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
+    'background-color':
+      'rgb(var(--md-scrim-rgb) / var(--md-scrim-opacity, 32%))',
     '--md-scrim-opacity': modifier ? `${modifier}%` : '32%'
   })
 }, { type: 'number', modifiers: 'any' })
 ```
 
 ### Integration Points
-- **Plugin processing**: Used in `src/theme/plugin.ts` via `doMatchUtility()`
-- **Component generation**: Works with dynamic utilities from `makeZIndexComponents()`
-- **Type mapping**: Converts v4 types (integer, percentage) to v3 equivalents (number, percentage)
+- **Plugin processing**: Used in `src/theme/plugin.ts` via
+  `doMatchUtility()`
+- **Component generation**: Works with dynamic utilities from
+  `makeZIndexComponents()`
+- **Type mapping**: Converts v4 types (integer, percentage) to v3
+  equivalents (number, percentage)
 
 ## CSS Assets
 
@@ -155,9 +187,12 @@ pnpm build
 
 #### Example Build Details
 Each example is built using TailwindCSS CLI:
-- **plugin-workflow**: Uses `@plugin` syntax with content scanning (default-plugin.css)
-- **flat-plugin**: Uses config-based plugin with `@config` workflow (flat-plugin.css + flat-plugin.config.js)
-- **theme-plugin**: Uses config-based theme plugin with `@config` workflow (theme-plugin.css + theme-plugin.config.js)
+- **plugin-workflow**: Uses `@plugin` syntax with content scanning
+  (default-plugin.css)
+- **flat-plugin**: Uses config-based plugin with `@config` workflow
+  (flat-plugin.css + flat-plugin.config.js)
+- **theme-plugin**: Uses config-based theme plugin with `@config` workflow
+  (theme-plugin.css + theme-plugin.config.js)
 
 Build errors in examples don't fail the main build process.
 
@@ -173,11 +208,24 @@ Build errors in examples don't fail the main build process.
   text variants (on-primary-fixed, on-primary-fixed-variant) with smart
   naming to avoid redundancy
 
+### Interactive Surface Utilities
+- `.interactive-surface-{color}`: Surface with Material Design 3 state
+  layers
+- `.interactive-surface-container-{variant}`: Container surfaces with
+  interaction states
+- **State Layers**: Automatic hover, focus, and pressed states with proper
+  transitions
+- **All Variants**: Every surface utility has an interactive counterpart
+- **Special Naming**: Handles cases like
+  `interactive-surface-inverse-primary` correctly
+
 ### Elevation Utilities
 - `.z{1-5}`: Elevation levels with shadows and tonal elevation
 - `.scrim-[value]`: Arbitrary z-index overlays with full scrim styling
-- `.scrim-{base|content|drawer|modal|elevated|system}`: Semantic overlays with predefined z-index
-- All scrim utilities include fixed positioning, background color, and support opacity modifiers (e.g., `/50`, `/75`)
+- `.scrim-{base|content|drawer|modal|elevated|system}`: Semantic overlays
+  with predefined z-index
+- All scrim utilities include fixed positioning, background color, and
+  support opacity modifiers (e.g., `/50`, `/75`)
 
 ### State Layer Utilities
 - `.state-hover`: Hover state overlay
@@ -225,7 +273,8 @@ export default {
 - **Strategy**: Separation of concerns between testing and example generation
 
 #### Test Execution
-All CLI tests run from the package root using temporary files for validation:
+All CLI tests run from the package root using temporary files for
+validation:
 
 ```bash
 # Run all tests
@@ -238,11 +287,14 @@ pnpm test cli.test.ts
 #### Testing Strategy
 Tests create minimal temporary files during execution:
 - Input CSS files with `@plugin` directives
-- HTML files with utility classes for content scanning (including modifier examples)
+- HTML files with utility classes for content scanning (including modifier
+  examples)
 - Output CSS files for validation (temporary, auto-clean-up)
 - Validation of persistent example files generated by build process
-- Comprehensive modifier functionality validation through actual TailwindCSS CLI processing
-- **NEW**: Bridge pattern testing via `match-utilities.test.ts` and `plugin-match-utilities.test.ts`
+- Comprehensive modifier functionality validation through actual TailwindCSS
+  CLI processing
+- **NEW**: Bridge pattern testing via `match-utilities.test.ts` and
+  `plugin-match-utilities.test.ts`
 
 #### Example File Validation
 Tests validate that `build.config.ts` successfully generated:
