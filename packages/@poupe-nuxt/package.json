@@ -37,8 +37,9 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "run-s dev:prepare lint type-check test build publint",
-    "type-check": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
+    "prepack": "run-s dev:prepare lint type-check:check test build publint",
+    "type-check": "run-s dev:prepare type-check:check",
+    "type-check:check": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
     "lint": "env DEBUG=eslint:eslint eslint --fix .",
     "publint": "pnpx publint",
     "build": "run-s build:prepare build:build",
