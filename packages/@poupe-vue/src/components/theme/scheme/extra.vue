@@ -10,7 +10,7 @@ const group: ThemeSchemeGroupProps = {
   entries: [
     { bg: 'bg-inverse-surface', text: 'text-on-inverse-surface' },
     { bg: 'bg-on-inverse-surface', text: 'text-inverse-surface' },
-    { bg: 'bg-inverse-primary', text: 'text-primary' },
+    { bg: 'bg-inverse-primary', text: 'text-inverse-surface' },
     [
       { bg: 'bg-scrim', text: 'text-primary-50' },
       { bg: 'bg-shadow', text: 'text-primary-50' },
