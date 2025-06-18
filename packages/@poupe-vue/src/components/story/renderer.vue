@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, h } from 'vue';
+import { computed, h, type VNode, type VNodeChild } from 'vue';
 import type { StoryConfig, StoryConfigOptions } from './types';
 import { generateCode } from './utils';
 import StoryShowcaseItem from './showcase-item.vue';
@@ -15,12 +15,13 @@ const props = withDefaults(defineProps<Props>(), {
 
 const code = computed(() => generateCode(props.story, props.options));
 
-function renderComponent() {
+// Computed property that returns the component or render function
+const componentToRender = computed<() => VNode>(() => {
   if (!props.story.component) {
     return () => h('div', { class: 'text-on-surface-variant' }, 'No preview available');
   }
 
-  const slots = {} as Record<string, () => unknown>;
+  const slots: Record<string, () => VNodeChild> = {};
 
   if (props.story.slots) {
     for (const [name, content] of Object.entries(props.story.slots)) {
@@ -36,7 +37,7 @@ function renderComponent() {
   }
 
   return component;
-}
+});
 </script>
 
 <template>
@@ -45,6 +46,6 @@ function renderComponent() {
     :code="code"
     language="vue"
   >
-    <component :is="renderComponent" />
+    <component :is="componentToRender" />
   </StoryShowcaseItem>
 </template>
