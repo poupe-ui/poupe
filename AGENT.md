@@ -272,6 +272,9 @@ Each package has its own AGENT.md file with specific details:
 - Follow the pre-commit checklist strictly
 - Use Write tool for commit messages, not heredocs or echo commands
 - Don't rely on git staging for commits, use direct file references
+- Use `pnpm -F` instead of `cd` to work with specific packages
+- Don't change working directory permanently unless instructed
+- When working across multiple packages, prefer `pnpm -r`
 
 ## Debugging Tips
 
