@@ -317,7 +317,7 @@ function injectScrimRGBIntoStyles(
  * @param theme - The theme configuration
  * @returns Array of color names that should have state variants
  */
-function getInteractiveColors(theme: Readonly<Theme>): string[] {
+export function getInteractiveColors(theme: Readonly<Theme>): string[] {
   const interactiveColors: string[] = [
     'primary', 'secondary', 'tertiary', 'error',
     'surface', 'surface-dim', 'surface-bright', 'surface-variant',
@@ -342,6 +342,11 @@ function getInteractiveColors(theme: Readonly<Theme>): string[] {
 }
 
 /**
+ * State suffixes used for interactive colors.
+ */
+export const stateSuffixes = ['hover', 'focus', 'pressed', 'dragged', 'disabled'] as const;
+
+/**
  * Adds state color entries to the theme colors that reference --md-* variables.
  * This ensures TailwindCSS recognizes utilities like bg-surface-hover.
  *
@@ -354,12 +359,11 @@ function addStateColors<K extends string>(
 ): void {
   const { themePrefix } = theme.options;
   const interactiveColors = getInteractiveColors(theme);
-  const states = ['hover', 'focus', 'pressed', 'dragged', 'disabled'];
 
   // Add state colors for each interactive color that exists in the theme
   for (const baseColor of interactiveColors) {
     if (theme.keys.includes(baseColor as K)) {
-      for (const state of states) {
+      for (const state of stateSuffixes) {
         const stateKey = `${baseColor}-${state}` as K;
         if (!colors[stateKey]) {
           colors[stateKey] = {
@@ -384,11 +388,10 @@ function generateStateColorVariables(
   const { themePrefix } = theme.options;
   const rules: CSSRuleObject = {};
   const interactiveColors = getInteractiveColors(theme);
-  const states = ['hover', 'focus', 'pressed', 'dragged', 'disabled'] as const;
 
   const createStateVariable = (
     colorName: string,
-    state: typeof states[number],
+    state: typeof stateSuffixes[number],
   ) => {
     const params = getStateColorMixParams(colorName, state, `--${themePrefix}`);
     const variableName = `--${themePrefix}${colorName}-${state}`;
@@ -399,7 +402,7 @@ function generateStateColorVariables(
   // Generate color-mix variables for each interactive color and state
   for (const colorName of interactiveColors) {
     // Standard states
-    for (const state of states) createStateVariable(colorName, state);
+    for (const state of stateSuffixes) createStateVariable(colorName, state);
   }
 
   return rules;
