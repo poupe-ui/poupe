@@ -47,6 +47,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "prepack": "run-s lint type-check test build publint",
+    "precommit": "run-s lint type-check test build",
     "dev:prepare": "unbuild --stub",
     "type-check": "tsc --noEmit",
     "lint": "env DEBUG=eslint:eslint eslint --fix .",
