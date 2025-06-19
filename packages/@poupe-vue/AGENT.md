@@ -85,6 +85,11 @@ src/
 - **PIcon**: Icon wrapper component
 - **PInput**: Form input wrapper with interactive states
 - **PPlaceholder**: Development placeholder component
+- **PSurface**: Base container component with MD3 surface variants
+  - Supports both surface and container variants
+  - Interactive states with proper state layers
+  - Shape, shadow, border, and padding customization
+  - Global defaults integration via usePoupe
 
 ### Theme Components (Separate Export)
 - **PThemeScheme**: Theme color scheme visualization component
@@ -175,6 +180,7 @@ Icon management composable:
     - vue
     - @iconify/vue
     - @unhead/vue
+    - defu
     - reka-ui
     - tailwind-merge
     - tailwind-variants

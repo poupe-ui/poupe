@@ -78,6 +78,10 @@ app.mount('#app')
     </PCard>
 
     <PInput v-model="inputValue" label="Username" />
+
+    <PSurface color="primary" shape="lg" shadow="z2" padding="md">
+      Elevated surface content
+    </PSurface>
   </div>
 </template>
 
@@ -87,6 +91,42 @@ import { ref } from 'vue'
 const inputValue = ref('')
 </script>
 ```
+
+### PSurface Component
+
+The PSurface component provides Material Design 3 surface containers:
+
+```vue
+<template>
+  <!-- Basic surface -->
+  <PSurface>Default surface</PSurface>
+
+  <!-- Interactive surface with elevation -->
+  <PSurface
+    color="secondary"
+    shadow="z3"
+    shape="xl"
+    padding="lg"
+    interactive
+  >
+    Interactive elevated content
+  </PSurface>
+
+  <!-- Container variant -->
+  <PSurface variant="container" color="high">
+    High emphasis container
+  </PSurface>
+</template>
+```
+
+Surface props:
+- `variant`: 'surface' | 'container' - Surface type
+- `color`: Surface color based on MD3 color system
+- `shape`: Shape variant (none, xs, sm, md, lg, xl, rounded, full, squircle-xs, etc.) - uses Material Design 3 shape system where size-only variants are squircles
+- `shadow`: Elevation shadow (none, z1-z5)
+- `border`: Border style (none, primary, secondary, outline, etc.)
+- `interactive`: Enable hover/focus/pressed states
+- `padding`: Content padding (none, sm, md, lg, xl)
 
 ## Composables
 

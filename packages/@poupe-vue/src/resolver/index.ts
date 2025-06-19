@@ -6,6 +6,7 @@ export const components = [
   'Icon',
   'Input',
   'Placeholder',
+  'Surface',
 ] as const;
 
 export const themeComponents = [

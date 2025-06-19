@@ -42,6 +42,26 @@ export const roundedVariants = {
   ['3xl']: 'rounded-3xl',
 };
 
+export const shapeVariants = {
+  'none': 'shape-none',
+  // Size-only variants are aliases for squircles
+  'xs': 'shape-squircle-extra-small',
+  'sm': 'shape-squircle-small',
+  'md': 'shape-squircle-medium',
+  'lg': 'shape-squircle-large',
+  'xl': 'shape-squircle-extra-large',
+  // Rounded means fully rounded (no size customization)
+  'rounded': 'shape-full',
+  'full': 'shape-full', // Alias for rounded
+  // Explicit squircle variants (same as size-only)
+  'squircle-xs': 'shape-squircle-extra-small',
+  'squircle-sm': 'shape-squircle-small',
+  'squircle-md': 'shape-squircle-medium',
+  'squircle-lg': 'shape-squircle-large',
+  'squircle-xl': 'shape-squircle-extra-large',
+  'squircle-full': 'shape-squircle-full',
+};
+
 export const shadowVariants = {
   current: 'shadow-shadow shadow',
   none: 'shadow-none',

@@ -229,8 +229,9 @@ describe('usePoupeMergedProps', () => {
     });
 
     const wrapper = mount(TestComponent);
+    const vm = wrapper.vm as unknown as TestComponentInstance;
 
-    expect((wrapper.vm as unknown as TestComponentInstance).merged).toEqual({
+    expect(vm.merged).toEqual({
       color: 'primary', // Props override
       shape: 'none', // From component defaults
       shadow: 'none', // From component defaults
@@ -266,7 +267,8 @@ describe('usePoupeMergedProps', () => {
       },
     });
 
-    expect((wrapper.vm as unknown as TestComponentInstance).merged).toEqual({
+    const vm = wrapper.vm as unknown as TestComponentInstance;
+    expect(vm.merged).toEqual({
       color: 'primary', // Props override everything
       shape: 'md', // Component default overrides global
       shadow: 'none', // Component default overrides global
@@ -303,7 +305,8 @@ describe('usePoupeMergedProps', () => {
       },
     });
 
-    expect((wrapper.vm as unknown as TestComponentInstance).merged).toEqual({
+    const vm = wrapper.vm as unknown as TestComponentInstance;
+    expect(vm.merged).toEqual({
       color: 'base', // Component default (defu treats undefined as a value)
       shape: 'none', // Component default (defu treats undefined as a value)
     });

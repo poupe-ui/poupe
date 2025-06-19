@@ -4,6 +4,7 @@ import { cardStoryGroups } from './card.stories';
 import { iconStoryGroups } from './icon.stories';
 import { inputStoryGroups } from './input.stories';
 import { placeholderStoryGroups } from './placeholder.stories';
+import { surfaceStoryGroups } from './surface.stories';
 
 export interface ComponentStory {
   name: string
@@ -30,5 +31,9 @@ export const allComponentStories: ComponentStory[] = [
   {
     name: 'Placeholder',
     storyGroups: placeholderStoryGroups,
+  },
+  {
+    name: 'Surface',
+    storyGroups: surfaceStoryGroups,
   },
 ];
