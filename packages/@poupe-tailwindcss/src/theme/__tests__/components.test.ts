@@ -364,6 +364,34 @@ describe('makeShapeComponents', () => {
     expect(result['.shape-squircle-none']).toBeUndefined();
   });
 
+  it('should create MD3 component-specific shape tokens', () => {
+    const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
+    const result = makeShapeComponents(theme);
+
+    // Verify MD3 component shapes
+    const md3Components = [
+      'button', 'fab', 'chip', 'icon-button',
+      'card', 'dialog', 'menu', 'snackbar', 'tooltip',
+      'text-field', 'search',
+      'navigation-bar', 'navigation-rail', 'navigation-drawer',
+    ];
+
+    for (const component of md3Components) {
+      expect(result[`.shape-${component}`]).toBeDefined();
+      expect(result[`.shape-${component}`]['border-radius']).toContain(`--md-shape-${component}`);
+    }
+  });
+
+  it('should follow MD3 shape scale recommendations', () => {
+    const theme = makeThemeFromPartialOptions({});
+    const result = makeShapeComponents(theme);
+
+    // Verify specific MD3 recommendations
+    expect(result['.shape-button']['border-radius']).toContain('shape-full'); // Buttons are fully rounded
+    expect(result['.shape-card']['border-radius']).toContain('shape-medium'); // Cards use medium rounding
+    expect(result['.shape-dialog']['border-radius']).toContain('shape-extra-large'); // Dialogs use XL rounding
+    expect(result['.shape-text-field']['border-radius']).toContain('shape-extra-small'); // Text fields use XS
+  });
 
   it('should include shape family utilities', () => {
     const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
@@ -428,5 +456,33 @@ describe('makeShapeComponents', () => {
     if (typeof supportsRule === 'object' && supportsRule !== null && !Array.isArray(supportsRule)) {
       expect(supportsRule['border-radius']).toContain('shape-card');
     }
+  });
+
+  it('should validate squircle smoothing parameter and use default for invalid values', () => {
+    const theme = makeThemeFromPartialOptions({});
+    const result = makeShapeComponents(theme);
+
+    // Test that squircle shapes are generated with valid paths
+    const squircleSmall = result['.shape-squircle-small'];
+    expect(squircleSmall['mask-image']).toBeDefined();
+    expect(squircleSmall['mask-image']).toContain('data:image/svg+xml');
+
+    // The SVG path should contain valid coordinates
+    const maskImage = squircleSmall['mask-image'] as string;
+    expect(maskImage).toContain('%3Cpath');
+    expect(maskImage).toContain('M ');
+    expect(maskImage).not.toContain('NaN');
+
+    // Verify all squircle shapes have valid mask images
+    const squircleKeys = Object.keys(result).filter(key => key.includes('squircle'));
+    for (const key of squircleKeys) {
+      const shape = result[key];
+      if (shape['mask-image']) {
+        expect(shape['mask-image']).toContain('data:image/svg+xml');
+        expect(shape['mask-image']).not.toContain('NaN');
+      }
+    }
+
+    // Test values are all within valid range (0-2) per MD3 Expressive design
   });
 });

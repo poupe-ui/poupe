@@ -257,6 +257,32 @@ All shapes use CSS variables for customization:
 }
 ```
 
+### Component-Specific Shapes
+
+Material Design 3 component shape tokens with sensible defaults:
+
+```html
+<!-- Component shapes with default values -->
+<button class="shape-button">Pill button (full rounding)</button>
+<div class="shape-card">Card with medium rounding</div>
+<button class="shape-fab">FAB with large rounding</button>
+<input class="shape-text-field" placeholder="Text field">
+<div class="shape-dialog">Dialog with extra-large rounding</div>
+<span class="shape-chip">Chip with small rounding</span>
+
+<!-- Squircle variants for smooth corners -->
+<button class="shape-squircle-button">Smooth pill button</button>
+<div class="shape-squircle-card">Smooth card</div>
+```
+
+Component shapes cascade through CSS variables:
+- `--md-shape-button` → `--md-shape-full` → `999px`
+- `--md-shape-card` → `--md-shape-medium` → `12px`
+- `--md-shape-fab` → `--md-shape-large` → `16px`
+- `--md-shape-text-field` → `--md-shape-extra-small` → `4px`
+- `--md-shape-dialog` → `--md-shape-extra-large` → `28px`
+- `--md-shape-chip` → `--md-shape-small` → `8px`
+
 ### Squircle Implementation
 
 - Uses SVG masks for true iOS-style smooth corners

@@ -117,6 +117,15 @@ examples/
   customization
 - **Configurable prefix**: Defaults to `shape-` but can be customized via
   `shapePrefix` option
+- **Component-specific shapes**:
+  - `.shape-button` - defaults to shape-full (pills)
+  - `.shape-card` - defaults to shape-medium
+  - `.shape-fab` - defaults to shape-large
+  - `.shape-text-field` - defaults to shape-extra-small
+  - `.shape-dialog` - defaults to shape-extra-large
+  - `.shape-chip` - defaults to shape-small
+- **Squircle variants**: Each component shape has a squircle variant
+  (e.g., `.shape-squircle-button`) with smooth corners
 
 ## TailwindCSS v4-to-v3 Bridge Pattern
 

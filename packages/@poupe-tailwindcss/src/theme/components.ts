@@ -11,6 +11,7 @@ import {
 import {
   type CSSRuleObject,
   debugLog,
+  warnLog,
 } from './utils';
 
 /** Default opacity for scrim utilities when no modifier is provided */
@@ -543,6 +544,16 @@ function getSquircleStyles(smoothing: string): CSSRuleObject {
  */
 function getSquirclePath(smoothing: string): string {
   const s = Number.parseFloat(smoothing);
+
+  // Validate smoothing parameter
+  // MD3 Expressive allows values up to 2 for maximum roundness
+  if (Number.isNaN(s) || s < 0 || s > 2) {
+    // Default to 0.6 for invalid values (MD3 standard smoothing)
+    const defaultSmoothing = 0.6;
+    warnLog(`Invalid smoothing value: ${smoothing}. Expected a number between 0 and 2. Using default: ${defaultSmoothing}`);
+    return getSquirclePath(String(defaultSmoothing));
+  }
+
   if (s === 0) {
     // Rectangle
     return 'M 0 0 L 200 0 L 200 200 L 0 200 Z';
@@ -550,10 +561,30 @@ function getSquirclePath(smoothing: string): string {
 
   // Squircle path using cubic bezier curves
   // This creates a superellipse-like shape
-  const c = 55.2 * s; // Control point distance
-  const r = 50 * Math.min(s, 1); // Corner radius
 
-  return `M ${r} 0 L ${200 - r} 0 C ${200 - r + c} 0 200 ${r - c} 200 ${r} L 200 ${200 - r} C 200 ${200 - r + c} ${200 - r + c} 200 ${200 - r} 200 L ${r} 200 C ${r - c} 200 0 ${200 - r + c} 0 ${200 - r} L 0 ${r} C 0 ${r - c} ${r - c} 0 ${r} 0 Z`;
+  if (s >= 2) {
+    // Full circle
+    return 'M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z';
+  }
+
+  // For values 0-2, interpolate between rectangle and circle
+  // At s=1, this gives a standard squircle
+  // At s=2, this approaches a circle
+  const t = Math.min(s, 2) / 2; // Normalize to 0-1 range
+
+  // Corner radius: 0 at s=0, 100 (full circle) at s=2
+  const r = 100 * t;
+
+  // Control point offset for bezier curves
+  // This creates the squircle effect
+  const controlOffset = r * 0.552_284_749_831; // Magic number for circle approximation
+
+  // Ensure control points stay within bounds
+  const cornerX = Math.max(0, Math.min(100, r));
+  const cornerY = Math.max(0, Math.min(100, r));
+
+  // Generate path
+  return `M ${cornerX} 0 L ${200 - cornerX} 0 C ${200 - cornerX + controlOffset} 0 200 ${cornerY - controlOffset} 200 ${cornerY} L 200 ${200 - cornerY} C 200 ${200 - cornerY + controlOffset} ${200 - cornerX + controlOffset} 200 ${200 - cornerX} 200 L ${cornerX} 200 C ${cornerX - controlOffset} 200 0 ${200 - cornerY + controlOffset} 0 ${200 - cornerY} L 0 ${cornerY} C 0 ${cornerY - controlOffset} ${cornerX - controlOffset} 0 ${cornerX} 0 Z`;
 }
 
 /**
@@ -606,6 +637,55 @@ export function makeShapeComponents(theme: Readonly<Theme>): Record<string, CSSR
   components[`.${shapePrefix}squircle`] = {
     [`--${themePrefix}shape-family`]: 'squircle',
   };
+
+  // Component-specific shape tokens for MD3 Expressive
+  // These follow Material Design 3 component shape recommendations
+  const componentShapes: Record<string, keyof typeof SHAPE_SCALE> = {
+    // Interactive components
+    'button': 'full', // MD3: Buttons use full rounding
+    'fab': 'large', // MD3: FABs use large rounding
+    'chip': 'small', // MD3: Chips use small rounding
+    'icon-button': 'full', // MD3: Icon buttons are circular
+
+    // Container components
+    'card': 'medium', // MD3: Cards use medium rounding
+    'dialog': 'extra-large', // MD3: Dialogs use extra-large rounding
+    'menu': 'extra-small', // MD3: Menus use extra-small rounding
+    'snackbar': 'extra-small', // MD3: Snackbars use extra-small rounding
+    'tooltip': 'extra-small', // MD3: Tooltips use extra-small rounding
+
+    // Input components
+    'text-field': 'extra-small', // MD3: Text fields use extra-small rounding
+    'search': 'full', // MD3: Search bars often use full rounding
+
+    // Navigation components
+    'navigation-bar': 'none', // MD3: Nav bars typically have no rounding
+    'navigation-rail': 'none', // MD3: Nav rails typically have no rounding
+    'navigation-drawer': 'large', // MD3: Nav drawers use large rounding on one side
+  };
+
+  for (const [component, defaultScale] of Object.entries(componentShapes)) {
+    const shapeVariable = `--${themePrefix}shape-${component}`;
+    const defaultVariable = `--${themePrefix}shape-${defaultScale}`;
+
+    // Regular rounded component shapes with MD3 token hierarchy
+    components[`.${shapePrefix}${component}`] = {
+      'border-radius': `var(${shapeVariable}, var(${defaultVariable}, ${SHAPE_SCALE[defaultScale].rounded}))`,
+    };
+
+    // Squircle component shapes for MD3 Expressive
+    if (defaultScale !== 'none') {
+      components[`.${shapePrefix}squircle-${component}`] = {
+        ...getSquircleStyles(SHAPE_SCALE[defaultScale].squircle),
+        // Store component shape family
+        [`--${themePrefix}shape-family-${component}`]: 'squircle',
+        // Fallback to rounded corners for browsers that don't support mask
+        '@supports not (mask-image: url())': {
+          'border-radius': `var(${shapeVariable}, var(${defaultVariable}, ${SHAPE_SCALE[defaultScale].rounded}))`,
+        },
+      };
+    }
+  }
 
   debugLog(theme.options.debug, 'shapes', components);
   return components;

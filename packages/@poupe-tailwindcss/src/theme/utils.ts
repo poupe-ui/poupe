@@ -90,13 +90,15 @@ export function defaultPrefix(name: string, prefix: string): string {
 }
 
 export function debugLog(enabled: boolean = false, ...a: unknown[]) {
-  if (enabled) {
+  if (enabled && typeof console !== 'undefined' && typeof console.log === 'function') {
     console.log(logPrefix, ...a);
   }
 }
 
 export function warnLog(...a: unknown[]) {
-  console.warn(logPrefix, ...a);
+  if (typeof console !== 'undefined' && typeof console.warn === 'function') {
+    console.warn(logPrefix, ...a);
+  }
 }
 
 const logPrefix = '@poupe/tailwindcss';
