@@ -2,8 +2,15 @@ import { expect, it } from 'vitest';
 import { components, createResolver } from '../resolver';
 import * as Poupe from '../index';
 
-it('should export only the components', () => {
-  expect(new Set(Object.keys(Poupe))).toEqual(new Set(components));
+it('should export components and composables', () => {
+  const exports = Object.keys(Poupe);
+  // Check that all components are exported
+  for (const component of components) {
+    expect(exports).toContain(component);
+  }
+  // Check that composables are also exported
+  expect(exports).toContain('usePoupe');
+  expect(exports).toContain('createPoupe');
 });
 
 it('should resolve component with default prefix', () => {

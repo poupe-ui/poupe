@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import Button from '../button.vue';
+import Button from '../button/button.vue';
 import Card from '../card.vue';
 import InputWrapper from '../input/wrapper.vue';
 
