@@ -69,7 +69,17 @@ app.mount('#app')
 ```vue
 <template>
     <div>
-      <PButton variant="filled" color="primary">Click Me</PButton>
+      <!-- Material Design 3 Buttons -->
+      <PButton variant="filled" surface="primary">Filled Button</PButton>
+      <PButton variant="outlined">Outlined Button</PButton>
+      <PButton variant="text">Text Button</PButton>
+      
+      <!-- FAB (Floating Action Button) -->
+      <PButton fab icon="mdi:plus" />
+      <PButton fab extended icon="mdi:plus" label="Add Item" />
+      
+      <!-- Icon Button -->
+      <PButton icon-button icon="mdi:heart" />
 
       <PCard>
         <template #header>Card Header</template>
@@ -85,6 +95,46 @@ app.mount('#app')
 import { ref } from 'vue'
 
 const inputValue = ref('')
+</script>
+```
+
+## Composables
+
+### usePoupe
+Access global Poupe configuration and defaults:
+
+```vue
+<script setup>
+import { usePoupe, usePoupeDefaults } from '@poupe/vue'
+
+// Access full configuration
+const poupe = usePoupe()
+
+// Get component-specific defaults
+const buttonDefaults = usePoupeDefaults('button')
+</script>
+```
+
+### useRipple
+Add Material Design ripple effects to any element:
+
+```vue
+<template>
+  <div ref="element">
+    <span v-for="ripple in ripples" 
+          :key="ripple.id" 
+          :style="getRippleStyle(ripple)"
+          class="ripple-effect" />
+    Click me for ripple effect
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import { useRipple } from '@poupe/vue'
+
+const element = ref()
+const { ripples, getRippleStyle } = useRipple(element)
 </script>
 ```
 

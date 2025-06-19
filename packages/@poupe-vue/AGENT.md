@@ -80,11 +80,23 @@ src/
 ## Key Components
 
 ### Current Components
-- **PButton**: Material Design 3 button with interactive states
+- **PButton**: Full MD3 button implementation
+  - All variants: text, outlined, filled, elevated, tonal
+  - FAB support with extended option
+  - Icon button with toggle functionality
+  - Integrated ripple effects
 - **PCard**: Content container with optional interactive states
 - **PIcon**: Icon wrapper component
 - **PInput**: Form input wrapper with interactive states
 - **PPlaceholder**: Development placeholder component
+- **PSurface**: Base surface component with elevation and shape support
+
+### Key Composables
+- **usePoupe**: Global component defaults injection
+- **usePoupeDefaults**: Type-safe component defaults retrieval
+- **useRipple**: Material Design ripple effect implementation
+- **useIcons**: Icon library management
+- **usePassword**: Password visibility toggle
 
 ### Theme Components (Separate Export)
 - **PThemeScheme**: Theme color scheme visualization component
