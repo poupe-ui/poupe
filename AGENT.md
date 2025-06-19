@@ -180,14 +180,23 @@ Before finishing any task, ALWAYS run:
 - When creating new files, describe what the file provides, not that it was created
 
 #### Direct Commits (Recommended)
-Always commit files directly without staging to ensure you're
-committing exactly what you intend:
+**NEVER use the staging area** - always specify files directly in the
+commit command to ensure you're committing exactly what you intend:
+
+##### Commit Message Files
+- **Always use Write tool** to create commit message files (never echo,
+  -m, or heredocs)
+- **Use CWD-relative paths** for monorepo safety:
+  - In package directory: `.commit-msg-feature`
+  - From git root: `packages/@poupe-vue/.commit-msg-feature`
+- **Clean up** commit message files after use
+
 ```bash
 # First write commit message to file using Write tool
-# Then commit specific files directly
-git commit -sF /tmp/commit-msg.txt src/file1.ts src/file2.vue
+# Use CWD-relative path for the commit message file
+git commit -sF .commit-msg-feature src/file1.ts src/file2.vue
 
-# For fixup commits
+# For fixup commits (no message file needed)
 git commit --fixup=<commit-sha> src/components/story/utils.ts
 ```
 
@@ -195,6 +204,8 @@ git commit --fixup=<commit-sha> src/components/story/utils.ts
 - The stage might contain unexpected changes
 - Ensures you commit only the files you've explicitly reviewed
 - Prevents accidental commits of unrelated changes
+- **CRITICAL**: Never use `git commit -a` or commit without
+  specifying files
 
 #### Clean History with Fixup Commits
 When fixing issues in recent commits:
@@ -217,8 +228,9 @@ To improve a commit message while rebasing:
 1. Start interactive rebase: `git rebase -i <commit-sha>~1`
 2. Change 'pick' to 'edit' for the target commit
 3. When rebase pauses:
-   - Write commit message using Write tool: `Write /tmp/commit-msg.txt`
-   - Amend commit: `git commit --amend -sF /tmp/commit-msg.txt`
+   - Write commit message using Write tool: `Write .commit-msg-amend`
+   - Amend commit: `git commit --amend -sF .commit-msg-amend`
+   - Clean up: `rm .commit-msg-amend`
 4. Continue rebase: `git rebase --continue`
 
 #### Commit Message Guidelines
@@ -327,7 +339,8 @@ Each package has its own AGENT.md file with specific details:
 - Test changes thoroughly before considering tasks complete
 - Reference code locations using `file_path:line_number` format
 - Follow the pre-commit checklist strictly
-- Use Write tool for commit messages, not heredocs or echo commands
+- Use Write tool for commit messages, not echo, -m, or heredocs
+- Create commit message files in CWD (e.g., `.commit-msg-*`)
 - Don't rely on git staging for commits, use direct file references
 - Use `pnpm -F` instead of `cd` to work with specific packages
 - Don't change working directory permanently unless instructed
