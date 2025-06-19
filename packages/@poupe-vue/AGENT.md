@@ -106,6 +106,28 @@ src/
 - Support color prop with Material Design color tokens
 - Provide proper TypeScript interfaces for props
 
+## Composables
+
+### useRipple
+Material Design ripple effect composable:
+- Handles mouse and touch events to create ripple animations
+- Configurable color, opacity, duration, and bounded behavior
+- Automatically cleans up ripples after animation completes
+- Integrates with the `.ripple-effect` utility from @poupe/tailwindcss
+- Used by interactive components for tactile feedback
+
+### usePasswordToggle
+Password visibility toggle composable:
+- Manages show/hide password state
+- Provides appropriate icon based on visibility
+- Returns reactive type attribute for input elements
+
+### usePoupeIcons
+Icon management composable:
+- Provides access to Poupe's icon library
+- Returns reactive icon definitions
+- Used internally by components
+
 ## Integration Features
 
 ### Auto-import Support

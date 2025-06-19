@@ -88,6 +88,35 @@ const inputValue = ref('')
 </script>
 ```
 
+## Composables
+
+### useRipple
+
+Add Material Design ripple effects to any element:
+
+```vue
+<template>
+  <button ref="buttonRef" class="ripple-effect">
+    Click me
+  </button>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import { useRipple } from '@poupe/vue'
+
+const buttonRef = ref()
+useRipple(buttonRef, {
+  color: 'currentColor',
+  opacity: 0.12,
+  duration: 600
+})
+</script>
+```
+
+The ripple effect requires the `.ripple-effect` utility class from @poupe/tailwindcss
+for the animation keyframes.
+
 ## Story Viewer
 
 The package includes a built-in story viewer for component documentation:
