@@ -1,4 +1,4 @@
-export { type ButtonProps, default as Button } from './button.vue';
+export * from './button';
 export { type CardProps, default as Card } from './card.vue';
 export { type IconProps, default as Icon } from './icon.vue';
 
