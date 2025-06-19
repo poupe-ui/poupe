@@ -20,6 +20,7 @@ export function makeThemeComponents(theme: Readonly<Theme>, tailwindPrefix: stri
     makeSurfaceComponents(theme, tailwindPrefix),
     makeInteractiveSurfaceComponents(theme, tailwindPrefix),
     makeZIndexComponents(theme),
+    makeRippleComponents(theme),
   ];
 }
 
@@ -472,4 +473,22 @@ export function makeInteractiveSurfaceComponents(
 
   debugLog(theme.options.debug, 'interactive-surfaces', interactiveSurfaces);
   return interactiveSurfaces;
+}
+
+/**
+ * Generates ripple effect component for Material Design
+ */
+export function makeRippleComponents(theme: Readonly<Theme>): Record<string, CSSRuleObject> {
+  const { themePrefix } = theme.options;
+
+  return {
+    '.ripple-effect': {
+      'position': 'absolute',
+      'border-radius': '50%',
+      'pointer-events': 'none',
+      'background-color': 'currentColor',
+      'animation': `ripple var(--${themePrefix}ripple-duration, 600ms) ease-out`,
+      'will-change': 'transform, opacity',
+    },
+  };
 }

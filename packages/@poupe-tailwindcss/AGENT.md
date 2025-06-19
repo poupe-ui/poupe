@@ -58,6 +58,17 @@ examples/
 
 ## Recent Changes
 
+### v0.4.3 - Material Design Ripple Effect
+- **NEW**: Added `.ripple-effect` utility class for Material Design ripple animations
+- **NEW**: Ripple animation keyframes with configurable duration and opacity
+- **FEATURES**:
+  - CSS animation using `@keyframes ripple`
+  - Configurable duration via `--md-ripple-duration` (default: 600ms)
+  - Configurable opacity via `--md-ripple-opacity` (default: 0.12)
+  - Absolute positioning with circular shape (50% border-radius)
+  - Uses `currentColor` for ripple color matching
+  - Performance optimized with `will-change: transform, opacity`
+
 ### v0.4.0 - Unified Scrim Utilities & v4-to-v3 Bridge
 - **NEW**: Added opacity modifier support to all scrim utilities
   (e.g., `scrim-modal/50`)
@@ -231,6 +242,12 @@ Build errors in examples don't fail the main build process.
 - `.state-hover`: Hover state overlay
 - `.state-focus`: Focus state overlay
 - `.state-pressed`: Pressed state overlay
+
+### Animation Utilities
+- `.ripple-effect`: Material Design ripple animation effect
+  - Absolute positioning with circular shape
+  - Configurable via CSS variables
+  - Performance optimized with `will-change`
 
 ## Plugin Configuration
 

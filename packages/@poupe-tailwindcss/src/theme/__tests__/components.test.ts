@@ -18,7 +18,7 @@ describe('makeThemeComponents', () => {
     const result = makeThemeComponents(theme);
 
     expect(Array.isArray(result)).toBe(true);
-    expect(result).toHaveLength(3);
+    expect(result).toHaveLength(4);
   });
 
   it('should respect tailwindPrefix parameter', () => {

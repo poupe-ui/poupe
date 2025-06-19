@@ -305,6 +305,17 @@
     --md-z-scrim-elevated: var(--md-z-scrim-elevated, 1350);
     --md-z-scrim-system: var(--md-z-scrim-system, 1450);
   }
+
+  @keyframes ripple {
+    0% {
+      transform: translate(-50%, -50%) scale(0);
+      opacity: var(--md-ripple-opacity, 0.12);
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0;
+    }
+  }
 }
 
 @theme {
@@ -824,4 +835,13 @@
 }
 @utility z-tooltip {
   z-index: var(--md-z-tooltip);
+}
+
+@utility ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background-color: currentColor;
+  animation: ripple var(--md-ripple-duration, 600ms) ease-out;
+  will-change: transform, opacity;
 }

@@ -374,6 +374,36 @@ Interactive surfaces include:
 - **Proper contrast**: Maintains accessible text/background combinations
 - **All surface variants**: Available for every standard surface utility
 
+## Animation Utilities
+
+Material Design animation effects:
+
+### Ripple Effect
+
+The `.ripple-effect` utility class provides Material Design ripple animations:
+
+```html
+<button class="relative overflow-hidden">
+  Click me
+  <span class="ripple-effect"></span>
+</button>
+```
+
+Features:
+- **Circular animation**: Expands from center with 50% border-radius
+- **Configurable duration**: Use `--md-ripple-duration` (default: 600ms)
+- **Configurable opacity**: Use `--md-ripple-opacity` (default: 0.12)
+- **Color matching**: Uses `currentColor` to match parent text color
+- **Performance**: Optimized with `will-change: transform, opacity`
+
+```css
+/* Customize ripple properties */
+.custom-ripple {
+  --md-ripple-duration: 800ms;
+  --md-ripple-opacity: 0.2;
+}
+```
+
 ## Dark Mode
 
 Automatic dark mode variants using `.dark` class (default):
