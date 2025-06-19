@@ -108,6 +108,18 @@ src/
 
 ## Composables
 
+### usePoupe
+Global configuration and defaults composable:
+- Provides centralized configuration for all Poupe components
+- Supports theme settings (dark mode, custom colors)
+- Accessibility options (reducedMotion, highContrast)
+- Ripple effect configuration
+- Integrates with Nuxt module via app.config.ts
+- Uses provide/inject pattern for configuration distribution
+- Components can augment the PoupeOptions interface for type safety
+- Includes usePoupeMergedProps helper for three-level prop merging
+- Extendable interface for component-specific defaults
+
 ### useRipple
 Material Design ripple effect composable:
 - Handles mouse and touch events to create ripple animations

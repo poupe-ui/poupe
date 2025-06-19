@@ -117,6 +117,41 @@ useRipple(buttonRef, {
 The ripple effect requires the `.ripple-effect` utility class from @poupe/tailwindcss
 for the animation keyframes.
 
+### usePoupe
+
+Access global configuration and component defaults:
+
+```vue
+<script setup>
+import { usePoupe, usePoupeMergedProps } from '@poupe/vue'
+
+// Access global configuration
+const poupe = usePoupe()
+console.log(poupe?.theme?.dark) // true/false
+
+// Merge props with component and global defaults
+const mergedProps = usePoupeMergedProps(props, 'button', {
+  variant: 'text',
+  color: 'primary',
+  size: 'medium'
+})
+</script>
+```
+
+Configure global defaults via the Poupe plugin:
+
+```typescript
+app.use(createPoupe({
+  theme: { dark: true },
+  defaults: {
+    button: {
+      variant: 'filled',
+      color: 'primary'
+    }
+  }
+}))
+```
+
 ## Story Viewer
 
 The package includes a built-in story viewer for component documentation:

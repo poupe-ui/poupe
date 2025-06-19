@@ -82,6 +82,7 @@
     "@poupe/theme-builder": "workspace:^",
     "@unhead/vue": "^2.0.10",
     "@vueuse/core": "^13.3.0",
+    "defu": "^6.1.4",
     "reka-ui": "2.3.1",
     "tailwind-merge": "^3.3.1",
     "tailwind-scrollbar": "^4.0.2",
