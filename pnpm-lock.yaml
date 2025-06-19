@@ -268,6 +268,9 @@ importers:
       '@vueuse/core':
         specifier: ^13.3.0
         version: 13.3.0(vue@3.5.17(typescript@5.8.3))
+      defu:
+        specifier: ^6.1.4
+        version: 6.1.4
       reka-ui:
         specifier: 2.3.1
         version: 2.3.1(typescript@5.8.3)(vue@3.5.17(typescript@5.8.3))
