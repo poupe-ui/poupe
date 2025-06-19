@@ -5,6 +5,7 @@ import {
 import {
   type Theme,
   defaultSurfacePrefix,
+  defaultShapePrefix,
 } from './types';
 
 import {
@@ -21,6 +22,7 @@ export function makeThemeComponents(theme: Readonly<Theme>, tailwindPrefix: stri
     makeInteractiveSurfaceComponents(theme, tailwindPrefix),
     makeZIndexComponents(theme),
     makeRippleComponents(theme),
+    makeShapeComponents(theme),
   ];
 }
 
@@ -491,4 +493,120 @@ export function makeRippleComponents(theme: Readonly<Theme>): Record<string, CSS
       'will-change': 'transform, opacity',
     },
   };
+}
+
+/**
+ * Shape families supported by the shape system
+ */
+export const SHAPE_FAMILIES = ['rounded', 'squircle'] as const;
+export type ShapeFamily = typeof SHAPE_FAMILIES[number];
+
+/**
+ * Shape scale tokens for Material Design 3
+ * Based on MD3 Expressive shape system
+ */
+export const SHAPE_SCALE = {
+  'none': { rounded: '0px', squircle: '0' },
+  'extra-small': { rounded: '4px', squircle: '0.6' },
+  'small': { rounded: '8px', squircle: '0.8' },
+  'medium': { rounded: '12px', squircle: '1' },
+  'large': { rounded: '16px', squircle: '1.2' },
+  'extra-large': { rounded: '28px', squircle: '1.4' },
+  'full': { rounded: '9999px', squircle: '2' },
+} as const;
+
+/**
+ * Shape scale keys for validation
+ */
+export type ShapeScaleKey = keyof typeof SHAPE_SCALE;
+
+/**
+ * Generates CSS properties for a squircle shape
+ * Uses CSS mask with SVG path for smooth iOS-style squircles
+ */
+function getSquircleStyles(smoothing: string): CSSRuleObject {
+  // Smoothing value of 1 = standard squircle, higher = more rounded
+  const s = smoothing;
+  return {
+    'mask-image': `url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='${getSquirclePath(s)}' fill='black'/%3E%3C/svg%3E")`,
+    'mask-size': '100% 100%',
+    'mask-repeat': 'no-repeat',
+    '-webkit-mask-image': `url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='${getSquirclePath(s)}' fill='black'/%3E%3C/svg%3E")`,
+    '-webkit-mask-size': '100% 100%',
+    '-webkit-mask-repeat': 'no-repeat',
+  };
+}
+
+/**
+ * Generates SVG path for a squircle shape
+ * Based on the iOS squircle formula
+ */
+function getSquirclePath(smoothing: string): string {
+  const s = Number.parseFloat(smoothing);
+  if (s === 0) {
+    // Rectangle
+    return 'M 0 0 L 200 0 L 200 200 L 0 200 Z';
+  }
+
+  // Squircle path using cubic bezier curves
+  // This creates a superellipse-like shape
+  const c = 55.2 * s; // Control point distance
+  const r = 50 * Math.min(s, 1); // Corner radius
+
+  return `M ${r} 0 L ${200 - r} 0 C ${200 - r + c} 0 200 ${r - c} 200 ${r} L 200 ${200 - r} C 200 ${200 - r + c} ${200 - r + c} 200 ${200 - r} 200 L ${r} 200 C ${r - c} 200 0 ${200 - r + c} 0 ${200 - r} L 0 ${r} C 0 ${r - c} ${r - c} 0 ${r} 0 Z`;
+}
+
+/**
+ * Generates shape components for Material Design 3 shape system
+ */
+export function makeShapeComponents(theme: Readonly<Theme>): Record<string, CSSRuleObject> {
+  const { themePrefix, shapePrefix = defaultShapePrefix } = theme.options;
+
+  if (!shapePrefix) {
+    return {};
+  }
+
+  const components: Record<string, CSSRuleObject> = {};
+
+  // Validate theme has shape tokens if needed
+  const hasShapeTokens = Object.keys(theme.colors).some(key => key.startsWith('shape-'));
+  if (theme.options.debug && !hasShapeTokens) {
+    debugLog(true, 'shape-validation', 'No shape- tokens found in theme colors');
+  }
+
+  // Generate shape scale utilities for MD3 Expressive
+  for (const [scale, values] of Object.entries(SHAPE_SCALE)) {
+    // Shape token as CSS variable (MD3 Expressive design tokens)
+    const shapeVariable = `--${themePrefix}shape-${scale}`;
+
+    // Rounded corner shapes (default)
+    components[`.${shapePrefix}${scale}`] = {
+      'border-radius': `var(${shapeVariable}, ${values.rounded})`,
+    };
+
+    // Squircle shapes for MD3 Expressive
+    if (scale !== 'none') {
+      components[`.${shapePrefix}squircle-${scale}`] = {
+        ...getSquircleStyles(values.squircle),
+        // Store shape family for component reference
+        [`--${themePrefix}shape-family-${scale}`]: 'squircle',
+        // Fallback to rounded corners for browsers that don't support mask
+        '@supports not (mask-image: url())': {
+          'border-radius': `var(${shapeVariable}, ${values.rounded})`,
+        },
+      };
+    }
+  }
+
+  // Add shape family utilities (cleaner names without "family-")
+  components[`.${shapePrefix}rounded`] = {
+    [`--${themePrefix}shape-family`]: 'rounded',
+  };
+
+  components[`.${shapePrefix}squircle`] = {
+    [`--${themePrefix}shape-family`]: 'squircle',
+  };
+
+  debugLog(theme.options.debug, 'shapes', components);
+  return components;
 }

@@ -716,3 +716,97 @@
   animation: ripple var(--md-ripple-duration, 600ms) ease-out;
   will-change: transform, opacity;
 }
+
+@utility shape-none {
+  border-radius: var(--md-shape-none, 0px);
+}
+@utility shape-extra-small {
+  border-radius: var(--md-shape-extra-small, 4px);
+}
+@utility shape-squircle-extra-small {
+  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 203.12 0 200 -3.1199999999999974 200 30 L 200 170 C 200 203.12 203.12 200 170 200 L 30 200 C -3.1199999999999974 200 0 203.12 0 170 L 0 30 C 0 -3.1199999999999974 -3.1199999999999974 0 30 0 Z' fill='black'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 203.12 0 200 -3.1199999999999974 200 30 L 200 170 C 200 203.12 203.12 200 170 200 L 30 200 C -3.1199999999999974 200 0 203.12 0 170 L 0 30 C 0 -3.1199999999999974 -3.1199999999999974 0 30 0 Z' fill='black'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  @supports not (mask-image: url()) {
+    border-radius: var(--md-shape-extra-small, 4px);
+  }
+}
+@utility shape-small {
+  border-radius: var(--md-shape-small, 8px);
+}
+@utility shape-squircle-small {
+  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40 0 L 160 0 C 204.16 0 200 -4.160000000000004 200 40 L 200 160 C 200 204.16 204.16 200 160 200 L 40 200 C -4.160000000000004 200 0 204.16 0 160 L 0 40 C 0 -4.160000000000004 -4.160000000000004 0 40 0 Z' fill='black'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40 0 L 160 0 C 204.16 0 200 -4.160000000000004 200 40 L 200 160 C 200 204.16 204.16 200 160 200 L 40 200 C -4.160000000000004 200 0 204.16 0 160 L 0 40 C 0 -4.160000000000004 -4.160000000000004 0 40 0 Z' fill='black'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  @supports not (mask-image: url()) {
+    border-radius: var(--md-shape-small, 8px);
+  }
+}
+@utility shape-medium {
+  border-radius: var(--md-shape-medium, 12px);
+}
+@utility shape-squircle-medium {
+  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 205.2 0 200 -5.200000000000003 200 50 L 200 150 C 200 205.2 205.2 200 150 200 L 50 200 C -5.200000000000003 200 0 205.2 0 150 L 0 50 C 0 -5.200000000000003 -5.200000000000003 0 50 0 Z' fill='black'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 205.2 0 200 -5.200000000000003 200 50 L 200 150 C 200 205.2 205.2 200 150 200 L 50 200 C -5.200000000000003 200 0 205.2 0 150 L 0 50 C 0 -5.200000000000003 -5.200000000000003 0 50 0 Z' fill='black'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  @supports not (mask-image: url()) {
+    border-radius: var(--md-shape-medium, 12px);
+  }
+}
+@utility shape-large {
+  border-radius: var(--md-shape-large, 16px);
+}
+@utility shape-squircle-large {
+  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 216.24 0 200 -16.239999999999995 200 50 L 200 150 C 200 216.24 216.24 200 150 200 L 50 200 C -16.239999999999995 200 0 216.24 0 150 L 0 50 C 0 -16.239999999999995 -16.239999999999995 0 50 0 Z' fill='black'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 216.24 0 200 -16.239999999999995 200 50 L 200 150 C 200 216.24 216.24 200 150 200 L 50 200 C -16.239999999999995 200 0 216.24 0 150 L 0 50 C 0 -16.239999999999995 -16.239999999999995 0 50 0 Z' fill='black'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  @supports not (mask-image: url()) {
+    border-radius: var(--md-shape-large, 16px);
+  }
+}
+@utility shape-extra-large {
+  border-radius: var(--md-shape-extra-large, 28px);
+}
+@utility shape-squircle-extra-large {
+  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 227.28 0 200 -27.28 200 50 L 200 150 C 200 227.28 227.28 200 150 200 L 50 200 C -27.28 200 0 227.28 0 150 L 0 50 C 0 -27.28 -27.28 0 50 0 Z' fill='black'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 227.28 0 200 -27.28 200 50 L 200 150 C 200 227.28 227.28 200 150 200 L 50 200 C -27.28 200 0 227.28 0 150 L 0 50 C 0 -27.28 -27.28 0 50 0 Z' fill='black'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  @supports not (mask-image: url()) {
+    border-radius: var(--md-shape-extra-large, 28px);
+  }
+}
+@utility shape-full {
+  border-radius: var(--md-shape-full, 9999px);
+}
+@utility shape-squircle-full {
+  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 260.4 0 200 -60.400000000000006 200 50 L 200 150 C 200 260.4 260.4 200 150 200 L 50 200 C -60.400000000000006 200 0 260.4 0 150 L 0 50 C 0 -60.400000000000006 -60.400000000000006 0 50 0 Z' fill='black'/%3E%3C/svg%3E");
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 260.4 0 200 -60.400000000000006 200 50 L 200 150 C 200 260.4 260.4 200 150 200 L 50 200 C -60.400000000000006 200 0 260.4 0 150 L 0 50 C 0 -60.400000000000006 -60.400000000000006 0 50 0 Z' fill='black'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  @supports not (mask-image: url()) {
+    border-radius: var(--md-shape-full, 9999px);
+  }
+}
+@utility shape-rounded {
+  --md-shape-family: rounded;
+}
+@utility shape-squircle {
+  --md-shape-family: squircle;
+}

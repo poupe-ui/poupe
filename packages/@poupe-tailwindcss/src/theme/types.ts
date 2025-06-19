@@ -56,6 +56,12 @@ export type ThemeOptions<K extends string = string> = {
    * */
   surfacePrefix: string | false
 
+  /** Prefix for shape class names, defaults to 'shape-'.
+   * Set to `false` to disable shape generation.
+   *  @defaultValue `'shape-'`
+   * */
+  shapePrefix: string | false
+
   /** Flag to omit theme generation, @defaultValue `false` */
   omitTheme: boolean
 
@@ -129,3 +135,4 @@ export const defaultThemeLightSuffix = '';
 export const defaultThemeContrastLevel = 0;
 export const defaultThemeScheme: StandardDynamicSchemeKey = 'content';
 export const defaultSurfacePrefix = 'surface-';
+export const defaultShapePrefix = 'shape-';

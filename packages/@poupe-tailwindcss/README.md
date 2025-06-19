@@ -214,6 +214,56 @@ All scrim utilities support Tailwind's opacity modifier syntax:
 - Bridge pattern converts v4 syntax to v3 matchUtilities for broad
   compatibility
 
+## Shape System
+
+Material Design 3 shape utilities with extensible architecture:
+
+### Shape Scale
+
+```html
+<!-- Shape scale utilities -->
+<div class="shape-none">No rounding (0px)</div>
+<div class="shape-extra-small">Extra small (4px)</div>
+<div class="shape-small">Small (8px)</div>
+<div class="shape-medium">Medium (12px)</div>
+<div class="shape-large">Large (16px)</div>
+<div class="shape-extra-large">Extra large (28px)</div>
+<div class="shape-full">Full rounding (999px)</div>
+```
+
+### Shape Families
+
+```html
+<!-- Default rounded corners -->
+<div class="shape-medium shape-rounded">Rounded corners</div>
+
+<!-- iOS-style squircle (smooth corners) -->
+<div class="shape-medium shape-squircle">Squircle shape</div>
+```
+
+### CSS Variables
+
+All shapes use CSS variables for customization:
+
+```css
+:root {
+  --md-shape-none: 0px;
+  --md-shape-extra-small: 4px;
+  --md-shape-small: 8px;
+  --md-shape-medium: 12px;
+  --md-shape-large: 16px;
+  --md-shape-extra-large: 28px;
+  --md-shape-full: 999px;
+}
+```
+
+### Squircle Implementation
+
+- Uses SVG masks for true iOS-style smooth corners
+- Graceful fallback to border-radius for unsupported browsers
+- Configurable corner smoothing via `--md-shape-corner-smooth`
+- Future-ready for additional shape families (cut corners, diamonds, etc.)
+
 ### Programmatic Theme Generation
 
 Generate CSS themes programmatically:

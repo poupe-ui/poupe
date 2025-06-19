@@ -103,6 +103,21 @@ examples/
 - Includes transition timing with `--md-state-transition-duration` CSS
   variable
 
+### Shape System
+- **Material Design 3 shape tokens**: Extensible shape system with scale
+  from `none` through `full`
+- **Shape scale utilities**: `.shape-none`, `.shape-extra-small`,
+  `.shape-small`, `.shape-medium`, `.shape-large`, `.shape-extra-large`,
+  `.shape-full`
+- **Squircle support**: iOS-style smooth corners using SVG masks with
+  graceful fallback
+- **Shape family utilities**: `.shape-rounded` (default),
+  `.shape-squircle` for future expansion
+- **CSS variables**: Each shape uses `--md-shape-*` variables for
+  customization
+- **Configurable prefix**: Defaults to `shape-` but can be customized via
+  `shapePrefix` option
+
 ## TailwindCSS v4-to-v3 Bridge Pattern
 
 The package includes `asMatchUtility` function at

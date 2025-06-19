@@ -6,6 +6,8 @@ import {
   makeZIndexComponents,
   assembleSurfaceComponent,
   makeSurfaceName,
+  makeShapeComponents,
+  SHAPE_SCALE,
 } from '../components';
 
 import {
@@ -16,9 +18,16 @@ describe('makeThemeComponents', () => {
   it('should return an array of component objects', () => {
     const theme = makeThemeFromPartialOptions({});
     const result = makeThemeComponents(theme);
+    const expected: Array<undefined> = [
+      undefined, // surfaces
+      undefined, // interactive
+      undefined, // z-index
+      undefined, // ripple
+      undefined, // shapes
+    ];
 
     expect(Array.isArray(result)).toBe(true);
-    expect(result).toHaveLength(4);
+    expect(result).toHaveLength(expected.length);
   });
 
   it('should respect tailwindPrefix parameter', () => {
@@ -316,6 +325,108 @@ describe('interactive surface components', () => {
         const applyRule = Object.keys(interactiveSurfaceGroup![componentKey])[0];
         expect(applyRule).toMatch(/disabled:text-[^/]+\/38/);
       }
+    }
+  });
+});
+
+describe('makeShapeComponents', () => {
+  it('should return empty object when shapePrefix is disabled', () => {
+    const theme = makeThemeFromPartialOptions({ shapePrefix: '' });
+    const result = makeShapeComponents(theme);
+
+    expect(result).toEqual({});
+  });
+
+  it('should create shape scale utilities for MD3 Expressive', () => {
+    const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
+    const result = makeShapeComponents(theme);
+
+    // Verify all shape scales are created
+    for (const scale of Object.keys(SHAPE_SCALE)) {
+      expect(result[`.shape-${scale}`]).toBeDefined();
+      expect(result[`.shape-${scale}`]['border-radius']).toContain(`--md-shape-${scale}`);
+    }
+  });
+
+  it('should create squircle variants for non-none shapes', () => {
+    const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
+    const result = makeShapeComponents(theme);
+
+    // Should have squircle variants for all scales except 'none'
+    const nonNoneScales = Object.keys(SHAPE_SCALE).filter(s => s !== 'none');
+    for (const scale of nonNoneScales) {
+      expect(result[`.shape-squircle-${scale}`]).toBeDefined();
+      expect(result[`.shape-squircle-${scale}`]['mask-image']).toBeDefined();
+      expect(result[`.shape-squircle-${scale}`]['--md-shape-family-' + scale]).toBe('squircle');
+    }
+
+    // Should not have squircle variant for 'none'
+    expect(result['.shape-squircle-none']).toBeUndefined();
+  });
+
+
+  it('should include shape family utilities', () => {
+    const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
+    const result = makeShapeComponents(theme);
+
+    expect(result['.shape-rounded']).toEqual({
+      '--md-shape-family': 'rounded',
+    });
+
+    expect(result['.shape-squircle']).toEqual({
+      '--md-shape-family': 'squircle',
+    });
+  });
+
+  it('should support custom shape prefix', () => {
+    const theme = makeThemeFromPartialOptions({ shapePrefix: 'corner-' });
+    const result = makeShapeComponents(theme);
+
+    // All utilities should use custom prefix
+    const keys = Object.keys(result);
+    expect(keys.every(k => k.startsWith('.corner-'))).toBe(true);
+  });
+
+  it('should validate theme has shape tokens in debug mode', () => {
+    const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+
+    const theme = makeThemeFromPartialOptions({
+      debug: true,
+    });
+
+    makeShapeComponents(theme);
+
+    // Should log validation warning when no shape tokens are present
+    // (default theme doesn't include shape- tokens)
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      '@poupe/tailwindcss',
+      'shape-validation',
+      'No shape- tokens found in theme colors',
+    );
+
+    consoleLogSpy.mockRestore();
+  });
+
+  it('should use proper CSS variable hierarchy for shape tokens', () => {
+    const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
+    const result = makeShapeComponents(theme);
+
+    // Component shapes should fallback to scale shapes
+    const cardShape = result['.shape-card'];
+    expect(cardShape['border-radius']).toBe(
+      'var(--md-shape-card, var(--md-shape-medium, 12px))',
+    );
+  });
+
+  it('should provide browser fallback for squircle shapes', () => {
+    const theme = makeThemeFromPartialOptions({});
+    const result = makeShapeComponents(theme);
+
+    const squircleCard = result['.shape-squircle-card'];
+    const supportsRule = squircleCard['@supports not (mask-image: url())'];
+    expect(supportsRule).toBeDefined();
+    if (typeof supportsRule === 'object' && supportsRule !== null && !Array.isArray(supportsRule)) {
+      expect(supportsRule['border-radius']).toContain('shape-card');
     }
   });
 });
