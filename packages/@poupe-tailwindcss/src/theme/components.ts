@@ -20,6 +20,8 @@ export function makeThemeComponents(theme: Readonly<Theme>, tailwindPrefix: stri
     makeSurfaceComponents(theme, tailwindPrefix),
     makeInteractiveSurfaceComponents(theme, tailwindPrefix),
     makeZIndexComponents(theme),
+    makeRippleComponents(theme),
+    makeShapeComponents(theme),
   ];
 }
 
@@ -472,4 +474,47 @@ export function makeInteractiveSurfaceComponents(
 
   debugLog(theme.options.debug, 'interactive-surfaces', interactiveSurfaces);
   return interactiveSurfaces;
+}
+
+/**
+ * Generates ripple effect component for Material Design
+ */
+export function makeRippleComponents(theme: Readonly<Theme>): Record<string, CSSRuleObject> {
+  const { themePrefix } = theme.options;
+
+  return {
+    '.ripple-effect': {
+      position: 'absolute',
+      'border-radius': '50%',
+      'pointer-events': 'none',
+      'background-color': 'currentColor',
+      animation: `ripple var(--${themePrefix}ripple-duration, 600ms) ease-out`,
+      'will-change': 'transform, opacity',
+    },
+  };
+}
+
+/**
+ * Generates shape components for Material Design 3 shape system
+ */
+export function makeShapeComponents(theme: Readonly<Theme>): Record<string, CSSRuleObject> {
+  const { themePrefix } = theme.options;
+
+  return {
+    '.shape-none': { 'border-radius': `var(--${themePrefix}shape-none, 0px)` },
+    '.shape-extra-small': { 'border-radius': `var(--${themePrefix}shape-extra-small, 4px)` },
+    '.shape-small': { 'border-radius': `var(--${themePrefix}shape-small, 8px)` },
+    '.shape-medium': { 'border-radius': `var(--${themePrefix}shape-medium, 12px)` },
+    '.shape-large': { 'border-radius': `var(--${themePrefix}shape-large, 16px)` },
+    '.shape-extra-large': { 'border-radius': `var(--${themePrefix}shape-extra-large, 28px)` },
+    '.shape-full': { 'border-radius': `var(--${themePrefix}shape-full, 9999px)` },
+    
+    // Component-specific shape tokens
+    '.shape-button': { 'border-radius': `var(--${themePrefix}shape-button, var(--${themePrefix}shape-full, 9999px))` },
+    '.shape-card': { 'border-radius': `var(--${themePrefix}shape-card, var(--${themePrefix}shape-medium, 12px))` },
+    '.shape-fab': { 'border-radius': `var(--${themePrefix}shape-fab, var(--${themePrefix}shape-large, 16px))` },
+    '.shape-text-field': { 'border-radius': `var(--${themePrefix}shape-text-field, var(--${themePrefix}shape-extra-small, 4px))` },
+    '.shape-dialog': { 'border-radius': `var(--${themePrefix}shape-dialog, var(--${themePrefix}shape-extra-large, 28px))` },
+    '.shape-chip': { 'border-radius': `var(--${themePrefix}shape-chip, var(--${themePrefix}shape-small, 8px))` },
+  };
 }

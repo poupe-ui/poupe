@@ -498,6 +498,20 @@ export function makeThemeBases(
     ':root': constants,
   });
 
+  // Add ripple keyframes
+  bases.push({
+    '@keyframes ripple': {
+      '0%': {
+        transform: 'translate(-50%, -50%) scale(0)',
+        opacity: `var(--${themePrefix}ripple-opacity, 0.12)`,
+      },
+      '100%': {
+        transform: 'translate(-50%, -50%) scale(1)',
+        opacity: '0',
+      },
+    },
+  });
+
   return bases;
 }
 

@@ -305,6 +305,16 @@
     --md-z-scrim-elevated: var(--md-z-scrim-elevated, 1350);
     --md-z-scrim-system: var(--md-z-scrim-system, 1450);
   }
+  @keyframes ripple {
+    0% {
+      transform: translate(-50%, -50%) scale(0);
+      opacity: var(--md-ripple-opacity, 0.12);
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0;
+    }
+  }
 }
 
 @theme {
@@ -824,4 +834,53 @@
 }
 @utility z-tooltip {
   z-index: var(--md-z-tooltip);
+}
+
+@utility ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background-color: currentColor;
+  animation: ripple var(--md-ripple-duration, 600ms) ease-out;
+  will-change: transform, opacity;
+}
+
+@utility shape-none {
+  border-radius: var(--md-shape-none, 0px);
+}
+@utility shape-extra-small {
+  border-radius: var(--md-shape-extra-small, 4px);
+}
+@utility shape-small {
+  border-radius: var(--md-shape-small, 8px);
+}
+@utility shape-medium {
+  border-radius: var(--md-shape-medium, 12px);
+}
+@utility shape-large {
+  border-radius: var(--md-shape-large, 16px);
+}
+@utility shape-extra-large {
+  border-radius: var(--md-shape-extra-large, 28px);
+}
+@utility shape-full {
+  border-radius: var(--md-shape-full, 9999px);
+}
+@utility shape-button {
+  border-radius: var(--md-shape-button, var(--md-shape-full, 9999px));
+}
+@utility shape-card {
+  border-radius: var(--md-shape-card, var(--md-shape-medium, 12px));
+}
+@utility shape-fab {
+  border-radius: var(--md-shape-fab, var(--md-shape-large, 16px));
+}
+@utility shape-text-field {
+  border-radius: var(--md-shape-text-field, var(--md-shape-extra-small, 4px));
+}
+@utility shape-dialog {
+  border-radius: var(--md-shape-dialog, var(--md-shape-extra-large, 28px));
+}
+@utility shape-chip {
+  border-radius: var(--md-shape-chip, var(--md-shape-small, 8px));
 }
