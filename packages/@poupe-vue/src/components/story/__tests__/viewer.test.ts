@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { mount } from '@vue/test-utils';
+import { mountWithPoupe } from '../../__tests__/test-utils';
 import { h, markRaw, type Component } from 'vue';
 import StoryViewer from '../viewer.vue';
 
@@ -43,7 +43,7 @@ describe('StoryViewer', () => {
   ];
 
   it('renders with stories', () => {
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: mockStories,
       },
@@ -54,7 +54,7 @@ describe('StoryViewer', () => {
   });
 
   it('displays story navigation buttons', () => {
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: mockStories,
       },
@@ -67,7 +67,7 @@ describe('StoryViewer', () => {
   });
 
   it('shows first story by default', () => {
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: mockStories,
       },
@@ -89,7 +89,7 @@ describe('StoryViewer', () => {
       },
     ];
 
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: testStories,
         defaultStory: 'Test Story 2',
@@ -107,7 +107,7 @@ describe('StoryViewer', () => {
   });
 
   it('switches stories on button click', async () => {
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: mockStories,
       },
@@ -134,7 +134,7 @@ describe('StoryViewer', () => {
       },
     ];
 
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: descriptionTestStories,
       },
@@ -149,7 +149,7 @@ describe('StoryViewer', () => {
   });
 
   it('uses custom title slot', () => {
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: mockStories,
       },
@@ -170,7 +170,7 @@ describe('StoryViewer', () => {
       },
     ];
 
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: slotTestStories,
       },
@@ -185,7 +185,7 @@ describe('StoryViewer', () => {
   });
 
   it('is responsive on mobile', () => {
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: mockStories,
       },

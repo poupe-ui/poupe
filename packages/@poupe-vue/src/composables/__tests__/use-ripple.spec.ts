@@ -1,7 +1,7 @@
 /* eslint-disable vue/one-component-per-file */
 import { describe, it, expect, vi } from 'vitest';
 import { ref, nextTick } from 'vue';
-import { mount } from '@vue/test-utils';
+import { mountWithPoupe } from '../../components/__tests__/test-utils';
 import { useRipple } from '../use-ripple';
 
 describe('useRipple', () => {
@@ -23,7 +23,7 @@ describe('useRipple', () => {
       template: '<div ref="elementRef" style="width: 100px; height: 100px;"></div>',
     };
 
-    const wrapper = mount(TestComponent);
+    const wrapper = mountWithPoupe(TestComponent);
     const element = wrapper.find('div');
 
     // Simulate click
@@ -54,7 +54,7 @@ describe('useRipple', () => {
       template: '<div ref="elementRef" style="width: 100px; height: 100px;"></div>',
     };
 
-    const wrapper = mount(TestComponent);
+    const wrapper = mountWithPoupe(TestComponent);
     const element = wrapper.find('div');
 
     // Simulate click
@@ -85,7 +85,7 @@ describe('useRipple', () => {
       template: '<div ref="elementRef" style="width: 100px; height: 100px;"></div>',
     };
 
-    const wrapper = mount(TestComponent);
+    const wrapper = mountWithPoupe(TestComponent);
     const element = wrapper.find('div');
 
     // Simulate click
