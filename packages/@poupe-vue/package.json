@@ -91,7 +91,7 @@
     "vue": "^3.5.17"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "^0.6.4",
+    "@poupe/eslint-config": "^0.7.2",
     "@tailwindcss/postcss": "^4.1.10",
     "@tailwindcss/vite": "^4.1.10",
     "@tsconfig/node20": "^20.1.5",
@@ -102,7 +102,7 @@
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.21",
-    "eslint": "^9.28.0",
+    "eslint": "^9.29.0",
     "eslint-config-unjs": "0.4.2",
     "eslint-plugin-vue": "^10.2.0",
     "jsdom": "^26.1.0",

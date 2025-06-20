@@ -58,9 +58,9 @@
     "defu": "^6.1.4"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "^0.6.4",
+    "@poupe/eslint-config": "^0.7.2",
     "@types/node": "^20.19.0",
-    "eslint": "^9.28.0",
+    "eslint": "^9.29.0",
     "npm-run-all2": "^8.0.4",
     "publint": "^0.3.12",
     "typescript": "~5.8.3",
