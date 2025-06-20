@@ -1,9 +1,14 @@
 import { expect, it } from 'vitest';
 import { components, createResolver } from '../resolver';
-import * as Poupe from '../index';
+import * as PoupeIndex from '../index';
+import * as PoupeComponents from '../components';
 
-it('should export only the components', () => {
-  expect(new Set(Object.keys(Poupe))).toEqual(new Set(components));
+it('should export only the components from index', () => {
+  expect(new Set(Object.keys(PoupeIndex))).toEqual(new Set(components));
+});
+
+it('should export only the components from components entry point', () => {
+  expect(new Set(Object.keys(PoupeComponents))).toEqual(new Set(components));
 });
 
 it('should resolve component with default prefix', () => {

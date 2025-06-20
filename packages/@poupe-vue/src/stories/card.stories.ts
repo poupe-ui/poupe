@@ -1,7 +1,7 @@
 import { h } from 'vue';
 import type { StoryGroup } from '../components/story/types';
 import { createStory, createStoryGroup } from '../components/story/utils';
-import { Button, Card, Icon, Placeholder } from '../components';
+import { Button, Card, Icon, Surface } from '../components';
 
 // Basic card variants
 export const basicVariants = createStoryGroup(
@@ -28,6 +28,14 @@ export const basicVariants = createStoryGroup(
         footer: 'Footer content',
       },
     }),
+    createStory({
+      title: 'Card without Title',
+      component: Card,
+      props: {},
+      slots: {
+        default: 'A card with just content, no title or header.',
+      },
+    }),
   ],
 );
 
@@ -35,16 +43,16 @@ export const basicVariants = createStoryGroup(
 export const surfaceVariants = createStoryGroup(
   'Surface Variants',
   'Cards with different surface colors',
-  ['base', 'low', 'high', 'highest'].map(surface =>
+  ['base', 'low', 'container', 'high', 'highest'].map(surface =>
     createStory({
-      title: `Surface ${surface}`,
+      title: surface.replaceAll('-', ' ').replaceAll(/\b\w/g, l => l.toUpperCase()),
       component: Card,
       props: {
         surface,
-        title: `${surface} Surface Card`,
+        title: 'Surface Variant',
       },
       slots: {
-        default: `This card uses the ${surface} surface color.`,
+        default: `This card uses the ${surface} color.`,
       },
     }),
   ),
@@ -56,37 +64,67 @@ export const shadowVariants = createStoryGroup(
   'Cards with different elevation shadows',
   ['none', 'z1', 'z2', 'z3', 'z4', 'z5'].map(shadow =>
     createStory({
-      title: `Shadow ${shadow}`,
+      title: `Shadow Level ${shadow}`,
       component: Card,
       props: {
         shadow,
-        title: `Shadow ${shadow}`,
+        title: `Elevation ${shadow}`,
       },
       slots: {
-        default: `This card has ${shadow} elevation.`,
+        default: `This card has shadow level ${shadow}.`,
       },
     }),
   ),
 );
 
-// Rounded variants
-export const roundedVariants = createStoryGroup(
-  'Rounded Variants',
+// Shape variants
+export const shapeVariants = createStoryGroup(
+  'Shape Variants',
   'Cards with different corner radius options',
-  ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl'].map(rounded =>
+  ['xs', 'sm', 'md', 'lg', 'xl'].map(shape =>
     createStory({
-      title: `Rounded ${rounded}`,
+      title: `Shape ${shape}`,
       component: Card,
       props: {
-        rounded,
-        title: `Rounded ${rounded}`,
-        shadow: 'z2',
+        shape,
+        title: `Shape ${shape}`,
       },
       slots: {
-        default: `This card has ${rounded} corner radius.`,
+        default: `This card uses ${shape} corners.`,
       },
     }),
   ),
+);
+
+// Interactive cards
+export const interactiveVariants = createStoryGroup(
+  'Interactive Cards',
+  'Cards with hover and click interactions',
+  [
+    createStory({
+      title: 'Clickable Card',
+      component: Card,
+      props: {
+        interactive: true,
+        title: 'Interactive Card',
+      },
+      slots: {
+        default: 'This card responds to hover and click. Try interacting with it!',
+      },
+    }),
+    createStory({
+      title: 'Interactive with Primary Container',
+      component: Card,
+      props: {
+        interactive: true,
+        container: 'primary',
+        title: 'Primary Interactive',
+      },
+      slots: {
+        default: 'An interactive card with primary container color.',
+      },
+    }),
+  ],
 );
 
 // Complex content examples
@@ -95,19 +133,18 @@ export const complexContentVariants = createStoryGroup(
   'Cards with rich content and interactive elements',
   [
     createStory({
-      title: 'Card with Image',
+      title: 'Media Card',
       component: Card,
       props: {
         shadow: 'z2',
-        rounded: 'lg',
       },
       slots: {
-        header: () => h('div', { class: 'h-48 bg-gradient-to-r from-primary to-secondary' }),
+        header: () => h('div', { class: 'h-48 -mx-4 -mt-4 bg-gradient-to-r from-primary to-secondary' }),
         default: () => h('div', { class: 'space-y-2' }, [
           h('h3', { class: 'text-xl font-semibold' }, 'Beautiful Landscape'),
           h('p', { class: 'text-sm text-on-surface-variant' }, 'Experience the breathtaking views of nature with our curated collection of landscape photography.'),
         ]),
-        footer: () => h('div', { class: 'flex justify-end gap-2 p-2' }, [
+        footer: () => h('div', { class: 'flex justify-end gap-2 -mx-4 -mb-4 px-4 pb-4' }, [
           h(Button, { surface: 'base', label: 'Share' }),
           h(Button, { surface: 'primary', label: 'View' }),
         ]),
@@ -119,17 +156,22 @@ export const complexContentVariants = createStoryGroup(
       props: {
         surface: 'highest',
         shadow: 'z3',
-        rounded: 'xl',
       },
       slots: {
         default: () => h('div', { class: 'flex items-center gap-4' }, [
-          h('div', { class: 'w-16 h-16' }, [
-            h(Placeholder, { shape: 'circle', color: 'primary' }),
-          ]),
+          h(Surface, {
+            shape: 'full',
+            variant: 'primary-container',
+            padding: 'none',
+          }, {
+            default: () => h('div', { class: 'w-16 h-16 flex items-center justify-center' }, [
+              h('span', { class: 'text-2xl font-bold' }, 'JD'),
+            ]),
+          }),
           h('div', { class: 'flex-1' }, [
             h('h4', { class: 'font-medium' }, 'John Doe'),
             h('p', { class: 'text-sm text-on-surface-variant' }, 'Software Engineer'),
-            h('div', { class: 'flex gap-2 mt-2' }, [
+            h('div', { class: 'flex gap-2 mt-2 items-center' }, [
               h(Icon, { icon: 'material-symbols:mail', class: 'text-sm' }),
               h('span', { class: 'text-xs' }, 'john.doe@example.com'),
             ]),
@@ -143,7 +185,6 @@ export const complexContentVariants = createStoryGroup(
       props: {
         title: 'Monthly Statistics',
         surface: 'low',
-        shadow: 'z1',
       },
       slots: {
         default: () => h('div', { class: 'grid grid-cols-3 gap-4 text-center' }, [
@@ -167,10 +208,9 @@ export const complexContentVariants = createStoryGroup(
       component: Card,
       props: {
         shadow: 'z2',
-        surface: 'high',
       },
       slots: {
-        header: () => h('div', { class: 'flex items-center justify-between p-4' }, [
+        header: () => h('div', { class: 'flex items-center justify-between' }, [
           h('h3', { class: 'text-lg font-medium' }, 'Quick Actions'),
           h(Icon, { icon: 'material-symbols:more-vert' }),
         ]),
@@ -187,7 +227,6 @@ export const complexContentVariants = createStoryGroup(
       props: {
         title: 'Parent Card',
         surface: 'base',
-        shadow: 'z1',
       },
       slots: {
         default: () => h('div', { class: 'space-y-4' }, [
@@ -195,16 +234,16 @@ export const complexContentVariants = createStoryGroup(
           h(Card, {
             surface: 'low',
             shadow: 'none',
-            rounded: 'md',
+            shape: 'sm',
           }, {
-            default: () => 'Nested card 1 with low surface',
+            default: () => 'Nested card with low surface',
           }),
           h(Card, {
             surface: 'high',
             shadow: 'none',
-            rounded: 'md',
+            shape: 'sm',
           }, {
-            default: () => 'Nested card 2 with high surface',
+            default: () => 'Nested card with high surface',
           }),
         ]),
       },
@@ -215,7 +254,8 @@ export const complexContentVariants = createStoryGroup(
       props: {
         surface: 'base',
         shadow: 'none',
-        rounded: 'md',
+        shape: 'sm',
+        interactive: true,
       },
       slots: {
         default: () => h('div', { class: 'flex items-center justify-between' }, [
@@ -244,7 +284,7 @@ export const combinationVariants = createStoryGroup(
       props: {
         surface: 'high',
         shadow: 'z2',
-        rounded: 'lg',
+        shape: 'lg',
       },
       slots: {
         default: () => h('div', { class: 'space-y-4' }, [
@@ -263,7 +303,7 @@ export const combinationVariants = createStoryGroup(
       props: {
         surface: 'highest',
         shadow: 'z4',
-        rounded: '2xl',
+        shape: 'xl',
       },
       slots: {
         default: () => h('div', { class: 'text-center py-8' }, [
@@ -274,6 +314,24 @@ export const combinationVariants = createStoryGroup(
         ]),
       },
     }),
+    createStory({
+      title: 'Color Container Cards',
+      component: Card,
+      props: {},
+      slots: {
+        default: () => h('div', { class: 'space-y-4' }, [
+          h(Card, { container: 'primary', title: 'Primary', shadow: 'z1' }, {
+            default: () => 'Card with primary container color',
+          }),
+          h(Card, { container: 'secondary', title: 'Secondary', shadow: 'z1' }, {
+            default: () => 'Card with secondary container color',
+          }),
+          h(Card, { container: 'tertiary', title: 'Tertiary', shadow: 'z1' }, {
+            default: () => 'Card with tertiary container color',
+          }),
+        ]),
+      },
+    }),
   ],
 );
 
@@ -281,7 +339,8 @@ export const cardStoryGroups: StoryGroup[] = [
   basicVariants,
   surfaceVariants,
   shadowVariants,
-  roundedVariants,
+  shapeVariants,
+  interactiveVariants,
   complexContentVariants,
   combinationVariants,
 ];

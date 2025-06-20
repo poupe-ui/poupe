@@ -496,6 +496,19 @@ export function makeThemeBases(
 
   bases.push({
     ':root': constants,
+  }, {
+    // empty line
+  }, {
+    '@keyframes ripple': {
+      '0%': {
+        transform: 'translate(-50%, -50%) scale(0)',
+        opacity: `var(--${themePrefix}ripple-opacity, 0.12)`,
+      },
+      '100%': {
+        transform: 'translate(-50%, -50%) scale(1)',
+        opacity: '0',
+      },
+    },
   });
 
   return bases;

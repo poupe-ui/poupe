@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Button > should render correctly 1`] = `
+"<button class="relative surface surface-container surface-primary shape-squircle-medium shadow-none border-transparent cursor-pointer interactive-surface-primary inline-flex items-center justify-center gap-2 transition-all duration-200 select-none font-medium ripple-effect text-sm h-10 px-6">
+  <div class="contents" style="position: relative; overflow: hidden;">
+    <!-- Leading icon -->
+    <!--v-if-->
+    <!-- Label --><span class="leading-none">Button label</span><!-- Default slot -->
+    <!--v-if-->
+    <!-- Trailing icon -->
+    <!--v-if-->
+    <!-- Loading indicator -->
+    <!--v-if-->
+  </div>
+</button>"
+`;

@@ -214,6 +214,82 @@ All scrim utilities support Tailwind's opacity modifier syntax:
 - Bridge pattern converts v4 syntax to v3 matchUtilities for broad
   compatibility
 
+## Shape System
+
+Material Design 3 shape utilities with extensible architecture:
+
+### Shape Scale
+
+```html
+<!-- Shape scale utilities -->
+<div class="shape-none">No rounding (0px)</div>
+<div class="shape-extra-small">Extra small (4px)</div>
+<div class="shape-small">Small (8px)</div>
+<div class="shape-medium">Medium (12px)</div>
+<div class="shape-large">Large (16px)</div>
+<div class="shape-extra-large">Extra large (28px)</div>
+<div class="shape-full">Full rounding (999px)</div>
+```
+
+### Shape Families
+
+```html
+<!-- Default rounded corners -->
+<div class="shape-medium shape-rounded">Rounded corners</div>
+
+<!-- iOS-style squircle (smooth corners) -->
+<div class="shape-medium shape-squircle">Squircle shape</div>
+```
+
+### CSS Variables
+
+All shapes use CSS variables for customization:
+
+```css
+:root {
+  --md-shape-none: 0px;
+  --md-shape-extra-small: 4px;
+  --md-shape-small: 8px;
+  --md-shape-medium: 12px;
+  --md-shape-large: 16px;
+  --md-shape-extra-large: 28px;
+  --md-shape-full: 999px;
+}
+```
+
+### Component-Specific Shapes
+
+Material Design 3 component shape tokens with sensible defaults:
+
+```html
+<!-- Component shapes with default values -->
+<button class="shape-button">Pill button (full rounding)</button>
+<div class="shape-card">Card with medium rounding</div>
+<button class="shape-fab">FAB with large rounding</button>
+<input class="shape-text-field" placeholder="Text field">
+<div class="shape-dialog">Dialog with extra-large rounding</div>
+<span class="shape-chip">Chip with small rounding</span>
+
+<!-- Squircle variants for smooth corners -->
+<button class="shape-squircle-button">Smooth pill button</button>
+<div class="shape-squircle-card">Smooth card</div>
+```
+
+Component shapes cascade through CSS variables:
+- `--md-shape-button` → `--md-shape-full` → `999px`
+- `--md-shape-card` → `--md-shape-medium` → `12px`
+- `--md-shape-fab` → `--md-shape-large` → `16px`
+- `--md-shape-text-field` → `--md-shape-extra-small` → `4px`
+- `--md-shape-dialog` → `--md-shape-extra-large` → `28px`
+- `--md-shape-chip` → `--md-shape-small` → `8px`
+
+### Squircle Implementation
+
+- Uses SVG masks for true iOS-style smooth corners
+- Graceful fallback to border-radius for unsupported browsers
+- Configurable corner smoothing via `--md-shape-corner-smooth`
+- Future-ready for additional shape families (cut corners, diamonds, etc.)
+
 ### Programmatic Theme Generation
 
 Generate CSS themes programmatically:
@@ -373,6 +449,36 @@ Interactive surfaces include:
 - **Smooth transitions**: Uses `--md-state-transition-duration` CSS variable
 - **Proper contrast**: Maintains accessible text/background combinations
 - **All surface variants**: Available for every standard surface utility
+
+## Animation Utilities
+
+Material Design animation effects:
+
+### Ripple Effect
+
+The `.ripple-effect` utility class provides Material Design ripple animations:
+
+```html
+<button class="relative overflow-hidden">
+  Click me
+  <span class="ripple-effect"></span>
+</button>
+```
+
+Features:
+- **Circular animation**: Expands from center with 50% border-radius
+- **Configurable duration**: Use `--md-ripple-duration` (default: 600ms)
+- **Configurable opacity**: Use `--md-ripple-opacity` (default: 0.12)
+- **Color matching**: Uses `currentColor` to match parent text color
+- **Performance**: Optimized with `will-change: transform, opacity`
+
+```css
+/* Customize ripple properties */
+.custom-ripple {
+  --md-ripple-duration: 800ms;
+  --md-ripple-opacity: 0.2;
+}
+```
 
 ## Dark Mode
 

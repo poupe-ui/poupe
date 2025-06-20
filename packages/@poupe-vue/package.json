@@ -1,6 +1,6 @@
 {
   "name": "@poupe/vue",
-  "version": "0.5.5",
+  "version": "0.6.0",
   "type": "module",
   "description": "Vue component library for Poupe UI framework with theme customization and accessibility support",
   "author": "Alejandro Mery <amery@apptly.co>",
@@ -32,6 +32,14 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
     },
+    "./components": {
+      "types": "./dist/components.d.ts",
+      "import": "./dist/components.mjs"
+    },
+    "./composables": {
+      "types": "./dist/composables.d.ts",
+      "import": "./dist/composables.mjs"
+    },
     "./config": {
       "types": "./dist/config.d.ts",
       "import": "./dist/config.mjs"
@@ -53,6 +61,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "prepack": "run-s lint type-check test build publint",
+    "precommit": "run-s lint type-check test build",
     "type-check": "vue-tsc --build --force",
     "lint": "env DEBUG=eslint:eslint eslint --fix .",
     "publint": "pnpx publint",
@@ -73,6 +82,7 @@
     "@poupe/theme-builder": "workspace:^",
     "@unhead/vue": "^2.0.10",
     "@vueuse/core": "^13.3.0",
+    "defu": "^6.1.4",
     "reka-ui": "2.3.1",
     "tailwind-merge": "^3.3.1",
     "tailwind-scrollbar": "^4.0.2",

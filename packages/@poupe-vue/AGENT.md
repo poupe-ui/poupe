@@ -85,6 +85,11 @@ src/
 - **PIcon**: Icon wrapper component
 - **PInput**: Form input wrapper with interactive states
 - **PPlaceholder**: Development placeholder component
+- **PSurface**: Base container component with MD3 surface variants
+  - Supports both surface and container variants
+  - Interactive states with proper state layers
+  - Shape, shadow, border, and padding customization
+  - Global defaults integration via usePoupe
 
 ### Theme Components (Separate Export)
 - **PThemeScheme**: Theme color scheme visualization component
@@ -105,6 +110,40 @@ src/
 - Implement variant props for different styles
 - Support color prop with Material Design color tokens
 - Provide proper TypeScript interfaces for props
+
+## Composables
+
+### usePoupe
+Global configuration and defaults composable:
+- Provides centralized configuration for all Poupe components
+- Supports theme settings (dark mode, custom colors)
+- Accessibility options (reducedMotion, highContrast)
+- Ripple effect configuration
+- Integrates with Nuxt module via app.config.ts
+- Uses provide/inject pattern for configuration distribution
+- Components can augment the PoupeOptions interface for type safety
+- Includes usePoupeMergedProps helper for three-level prop merging
+- Extendable interface for component-specific defaults
+
+### useRipple
+Material Design ripple effect composable:
+- Handles mouse and touch events to create ripple animations
+- Configurable color, opacity, duration, and bounded behavior
+- Automatically cleans up ripples after animation completes
+- Integrates with the `.ripple-effect` utility from @poupe/tailwindcss
+- Used by interactive components for tactile feedback
+
+### usePasswordToggle
+Password visibility toggle composable:
+- Manages show/hide password state
+- Provides appropriate icon based on visibility
+- Returns reactive type attribute for input elements
+
+### usePoupeIcons
+Icon management composable:
+- Provides access to Poupe's icon library
+- Returns reactive icon definitions
+- Used internally by components
 
 ## Integration Features
 
@@ -141,6 +180,7 @@ src/
     - vue
     - @iconify/vue
     - @unhead/vue
+    - defu
     - reka-ui
     - tailwind-merge
     - tailwind-variants

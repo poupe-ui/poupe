@@ -58,6 +58,17 @@ examples/
 
 ## Recent Changes
 
+### v0.4.3 - Material Design Ripple Effect
+- **NEW**: Added `.ripple-effect` utility class for Material Design ripple animations
+- **NEW**: Ripple animation keyframes with configurable duration and opacity
+- **FEATURES**:
+  - CSS animation using `@keyframes ripple`
+  - Configurable duration via `--md-ripple-duration` (default: 600ms)
+  - Configurable opacity via `--md-ripple-opacity` (default: 0.12)
+  - Absolute positioning with circular shape (50% border-radius)
+  - Uses `currentColor` for ripple color matching
+  - Performance optimized with `will-change: transform, opacity`
+
 ### v0.4.0 - Unified Scrim Utilities & v4-to-v3 Bridge
 - **NEW**: Added opacity modifier support to all scrim utilities
   (e.g., `scrim-modal/50`)
@@ -91,6 +102,30 @@ examples/
 - **FIXED**: Interactive surfaces now correctly use `interactive-` prefix
 - Includes transition timing with `--md-state-transition-duration` CSS
   variable
+
+### Shape System
+- **Material Design 3 shape tokens**: Extensible shape system with scale
+  from `none` through `full`
+- **Shape scale utilities**: `.shape-none`, `.shape-extra-small`,
+  `.shape-small`, `.shape-medium`, `.shape-large`, `.shape-extra-large`,
+  `.shape-full`
+- **Squircle support**: iOS-style smooth corners using SVG masks with
+  graceful fallback
+- **Shape family utilities**: `.shape-rounded` (default),
+  `.shape-squircle` for future expansion
+- **CSS variables**: Each shape uses `--md-shape-*` variables for
+  customization
+- **Configurable prefix**: Defaults to `shape-` but can be customized via
+  `shapePrefix` option
+- **Component-specific shapes**:
+  - `.shape-button` - defaults to shape-full (pills)
+  - `.shape-card` - defaults to shape-medium
+  - `.shape-fab` - defaults to shape-large
+  - `.shape-text-field` - defaults to shape-extra-small
+  - `.shape-dialog` - defaults to shape-extra-large
+  - `.shape-chip` - defaults to shape-small
+- **Squircle variants**: Each component shape has a squircle variant
+  (e.g., `.shape-squircle-button`) with smooth corners
 
 ## TailwindCSS v4-to-v3 Bridge Pattern
 
@@ -231,6 +266,12 @@ Build errors in examples don't fail the main build process.
 - `.state-hover`: Hover state overlay
 - `.state-focus`: Focus state overlay
 - `.state-pressed`: Pressed state overlay
+
+### Animation Utilities
+- `.ripple-effect`: Material Design ripple animation effect
+  - Absolute positioning with circular shape
+  - Configurable via CSS variables
+  - Performance optimized with `will-change`
 
 ## Plugin Configuration
 

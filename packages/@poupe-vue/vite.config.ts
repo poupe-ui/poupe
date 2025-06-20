@@ -28,6 +28,8 @@ export default defineConfig({
       fileName: (_, name) => `${name}.mjs`,
       entry: {
         'index': resolve('src/index.ts'),
+        'components': resolve('src/components/index.ts'),
+        'composables': resolve('src/composables/index.ts'),
         'config': resolve('src/config/index.ts'),
         'resolver': resolve('src/resolver/index.ts'),
         'theme-scheme': resolve('src/components/theme/index.ts'),

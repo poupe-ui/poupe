@@ -1,9 +1,31 @@
-import { describe, it, expect } from 'vitest';
-import { mount } from '@vue/test-utils';
-import { h, markRaw } from 'vue';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { mountWithPoupe } from '../../__tests__/test-utils';
+import { h, markRaw, type Component } from 'vue';
 import StoryViewer from '../viewer.vue';
 
+interface StorySlotProps {
+  story: {
+    name: string
+    component?: Component
+    description?: string
+  } | undefined
+}
+
 describe('StoryViewer', () => {
+  beforeEach(() => {
+    // Reset hash before each test to prevent interference
+    if (globalThis.location !== undefined) {
+      globalThis.location.hash = '';
+    }
+  });
+
+  afterEach(() => {
+    // Clean up after each test
+    if (globalThis.location !== undefined) {
+      globalThis.location.hash = '';
+    }
+  });
+
   const mockStories = [
     {
       name: 'Story 1',
@@ -21,7 +43,7 @@ describe('StoryViewer', () => {
   ];
 
   it('renders with stories', () => {
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: mockStories,
       },
@@ -32,7 +54,7 @@ describe('StoryViewer', () => {
   });
 
   it('displays story navigation buttons', () => {
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: mockStories,
       },
@@ -45,7 +67,7 @@ describe('StoryViewer', () => {
   });
 
   it('shows first story by default', () => {
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: mockStories,
       },
@@ -67,7 +89,7 @@ describe('StoryViewer', () => {
       },
     ];
 
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: testStories,
         defaultStory: 'Test Story 2',
@@ -85,7 +107,7 @@ describe('StoryViewer', () => {
   });
 
   it('switches stories on button click', async () => {
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: mockStories,
       },
@@ -112,7 +134,7 @@ describe('StoryViewer', () => {
       },
     ];
 
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: descriptionTestStories,
       },
@@ -127,7 +149,7 @@ describe('StoryViewer', () => {
   });
 
   it('uses custom title slot', () => {
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: mockStories,
       },
@@ -148,12 +170,12 @@ describe('StoryViewer', () => {
       },
     ];
 
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: slotTestStories,
       },
       slots: {
-        story: ({ story }) =>
+        story: ({ story }: StorySlotProps) =>
           h('div', { class: 'custom-story' }, story?.name),
       },
     });
@@ -163,7 +185,7 @@ describe('StoryViewer', () => {
   });
 
   it('is responsive on mobile', () => {
-    const wrapper = mount(StoryViewer, {
+    const wrapper = mountWithPoupe(StoryViewer, {
       props: {
         stories: mockStories,
       },

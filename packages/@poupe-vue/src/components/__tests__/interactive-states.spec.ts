@@ -1,15 +1,16 @@
 import { describe, it, expect } from 'vitest';
-import { mount } from '@vue/test-utils';
+import { mountWithPoupe } from './test-utils';
 import Button from '../button.vue';
 import Card from '../card.vue';
 import InputWrapper from '../input/wrapper.vue';
 
 describe('Interactive State Classes', () => {
   describe('Button', () => {
-    it('should have interactive state classes for primary surface', () => {
-      const wrapper = mount(Button, {
+    it('should have interactive state classes for filled button', () => {
+      const wrapper = mountWithPoupe(Button, {
         props: {
-          surface: 'primary',
+          type: 'filled',
+          variant: 'primary',
           label: 'Test Button',
         },
       });
@@ -25,10 +26,11 @@ describe('Interactive State Classes', () => {
       expect(classes).toContain('cursor-pointer');
     });
 
-    it('should have interactive state classes for container surfaces', () => {
-      const wrapper = mount(Button, {
+    it('should have interactive state classes for tonal button', () => {
+      const wrapper = mountWithPoupe(Button, {
         props: {
-          surface: 'primary-container',
+          type: 'tonal',
+          variant: 'primary',
           label: 'Test Button',
         },
       });
@@ -40,9 +42,10 @@ describe('Interactive State Classes', () => {
     });
 
     it('should apply disabled state classes when disabled', () => {
-      const wrapper = mount(Button, {
+      const wrapper = mountWithPoupe(Button, {
         props: {
-          surface: 'secondary',
+          type: 'filled',
+          variant: 'secondary',
           label: 'Disabled Button',
           disabled: true,
         },
@@ -60,9 +63,9 @@ describe('Interactive State Classes', () => {
   describe('Card', () => {
     it('should have interactive state classes when interactive prop is true',
       () => {
-        const wrapper = mount(Card, {
+        const wrapper = mountWithPoupe(Card, {
           props: {
-            surface: 'primary',
+            container: 'primary',
             title: 'Interactive Card',
             interactive: true,
           },
@@ -77,9 +80,9 @@ describe('Interactive State Classes', () => {
 
     it('should not have interactive classes when interactive prop is false',
       () => {
-        const wrapper = mount(Card, {
+        const wrapper = mountWithPoupe(Card, {
           props: {
-            surface: 'primary',
+            container: 'primary',
             title: 'Static Card',
             interactive: false,
           },
@@ -96,7 +99,7 @@ describe('Interactive State Classes', () => {
 
   describe('InputWrapper', () => {
     it('should have interactive state classes', () => {
-      const wrapper = mount(InputWrapper, {
+      const wrapper = mountWithPoupe(InputWrapper, {
         props: {
           surface: 'base',
           modelValue: '',
@@ -110,7 +113,7 @@ describe('Interactive State Classes', () => {
     });
 
     it('should have transparent background on input element', () => {
-      const wrapper = mount(InputWrapper, {
+      const wrapper = mountWithPoupe(InputWrapper, {
         props: {
           surface: 'primary',
           modelValue: '',

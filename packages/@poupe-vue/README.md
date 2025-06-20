@@ -78,6 +78,10 @@ app.mount('#app')
     </PCard>
 
     <PInput v-model="inputValue" label="Username" />
+
+    <PSurface color="primary" shape="lg" shadow="z2" padding="md">
+      Elevated surface content
+    </PSurface>
   </div>
 </template>
 
@@ -86,6 +90,153 @@ import { ref } from 'vue'
 
 const inputValue = ref('')
 </script>
+```
+
+### PCard Component
+
+The PCard component is built on PSurface and provides a convenient way to create Material Design 3 cards:
+
+```vue
+<template>
+  <!-- Simple card with title -->
+  <PCard title="Card Title">
+    This is the card content. It can contain any text or components.
+  </PCard>
+
+  <!-- Card with custom header and footer -->
+  <PCard>
+    <template #header>
+      <h3 class="text-xl font-medium">Custom Header</h3>
+    </template>
+    Main content area
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <PButton surface="base">Cancel</PButton>
+        <PButton surface="primary">Save</PButton>
+      </div>
+    </template>
+  </PCard>
+
+  <!-- Interactive card with primary container -->
+  <PCard container="primary" interactive>
+    Click me! I'm an interactive card.
+  </PCard>
+
+  <!-- Card with surface variants -->
+  <PCard surface="high" shadow="z3" shape="lg">
+    Elevated card with high emphasis
+  </PCard>
+</template>
+```
+
+Card props:
+- `title`: Card title displayed in header
+- `surface`: Convenience prop for surface colors (base, dim, bright, lowest, low, container, high, highest)
+- `container`: Convenience prop for container colors (primary, secondary, tertiary, error)
+  - Note: If both `surface` and `container` are specified, `container` takes precedence
+- `shape`: Corner radius variant (xs, sm, md, lg, xl) - defaults to 'md'
+- `shadow`: Elevation shadow (none, z1-z5) - defaults to 'z1'
+- `interactive`: Enable hover/focus/pressed states
+- All other PSurface props are supported
+
+### PSurface Component
+
+The PSurface component provides Material Design 3 surface containers:
+
+```vue
+<template>
+  <!-- Basic surface -->
+  <PSurface>Default surface</PSurface>
+
+  <!-- Interactive surface with elevation -->
+  <PSurface
+    color="secondary"
+    shadow="z3"
+    shape="xl"
+    padding="lg"
+    interactive
+  >
+    Interactive elevated content
+  </PSurface>
+
+  <!-- Container variant -->
+  <PSurface variant="container" color="high">
+    High emphasis container
+  </PSurface>
+</template>
+```
+
+Surface props:
+- `variant`: 'surface' | 'container' - Surface type
+- `color`: Surface color based on MD3 color system
+- `shape`: Shape variant (none, xs, sm, md, lg, xl, rounded, full, squircle-xs, etc.) - uses Material Design 3 shape system where size-only variants are squircles
+- `shadow`: Elevation shadow (none, z1-z5)
+- `border`: Border style (none, primary, secondary, outline, etc.)
+- `interactive`: Enable hover/focus/pressed states
+- `padding`: Content padding (none, sm, md, lg, xl)
+
+## Composables
+
+### useRipple
+
+Add Material Design ripple effects to any element:
+
+```vue
+<template>
+  <button ref="buttonRef" class="ripple-effect">
+    Click me
+  </button>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+import { useRipple } from '@poupe/vue'
+
+const buttonRef = ref()
+useRipple(buttonRef, {
+  color: 'currentColor',
+  opacity: 0.12,
+  duration: 600
+})
+</script>
+```
+
+The ripple effect requires the `.ripple-effect` utility class from @poupe/tailwindcss
+for the animation keyframes.
+
+### usePoupe
+
+Access global configuration and component defaults:
+
+```vue
+<script setup>
+import { usePoupe, usePoupeMergedProps } from '@poupe/vue'
+
+// Access global configuration
+const poupe = usePoupe()
+console.log(poupe?.theme?.dark) // true/false
+
+// Merge props with component and global defaults
+const mergedProps = usePoupeMergedProps(props, 'button', {
+  variant: 'text',
+  color: 'primary',
+  size: 'medium'
+})
+</script>
+```
+
+Configure global defaults via the Poupe plugin:
+
+```typescript
+app.use(createPoupe({
+  theme: { dark: true },
+  defaults: {
+    button: {
+      variant: 'filled',
+      color: 'primary'
+    }
+  }
+}))
 ```
 
 ## Story Viewer
