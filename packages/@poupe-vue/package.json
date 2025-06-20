@@ -32,6 +32,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
     },
+    "./components": {
+      "types": "./dist/components.d.ts",
+      "import": "./dist/components.mjs"
+    },
     "./composables": {
       "types": "./dist/composables.d.ts",
       "import": "./dist/composables.mjs"
