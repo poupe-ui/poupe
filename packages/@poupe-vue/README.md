@@ -92,6 +92,53 @@ const inputValue = ref('')
 </script>
 ```
 
+### PCard Component
+
+The PCard component is built on PSurface and provides a convenient way to create Material Design 3 cards:
+
+```vue
+<template>
+  <!-- Simple card with title -->
+  <PCard title="Card Title">
+    This is the card content. It can contain any text or components.
+  </PCard>
+
+  <!-- Card with custom header and footer -->
+  <PCard>
+    <template #header>
+      <h3 class="text-xl font-medium">Custom Header</h3>
+    </template>
+    Main content area
+    <template #footer>
+      <div class="flex justify-end gap-2">
+        <PButton surface="base">Cancel</PButton>
+        <PButton surface="primary">Save</PButton>
+      </div>
+    </template>
+  </PCard>
+
+  <!-- Interactive card with primary container -->
+  <PCard container="primary" interactive>
+    Click me! I'm an interactive card.
+  </PCard>
+
+  <!-- Card with surface variants -->
+  <PCard surface="high" shadow="z3" shape="lg">
+    Elevated card with high emphasis
+  </PCard>
+</template>
+```
+
+Card props:
+- `title`: Card title displayed in header
+- `surface`: Convenience prop for surface colors (base, dim, bright, lowest, low, container, high, highest)
+- `container`: Convenience prop for container colors (primary, secondary, tertiary, error)
+  - Note: If both `surface` and `container` are specified, `container` takes precedence
+- `shape`: Corner radius variant (xs, sm, md, lg, xl) - defaults to 'md'
+- `shadow`: Elevation shadow (none, z1-z5) - defaults to 'z1'
+- `interactive`: Enable hover/focus/pressed states
+- All other PSurface props are supported
+
 ### PSurface Component
 
 The PSurface component provides Material Design 3 surface containers:

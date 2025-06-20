@@ -1,112 +1,145 @@
 <script lang="ts">
-import {
-  type VariantProps,
-  tv,
-
-  onSlot,
-  containerVariants,
-  containerInteractiveVariants,
-  roundedVariants,
-  shadowVariants,
-} from './variants';
-
-const card = tv({
-  slots: {
-    wrapper: 'relative overflow-hidden',
-  },
-  variants: {
-    rounded: onSlot('wrapper', roundedVariants),
-    shadow: onSlot('wrapper', shadowVariants),
-    surface: onSlot('wrapper', containerVariants),
-    interactive: {
-      true: {
-        wrapper: 'cursor-pointer',
-      },
-      false: {},
-    },
-  },
-});
-
-type CardVariantProps = VariantProps<typeof card>;
+import type { SurfaceProps } from './surface.vue';
 
 /** Card component props */
-export interface CardProps {
+export interface CardProps extends Omit<SurfaceProps, 'padding'> {
+  /** Card title displayed in header */
   title?: string
 
-  rounded?: CardVariantProps['rounded']
-  shadow?: CardVariantProps['shadow']
-  surface?: CardVariantProps['surface']
-  interactive?: CardVariantProps['interactive']
-};
+  /** Convenience prop for surface colors */
+  surface?: 'base' | 'dim' | 'bright' | 'lowest' |
+    'low' | 'container' | 'high' |
+    'highest'
+
+  /** Convenience prop for container colors */
+  container?: 'primary' | 'secondary' | 'tertiary' | 'error'
+}
+
+// Define defaults in one place
+const cardDefaults = {
+  title: undefined,
+  surface: 'container',
+  container: undefined,
+  shape: 'md',
+  shadow: 'z1',
+} as const;
+
+// Module augmentation for global defaults
+declare module '../composables/use-poupe' {
+  interface PoupeComponentDefaults {
+    card?: Partial<CardProps>
+  }
+}
 </script>
 
 <script setup lang="ts">
 import { computed, useSlots } from 'vue';
+import { tryWarn } from '../utils/utils';
+import { usePoupeMergedProps } from '../composables';
+import Surface from './surface.vue';
 
-import Placeholder from './placeholder.vue';
+// Define props without withDefaults
+const directProps = defineProps<CardProps>();
 
-const props = withDefaults(defineProps<CardProps>(), {
-  title: undefined,
-  rounded: 'xl' as const,
-  shadow: 'none' as const,
-  surface: 'high' as const,
-  interactive: false,
-});
+// Merge with global defaults and component defaults
+const props = computed(() =>
+  usePoupeMergedProps(directProps, 'card', cardDefaults),
+);
 
-const variants = computed(() => {
-  const baseVariants = card({
-    rounded: props.rounded,
-    shadow: props.shadow,
-    surface: props.surface,
-    interactive: props.interactive,
-  });
+// Helper to map surface convenience prop to role and level/tone
+function mapSurfaceToRoleAndLevel(surface: CardProps['surface']) {
+  switch (surface) {
+    case 'lowest':
+    case 'low':
+    case 'container':
+    case 'high':
+    case 'highest':
+      return {
+        role: 'container' as const,
+        level: surface === 'container' ? 'base' as const : surface,
+      };
+    case 'base':
+    case 'dim':
+    case 'bright':
+      return {
+        role: 'surface' as const,
+        tone: surface,
+      };
+    default:
+      return undefined;
+  }
+}
 
-  // If interactive, use the interactive surface variant
-  if (props.interactive && props.surface
-    && containerInteractiveVariants[props.surface]) {
-    return {
-      wrapper: () => `${baseVariants.wrapper()} ${
-        containerInteractiveVariants[props.surface]}`,
-    };
+// Compute variant and color from surface/container props
+const surfaceProps = computed(() => {
+  // Warn if both surface and container are specified
+  if (props.value.surface && props.value.container) {
+    tryWarn(
+      '[PCard] Both "surface" and "container" props are specified. '
+      + 'The "container" prop will take precedence. '
+      + 'Please use only one of these props.',
+    );
   }
 
-  return baseVariants;
+  const result: Partial<SurfaceProps> = {
+    shape: props.value.shape,
+    shadow: props.value.shadow,
+    border: props.value.border,
+    interactive: props.value.interactive,
+    padding: 'none',
+  };
+
+  if (props.value.container) {
+    result.variant = props.value.container;
+  } else if (props.value.surface) {
+    const mapped = mapSurfaceToRoleAndLevel(props.value.surface);
+    if (mapped) {
+      Object.assign(result, mapped);
+    }
+  } else {
+    // Pass through any other Surface props
+    if (props.value.role) result.role = props.value.role;
+    if (props.value.tone) result.tone = props.value.tone;
+    if (props.value.level) result.level = props.value.level;
+    if (props.value.variant) result.variant = props.value.variant;
+  }
+
+  return result;
 });
 
 const slots = useSlots();
-const hasHeader = computed<boolean>(() => props.title !== undefined
-  || slots.header !== undefined);
-const hasFooter = computed<boolean>(() => slots.footer !== undefined);
+const hasHeader = computed(() => props.value.title !== undefined || slots.header !== undefined);
+const hasFooter = computed(() => slots.footer !== undefined);
 </script>
 
 <template>
-  <div :class="variants.wrapper()">
-    <!-- header -->
-    <slot name="header">
-      <div
-        v-if="title"
-        class="p-2 min-h-8"
-      >
-        <h6 class="text-2xl font-bold">
-          {{ title }}
-        </h6>
-      </div>
-    </slot>
-    <!-- content -->
+  <Surface v-bind="surfaceProps">
+    <!-- Header -->
     <div
-      class="relative overflow-auto mx-2 p-2"
-      :class="{
-        'mt-2': !hasHeader,
-        'mb-2': !hasFooter,
-      }"
+      v-if="hasHeader"
+      class="px-4 pt-4"
     >
-      <slot>
-        <div class="h-32 w-64">
-          <Placeholder />
-        </div>
+      <slot name="header">
+        <h3
+          v-if="props.title"
+          class="text-xl font-medium"
+        >
+          {{ props.title }}
+        </h3>
       </slot>
     </div>
-    <!-- footer -->
-    <slot name="footer" />
-  </div>
+
+    <!-- Content -->
+    <div class="px-4 py-4">
+      <slot />
+    </div>
+
+    <!-- Footer -->
+    <div
+      v-if="hasFooter"
+      class="px-4 pb-4"
+    >
+      <slot name="footer" />
+    </div>
+  </Surface>
 </template>

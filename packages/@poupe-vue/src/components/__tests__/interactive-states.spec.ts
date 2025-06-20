@@ -62,7 +62,7 @@ describe('Interactive State Classes', () => {
       () => {
         const wrapper = mountWithPoupe(Card, {
           props: {
-            surface: 'primary',
+            container: 'primary',
             title: 'Interactive Card',
             interactive: true,
           },
@@ -79,7 +79,7 @@ describe('Interactive State Classes', () => {
       () => {
         const wrapper = mountWithPoupe(Card, {
           props: {
-            surface: 'primary',
+            container: 'primary',
             title: 'Static Card',
             interactive: false,
           },

@@ -8,7 +8,7 @@ interface StorySlotProps {
     name: string
     component?: Component
     description?: string
-  }
+  } | undefined
 }
 
 describe('StoryViewer', () => {
