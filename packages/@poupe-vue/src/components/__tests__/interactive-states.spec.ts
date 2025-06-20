@@ -6,10 +6,11 @@ import InputWrapper from '../input/wrapper.vue';
 
 describe('Interactive State Classes', () => {
   describe('Button', () => {
-    it('should have interactive state classes for primary surface', () => {
+    it('should have interactive state classes for filled button', () => {
       const wrapper = mountWithPoupe(Button, {
         props: {
-          surface: 'primary',
+          type: 'filled',
+          variant: 'primary',
           label: 'Test Button',
         },
       });
@@ -25,10 +26,11 @@ describe('Interactive State Classes', () => {
       expect(classes).toContain('cursor-pointer');
     });
 
-    it('should have interactive state classes for container surfaces', () => {
+    it('should have interactive state classes for tonal button', () => {
       const wrapper = mountWithPoupe(Button, {
         props: {
-          surface: 'primary-container',
+          type: 'tonal',
+          variant: 'primary',
           label: 'Test Button',
         },
       });
@@ -42,7 +44,8 @@ describe('Interactive State Classes', () => {
     it('should apply disabled state classes when disabled', () => {
       const wrapper = mountWithPoupe(Button, {
         props: {
-          surface: 'secondary',
+          type: 'filled',
+          variant: 'secondary',
           label: 'Disabled Button',
           disabled: true,
         },

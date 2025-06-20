@@ -1,67 +1,65 @@
-import { h, Fragment } from 'vue';
 import type { StoryGroup } from '../components/story/types';
 import { createStory, createStoryGroup } from '../components/story/utils';
-import { Button, Icon } from '../components';
+import { Button } from '../components';
 
-// Surface variants
-export const surfaceVariants = createStoryGroup(
-  'Surface Variants',
-  'Different surface colors for various button purposes',
-  [
-    // Standard surfaces
-    ...['base', 'primary', 'secondary', 'tertiary', 'error'].map(surface =>
-      createStory({
-        title: `${surface} surface`,
-        component: Button,
-        props: {
-          surface,
-          label: `${surface} Button`,
-        },
-      }),
-    ),
-    // Container surfaces
-    ...['lowest', 'low', 'high', 'highest'].map(surface =>
-      createStory({
-        title: `${surface} surface`,
-        component: Button,
-        props: {
-          surface,
-          label: `${surface} Container`,
-        },
-      }),
-    ),
-    // Color container surfaces
-    ...['primary-container', 'secondary-container', 'tertiary-container', 'error-container'].map(surface =>
-      createStory({
-        title: `${surface}`,
-        component: Button,
-        props: {
-          surface,
-          label: surface.replace('-', ' '),
-        },
-      }),
-    ),
-    // Fixed surfaces
-    ...['primary-fixed', 'secondary-fixed', 'tertiary-fixed'].map(surface =>
-      createStory({
-        title: `${surface}`,
-        component: Button,
-        props: {
-          surface,
-          label: surface.replace('-', ' '),
-        },
-      }),
-    ),
-    // Inverse surface
+// Default button
+const defaultButton = createStory({
+  title: 'Default Button',
+  component: Button,
+  props: {
+    label: 'Click me',
+  },
+});
+
+// MD3 Button Types
+export const typeVariants = createStoryGroup(
+  'Button Types',
+  'Material Design 3 button types',
+  ['text', 'outlined', 'filled', 'elevated', 'tonal'].map(type =>
     createStory({
-      title: 'inverse surface',
+      title: `${type} button`,
       component: Button,
       props: {
-        surface: 'inverse',
-        label: 'Inverse Button',
+        type,
+        label: `${type.charAt(0).toUpperCase() + type.slice(1)} Button`,
       },
     }),
-  ],
+  ),
+);
+
+// Color variants
+export const colorVariants = createStoryGroup(
+  'Color Variants',
+  'Semantic color variants for buttons',
+  ['base', 'primary', 'secondary', 'tertiary', 'error'].map(variant =>
+    createStory({
+      title: `${variant} variant`,
+      component: Button,
+      props: {
+        variant,
+        label: `${variant.charAt(0).toUpperCase() + variant.slice(1)}`,
+      },
+    }),
+  ),
+);
+
+// Type and variant combinations
+export const typeColorCombinations = createStoryGroup(
+  'Type & Color Combinations',
+  'All button type and color variant combinations',
+  ['text', 'outlined', 'filled', 'elevated', 'tonal'].flatMap(type =>
+    ['base', 'primary', 'secondary', 'tertiary', 'error'].map(variant =>
+      createStory({
+        title: `${type} ${variant}`,
+        component: Button,
+        props: {
+          type,
+          variant,
+          label: `${type} ${variant}`,
+        },
+      }),
+    ),
+  ),
 );
 
 // Size variants
@@ -74,42 +72,25 @@ export const sizeVariants = createStoryGroup(
       component: Button,
       props: {
         size,
-        surface: 'primary',
+        variant: 'primary',
         label: `Size ${size}`,
       },
     }),
   ),
 );
 
-// Border variants
-export const borderVariants = createStoryGroup(
-  'Border Variants',
-  'Different border styles for buttons',
-  ['none', 'current', 'primary', 'secondary', 'tertiary', 'error', 'outline'].map(border =>
+// Shape variants (replacing border variants)
+export const shapeVariants = createStoryGroup(
+  'Shape Variants',
+  'Different button shapes',
+  ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', 'full'].map(shape =>
     createStory({
-      title: `Border ${border}`,
+      title: `Shape ${shape}`,
       component: Button,
       props: {
-        border,
-        surface: border === 'none' ? 'primary' : 'base',
-        label: `Border ${border}`,
-      },
-    }),
-  ),
-);
-
-// Rounded variants
-export const roundedVariants = createStoryGroup(
-  'Rounded Variants',
-  'Different corner radius options',
-  ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', 'full'].map(rounded =>
-    createStory({
-      title: `Rounded ${rounded}`,
-      component: Button,
-      props: {
-        rounded,
-        surface: 'primary',
-        label: `Rounded ${rounded}`,
+        shape,
+        variant: 'primary',
+        label: `Shape ${shape}`,
       },
     }),
   ),
@@ -125,217 +106,346 @@ export const shadowVariants = createStoryGroup(
       component: Button,
       props: {
         shadow,
-        surface: 'base',
+        type: 'elevated',
         label: `Shadow ${shadow}`,
       },
     }),
   ),
 );
 
-// Expand variant
-export const expandVariants = createStoryGroup(
-  'Expand Variants',
-  'Full width button examples',
-  [
-    createStory({
-      title: 'Normal width',
-      component: Button,
-      props: {
-        surface: 'primary',
-        label: 'Normal Button',
-        expand: false,
-      },
-    }),
-    createStory({
-      title: 'Full width',
-      component: Button,
-      props: {
-        surface: 'primary',
-        label: 'Full Width Button',
-        expand: true,
-      },
-    }),
-  ],
-);
-
-// Button states
-export const stateVariants = createStoryGroup(
+// States
+export const states = createStoryGroup(
   'Button States',
-  'Different button states for various interactions',
+  'Different button states and behaviors',
   [
     createStory({
-      title: 'Normal state',
+      title: 'Normal',
       component: Button,
       props: {
-        surface: 'primary',
+        variant: 'primary',
         label: 'Normal',
       },
     }),
     createStory({
-      title: 'Disabled state',
+      title: 'Loading',
       component: Button,
       props: {
-        surface: 'primary',
-        label: 'Disabled',
-        disabled: true,
-      },
-    }),
-    createStory({
-      title: 'Loading state',
-      component: Button,
-      props: {
-        surface: 'primary',
-        label: 'Loading',
         loading: true,
-      },
-    }),
-  ],
-);
-
-// Custom content with slots
-export const customContentVariants = createStoryGroup(
-  'Custom Content',
-  'Using slots for custom button content with icons and text',
-  [
-    createStory({
-      title: 'Icon before text',
-      component: Button,
-      props: {
-        surface: 'primary',
-      },
-      slots: {
-        default: () => h(Fragment, [
-          h(Icon, { icon: 'material-symbols:add', class: 'mr-2' }),
-          'Add Item',
-        ]),
+        variant: 'primary',
+        label: 'Loading...',
       },
     }),
     createStory({
-      title: 'Icon after text',
+      title: 'Disabled',
       component: Button,
       props: {
-        surface: 'secondary',
-      },
-      slots: {
-        default: () => h(Fragment, [
-          'Settings',
-          h(Icon, { icon: 'material-symbols:settings', class: 'ml-2' }),
-        ]),
+        disabled: true,
+        variant: 'primary',
+        label: 'Disabled',
       },
     }),
     createStory({
-      title: 'Icon only',
+      title: 'Expanded',
       component: Button,
       props: {
-        surface: 'tertiary',
-        rounded: 'full',
-        size: 'base',
-      },
-      slots: {
-        default: () => h(Icon, { icon: 'material-symbols:favorite' }),
+        expand: true,
+        variant: 'primary',
+        label: 'Full Width',
       },
     }),
     createStory({
-      title: 'With ellipsis',
+      title: 'With Ellipsis',
       component: Button,
       props: {
-        surface: 'primary',
-        label: 'Loading',
         ellipsis: true,
+        variant: 'primary',
+        label: 'Long text that might overflow',
       },
     }),
   ],
 );
 
-// Combination examples
-export const combinationVariants = createStoryGroup(
-  'Combinations',
-  'Real-world examples combining multiple variants',
+// Icon examples
+export const iconExamples = createStoryGroup(
+  'Icon Examples',
+  'Buttons with leading and trailing icons',
   [
     createStory({
-      title: 'Primary action button',
+      title: 'Leading Icon',
       component: Button,
       props: {
-        surface: 'primary',
+        type: 'filled',
+        variant: 'primary',
+        icon: 'mdi:plus',
+        label: 'Add Item',
+      },
+    }),
+    createStory({
+      title: 'Trailing Icon',
+      component: Button,
+      props: {
+        type: 'outlined',
+        variant: 'primary',
+        trailingIcon: 'mdi:arrow-right',
+        label: 'Next',
+      },
+    }),
+    createStory({
+      title: 'Both Icons',
+      component: Button,
+      props: {
+        type: 'tonal',
+        variant: 'secondary',
+        icon: 'mdi:cloud',
+        trailingIcon: 'mdi:download',
+        label: 'Download',
+      },
+    }),
+    createStory({
+      title: 'Loading with Icon',
+      component: Button,
+      props: {
+        type: 'filled',
+        variant: 'primary',
+        icon: 'mdi:upload',
+        loading: true,
+        label: 'Uploading',
+      },
+    }),
+  ],
+);
+
+// FAB patterns
+export const fabPatterns = createStoryGroup(
+  'FAB Patterns',
+  'Floating Action Button styles',
+  [
+    createStory({
+      title: 'FAB',
+      component: Button,
+      props: {
+        fab: true,
+        variant: 'primary',
+        icon: 'mdi:plus',
+      },
+    }),
+    createStory({
+      title: 'Small FAB',
+      component: Button,
+      props: {
+        fab: true,
+        size: 'sm',
+        variant: 'secondary',
+        icon: 'mdi:pencil',
+      },
+    }),
+    createStory({
+      title: 'Large FAB',
+      component: Button,
+      props: {
+        fab: true,
         size: 'lg',
-        rounded: 'md',
+        variant: 'tertiary',
+        icon: 'mdi:share',
+      },
+    }),
+    createStory({
+      title: 'Extended FAB',
+      component: Button,
+      props: {
+        fab: true,
+        extended: true,
+        variant: 'primary',
+        icon: 'mdi:plus',
+        label: 'Add Item',
+      },
+    }),
+    createStory({
+      title: 'Surface FAB',
+      component: Button,
+      props: {
+        fab: true,
+        type: 'elevated',
+        variant: 'base',
+        icon: 'mdi:menu',
+      },
+    }),
+  ],
+);
+
+// Icon button patterns
+export const iconButtonPatterns = createStoryGroup(
+  'Icon Button Patterns',
+  'Icon-only button styles',
+  [
+    createStory({
+      title: 'Standard Icon Button',
+      component: Button,
+      props: {
+        iconButton: true,
+        type: 'text',
+        icon: 'mdi:heart',
+      },
+    }),
+    createStory({
+      title: 'Filled Icon Button',
+      component: Button,
+      props: {
+        iconButton: true,
+        type: 'filled',
+        variant: 'primary',
+        icon: 'mdi:star',
+      },
+    }),
+    createStory({
+      title: 'Tonal Icon Button',
+      component: Button,
+      props: {
+        iconButton: true,
+        type: 'tonal',
+        variant: 'secondary',
+        icon: 'mdi:bookmark',
+      },
+    }),
+    createStory({
+      title: 'Outlined Icon Button',
+      component: Button,
+      props: {
+        iconButton: true,
+        type: 'outlined',
+        variant: 'tertiary',
+        icon: 'mdi:share',
+      },
+    }),
+    createStory({
+      title: 'Toggle Icon Button',
+      component: Button,
+      props: {
+        iconButton: true,
+        toggle: true,
+        pressed: false,
+        type: 'text',
+        icon: 'mdi:heart-outline',
+      },
+    }),
+    createStory({
+      title: 'Toggle Icon Button (Pressed)',
+      component: Button,
+      props: {
+        iconButton: true,
+        toggle: true,
+        pressed: true,
+        type: 'tonal',
+        variant: 'error',
+        icon: 'mdi:heart',
+      },
+    }),
+  ],
+);
+
+// Complex examples
+export const examples = createStoryGroup(
+  'Complex Examples',
+  'Real-world button usage examples',
+  [
+    createStory({
+      title: 'Call to Action',
+      component: Button,
+      props: {
+        type: 'filled',
+        variant: 'primary',
+        size: 'lg',
+        shape: 'lg',
         shadow: 'z2',
         label: 'Get Started',
       },
     }),
     createStory({
-      title: 'Secondary outlined',
+      title: 'Danger Action',
       component: Button,
       props: {
-        surface: 'base',
-        border: 'secondary',
-        size: 'base',
-        rounded: 'sm',
+        type: 'filled',
+        variant: 'error',
+        shadow: 'z1',
+        label: 'Delete Account',
+      },
+    }),
+    createStory({
+      title: 'Social Login',
+      component: Button,
+      props: {
+        type: 'outlined',
+        variant: 'base',
+        expand: true,
+        icon: 'mdi:google',
+        label: 'Continue with Google',
+      },
+    }),
+    createStory({
+      title: 'Loading Submit',
+      component: Button,
+      props: {
+        type: 'filled',
+        variant: 'primary',
+        loading: true,
+        label: 'Submitting',
+        expand: true,
+      },
+    }),
+    createStory({
+      title: 'Navigation Button',
+      component: Button,
+      props: {
+        type: 'text',
+        variant: 'base',
+        trailingIcon: 'mdi:arrow-right',
         label: 'Learn More',
       },
     }),
     createStory({
-      title: 'Error action',
+      title: 'Chip Selection',
       component: Button,
       props: {
-        surface: 'error',
+        type: 'tonal',
+        variant: 'primary',
+        shape: 'full',
         size: 'sm',
-        rounded: 'lg',
-        label: 'Delete',
+        icon: 'mdi:check',
+        label: 'Selected',
       },
     }),
     createStory({
-      title: 'Floating action button',
+      title: 'Download Action',
       component: Button,
       props: {
-        surface: 'primary',
-        rounded: 'full',
-        shadow: 'z3',
-        size: 'lg',
-      },
-      slots: {
-        default: () => h(Icon, { icon: 'material-symbols:add', class: 'text-xl' }),
-      },
-    }),
-    createStory({
-      title: 'Text button',
-      component: Button,
-      props: {
-        surface: 'base',
-        shadow: 'none',
-        border: 'none',
-        size: 'base',
-        label: 'Cancel',
-      },
-    }),
-    createStory({
-      title: 'Chip-like button',
-      component: Button,
-      props: {
-        surface: 'primary-container',
-        rounded: 'full',
-        size: 'sm',
-        border: 'primary',
-      },
-      slots: {
-        default: () => h(Fragment, [
-          h(Icon, { icon: 'material-symbols:check-circle', class: 'mr-1' }),
-          'Selected',
-        ]),
+        type: 'elevated',
+        variant: 'secondary',
+        icon: 'mdi:download',
+        label: 'Download PDF',
       },
     }),
   ],
 );
 
+// Create default story group
+const defaultStoryGroup = createStoryGroup(
+  'Default',
+  'Basic button usage',
+  [defaultButton],
+);
+
 // Export all button story groups
 export const buttonStoryGroups: StoryGroup[] = [
-  surfaceVariants,
+  defaultStoryGroup,
+  typeVariants,
+  colorVariants,
+  typeColorCombinations,
   sizeVariants,
-  borderVariants,
-  roundedVariants,
+  shapeVariants,
   shadowVariants,
-  expandVariants,
-  stateVariants,
-  customContentVariants,
-  combinationVariants,
+  states,
+  iconExamples,
+  fabPatterns,
+  iconButtonPatterns,
+  examples,
 ];
