@@ -1,9 +1,31 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { mount } from '@vue/test-utils';
-import { h, markRaw } from 'vue';
+import { h, markRaw, type Component } from 'vue';
 import StoryViewer from '../viewer.vue';
 
+interface StorySlotProps {
+  story: {
+    name: string
+    component?: Component
+    description?: string
+  }
+}
+
 describe('StoryViewer', () => {
+  beforeEach(() => {
+    // Reset hash before each test to prevent interference
+    if (globalThis.location !== undefined) {
+      globalThis.location.hash = '';
+    }
+  });
+
+  afterEach(() => {
+    // Clean up after each test
+    if (globalThis.location !== undefined) {
+      globalThis.location.hash = '';
+    }
+  });
+
   const mockStories = [
     {
       name: 'Story 1',
@@ -153,7 +175,7 @@ describe('StoryViewer', () => {
         stories: slotTestStories,
       },
       slots: {
-        story: ({ story }) =>
+        story: ({ story }: StorySlotProps) =>
           h('div', { class: 'custom-story' }, story?.name),
       },
     });
