@@ -5,6 +5,15 @@
   "description": "Design token management and theme generation system for Poupe UI framework",
   "author": "Alejandro Mery <amery@apptly.co>",
   "license": "MIT",
+  "homepage": "https://poupe.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poupe-ui/poupe.git",
+    "directory": "packages/@poupe-theme-builder"
+  },
+  "bugs": {
+    "url": "https://github.com/poupe-ui/poupe/issues"
+  },
   "keywords": [
     "color-system",
     "design-system",
@@ -17,15 +26,8 @@
     "typescript",
     "ui-framework"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/poupe-ui/poupe.git",
-    "directory": "packages/@poupe-theme-builder"
-  },
-  "bugs": {
-    "url": "https://github.com/poupe-ui/poupe/issues"
-  },
-  "homepage": "https://poupe.dev",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -40,8 +42,6 @@
       "import": "./dist/server.mjs"
     }
   },
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -65,9 +65,9 @@
     "type-fest": "^4.41.0"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "^0.6.4",
+    "@poupe/eslint-config": "^0.7.2",
     "@types/node": "^20.19.0",
-    "eslint": "^9.28.0",
+    "eslint": "^9.29.0",
     "publint": "^0.3.12",
     "typescript": "~5.8.3",
     "unbuild": "3.5.0",
@@ -78,8 +78,8 @@
     "node": ">= 20.19.2",
     "pnpm": ">= 10.10.0"
   },
+  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
   "publishConfig": {
     "access": "public"
-  },
-  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39"
+  }
 }

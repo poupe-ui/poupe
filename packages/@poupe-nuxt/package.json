@@ -4,8 +4,16 @@
   "type": "module",
   "description": "Nuxt module for integrating Poupe UI framework with theme customization and components",
   "author": "Alejandro Mery <amery@apptly.co>",
-  "homepage": "https://poupe.dev",
   "license": "MIT",
+  "homepage": "https://poupe.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poupe-ui/poupe.git",
+    "directory": "packages/@poupe-nuxt"
+  },
+  "bugs": {
+    "url": "https://github.com/poupe-ui/poupe/issues"
+  },
   "keywords": [
     "material-design",
     "material-design-3",
@@ -18,21 +26,13 @@
     "ui-framework",
     "vue"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/poupe-ui/poupe.git",
-    "directory": "packages/@poupe-nuxt"
-  },
-  "bugs": {
-    "url": "https://github.com/poupe-ui/poupe/issues"
-  },
+  "main": "./dist/module.mjs",
   "exports": {
     ".": {
       "types": "./dist/types.d.mts",
       "default": "./dist/module.mjs"
     }
   },
-  "main": "./dist/module.mjs",
   "files": [
     "dist"
   ],
@@ -59,27 +59,6 @@
     "clean:playground": "rm -rf playground/dist playground/node_modules playground/.nuxt",
     "clean": "run-s clean:root clean:playground"
   },
-  "devDependencies": {
-    "@nuxt/devtools": "^2.5.0",
-    "@nuxt/eslint-config": "^1.4.1",
-    "@nuxt/kit": "^3.17.5",
-    "@nuxt/module-builder": "^1.0.1",
-    "@nuxt/schema": "^3.17.5",
-    "@nuxt/test-utils": "^3.19.1",
-    "@poupe/eslint-config": "^0.6.4",
-    "@types/node": "^20.19.0",
-    "changelogen": "^0.6.1",
-    "defu": "^6.1.4",
-    "eslint": "^9.28.0",
-    "npm-run-all2": "^8.0.4",
-    "nuxt": "^3.17.5",
-    "publint": "^0.3.12",
-    "typescript": "^5.8.3",
-    "unbuild": "3.5.0",
-    "vite": "^6.3.5",
-    "vitest": "^3.2.3",
-    "vue-tsc": "^2.2.10"
-  },
   "dependencies": {
     "@nuxt/icon": "^1.13.0",
     "@nuxtjs/color-mode": "^3.5.2",
@@ -94,12 +73,33 @@
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.1.10"
   },
-  "publishConfig": {
-    "access": "public"
+  "devDependencies": {
+    "@nuxt/devtools": "^2.5.0",
+    "@nuxt/eslint-config": "^1.4.1",
+    "@nuxt/kit": "^3.17.5",
+    "@nuxt/module-builder": "^1.0.1",
+    "@nuxt/schema": "^3.17.5",
+    "@nuxt/test-utils": "^3.19.1",
+    "@poupe/eslint-config": "^0.7.2",
+    "@types/node": "^20.19.0",
+    "changelogen": "^0.6.1",
+    "defu": "^6.1.4",
+    "eslint": "^9.29.0",
+    "npm-run-all2": "^8.0.4",
+    "nuxt": "^3.17.5",
+    "publint": "^0.3.12",
+    "typescript": "^5.8.3",
+    "unbuild": "3.5.0",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.3",
+    "vue-tsc": "^2.2.10"
   },
   "engines": {
     "node": ">=20.19.2",
     "pnpm": ">=10.10.0"
   },
-  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39"
+  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
+  "publishConfig": {
+    "access": "public"
+  }
 }

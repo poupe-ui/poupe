@@ -13,9 +13,9 @@ dark mode, elevation shadows, scrim overlays, and component utilities.
 - [Installation](#installation)
 - [Usage](#usage)
   - [Basic Configuration](#basic-configuration)
-  - [Using Flat Plugin Bridge](#using-flat-plugin-bridge)
-  - [CSS Import with @plugin](#css-import-with-plugin)
-  - [Creating Themes Programmatically](#creating-themes-programmatically)
+  - [Flat Plugin API](#flat-plugin-api)
+  - [CSS @plugin](#css-plugin)
+  - [Programmatic Theme Generation](#programmatic-theme-generation)
 - [Color System](#color-system)
 - [Shadow System](#shadow-system)
 - [Scrim Utilities](#scrim-utilities)
@@ -23,7 +23,7 @@ dark mode, elevation shadows, scrim overlays, and component utilities.
 - [Dark Mode](#dark-mode)
 - [Configuration Options](#configuration-options)
 - [API Reference](#api-reference)
-- [Integration with Poupe Ecosystem](#integration-with-poupe-ecosystem)
+- [Ecosystem](#ecosystem)
 - [Requirements](#requirements)
 - [License](#license)
 
@@ -111,7 +111,9 @@ Direct CSS integration:
 The package provides two pre-built CSS files that extend TailwindCSS v4:
 
 #### `style.css`
+
 Minimal theme-agnostic utilities and components:
+
 - Surface component utilities
 - Shadow system utilities (z1-z5)
 - Scrim overlay utilities
@@ -119,6 +121,7 @@ Minimal theme-agnostic utilities and components:
 - No color values - bring your own theme
 
 Usage with TailwindCSS:
+
 ```css
 /* Import together with TailwindCSS base */
 @import 'tailwindcss';
@@ -126,7 +129,9 @@ Usage with TailwindCSS:
 ```
 
 #### `default.css`
+
 Complete example with Material Design 3 theme:
+
 - Full set of Material Design 3 CSS custom properties
 - Default color values for all theme colors
 - Complete shadow and elevation system
@@ -135,6 +140,7 @@ Complete example with Material Design 3 theme:
 - Ready-to-use example theme
 
 Usage:
+
 ```css
 /* Import together with TailwindCSS base */
 @import 'tailwindcss';
@@ -190,6 +196,7 @@ Material Design z-index scale:
 ```
 
 Scrim variants (simplified naming):
+
 - `scrim-base` (950) - Basic overlay, below navigation
 - `scrim-content` (975) - Content overlay
 - `scrim-drawer` (1250) - Drawer overlays
@@ -200,11 +207,13 @@ Scrim variants (simplified naming):
 ### Opacity Support
 
 All scrim utilities support Tailwind's opacity modifier syntax:
+
 - Default opacity: 32% (when no modifier is used)
 - Custom opacity: `scrim-modal/50`, `scrim-drawer/75`, etc.
 - Arbitrary z-index with opacity: `scrim-[100]/25`
 
 **Technical Implementation:**
+
 - Uses `--md-scrim-rgb` variable (following the same pattern as
   `--md-shadow-rgb`)
 - TailwindCSS v4 `--modifier([percentage])` for capturing modifier values
@@ -276,6 +285,7 @@ Material Design 3 component shape tokens with sensible defaults:
 ```
 
 Component shapes cascade through CSS variables:
+
 - `--md-shape-button` → `--md-shape-full` → `999px`
 - `--md-shape-card` → `--md-shape-medium` → `12px`
 - `--md-shape-fab` → `--md-shape-large` → `16px`
@@ -445,6 +455,7 @@ states with proper transition timing:
 ```
 
 Interactive surfaces include:
+
 - **Automatic state layers**: hover, focus, and pressed states
 - **Smooth transitions**: Uses `--md-state-transition-duration` CSS variable
 - **Proper contrast**: Maintains accessible text/background combinations
@@ -466,6 +477,7 @@ The `.ripple-effect` utility class provides Material Design ripple animations:
 ```
 
 Features:
+
 - **Circular animation**: Expands from center with 50% border-radius
 - **Configurable duration**: Use `--md-ripple-duration` (default: 600ms)
 - **Configurable opacity**: Use `--md-ripple-opacity` (default: 0.12)
@@ -501,6 +513,7 @@ themePlugin({
 ## Configuration Options
 
 **themePlugin()** - structured options:
+
 ```typescript
 {
   themePrefix: 'md-',
@@ -513,6 +526,7 @@ themePlugin({
 ```
 
 **flatPlugin()** - flat color properties:
+
 ```typescript
 {
   themePrefix: 'md-',

@@ -41,13 +41,15 @@ src/
 ## API Overview
 
 The package exports utilities for:
+
 - CSS property manipulation and formatting
 - CSS rules and nested object formatting
 - CSS selector processing and expansion
 - CSS unit conversions and calculations
 - Case conversion (camelCase ↔ kebab-case)
 - Type-safe CSS value handling
-- Property name normalization (camelCase to kebab-case) with intelligent preservation of selectors and at-rules
+- Property name normalization (camelCase to kebab-case) with intelligent
+  preservation of selectors and at-rules
 
 ## Performance Considerations
 
@@ -77,6 +79,7 @@ generators internally.
 ## Integration Notes
 
 This package is used by:
+
 - @poupe/theme-builder for CSS generation
 - @poupe/tailwindcss for utility generation
 - @poupe/vue for runtime CSS manipulation
@@ -84,6 +87,7 @@ This package is used by:
 ## Build Output
 
 Builds to both ESM and CJS formats:
+
 - `dist/index.mjs` - ES modules
 - `dist/index.cjs` - CommonJS
 - `dist/index.d.ts` - TypeScript definitions

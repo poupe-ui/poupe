@@ -41,17 +41,17 @@ playground/           # Development playground
 // nuxt.config.ts
 export default defineNuxtConfig({
   modules: ['@poupe/nuxt'],
-  
+
   poupe: {
     // Auto-import components
     components: true,
-    
+
     // Auto-import composables
     composables: true,
-    
+
     // Component prefix (default: 'P')
     prefix: 'P',
-    
+
     // Theme configuration
     theme: {
       defaultMode: 'light',
@@ -75,6 +75,7 @@ pnpm dev  # Start playground dev server
 ## Module Hooks
 
 The module provides several Nuxt hooks:
+
 - `poupe:config` - Modify Poupe configuration
 - `poupe:theme` - Modify theme before generation
 - `poupe:ready` - Module fully initialized
@@ -82,11 +83,13 @@ The module provides several Nuxt hooks:
 ## Runtime Features
 
 ### Composables
+
 - `usePoupeTheme()` - Access and modify theme
 - `usePoupeColors()` - Get current color scheme
 - `usePoupe()` - Main configuration composable
 
 ### Components
+
 - Extends all @poupe/vue components
 - Adds Nuxt-specific features (lazy loading, etc.)
 
@@ -116,6 +119,7 @@ The module provides several Nuxt hooks:
 ## Build Output
 
 Module package includes:
+
 - CommonJS module for Nuxt
 - ESM runtime code
 - TypeScript definitions

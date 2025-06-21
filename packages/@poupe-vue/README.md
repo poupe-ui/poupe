@@ -94,7 +94,8 @@ const inputValue = ref('')
 
 ### PCard Component
 
-The PCard component is built on PSurface and provides a convenient way to create Material Design 3 cards:
+The PCard component is built on PSurface and provides a convenient way to
+create Material Design 3 cards:
 
 ```vue
 <template>
@@ -130,9 +131,12 @@ The PCard component is built on PSurface and provides a convenient way to create
 ```
 
 Card props:
+
 - `title`: Card title displayed in header
-- `surface`: Convenience prop for surface colors (base, dim, bright, lowest, low, container, high, highest)
-- `container`: Convenience prop for container colors (primary, secondary, tertiary, error)
+- `surface`: Convenience prop for surface colors (base, dim, bright, lowest,
+  low, container, high, highest)
+- `container`: Convenience prop for container colors (primary, secondary,
+  tertiary, error)
   - Note: If both `surface` and `container` are specified, `container` takes precedence
 - `shape`: Corner radius variant (xs, sm, md, lg, xl) - defaults to 'md'
 - `shadow`: Elevation shadow (none, z1-z5) - defaults to 'z1'
@@ -167,9 +171,12 @@ The PSurface component provides Material Design 3 surface containers:
 ```
 
 Surface props:
+
 - `variant`: 'surface' | 'container' - Surface type
 - `color`: Surface color based on MD3 color system
-- `shape`: Shape variant (none, xs, sm, md, lg, xl, rounded, full, squircle-xs, etc.) - uses Material Design 3 shape system where size-only variants are squircles
+- `shape`: Shape variant (none, xs, sm, md, lg, xl, rounded, full,
+  squircle-xs, etc.) - uses Material Design 3 shape system where size-only
+  variants are squircles
 - `shadow`: Elevation shadow (none, z1-z5)
 - `border`: Border style (none, primary, secondary, outline, etc.)
 - `interactive`: Enable hover/focus/pressed states
@@ -292,6 +299,7 @@ pnpm screenshot:auto --all-viewports      # All viewport sizes
 ```
 
 **Options:**
+
 - `--dark` - Enable dark mode
 - `--mobile` - Use mobile viewport
 - `--full-page` - Capture full page
@@ -318,6 +326,7 @@ import { ThemeScheme } from '@poupe/vue/theme-scheme'
 ```
 
 This component displays all theme color schemes and is useful for:
+
 - Visualizing your theme's color palette
 - Debugging theme configurations
 - Showcasing theme variations to stakeholders

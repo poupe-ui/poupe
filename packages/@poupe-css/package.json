@@ -5,6 +5,15 @@
   "description": "A TypeScript utility library for CSS property manipulation, formatting, and CSS-in-JS operations",
   "author": "Alejandro Mery <amery@apptly.co>",
   "license": "MIT",
+  "homepage": "https://github.com/poupe-ui/poupe/tree/main/packages/@poupe-css#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poupe-ui/poupe.git",
+    "directory": "packages/@poupe-css"
+  },
+  "bugs": {
+    "url": "https://github.com/poupe-ui/poupe/issues"
+  },
   "keywords": [
     "camelCase",
     "case-conversion",
@@ -21,24 +30,15 @@
     "styling",
     "typescript"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/poupe-ui/poupe.git",
-    "directory": "packages/@poupe-css"
-  },
-  "bugs": {
-    "url": "https://github.com/poupe-ui/poupe/issues"
-  },
-  "homepage": "https://github.com/poupe-ui/poupe/tree/main/packages/@poupe-css#readme",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
     }
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
   "files": [
     "dist"
   ],
@@ -58,9 +58,9 @@
     "defu": "^6.1.4"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "^0.6.4",
+    "@poupe/eslint-config": "^0.7.2",
     "@types/node": "^20.19.0",
-    "eslint": "^9.28.0",
+    "eslint": "^9.29.0",
     "npm-run-all2": "^8.0.4",
     "publint": "^0.3.12",
     "typescript": "~5.8.3",
@@ -72,8 +72,8 @@
     "node": ">= 20.19.2",
     "pnpm": ">= 10.10.0"
   },
+  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
   "publishConfig": {
     "access": "public"
-  },
-  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39"
+  }
 }

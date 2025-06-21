@@ -8,6 +8,7 @@ monorepo.
 
 Poupe UI Framework is a comprehensive Material Design 3 implementation
 providing:
+
 - CSS utilities and property manipulation (@poupe/css)
 - Design token generation and theme management (@poupe/theme-builder)
 - TailwindCSS v4 integration (@poupe/tailwindcss)
@@ -16,7 +17,7 @@ providing:
 
 ## Monorepo Structure
 
-```
+```bash
 poupe/
 ├── packages/
 │   ├── @poupe-css/           # CSS utilities library
@@ -34,6 +35,7 @@ poupe/
 ## Common Commands (All Packages)
 
 **Development:**
+
 ```bash
 pnpm dev          # Start development mode (watch for changes)
 pnpm build        # Build the package
@@ -42,6 +44,7 @@ pnpm clean        # Remove dist/ and node_modules/
 ```
 
 **Code Quality:**
+
 ```bash
 pnpm lint         # Run ESLint with auto-fix
 pnpm type-check   # Check TypeScript types
@@ -50,11 +53,13 @@ pnpm publint      # Check package publishing configuration
 ```
 
 **Debugging:**
+
 ```bash
 DEBUG=eslint:eslint pnpm lint    # Debug ESLint issues
 ```
 
 **Monorepo Root Commands:**
+
 ```bash
 pnpm build        # Build all packages
 pnpm clean        # Clean all packages
@@ -82,66 +87,77 @@ ESLint):
 
 ## Documentation Formatting Guidelines
 
-Follow these rules for consistent documentation across all AGENT.md and README.md files:
+Follow these rules for consistent documentation across all AGENT.md and
+README.md files:
 
 ### Lists and Bullets
+
 - **Entry Points**: Break multi-item lists into sub-bullets for clarity
+
   ```markdown
   # Good
   - Library mode with four entry points:
-    - `index`
-    - `config`
-    - `resolver`
-    - `theme-scheme`
-  
+  - `index`
+  - `config`
+  - `resolver`
+  - `theme-scheme`
+
   # Avoid
   - Library mode with four entry points: `index`, `config`, `resolver`, `theme-scheme`
   ```
 
 - **Dependencies**: Use sub-bullets for better organization
+
   ```markdown
   # Good
   - **Runtime**:
-    - Workspace: @poupe/theme-builder, @poupe/tailwindcss
-    - External:
+  - Workspace: @poupe/theme-builder, @poupe/tailwindcss
+  - External:
       - vue
       - @iconify/vue
       - tailwind-merge
-  
+
   # Avoid
   - **Runtime**: @poupe/theme-builder, @poupe/tailwindcss, vue, @iconify/vue
   ```
 
 ### Line Length and Wrapping
+
 - **Single Line Descriptions**: Keep descriptions on one line when possible
+
   ```markdown
   # Good
   - Property normalization with intelligent preservation of selectors
-  
+
   # Avoid
   - Property normalization with intelligent
     preservation of selectors
   ```
 
 - **Command Descriptions**: Keep command descriptions on same line
+
   ```markdown
   # Good
   pnpm prepack  # Full validation (lint, type-check, test, build, publint)
-  
+
   # Avoid
   pnpm prepack  # Full validation (lint, type-check, test, build,
                 # publint)
   ```
 
 ### Consistency
-- **List Item Punctuation**: Be consistent - either use periods for all items or none
+
+- **List Item Punctuation**: Be consistent - either use periods for all
+  items or none
 - **Section Headings**: Add blank line after headings before content
 - **Wording**: Prefer "with" over "via" for describing relationships
 
 ## Development Practices
 
 ### Pre-commit Checklist (MANDATORY)
+
 Before finishing any task, ALWAYS run:
+
 1. `pnpm lint` - Fix all ESLint issues
 2. `pnpm type-check` - Resolve all TypeScript errors
 3. `pnpm test` - Ensure all tests pass
@@ -150,7 +166,8 @@ Before finishing any task, ALWAYS run:
 6. Update README.md if public API changes
 7. Review documentation formatting follows guidelines
 
-### DO:
+### DO
+
 - Use workspace protocol (`workspace:^`) for internal dependencies
 - Write tests for all new functionality
 - Follow Material Design 3 principles throughout
@@ -160,7 +177,8 @@ Before finishing any task, ALWAYS run:
 - Add explicit type annotations for union types
 - Follow strict TypeScript practices
 
-### DON'T:
+### DON'T
+
 - Create files unless necessary - prefer editing existing ones
 - Add external dependencies without careful consideration
 - Ignore TypeScript errors or ESLint warnings
@@ -172,6 +190,7 @@ Before finishing any task, ALWAYS run:
 ### Git Workflow
 
 #### Commits
+
 - Always use `-s` flag for sign-off
 - Use `git commit --fixup` for small fixes to existing commits
 - Write clear messages describing actual changes
@@ -180,10 +199,12 @@ Before finishing any task, ALWAYS run:
 - When creating new files, describe what the file provides, not that it was created
 
 #### Direct Commits (Recommended)
+
 **NEVER use the staging area** - always specify files directly in the
 commit command to ensure you're committing exactly what you intend:
 
 ##### Commit Message Files
+
 - **Always use Write tool** to create commit message files (never echo,
   -m, or heredocs)
 - **Use CWD-relative paths** for monorepo safety:
@@ -201,6 +222,7 @@ git commit --fixup=<commit-sha> src/components/story/utils.ts
 ```
 
 **Why direct commits?**
+
 - The stage might contain unexpected changes
 - Ensures you commit only the files you've explicitly reviewed
 - Prevents accidental commits of unrelated changes
@@ -208,7 +230,9 @@ git commit --fixup=<commit-sha> src/components/story/utils.ts
   specifying files
 
 #### Clean History with Fixup Commits
+
 When fixing issues in recent commits:
+
 1. Make your fix in the relevant files
 2. Create a fixup commit with direct file specification:
    `git commit --fixup=<commit-sha> <files>`
@@ -217,6 +241,7 @@ When fixing issues in recent commits:
 4. This maintains a clean history without "fix" commits
 
 Example workflow:
+
 ```bash
 # Fix an issue in commit abc123
 git commit --fixup=abc123 src/components/story/utils.ts
@@ -224,7 +249,9 @@ git rebase -i --autosquash abc123~1
 ```
 
 #### Amending Commit Messages
+
 To improve a commit message while rebasing:
+
 1. Start interactive rebase: `git rebase -i <commit-sha>~1`
 2. Change 'pick' to 'edit' for the target commit
 3. When rebase pauses:
@@ -234,6 +261,7 @@ To improve a commit message while rebasing:
 4. Continue rebase: `git rebase --continue`
 
 #### Commit Message Guidelines
+
 - First line: type(scope): brief description (50 chars max)
 - Blank line
 - Body: what and why, not how (wrap at 72 chars)
@@ -241,7 +269,8 @@ To improve a commit message while rebasing:
 - Reference issues/PRs when relevant
 
 Good example:
-```
+
+```text
 feat(vue): add comprehensive button component stories
 
 Create button.stories.ts with complete variant coverage:
@@ -253,16 +282,19 @@ Provides documentation and testing coverage for all button props.
 ```
 
 #### Branches
+
 - NEVER push or delete branches without explicit request
 - Use cherry-pick workflow for applying fixes
 
 #### Reviews
+
 - Ensure commit messages reflect final diff, not iterations
 - Keep history clean - squash related changes before review
 
 ## Workspace Dependencies
 
 When referencing other packages in the monorepo:
+
 ```json
 {
   "dependencies": {
@@ -296,6 +328,7 @@ When referencing other packages in the monorepo:
 ## Material Design 3 Principles
 
 All packages work together to implement Material Design 3:
+
 - Dynamic color system with theme tokens
 - Tonal elevation for depth perception
 - Accessibility-first approach
@@ -305,6 +338,7 @@ All packages work together to implement Material Design 3:
 ## Package-Specific Guidelines
 
 Each package has its own AGENT.md file with specific details:
+
 - `packages/@poupe-css/AGENT.md` - CSS utilities specifics
 - `packages/@poupe-theme-builder/AGENT.md` - Theme generation details
 - `packages/@poupe-tailwindcss/AGENT.md` - TailwindCSS integration
@@ -316,6 +350,7 @@ Each package has its own AGENT.md file with specific details:
 ### Cody (Sourcegraph) Specific Instructions
 
 #### Response Length Management
+
 - Acknowledge length limitations when responses approach limits - don't
   silently cut off
 - For large file changes: Provide targeted fixes with specific line
@@ -324,18 +359,22 @@ Each package has its own AGENT.md file with specific details:
   at a time
 
 #### Code Generation Guidelines
+
 - Always reference existing code patterns before creating new
   implementations
 - Use the monorepo's established conventions
 
 ### Claude Code Specific Instructions
+
 - Use TodoWrite tool for complex multi-step tasks
 
 ### GitHub Copilot Specific Instructions
+
 - Leverage inline suggestions for small fixes
 - Use chat for architectural decisions
 
 ### Universal Agent Guidelines
+
 - Test changes thoroughly before considering tasks complete
 - Reference code locations using `file_path:line_number` format
 - Follow the pre-commit checklist strictly
