@@ -35,4 +35,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.4.2] - Previous Release
 
-_Previous release notes available in git history_
+Previous release notes available in git history.

@@ -7,21 +7,25 @@ and different CSS input variations for testing workflows.
 ## Structure
 
 ### `input.css` (Default)
+
 - **Purpose**: Default setup using imported assets
 - **Config**: Uses `@import '../src/assets/default.css'` for quick start
 - **Usage**: Standard Material Design utilities with default theme
 
 ### `default-plugin.css`
+
 - **Purpose**: Demonstrates the `@plugin` workflow (direct plugin import in CSS)
 - **Config**: Uses `@plugin "../dist/index.mjs"` directly in CSS
 - **Usage**: TailwindCSS v4 plugin workflow for component libraries
 
 ### `flat-plugin.css`
+
 - **Purpose**: Demonstrates the flat plugin (default export via config)
 - **Config**: Uses `@config "./flat-plugin.config.js"` directive in CSS
 - **Usage**: Material Design utilities with simplified API
 
 ### `theme-plugin.css`
+
 - **Purpose**: Demonstrates the theme plugin (named export via config)
 - **Config**: Uses `@config "./theme-plugin.config.js"` directive in CSS
 - **Usage**: Advanced theming capabilities with full Material Design system
@@ -58,6 +62,7 @@ The flattened structure allows testing different plugin integration methods:
 These examples are integrated with the test suite in `src/__tests__/cli.test.ts`:
 
 ### What Tests Validate
+
 - **Plugin Loading**: Ensures plugins can be imported and configured correctly
 - **TailwindCSS Integration**: Validates `@plugin` and `@config` workflows work
 - **CSS Generation**: Confirms CSS is generated without syntax errors
@@ -92,6 +97,7 @@ examples/
 ## Dependencies
 
 Examples rely on the parent package's built files:
+
 - **Plugin**: Uses `../dist/index.mjs` for @plugin workflow
 - **Config**: Uses `../dist/flat` and `../dist/theme` for config workflows
 - **Assets**: Uses `../src/assets/default.css` for direct imports

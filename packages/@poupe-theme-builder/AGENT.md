@@ -50,6 +50,7 @@ src/
 ## Build Configuration
 
 Exports three entry points via unbuild:
+
 - `index` - Main theme builder functionality
 - `core` - Core utilities and algorithms
 - `server` - Server-side utilities for SSR
@@ -57,6 +58,7 @@ Exports three entry points via unbuild:
 ## API Overview
 
 ### Core Module (`@poupe/theme-builder`)
+
 - Theme generation from source colors (Material Design 2025 spec only)
 - Design token calculation with dim color variants
 - CSS variable generation
@@ -66,6 +68,7 @@ Exports three entry points via unbuild:
 - CSS color-mix parameter calculation for state colors
 
 ### Server Module (`@poupe/theme-builder/server`)
+
 - Server-side theme generation
 - Image color extraction
 - Theme caching utilities
@@ -106,6 +109,7 @@ Exports three entry points via unbuild:
 ## Integration Notes
 
 This package is used by:
+
 - @poupe/vue for runtime theming
 - @poupe/tailwindcss for CSS generation
 - @poupe/nuxt for SSR theme support

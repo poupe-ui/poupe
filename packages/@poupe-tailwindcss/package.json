@@ -6,6 +6,14 @@
   "author": "Alejandro Mery <amery@apptly.co>",
   "license": "MIT",
   "homepage": "https://poupe.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poupe-ui/poupe.git",
+    "directory": "packages/@poupe-tailwindcss"
+  },
+  "bugs": {
+    "url": "https://github.com/poupe-ui/poupe/issues"
+  },
   "keywords": [
     "css",
     "design-system",
@@ -19,14 +27,8 @@
     "typescript",
     "ui-framework"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/poupe-ui/poupe.git",
-    "directory": "packages/@poupe-tailwindcss"
-  },
-  "bugs": {
-    "url": "https://github.com/poupe-ui/poupe/issues"
-  },
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -42,9 +44,10 @@
       "import": "./dist/utils.mjs"
     }
   },
-  "main": "./dist/index.mjs",
   "style": "./dist/style.css",
-  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "prepack": "run-s lint type-check test build publint",
     "precommit": "run-s lint type-check test build",
@@ -56,6 +59,11 @@
     "test": "vitest run",
     "dev": "vitest watch",
     "clean": "rm -rf dist node_modules"
+  },
+  "dependencies": {
+    "@poupe/css": "workspace:^",
+    "@poupe/theme-builder": "workspace:^",
+    "type-fest": "^4.41.0"
   },
   "devDependencies": {
     "@poupe/eslint-config": "^0.7.2",
@@ -70,23 +78,15 @@
     "vitest": "^3.2.3",
     "vue-tsc": "^2.2.10"
   },
-  "dependencies": {
-    "@poupe/css": "workspace:^",
-    "@poupe/theme-builder": "workspace:^",
-    "type-fest": "^4.41.0"
-  },
   "peerDependencies": {
     "tailwindcss": "^4.1.10"
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "files": [
-    "dist"
-  ],
   "engines": {
     "node": ">=20.19.2",
     "pnpm": ">=10.10.0"
   },
-  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39"
+  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
+  "publishConfig": {
+    "access": "public"
+  }
 }

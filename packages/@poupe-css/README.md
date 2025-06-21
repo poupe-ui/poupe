@@ -58,19 +58,25 @@ The library exports several categories of utilities:
 ### Types
 
 #### `CSSValue`
+
 Represents a valid CSS property value:
+
 ```typescript
 type CSSValue = string | number | (string | number)[];
 ```
 
 #### `CSSProperties<K extends string = string>`
+
 A typed record of CSS properties:
+
 ```typescript
 type CSSProperties<K extends string = string> = Record<K, CSSValue>;
 ```
 
 #### `CSSPropertiesOptions`
+
 Configuration options for CSS properties stringification:
+
 ```typescript
 type CSSPropertiesOptions = {
   /** Indentation string, defaults to two spaces. */
@@ -87,7 +93,9 @@ type CSSPropertiesOptions = {
 ```
 
 #### `CSSRules`
+
 Represents a structured CSS rule set that can contain nested rules:
+
 ```typescript
 type CSSRules = {
   [name: string]: null | string | string[] | CSSRules | CSSRules[]
@@ -95,8 +103,10 @@ type CSSRules = {
 ```
 
 #### `CSSRuleObject`
+
 A more restrictive subset of CSSRules that is compatible with TailwindCSS
 plugin API:
+
 ```typescript
 type CSSRuleObject = {
   [key: string]: string | string[] | CSSRuleObject
@@ -104,7 +114,9 @@ type CSSRuleObject = {
 ```
 
 #### `CSSRulesFormatOptions`
+
 Configuration options for formatting CSS rules:
+
 ```typescript
 interface CSSRulesFormatOptions {
   /** Indentation string for each level of nesting, defaults to two spaces. */
@@ -121,6 +133,7 @@ interface CSSRulesFormatOptions {
 ### CSS Property Functions
 
 #### `stringifyCSSProperties<K extends string>`
+
 `(object: CSSProperties<K>, options?: CSSPropertiesOptions): string`
 Converts a CSSProperties object into a formatted CSS string representation
 with proper indentation. Property values are intelligently formatted based on
@@ -154,6 +167,7 @@ const inlineCSS = stringifyCSSProperties(styles, { inline: true });
 ```
 
 #### `formatCSSProperties<K extends string>(object: CSSProperties<K>): string[]`
+
 Formats a CSS properties object into an array of CSS property strings.
 Automatically handles deduplication of properties, where later declarations
 override earlier ones while preserving the original insertion order.
@@ -178,7 +192,9 @@ const cssLines = formatCSSProperties(styles);
 ```
 
 #### `formatCSSValue(value: CSSValue, useComma = true): string`
+
 Formats a CSS value into a string. If the value is an array:
+
 - By default, it joins the elements with commas (appropriate for properties
   like `font-family`)
 - When `useComma` is set to `false`, it uses spaces (appropriate for
@@ -199,6 +215,7 @@ formatCSSValue('calc(100% - 20px)'); // "calc(100% - 20px)" - Not quoted
 ```
 
 #### `properties<K extends string>`
+
 `(object: CSSProperties<K>): Generator<[K, CSSValue]>`
 Generates a sequence of valid CSS property key-value pairs from a
 CSSProperties object.
@@ -226,6 +243,7 @@ for (const [key, value] of properties(styles)) {
 ### CSS Rules Functions
 
 #### `stringifyCSSRules(rules: CSSRules | CSSRuleObject, options?): string`
+
 Converts a CSS rule object into a formatted string representation with proper
 indentation and nesting.
 
@@ -262,6 +280,7 @@ const cssString = stringifyCSSRules(rules);
 ```
 
 #### `formatCSSRules(rules: CSSRules | CSSRuleObject, options?): string[]`
+
 Processes a CSS rule object and returns an array of strings, where each
 string represents a line in the formatted CSS output. Internally uses the
 `generateCSSRules` generator for memory efficiency.
@@ -293,7 +312,8 @@ const camelRules = {
 };
 
 const normalized = formatCSSRules(camelRules, { normalizeProperties: true });
-// Returns: ['body {', '  font-size: 16px;', '  background-color: blue;', '  margin-top: 20px;', '}']
+// Returns: ['body {', '  font-size: 16px;', '  background-color: blue;',
+//           '  margin-top: 20px;', '}']
 
 // Selectors and at-rules are intelligently preserved
 const complexRules = {
@@ -307,11 +327,12 @@ const complexRules = {
 };
 
 const result = formatCSSRules(complexRules, { normalizeProperties: true });
-// Returns:
-// ['font-size: 18px;', '.button {', '  padding-left: 10px;', '}', '@media print {', '  background-color: white;', '}']
+// Returns: ['font-size: 18px;', '.button {', '  padding-left: 10px;', '}',
+//           '@media print {', '  background-color: white;', '}']
 ```
 
 #### `generateCSSRules(rules: CSSRules | CSSRuleObject, options?): Generator<string>`
+
 Generator version of `formatCSSRules` that yields lines as they're generated.
 More memory-efficient for large CSS files as it doesn't build the entire
 array in memory.
@@ -341,6 +362,7 @@ const lines = [...generateCSSRules(rules)];
 ```
 
 #### `formatCSSRulesArray`
+
 `(rules: (string | CSSRules | CSSRuleObject)[], options?): string[]`
 Formats an array of CSS rules into indented lines recursively. Internally uses
 the `generateCSSRulesArray` generator for memory efficiency.
@@ -364,6 +386,7 @@ const lines = formatCSSRulesArray(rulesArray);
 ```
 
 #### `generateCSSRulesArray`
+
 `(rules: (string | CSSRules | CSSRuleObject)[], options?): Generator<string>`
 Generator version of `formatCSSRulesArray` that yields lines as they're
 generated. Efficiently handles large arrays of CSS rules without building
@@ -385,6 +408,7 @@ for (const line of generateCSSRulesArray(rulesArray)) {
 ```
 
 #### `defaultValidCSSRule(key: string, value: CSSRulesValue): boolean`
+
 Default validation function that determines if a CSS rule key-value pair
 should be included in the output. A rule is considered valid if the key is
 not empty and the value is neither undefined nor null.
@@ -399,6 +423,7 @@ const customValid = (key, value) => {
 ```
 
 #### `interleavedRules(rules: CSSRules[]): CSSRules[]`
+
 Interleaves an array of CSS rule objects with empty objects, useful for
 creating spacing between rule blocks in the output.
 
@@ -422,6 +447,7 @@ const spacedRules = interleavedRules(rules);
 ```
 
 #### `renameRules(rules: CSSRules, fn: (name: string) => string): CSSRules`
+
 Renames the keys in a CSS rules object using the provided function, allowing
 for advanced selector manipulation.
 
@@ -459,6 +485,7 @@ const filteredRules = renameRules(rules, key =>
 ```
 
 #### `setDeepRule(target, path, object)`
+
 Sets a CSS rule object at a specified path within a target object,
 merging with existing objects and creating intermediate objects as needed.
 This function is overloaded to provide type safety for both general
@@ -484,6 +511,7 @@ setDeepRule(existingRules, 'button', { color: 'blue', padding: '10px' });
 ```
 
 #### `getDeepRule(target, path)`
+
 Retrieves a CSS rule value from a specified path within a target object.
 This function is overloaded to provide type safety for both general
 `CSSRules` objects and TailwindCSS-compatible `CSSRuleObject` types.
@@ -521,6 +549,7 @@ Expands selector aliases into their full forms using built-in or custom
 aliases.
 
 Built-in aliases include:
+
 - `'media'` → `'@media (prefers-color-scheme: dark)'`
 - `'dark'` → `'@media (prefers-color-scheme: dark)'`
 - `'light'` → `'@media (prefers-color-scheme: light)'`
@@ -546,7 +575,10 @@ expandSelectorAlias('print', customAliases); // '@media print'
 expandSelectorAlias('.my-class'); // '.my-class'
 ```
 
-#### `processCSSSelectors(selectors: string | string[], options?: ProcessCSSSelectorOptions): string[] | undefined`
+#### `processCSSSelectors()`
+
+**Signature:** `(selectors: string | string[],
+options?: ProcessCSSSelectorOptions) => string[] | undefined`
 
 Processes CSS selectors and at-rules, handling both strings and arrays.
 Merges consecutive selectors with OR and adds * variants, while keeping
@@ -598,7 +630,8 @@ processCSSSelectors([]); // undefined
 
 // Alias expansion with single string
 processCSSSelectors('media');
-// Result: ['@media (prefers-color-scheme: dark), @media (prefers-color-scheme: dark) *']
+// Result: ['@media (prefers-color-scheme: dark)',
+//          '@media (prefers-color-scheme: dark) *']
 
 // Disable comma pass-through
 processCSSSelectors('.test, .other', { allowCommaPassthrough: false });
@@ -612,6 +645,7 @@ processCSSSelectors('.test, .other', { allowCommaPassthrough: false });
 A type-safe wrapper around Object.keys for preserving the object's key types.
 
 #### `keys<T, K extends keyof T>`
+
 `(object: T, valid?: (key: keyof T) => boolean): Generator<K>`
 
 A generator function that yields keys of an object that pass an optional
@@ -634,6 +668,7 @@ for (const key of keys(obj, k => !k.startsWith('_'))) {
 ```
 
 #### `pairs<K extends string, T>`
+
 `(object: Record<K, T>, valid?: (k: K, v: T) => boolean): Generator<[K, T]>`
 
 A generator function that yields valid key-value pairs from an object. Allows
@@ -661,6 +696,7 @@ for (const [key, value] of pairs(obj, customValid)) {
 #### `defaultValidPair<K extends string, T>(key: K, value: T): boolean`
 
 Validates if a key-value pair meets default criteria:
+
 - The value is neither null nor undefined
 - The key doesn't contain spaces
 - The key doesn't start with an underscore (_)
@@ -668,6 +704,7 @@ Validates if a key-value pair meets default criteria:
 #### `kebabCase(s: string): string`
 
 Converts a given string to kebab-case:
+
 - Transforms camelCase, PascalCase, and snake_case to kebab-case
 - Adds leading hyphen to recognized vendor prefixes
 
@@ -683,6 +720,7 @@ kebabCase('WebkitTransition'); // '-webkit-transition'
 #### `camelCase(s: string): string`
 
 Converts a given string to camelCase:
+
 - Transforms kebab-case, PascalCase, and snake_case to camelCase
 - Properly handles vendor prefixes by removing the leading hyphen
 - Correctly handles acronyms and preserves internal capitalization

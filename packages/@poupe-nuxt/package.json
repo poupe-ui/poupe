@@ -4,8 +4,16 @@
   "type": "module",
   "description": "Nuxt module for integrating Poupe UI framework with theme customization and components",
   "author": "Alejandro Mery <amery@apptly.co>",
-  "homepage": "https://poupe.dev",
   "license": "MIT",
+  "homepage": "https://poupe.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poupe-ui/poupe.git",
+    "directory": "packages/@poupe-nuxt"
+  },
+  "bugs": {
+    "url": "https://github.com/poupe-ui/poupe/issues"
+  },
   "keywords": [
     "material-design",
     "material-design-3",
@@ -18,21 +26,13 @@
     "ui-framework",
     "vue"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/poupe-ui/poupe.git",
-    "directory": "packages/@poupe-nuxt"
-  },
-  "bugs": {
-    "url": "https://github.com/poupe-ui/poupe/issues"
-  },
+  "main": "./dist/module.mjs",
   "exports": {
     ".": {
       "types": "./dist/types.d.mts",
       "default": "./dist/module.mjs"
     }
   },
-  "main": "./dist/module.mjs",
   "files": [
     "dist"
   ],
@@ -59,6 +59,20 @@
     "clean:playground": "rm -rf playground/dist playground/node_modules playground/.nuxt",
     "clean": "run-s clean:root clean:playground"
   },
+  "dependencies": {
+    "@nuxt/icon": "^1.13.0",
+    "@nuxtjs/color-mode": "^3.5.2",
+    "@poupe/css": "workspace:^",
+    "@poupe/tailwindcss": "workspace:^",
+    "@poupe/theme-builder": "workspace:^",
+    "@poupe/vue": "workspace:^",
+    "@tailwindcss/vite": "^4.1.10",
+    "consola": "^3.4.2",
+    "std-env": "^3.9.0",
+    "stringify-object": "^5.0.0",
+    "tailwind-scrollbar": "^4.0.2",
+    "tailwindcss": "^4.1.10"
+  },
   "devDependencies": {
     "@nuxt/devtools": "^2.5.0",
     "@nuxt/eslint-config": "^1.4.1",
@@ -80,26 +94,12 @@
     "vitest": "^3.2.3",
     "vue-tsc": "^2.2.10"
   },
-  "dependencies": {
-    "@nuxt/icon": "^1.13.0",
-    "@nuxtjs/color-mode": "^3.5.2",
-    "@poupe/css": "workspace:^",
-    "@poupe/tailwindcss": "workspace:^",
-    "@poupe/theme-builder": "workspace:^",
-    "@poupe/vue": "workspace:^",
-    "@tailwindcss/vite": "^4.1.10",
-    "consola": "^3.4.2",
-    "std-env": "^3.9.0",
-    "stringify-object": "^5.0.0",
-    "tailwind-scrollbar": "^4.0.2",
-    "tailwindcss": "^4.1.10"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
   "engines": {
     "node": ">=20.19.2",
     "pnpm": ">=10.10.0"
   },
-  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39"
+  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
+  "publishConfig": {
+    "access": "public"
+  }
 }

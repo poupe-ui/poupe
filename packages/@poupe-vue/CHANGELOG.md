@@ -10,7 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 #### New Components
-- **PSurface**: Base container component with Material Design 3 surface and container variants
+
+- **PSurface**: Base container component with Material Design 3 surface and
+    container variants
   - Surface variants: all MD3 surface colors from dim to container-highest
   - Container variants: primary, secondary, tertiary, error
   - Shape system integration with size aliases and explicit variants
@@ -25,13 +27,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Inherits all PSurface capabilities
 
 #### New Composables
+
 - **usePoupe**: Global configuration and defaults management
   - Provides app-wide component defaults via Vue's provide/inject
   - Supports theme configuration (dark mode, custom colors)
   - Accessibility options (reducedMotion, highContrast)
   - Ripple effect configuration
   - Extendable interface for component-specific defaults
-  - Helper function `usePoupeMergedProps` for three-level prop merging (global < component < props)
+  - Helper function `usePoupeMergedProps` for three-level prop merging
+      (global < component < props)
 
 - **useRipple**: Material Design ripple effect implementation
   - Handles mouse and touch events to create ripple animations
@@ -40,12 +44,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Integrates with the `.ripple-effect` utility from @poupe/tailwindcss
 
 #### New Utilities
+
 - **tryWarn**: Safe console warning utility for development mode
   - Only logs warnings in development
   - Prevents eslint no-undef errors
   - Guards against missing console.warn
 
 #### Export Structure
+
 - Created separate entry points for better tree-shaking:
   - `@poupe/vue/composables` - All composables
   - `@poupe/vue/components` - All components (re-export from main)
@@ -53,6 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 #### PButton Component
+
 - Complete refactor with Material Design 3 semantics
 - New button types: text, outlined, filled, elevated, tonal
 - Semantic color variants: base, primary, secondary, tertiary, error
@@ -65,15 +72,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Better prop organization and TypeScript interfaces
 
 ### Fixed
+
 - Story viewer test slot props now have proper TypeScript types
 
 ### Developer Experience
+
 - Added shared `mountWithPoupe` test utility for consistent component testing
 - All component tests migrated to use the new test helper
 - Improved type safety across all components
 - Module augmentation for component defaults
 
 ### Internal
+
 - Refactored all components to eliminate `withDefaults` usage
 - Single source of truth for component defaults
 - Improved prop naming: `directProps` for raw props, `props` for merged values

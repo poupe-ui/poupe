@@ -1,4 +1,3 @@
-
 # AGENT.md - @poupe/tailwindcss
 
 This file provides package-specific guidance for the @poupe/tailwindcss
@@ -59,6 +58,7 @@ examples/
 ## Recent Changes
 
 ### v0.4.3 - Material Design Ripple Effect
+
 - **NEW**: Added `.ripple-effect` utility class for Material Design ripple animations
 - **NEW**: Ripple animation keyframes with configurable duration and opacity
 - **FEATURES**:
@@ -70,6 +70,7 @@ examples/
   - Performance optimized with `will-change: transform, opacity`
 
 ### v0.4.0 - Unified Scrim Utilities & v4-to-v3 Bridge
+
 - **NEW**: Added opacity modifier support to all scrim utilities
   (e.g., `scrim-modal/50`)
 - **NEW**: Implemented `--md-scrim-rgb` variable following the same pattern
@@ -91,6 +92,7 @@ examples/
   patterns to work with v3 matchUtilities
 
 ### Interactive Surface Components
+
 - **NEW**: Added `interactive-surface-*` utilities that combine surface
   styling with MD3 state layers
 - **NEW**: All surface utilities now have interactive counterparts with
@@ -104,6 +106,7 @@ examples/
   variable
 
 ### Shape System
+
 - **Material Design 3 shape tokens**: Extensible shape system with scale
   from `none` through `full`
 - **Shape scale utilities**: `.shape-none`, `.shape-extra-small`,
@@ -134,6 +137,7 @@ The package includes `asMatchUtility` function at
 JavaScript API:
 
 ### Bridge Functionality
+
 - **Detects v4 patterns**: Identifies utilities using `--value()` and
   `--modifier()` syntax
 - **Converts to matchUtilities**: Transforms them to work with TailwindCSS
@@ -144,6 +148,7 @@ JavaScript API:
   conversion (`/50` → `50%`)
 
 ### Supported Patterns
+
 ```css
 /* v4 CSS syntax */
 .scrim-* {
@@ -155,6 +160,7 @@ JavaScript API:
 ```
 
 Becomes v3 matchUtilities:
+
 ```javascript
 api.matchUtilities({
   'scrim': (value, { modifier }) => ({
@@ -168,6 +174,7 @@ api.matchUtilities({
 ```
 
 ### Integration Points
+
 - **Plugin processing**: Used in `src/theme/plugin.ts` via
   `doMatchUtility()`
 - **Component generation**: Works with dynamic utilities from
@@ -180,6 +187,7 @@ api.matchUtilities({
 The package provides two pre-built CSS files in `src/assets/`:
 
 ### style.css
+
 - Minimal TailwindCSS v4 setup
 - Surface utilities without theme colors
 - Shadow and elevation system
@@ -188,6 +196,7 @@ The package provides two pre-built CSS files in `src/assets/`:
 - Exported as package's main CSS via `@import '@poupe/tailwindcss'`
 
 ### default.css
+
 - Complete example with Material Design 3 variables
 - Full set of CSS custom properties with default values
 - All utilities with example theme colors
@@ -196,18 +205,21 @@ The package provides two pre-built CSS files in `src/assets/`:
 ## Build Process
 
 ### Theme Asset Generation
+
 - **Hook**: `build:prepare` in `build.config.ts`
 - **Output**: `src/assets/default.css` and `src/assets/style.css`
 - **Source**: Generated from TypeScript theme definitions
 - **Purpose**: Pre-built CSS files for different use cases
 
 ### Example CSS Generation
+
 - **Hook**: `build:done` in `build.config.ts`
 - **Output**: `examples/*/output.css` files
 - **Command**: Uses `pnpx @tailwindcss/cli` for each example
 - **Purpose**: Human-viewable CSS files for browser testing
 
 #### Build Commands
+
 The build process runs automatically:
 
 ```bash
@@ -221,7 +233,9 @@ pnpm build
 ```
 
 #### Example Build Details
+
 Each example is built using TailwindCSS CLI:
+
 - **plugin-workflow**: Uses `@plugin` syntax with content scanning
   (default-plugin.css)
 - **flat-plugin**: Uses config-based plugin with `@config` workflow
@@ -234,6 +248,7 @@ Build errors in examples don't fail the main build process.
 ## CSS Utilities Generated
 
 ### Surface Utilities
+
 - `.surface-{color}`: Sets background and text color
 - `.on-{color}`: Sets appropriate text color for backgrounds
 - `.surface-container-{lowest|low|medium|high|highest}`: Container
@@ -244,6 +259,7 @@ Build errors in examples don't fail the main build process.
   naming to avoid redundancy
 
 ### Interactive Surface Utilities
+
 - `.interactive-surface-{color}`: Surface with Material Design 3 state
   layers
 - `.interactive-surface-container-{variant}`: Container surfaces with
@@ -255,6 +271,7 @@ Build errors in examples don't fail the main build process.
   `interactive-surface-inverse-primary` correctly
 
 ### Elevation Utilities
+
 - `.z{1-5}`: Elevation levels with shadows and tonal elevation
 - `.scrim-[value]`: Arbitrary z-index overlays with full scrim styling
 - `.scrim-{base|content|drawer|modal|elevated|system}`: Semantic overlays
@@ -263,11 +280,13 @@ Build errors in examples don't fail the main build process.
   support opacity modifiers (e.g., `/50`, `/75`)
 
 ### State Layer Utilities
+
 - `.state-hover`: Hover state overlay
 - `.state-focus`: Focus state overlay
 - `.state-pressed`: Pressed state overlay
 
 ### Animation Utilities
+
 - `.ripple-effect`: Material Design ripple animation effect
   - Absolute positioning with circular shape
   - Configurable via CSS variables
@@ -294,12 +313,14 @@ export default {
 ## Testing Guidelines
 
 ### Unit Tests
+
 - Test utility generation
 - Validate CSS output
 - Test with different TailwindCSS configurations
 - Ensure theme variable integration works
 
 ### CLI Integration Tests
+
 - **File**: `src/__tests__/cli.test.ts`
 - **Purpose**: Validates CSS assets using actual TailwindCSS CLI
 - **Coverage**:
@@ -314,6 +335,7 @@ export default {
 - **Strategy**: Separation of concerns between testing and example generation
 
 #### Test Execution
+
 All CLI tests run from the package root using temporary files for
 validation:
 
@@ -326,7 +348,9 @@ pnpm test cli.test.ts
 ```
 
 #### Testing Strategy
+
 Tests create minimal temporary files during execution:
+
 - Input CSS files with `@plugin` directives
 - HTML files with utility classes for content scanning (including modifier
   examples)
@@ -338,7 +362,9 @@ Tests create minimal temporary files during execution:
   `plugin-match-utilities.test.ts`
 
 #### Example File Validation
+
 Tests validate that `build.config.ts` successfully generated:
+
 - `examples/plugin-workflow/output.css`
 - `examples/flat-plugin/output.css`
 - `examples/theme-plugin/output.css`
@@ -349,18 +375,23 @@ temporary files with UUID names for functional validation.
 ## Integration Notes
 
 ### Development Integration
+
 - **Build Process**: Automatic example generation for human testing
 - **Test Process**: Validates functionality without modifying examples
 - **File Separation**: Clear boundaries between generated and source files
 
 ### External Integration
+
 Works with:
+
 - TailwindCSS v4.x only
 - @poupe/theme-builder for design tokens
 - @poupe/vue components use these utilities
 
 ### Browser Testing
+
 After building the package:
+
 1. Open `examples/*/index.html` in any browser
 2. See styled Material Design components
 3. Inspect generated CSS in `examples/*/output.css`
@@ -374,4 +405,3 @@ plugin generates working CSS for end users.
 - **Runtime**: @poupe/css, @poupe/theme-builder (workspace deps), type-fest
 - **Peer**: tailwindcss v4
 - **Development**: @tailwindcss/node for testing
-

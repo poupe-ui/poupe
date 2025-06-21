@@ -22,6 +22,7 @@ pnpm preview      # Preview built application (unique to @poupe/vue)
 
 Unlike other packages that use `unbuild`, @poupe/vue uses **Vite** for
 better Vue component handling:
+
 - Library mode with four entry points:
   - `index`
   - `config`
@@ -57,12 +58,14 @@ src/
 ## Component Development Guidelines
 
 ### Material Design 3 Principles
+
 - All components follow Material Design 3 guidelines
 - Use semantic color tokens (primary, secondary, tertiary, etc.)
 - Implement tonal elevation for depth
 - Support dynamic color themes
 
 ### Component Structure
+
 - **Naming**: Components use 'P' prefix (e.g., PButton, PCard)
 - **Props**: Export both default and typed props
 - **TypeScript**: Use `defineProps` with proper types
@@ -71,6 +74,7 @@ src/
   mandatory
 
 ### Styling System
+
 - Use TailwindCSS v4 with @poupe/tailwindcss plugin
 - Leverage the variant system for component variations
 - Use surface utilities for background/text color pairing
@@ -80,6 +84,7 @@ src/
 ## Key Components
 
 ### Current Components
+
 - **PButton**: Material Design 3 button with interactive states
 - **PCard**: Content container with optional interactive states
 - **PIcon**: Icon wrapper component
@@ -92,12 +97,14 @@ src/
   - Global defaults integration via usePoupe
 
 ### Theme Components (Separate Export)
+
 - **PThemeScheme**: Theme color scheme visualization component
   - Exported via `@poupe/vue/theme-scheme`
   - Used for visualizing and debugging theme colors
   - Auto-imported by @poupe/nuxt module
 
 ### Story Components (Separate Export)
+
 - **StoryViewer**: Main container for component documentation
   - Exported via `@poupe/vue/story-viewer`
   - Responsive sidebar navigation
@@ -106,6 +113,7 @@ src/
 - **StoryShowcase**: Flexible layout for displaying component variants
 
 ### Component Patterns
+
 - Use slots for flexible content composition
 - Implement variant props for different styles
 - Support color prop with Material Design color tokens
@@ -114,7 +122,9 @@ src/
 ## Composables
 
 ### usePoupe
+
 Global configuration and defaults composable:
+
 - Provides centralized configuration for all Poupe components
 - Supports theme settings (dark mode, custom colors)
 - Accessibility options (reducedMotion, highContrast)
@@ -126,7 +136,9 @@ Global configuration and defaults composable:
 - Extendable interface for component-specific defaults
 
 ### useRipple
+
 Material Design ripple effect composable:
+
 - Handles mouse and touch events to create ripple animations
 - Configurable color, opacity, duration, and bounded behavior
 - Automatically cleans up ripples after animation completes
@@ -134,13 +146,17 @@ Material Design ripple effect composable:
 - Used by interactive components for tactile feedback
 
 ### usePasswordToggle
+
 Password visibility toggle composable:
+
 - Manages show/hide password state
 - Provides appropriate icon based on visibility
 - Returns reactive type attribute for input elements
 
 ### usePoupeIcons
+
 Icon management composable:
+
 - Provides access to Poupe's icon library
 - Returns reactive icon definitions
 - Used internally by components
@@ -148,17 +164,20 @@ Icon management composable:
 ## Integration Features
 
 ### Auto-import Support
+
 - Export `PoupeResolver` for unplugin-vue-components
 - Components are automatically importable without explicit
   imports
 - Resolver handles 'P' prefix pattern matching
 
 ### TailwindCSS Configuration
+
 - Export theme configuration via `@poupe/vue/config`
 - Integrates with @poupe/tailwindcss plugin
 - Provides consistent styling across projects
 
 ### Theme System
+
 - Built on @poupe/theme-builder
 - Reactive theme switching support
 - Color scheme management components
@@ -177,14 +196,14 @@ Icon management composable:
 - **Runtime**:
   - Workspace: @poupe/theme-builder, @poupe/tailwindcss
   - External:
-    - vue
-    - @iconify/vue
-    - @unhead/vue
-    - defu
-    - reka-ui
-    - tailwind-merge
-    - tailwind-variants
-    - tailwindcss
+  - vue
+  - @iconify/vue
+  - @unhead/vue
+  - defu
+  - reka-ui
+  - tailwind-merge
+  - tailwind-variants
+  - tailwindcss
 - **Development**: TypeScript, Vite, Vitest, ESLint, Vue Test Utils
 - **Note**: See package.json for specific versions
 
@@ -226,12 +245,14 @@ Icon management composable:
 ## Package-Specific Guidelines
 
 ### DO (Package-Specific)
+
 - Use the existing variant system for component variations
 - Use semantic HTML and ARIA attributes appropriately
 - Include tests in colocated `__tests__` directories
 - Export both default and typed props for components
 
 ### DON'T (Package-Specific)
+
 - Override Material Design principles without justification
 - Skip accessibility requirements (ARIA, keyboard navigation)
 - Create components without proper TypeScript interfaces
@@ -278,5 +299,3 @@ When working with the StoryViewer components:
 - **Build issues**: Run `pnpm clean` then rebuild
 - **Test failures**: Use `--reporter=verbose` flag
 - **Story viewer issues**: Check browser console for render errors
-
-

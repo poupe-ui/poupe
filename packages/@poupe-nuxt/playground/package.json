@@ -1,6 +1,6 @@
 {
-  "private": true,
   "name": "@poupe/nuxt-playground",
+  "private": true,
   "type": "module",
   "description": "Development playground for the Poupe UI Nuxt module",
   "scripts": {
