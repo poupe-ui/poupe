@@ -26,7 +26,7 @@ importers:
     devDependencies:
       '@poupe/eslint-config':
         specifier: ^0.7.2
-        version: 0.7.2(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2)))
+        version: 0.7.4(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2)))
       '@types/node':
         specifier: ^20.19.0
         version: 20.19.0
@@ -111,7 +111,7 @@ importers:
         version: 3.19.1(@types/node@20.19.0)(@vue/test-utils@2.4.6)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(magicast@0.3.5)(playwright-core@1.53.0)(terser@5.42.0)(tsx@4.20.3)(typescript@5.8.3)(vitest@3.2.3(@types/debug@4.1.12)(@types/node@20.19.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(terser@5.42.0)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@poupe/eslint-config':
         specifier: ^0.7.2
-        version: 0.7.2(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2)))
+        version: 0.7.4(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2)))
       '@types/node':
         specifier: ^20.19.0
         version: 20.19.0
@@ -176,7 +176,7 @@ importers:
     devDependencies:
       '@poupe/eslint-config':
         specifier: ^0.7.2
-        version: 0.7.2(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2)))
+        version: 0.7.4(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2)))
       '@tailwindcss/node':
         specifier: ^4.1.10
         version: 4.1.10
@@ -228,7 +228,7 @@ importers:
     devDependencies:
       '@poupe/eslint-config':
         specifier: ^0.7.2
-        version: 0.7.2(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2)))
+        version: 0.7.4(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2)))
       '@types/node':
         specifier: ^20.19.0
         version: 20.19.0
@@ -298,7 +298,7 @@ importers:
     devDependencies:
       '@poupe/eslint-config':
         specifier: ^0.7.2
-        version: 0.7.2(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2)))
+        version: 0.7.4(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2)))
       '@tailwindcss/postcss':
         specifier: ^4.1.10
         version: 4.1.10
@@ -357,7 +357,7 @@ importers:
         specifier: ^0.3.12
         version: 0.3.12
       tsx:
-        specifier: ^4.19.2
+        specifier: ^4.20.3
         version: 4.20.3
       typescript:
         specifier: ~5.8.3
@@ -1358,10 +1358,6 @@ packages:
   '@poppinss/exception@1.2.1':
     resolution: {integrity: sha512-aQypoot0HPSJa6gDPEPTntc1GT6QINrSbgRlRhadGW2WaYqUK3tK4Bw9SBMZXhmxd3GeAlZjVcODHgiu+THY7A==}
     engines: {node: '>=18'}
-
-  '@poupe/eslint-config@0.7.2':
-    resolution: {integrity: sha512-b479LTipllCNRia0frOgXWHPudXBKetxw57wt4iUDifsN1YyMgyNiz1H5xcgIZJkHeP5ZWsoU+Gc7Dd+0+cHFw==}
-    engines: {node: '>= 18.20.8', pnpm: '>= 10.10.0'}
 
   '@poupe/eslint-config@0.7.4':
     resolution: {integrity: sha512-YIV05EKxSlMGvCPjpCZOIr+icL03IKe1huoKgEsF86q8ZHYLvrcZwlifMV7bX+2DrfHFnaAPv9z0e3/zgDG2wg==}
@@ -7452,28 +7448,6 @@ snapshots:
       supports-color: 10.0.0
 
   '@poppinss/exception@1.2.1': {}
-
-  '@poupe/eslint-config@0.7.2(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2)))':
-    dependencies:
-      '@eslint/js': 9.29.0
-      '@humanwhocodes/momoa': 3.3.8
-      '@stylistic/eslint-plugin': 4.4.1(eslint@9.29.0(jiti@2.4.2))(typescript@5.8.3)
-      '@typescript-eslint/parser': 8.34.1(eslint@9.29.0(jiti@2.4.2))(typescript@5.8.3)
-      '@vue/eslint-config-typescript': 14.5.1(eslint-plugin-vue@10.2.0(eslint@9.29.0(jiti@2.4.2))(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2))))(eslint@9.29.0(jiti@2.4.2))(typescript@5.8.3)
-      eslint: 9.29.0(jiti@2.4.2)
-      eslint-plugin-jsonc: 2.20.1(eslint@9.29.0(jiti@2.4.2))
-      eslint-plugin-markdownlint: 0.9.0(eslint@9.29.0(jiti@2.4.2))
-      eslint-plugin-tsdoc: 0.4.0
-      eslint-plugin-unicorn: 59.0.1(eslint@9.29.0(jiti@2.4.2))
-      eslint-plugin-vue: 10.2.0(eslint@9.29.0(jiti@2.4.2))(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2)))
-      jsonc-eslint-parser: 2.4.0
-      typescript-eslint: 8.34.1(eslint@9.29.0(jiti@2.4.2))(typescript@5.8.3)
-    transitivePeerDependencies:
-      - '@eslint/json'
-      - jiti
-      - supports-color
-      - typescript
-      - vue-eslint-parser
 
   '@poupe/eslint-config@0.7.4(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.29.0(jiti@2.4.2)))':
     dependencies:
