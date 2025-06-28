@@ -78,7 +78,7 @@
     "screenshot:auto": "tsx src/scripts/screenshot-auto.ts"
   },
   "dependencies": {
-    "@iconify-json/material-symbols": "^1.2.12",
+    "@iconify-json/material-symbols": "^1.2.28",
     "@iconify-json/svg-spinners": "^1.2.2",
     "@iconify/vue": "^5.0.0",
     "@poupe/tailwindcss": "workspace:^",
