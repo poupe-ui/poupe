@@ -66,8 +66,11 @@ src/
 
 ### Component Structure
 
-- **Naming**: Components use 'P' prefix (e.g., PButton, PCard)
-- **Props**: Export both default and typed props
+- **Naming**: Components do NOT use prefixes in the source code
+  - Component files: `button.vue`, `card.vue`, `navigation-rail.vue`
+  - Export names: `Button`, `Card`, `NavigationRail`
+  - The 'P' prefix is only added by @poupe/nuxt auto-import
+- **Props**: Export both default export and typed props interface
 - **TypeScript**: Use `defineProps` with proper types
 - **Tests**: Include tests in colocated `__tests__` directory
 - **Accessibility**: ARIA attributes and keyboard navigation are
@@ -76,7 +79,8 @@ src/
 ### Styling System
 
 - Use TailwindCSS v4 with @poupe/tailwindcss plugin
-- Leverage the variant system for component variations
+- Use `tailwind-variants` (tv) for complex component styling
+- Prefer tailwind-variants over inline classes in templates
 - Use surface utilities for background/text color pairing
 - Use interactive-surface-* utilities for MD3 state layers
 - Apply Material Design elevation shadows (z1-z5)
@@ -85,12 +89,12 @@ src/
 
 ### Current Components
 
-- **PButton**: Material Design 3 button with interactive states
-- **PCard**: Content container with optional interactive states
-- **PIcon**: Icon wrapper component
-- **PInput**: Form input wrapper with interactive states
-- **PPlaceholder**: Development placeholder component
-- **PSurface**: Base container component with MD3 surface variants
+- **Button**: Material Design 3 button with interactive states
+- **Card**: Content container with optional interactive states
+- **Icon**: Icon wrapper component
+- **Input**: Form input wrapper with interactive states
+- **Placeholder**: Development placeholder component
+- **Surface**: Base container component with MD3 surface variants
   - Supports both surface and container variants
   - Interactive states with proper state layers
   - Shape, shadow, border, and padding customization
@@ -118,6 +122,29 @@ src/
 - Implement variant props for different styles
 - Support color prop with Material Design color tokens
 - Provide proper TypeScript interfaces for props
+
+### Using usePoupeMergedProps
+
+Components should follow this pattern for merging props with defaults:
+
+```typescript
+// Define props without withDefaults
+const directProps = defineProps<ComponentProps>();
+
+// Define component defaults
+const componentDefaults: Partial<ComponentProps> = {
+  role: 'surface',
+  variant: 'base',
+  // ... other defaults
+};
+
+// Merge props with global defaults
+const props = computed(() =>
+  usePoupeMergedProps(directProps, 'componentName', componentDefaults),
+);
+
+// Use props.value in the template and computed properties
+```
 
 ## Composables
 
