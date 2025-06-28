@@ -12,7 +12,7 @@
     "lint": "env DEBUG=eslint:eslint eslint --fix --ignore-pattern 'packages/*' . && pnpm -r lint"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "^0.7.4",
+    "@poupe/eslint-config": "^0.7.5",
     "eslint": "^9.29.0",
     "pkg-pr-new": "^0.0.51"
   },
