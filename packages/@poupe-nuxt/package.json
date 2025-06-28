@@ -66,12 +66,12 @@
     "@poupe/tailwindcss": "workspace:^",
     "@poupe/theme-builder": "workspace:^",
     "@poupe/vue": "workspace:^",
-    "@tailwindcss/vite": "^4.1.10",
+    "@tailwindcss/vite": "^4.1.11",
     "consola": "^3.4.2",
     "std-env": "^3.9.0",
     "stringify-object": "^5.0.0",
     "tailwind-scrollbar": "^4.0.2",
-    "tailwindcss": "^4.1.10"
+    "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
     "@nuxt/devtools": "^2.5.0",

@@ -67,19 +67,19 @@
   },
   "devDependencies": {
     "@poupe/eslint-config": "^0.7.5",
-    "@tailwindcss/node": "^4.1.10",
+    "@tailwindcss/node": "^4.1.11",
     "@types/node": "^20.19.0",
     "eslint": "^9.29.0",
     "pathe": "^2.0.3",
     "publint": "^0.3.12",
-    "tailwindcss": "^4.1.10",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5.8.3",
     "unbuild": "3.5.0",
     "vitest": "^3.2.4",
     "vue-tsc": "^2.2.10"
   },
   "peerDependencies": {
-    "tailwindcss": "^4.1.10"
+    "tailwindcss": "^4.1.11"
   },
   "engines": {
     "node": ">=20.19.2",
