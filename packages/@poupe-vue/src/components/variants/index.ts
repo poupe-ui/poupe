@@ -43,23 +43,70 @@ export const roundedVariants = {
 };
 
 export const shapeVariants = {
+  // Basic scale variants (default to rounded family)
   'none': 'shape-none',
-  // Size-only variants are aliases for squircles
-  'xs': 'shape-squircle-extra-small',
-  'sm': 'shape-squircle-small',
-  'md': 'shape-squircle-medium',
-  'lg': 'shape-squircle-large',
-  'xl': 'shape-squircle-extra-large',
-  // Rounded means fully rounded (no size customization)
-  'rounded': 'shape-full',
-  'full': 'shape-full', // Alias for rounded
-  // Explicit squircle variants (same as size-only)
-  'squircle-xs': 'shape-squircle-extra-small',
-  'squircle-sm': 'shape-squircle-small',
-  'squircle-md': 'shape-squircle-medium',
-  'squircle-lg': 'shape-squircle-large',
-  'squircle-xl': 'shape-squircle-extra-large',
+  'xs': 'shape-xs',
+  'sm': 'shape-sm',
+  'md': 'shape-md',
+  'lg': 'shape-lg',
+  'xl': 'shape-xl',
+  'full': 'shape-full', // MD3 term for fully rounded (pill/circle)
+
+  // Rounded family (now default, no prefix needed)
+  'rounded-xs': 'shape-xs',
+  'rounded-sm': 'shape-sm',
+  'rounded-md': 'shape-md',
+  'rounded-lg': 'shape-lg',
+  'rounded-xl': 'shape-xl',
+  'rounded-full': 'shape-full',
+
+  // Squircle family
+  'squircle': 'shape-squircle-md', // Default to medium when no scale specified
+  'squircle-xs': 'shape-squircle-xs',
+  'squircle-sm': 'shape-squircle-sm',
+  'squircle-md': 'shape-squircle-md',
+  'squircle-lg': 'shape-squircle-lg',
+  'squircle-xl': 'shape-squircle-xl',
   'squircle-full': 'shape-squircle-full',
+
+  // Cut family
+  'cut': 'shape-cut-md', // Default to medium when no scale specified
+  'cut-xs': 'shape-cut-xs',
+  'cut-sm': 'shape-cut-sm',
+  'cut-md': 'shape-cut-md',
+  'cut-lg': 'shape-cut-lg',
+  'cut-xl': 'shape-cut-xl',
+  'cut-full': 'shape-cut-full',
+
+  // Concave family
+  'concave': 'shape-concave-md', // Default to medium when no scale specified
+  'concave-xs': 'shape-concave-xs',
+  'concave-sm': 'shape-concave-sm',
+  'concave-md': 'shape-concave-md',
+  'concave-lg': 'shape-concave-lg',
+  'concave-xl': 'shape-concave-xl',
+  'concave-full': 'shape-concave-full',
+
+  // Convex family
+  'convex': 'shape-convex-md', // Default to medium when no scale specified
+  'convex-xs': 'shape-convex-xs',
+  'convex-sm': 'shape-convex-sm',
+  'convex-md': 'shape-convex-md',
+  'convex-lg': 'shape-convex-lg',
+  'convex-xl': 'shape-convex-xl',
+  'convex-full': 'shape-convex-full',
+
+  // Asymmetric corner variants (examples)
+  // Top corners only
+  'rounded-lg-t': 'shape-lg-top',
+  'squircle-lg-t': 'shape-squircle-lg-top',
+  'cut-lg-t': 'shape-cut-lg-top',
+
+  // Individual corners
+  'rounded-lg-tl': 'shape-lg-tl',
+  'rounded-lg-tr': 'shape-lg-tr',
+  'rounded-lg-br': 'shape-lg-br',
+  'rounded-lg-bl': 'shape-lg-bl',
 };
 
 export const shadowVariants = {
