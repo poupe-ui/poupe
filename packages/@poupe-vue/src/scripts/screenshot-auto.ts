@@ -21,7 +21,7 @@ async function runScreenshots(options: ScreenshotOptions) {
   const server = await createServer({
     server: {
       port,
-      strictPort: true,
+      strictPort: false, // Allow fallback if port is taken
     },
     logLevel: 'error',
   });
@@ -30,10 +30,14 @@ async function runScreenshots(options: ScreenshotOptions) {
     // Start the server
     await server.listen();
 
-    console.log(`✅ Dev server ready at http://localhost:${port}`);
+    // Get the actual port (in case it changed)
+    const address = server.httpServer?.address();
+    const actualPort = typeof address === 'object' && address !== null ? address.port : port;
+
+    console.log(`✅ Dev server ready at http://localhost:${actualPort}`);
 
     // Set environment variable for screenshot script
-    process.env.VITE_DEV_SERVER_URL = `http://localhost:${port}`;
+    process.env.VITE_DEV_SERVER_URL = `http://localhost:${actualPort}`;
 
     // Build screenshot command
     const arguments_: string[] = [];
@@ -108,7 +112,7 @@ Arguments:
   component    Component to screenshot (default: theme)
 
 ${helpSections.options}
-  --port <number>    Dev server port (default: 5173)
+  --port <number>    Dev server port (default: auto-find available port)
   --help, -h         Show this help
 
 ${helpSections.examples.auto}
