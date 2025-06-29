@@ -83,7 +83,7 @@
     "@iconify/vue": "^5.0.0",
     "@poupe/tailwindcss": "workspace:^",
     "@poupe/theme-builder": "workspace:^",
-    "@unhead/vue": "^2.0.10",
+    "@unhead/vue": "^2.0.11",
     "@vueuse/core": "^13.3.0",
     "defu": "^6.1.4",
     "reka-ui": "2.3.1",
