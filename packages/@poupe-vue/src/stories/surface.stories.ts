@@ -7,20 +7,29 @@ import { Surface as PSurface, Icon, Button } from '../components';
 export const surfaceVariants = createStoryGroup(
   'Surface Variants',
   'Different Material Design 3 surface colors',
-  ['surface', 'surface-dim', 'surface-bright', 'surface-container-lowest',
-    'surface-container-low', 'surface-container', 'surface-container-high',
-    'surface-container-highest'].map(surface =>
+  [
+    { role: 'surface', tone: 'dim', title: 'Surface Dim' },
+    { role: 'surface', tone: 'base', title: 'Surface' },
+    { role: 'surface', tone: 'bright', title: 'Surface Bright' },
+    { role: 'container', level: 'lowest', title: 'Surface Container Lowest' },
+    { role: 'container', level: 'low', title: 'Surface Container Low' },
+    { role: 'container', level: 'base', title: 'Surface Container' },
+    { role: 'container', level: 'high', title: 'Surface Container High' },
+    { role: 'container', level: 'highest', title: 'Surface Container Highest' },
+  ].map(({ role, tone, level, title }) =>
     createStory({
-      title: surface.replaceAll('-', ' ').replaceAll(/\b\w/g, l => l.toUpperCase()),
+      title,
       component: PSurface,
       props: {
-        surface,
-        padded: 'md',
+        role,
+        ...(tone && { tone }),
+        ...(level && { level }),
+        padding: 'md',
       },
       slots: {
         default: () => h('div', [
-          h('h3', { class: 'font-medium mb-2' }, surface),
-          h('p', { class: 'text-sm' }, 'This demonstrates the ' + surface + ' variant.'),
+          h('h3', { class: 'font-medium mb-2' }, title.toLowerCase().replace('surface ', '')),
+          h('p', { class: 'text-sm' }, 'This demonstrates the ' + title.toLowerCase() + ' variant.'),
         ]),
       },
     }),
@@ -31,18 +40,18 @@ export const surfaceVariants = createStoryGroup(
 export const containerVariants = createStoryGroup(
   'Container Variants',
   'Color container variants for brand emphasis',
-  ['primary', 'secondary', 'tertiary', 'error'].map(container =>
+  ['primary', 'secondary', 'tertiary', 'error'].map(variant =>
     createStory({
-      title: container.charAt(0).toUpperCase() + container.slice(1) + ' Container',
+      title: variant.charAt(0).toUpperCase() + variant.slice(1) + ' Container',
       component: PSurface,
       props: {
-        container,
-        padded: 'md',
+        variant: variant + '-container',
+        padding: 'md',
       },
       slots: {
         default: () => h('div', [
-          h('h3', { class: 'font-medium mb-2' }, container + ' Container'),
-          h('p', { class: 'text-sm' }, 'Uses the ' + container + ' color scheme.'),
+          h('h3', { class: 'font-medium mb-2' }, variant + ' Container'),
+          h('p', { class: 'text-sm' }, 'Uses the ' + variant + ' color scheme.'),
         ]),
       },
     }),
@@ -65,9 +74,10 @@ export const shapeVariants = createStoryGroup(
       title: 'Shape ' + shape,
       component: PSurface,
       props: {
-        surface: 'surface-container-high',
+        role: 'container',
+        level: 'high',
         shape,
-        padded: 'lg',
+        padding: 'lg',
       },
       slots: {
         default: () => h('div', { class: 'text-center' }, [
@@ -94,19 +104,20 @@ export const shapeVariants = createStoryGroup(
 export const shadowVariants = createStoryGroup(
   'Shadow Variants',
   'Elevation levels for depth perception',
-  ['none', '1', '2', '3', '4', '5'].map(shadow =>
+  ['none', 'z1', 'z2', 'z3', 'z4', 'z5'].map(shadow =>
     createStory({
       title: 'Shadow Level ' + shadow,
       component: PSurface,
       props: {
-        surface: 'surface-container',
+        role: 'container',
+        level: 'base',
         shadow,
         shape: 'lg',
-        padded: 'lg',
+        padding: 'lg',
       },
       slots: {
         default: () => h('div', { class: 'text-center' }, [
-          h('div', { class: 'text-2xl font-bold mb-2' }, shadow === 'none' ? '0' : shadow),
+          h('div', { class: 'text-2xl font-bold mb-2' }, shadow === 'none' ? '0' : shadow.slice(1)),
           h('div', { class: 'text-sm' }, 'Elevation Level'),
         ]),
       },
@@ -123,10 +134,11 @@ export const borderVariants = createStoryGroup(
       title: border === 'none' ? 'No Border' : border.replaceAll('-', ' ').replaceAll(/\b\w/g, l => l.toUpperCase()),
       component: PSurface,
       props: {
-        surface: 'surface',
+        role: 'surface',
+        tone: 'base',
         border,
         shape: 'md',
-        padded: 'md',
+        padding: 'md',
       },
       slots: {
         default: () => h('div', [
@@ -158,8 +170,9 @@ export const paddingVariants = createStoryGroup(
       title: 'Padding ' + padded,
       component: PSurface,
       props: {
-        surface: 'surface-container-low',
-        padded,
+        role: 'container',
+        level: 'low',
+        padding: padded,
         shape: 'md',
         border: 'outline-variant',
       },
@@ -181,10 +194,10 @@ export const interactiveVariants = createStoryGroup(
       title: variant.charAt(0).toUpperCase() + variant.slice(1) + ' Interactive',
       component: PSurface,
       props: {
-        [variant === 'surface' ? 'surface' : 'container']: variant === 'surface' ? 'surface-container' : variant,
+        ...(variant === 'surface' ? { role: 'container', level: 'base' } : { variant: variant + '-container' }),
         interactive: true,
         shape: 'lg',
-        padded: 'lg',
+        padding: 'lg',
       },
       slots: {
         default: () => h('div', { class: 'text-center' }, [
@@ -206,10 +219,11 @@ export const complexExamples = createStoryGroup(
       title: 'Card-like Surface',
       component: PSurface,
       props: {
-        surface: 'surface-container',
+        role: 'container',
+        level: 'base',
         shape: 'shape-card',
-        shadow: '2',
-        padded: 'lg',
+        shadow: 'z2',
+        padding: 'lg',
       },
       slots: {
         default: () => h('div', { class: 'space-y-3' }, [
@@ -226,24 +240,27 @@ export const complexExamples = createStoryGroup(
       title: 'Nested Surfaces',
       component: PSurface,
       props: {
-        surface: 'surface',
+        role: 'surface',
+        tone: 'base',
         shape: 'lg',
-        padded: 'lg',
+        padding: 'lg',
       },
       slots: {
         default: () => h('div', { class: 'space-y-4' }, [
           h('h3', { class: 'font-medium mb-3' }, 'Container with nested surfaces'),
           h(PSurface, {
-            surface: 'surface-container-low',
+            role: 'container',
+            level: 'low',
             shape: 'md',
-            padded: 'md',
+            padding: 'md',
           }, {
             default: () => 'Low container',
           }),
           h(PSurface, {
-            surface: 'surface-container-high',
+            role: 'container',
+            level: 'high',
             shape: 'md',
-            padded: 'md',
+            padding: 'md',
           }, {
             default: () => 'High container',
           }),
@@ -254,10 +271,11 @@ export const complexExamples = createStoryGroup(
       title: 'Interactive List Item',
       component: PSurface,
       props: {
-        surface: 'surface',
+        role: 'surface',
+        tone: 'base',
         interactive: true,
         shape: 'sm',
-        padded: 'md',
+        padding: 'md',
       },
       slots: {
         default: () => h('div', { class: 'flex items-center justify-between' }, [
@@ -276,10 +294,10 @@ export const complexExamples = createStoryGroup(
       title: 'FAB-like Surface',
       component: PSurface,
       props: {
-        container: 'primary',
+        variant: 'primary-container',
         shape: 'shape-fab',
-        shadow: '3',
-        padded: 'lg',
+        shadow: 'z3',
+        padding: 'lg',
         interactive: true,
       },
       slots: {
@@ -300,10 +318,10 @@ export const combinationShowcase = createStoryGroup(
       title: 'Elevated Primary',
       component: PSurface,
       props: {
-        container: 'primary',
+        variant: 'primary-container',
         shape: 'xl',
-        shadow: '3',
-        padded: 'lg',
+        shadow: 'z3',
+        padding: 'lg',
       },
       slots: {
         default: 'Elevated primary container with xl shape',
@@ -313,10 +331,10 @@ export const combinationShowcase = createStoryGroup(
       title: 'Outlined Secondary',
       component: PSurface,
       props: {
-        container: 'secondary',
+        variant: 'secondary-container',
         shape: 'squircle-lg',
         border: 'outline',
-        padded: 'md',
+        padding: 'md',
       },
       slots: {
         default: 'Secondary container with outline border',
@@ -326,10 +344,11 @@ export const combinationShowcase = createStoryGroup(
       title: 'Dim Surface Interactive',
       component: PSurface,
       props: {
-        surface: 'surface-dim',
+        role: 'surface',
+        tone: 'dim',
         shape: 'rounded',
         interactive: true,
-        padded: 'lg',
+        padding: 'lg',
       },
       slots: {
         default: 'Dim surface with full rounding and interactivity',
