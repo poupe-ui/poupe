@@ -343,6 +343,56 @@ screenshot tests:
 This is useful for debugging visual issues that require specific interactions
 before capturing.
 
+#### Creating custom debug scripts for component issues
+
+When debugging component interaction issues (e.g., click handlers, state management),
+create temporary test scripts using the `screenshot-core` module:
+
+```typescript
+#!/usr/bin/env tsx
+import {
+  initializeScreenshot,
+  navigateToComponent,
+  captureScreenshot,
+  cleanup,
+} from './screenshot-core';
+
+async function debugComponent() {
+  const context = await initializeScreenshot({ fullPage: true });
+
+  try {
+    // Navigate to component story
+    await navigateToComponent(context, 'component-name');
+    // Or use direct navigation: await context.page.goto(`${context.baseUrl}#component-name`);
+
+    // Find and interact with elements
+    const element = await context.page.locator('[data-testid="element-id"]');
+    await element.click();
+
+    // Check state changes
+    const isVisible = await element.isVisible();
+    console.log('Element visible:', isVisible);
+
+    // Capture screenshot
+    await captureScreenshot(context.page, 'debug-screenshot.png');
+  } finally {
+    await cleanup(context);
+  }
+}
+
+await debugComponent();
+```
+
+Common debugging patterns:
+
+- **Click issues**: Check `pointer-events`, z-index, and overlapping elements
+- **State management**: Verify v-model bindings and internal state sync
+- **Visibility**: Use `isVisible()` and check computed styles
+- **Automated testing**: Create `*-auto.ts` variants that manage dev server
+
+Run debug scripts: `pnpm tsx src/scripts/test-[name].ts`
+Clean up after debugging: Delete temporary test files when issue is resolved
+
 ## Story Components Best Practices
 
 When working with the StoryViewer components:
