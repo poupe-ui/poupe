@@ -1,6 +1,7 @@
 import type { StoryGroup } from '../components/story/types';
 import { buttonStoryGroups } from './button.stories';
 import { cardStoryGroups } from './card.stories';
+import { fabStoryGroups } from './fab.stories';
 import { iconStoryGroups } from './icon.stories';
 import { inputStoryGroups } from './input.stories';
 import { placeholderStoryGroups } from './placeholder.stories';
@@ -19,6 +20,10 @@ export const allComponentStories: ComponentStory[] = [
   {
     name: 'Card',
     storyGroups: cardStoryGroups,
+  },
+  {
+    name: 'FAB',
+    storyGroups: fabStoryGroups,
   },
   {
     name: 'Icon',

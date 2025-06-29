@@ -1,5 +1,6 @@
 export { type ButtonProps, default as Button } from './button.vue';
 export { type CardProps, default as Card } from './card.vue';
+export { type FabProps, type FabMenuItem, default as Fab } from './fab.vue';
 export { type IconProps, default as Icon } from './icon.vue';
 
 export * from './input';

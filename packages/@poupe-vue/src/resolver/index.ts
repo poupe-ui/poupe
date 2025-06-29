@@ -3,6 +3,7 @@ import type { ComponentResolverObject } from 'unplugin-vue-components';
 export const components = [
   'Button',
   'Card',
+  'Fab',
   'Icon',
   'Input',
   'Placeholder',
