@@ -156,15 +156,21 @@ README.md files:
 
 ### Pre-commit Checklist (MANDATORY)
 
-Before finishing any task, ALWAYS run:
+Before committing any changes, ALWAYS run:
 
-1. `pnpm lint` - Fix all ESLint issues
-2. `pnpm type-check` - Resolve all TypeScript errors
-3. `pnpm test` - Ensure all tests pass
-4. Check IDE diagnostics panel for warnings
-5. Update AGENT.md if guidelines change
-6. Update README.md if public API changes
-7. Review documentation formatting follows guidelines
+1. `pnpm -r precommit` - Run all precommit checks across the workspace
+2. Fix any issues found by the precommit checks
+3. Check IDE diagnostics panel for warnings
+4. Update AGENT.md if guidelines change
+5. Update README.md if public API changes
+6. Review documentation formatting follows guidelines
+
+The `pnpm -r precommit` command will:
+
+- Run ESLint and fix linting issues
+- Check TypeScript types
+- Run tests
+- Ensure code quality standards are met
 
 ### DO
 
@@ -186,6 +192,13 @@ Before finishing any task, ALWAYS run:
 - Use relative imports between packages (use workspace deps)
 - Do not skip pre-commit checks
 - Do not ignore warnings or AGENT.md guidelines
+- **NEVER commit without explicitly listing files (no `git commit` alone)**
+- **NEVER use `git add .` or `git add -A` before committing**
+- **NEVER trust the staging area - it may contain unintended changes**
+- **NEVER DELETE FILES WITHOUT EXPLICIT PERMISSION** - Only delete files if:
+  - The user explicitly asks you to delete them
+  - You have 100% certainty you created them as temporary files in the current session
+  - Examples of deletable temporary files: `.commit-msg-*` files you created
 
 ### Git Workflow
 
@@ -198,10 +211,29 @@ Before finishing any task, ALWAYS run:
 - Focus commit messages on the final result, not the iterations to get there
 - When creating new files, describe what the file provides, not that it was created
 
-#### Direct Commits (Recommended)
+#### Direct Commits (MANDATORY - NO EXCEPTIONS)
 
-**NEVER use the staging area** - always specify files directly in the
-commit command to ensure you're committing exactly what you intend:
+🚨 **CRITICAL**: NEVER use the staging area or commit without explicit files
+
+##### FORBIDDEN commands that will commit unintended files
+
+```bash
+# NEVER DO THESE:
+git commit                    # ❌ Commits everything staged
+git commit -a                 # ❌ Stages and commits all tracked files
+git commit -am "message"      # ❌ Stages and commits all tracked files
+git add . && git commit       # ❌ Stages everything then commits
+git add -A && git commit      # ❌ Stages everything then commits
+```
+
+##### ALWAYS specify files directly in the commit command
+
+##### Before committing, ALWAYS
+
+1. Run `git status` to see what's staged and unstaged
+2. Verify you're committing ONLY the intended files
+3. If multiple unrelated changes are staged, unstage unwanted files first
+4. Double-check file list in commit command matches your intention
 
 ##### Commit Message Files
 
@@ -213,9 +245,21 @@ commit command to ensure you're committing exactly what you intend:
 - **Clean up** commit message files after use
 
 ```bash
-# First write commit message to file using Write tool
+# CORRECT WORKFLOW:
+# 1. Check what changes exist
+git status --porcelain
+
+# 2. Review specific file changes
+git diff src/file1.ts src/file2.vue
+
+# 3. Write commit message to file using Write tool
 # Use CWD-relative path for the commit message file
+
+# 4. VERIFY the file list is correct before pressing enter!
 git commit -sF .commit-msg-feature src/file1.ts src/file2.vue
+
+# 5. Clean up
+rm .commit-msg-feature
 
 # For fixup commits (no message file needed)
 git commit --fixup=<commit-sha> src/components/story/utils.ts
@@ -367,6 +411,12 @@ Each package has its own AGENT.md file with specific details:
 ### Claude Code Specific Instructions
 
 - Use TodoWrite tool for complex multi-step tasks
+- **CRITICAL: Always enumerate files explicitly in git commit commands**
+- **NEVER use bare `git commit` without file arguments**
+- **Check `git status --porcelain` before every commit**
+- NEVER apologize or explain why you did something wrong
+- Fix issues immediately without commentary
+- Stay focused on the task at hand
 
 ### GitHub Copilot Specific Instructions
 
@@ -380,10 +430,11 @@ Each package has its own AGENT.md file with specific details:
 - Follow the pre-commit checklist strictly
 - Use Write tool for commit messages, not echo, -m, or heredocs
 - Create commit message files in CWD (e.g., `.commit-msg-*`)
-- Don't rely on git staging for commits, use direct file references
 - Use `pnpm -F` instead of `cd` to work with specific packages
 - Don't change working directory permanently unless instructed
 - When working across multiple packages, prefer `pnpm -r`
+- NEVER USE `cd` IN BASH COMMANDS - NO EXCEPTIONS
+- Always use absolute paths or pnpm -F for package operations
 
 ## Debugging Tips
 
