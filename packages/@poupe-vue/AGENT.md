@@ -260,6 +260,28 @@ Icon management composable:
    - `pnpm screenshot:auto` - Automated screenshots with dev server management
    - Screenshots are saved in gitignored `screenshots/` directory
    - Supports dark mode, mobile viewport, and multiple screen sizes
+   - **Custom screenshot tests**: Use `screenshot-core.ts` for advanced scenarios:
+
+     ```typescript
+     import {
+       initializeScreenshot,
+       navigateToComponent,
+       captureScreenshot,
+       cleanup,
+     } from './screenshot-core';
+
+     // Example: Take screenshot with custom interactions
+     const context = await initializeScreenshot({ fullPage: true });
+     await navigateToComponent(context, 'fab');
+     // Perform custom actions with context.page
+     await context.page.click('button[title="Show code"]');
+     await captureScreenshot(context.page, 'custom-screenshot.png');
+     await cleanup(context);
+     ```
+
+   - **Test scripts**:
+     - `pnpm tsx src/scripts/test-expand-code.ts fab` - Screenshot with code
+     - `pnpm tsx src/scripts/test-expand-code-auto.ts fab --all` - Auto + code
 
 ## Build Process
 
@@ -300,7 +322,26 @@ The package includes Playwright-based screenshot tools for capturing component s
    - Same options as manual tool
    - Perfect for CI/CD pipelines
 
+3. **Custom screenshot tests**:
+   - Use `screenshot-core.ts` module for advanced testing scenarios
+   - Provides low-level APIs for browser control and screenshot capture
+   - Example test scripts in `src/scripts/test-*.ts`
+
 All screenshots are saved in the gitignored `screenshots/` directory.
+
+#### Using screenshot-core for debugging
+
+The `screenshot-core.ts` module exports reusable functions for creating custom
+screenshot tests:
+
+- `initializeScreenshot(options)` - Set up browser and page
+- `navigateToComponent(context, component)` - Navigate to specific story
+- `captureScreenshot(page, filename, options)` - Take and save screenshot
+- `captureMultipleViewports(context, filename, options)` - Multi-viewport shots
+- `cleanup(context)` - Clean up browser resources
+
+This is useful for debugging visual issues that require specific interactions
+before capturing.
 
 ## Story Components Best Practices
 

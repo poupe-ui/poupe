@@ -4,105 +4,44 @@
  * Usage: pnpm screenshot [component-name] [output-file]
  */
 
-import { chromium, devices } from 'playwright';
-import { resolve } from 'pathe';
-import { existsSync, mkdirSync } from 'node:fs';
 import { parseArguments, helpSections, type ScreenshotOptions } from './screenshot-shared';
+import {
+  initializeScreenshot,
+  navigateToComponent,
+  captureScreenshot,
+  captureMultipleViewports,
+  cleanup,
+} from './screenshot-core';
 
 async function takeScreenshot(options: ScreenshotOptions = {}) {
   const {
     component = 'theme',
     output = `${component}-${Date.now()}.png`,
-    viewport = { width: 1280, height: 800 },
     fullPage = false,
-    darkMode = false,
-    mobile = false,
-    port = 5173,
+    allViewports = false,
   } = options;
 
-  // Ensure screenshots directory exists
-  const screenshotsDirectory = resolve(process.cwd(), 'screenshots');
-  if (!existsSync(screenshotsDirectory)) {
-    mkdirSync(screenshotsDirectory, { recursive: true });
-  }
-
-  // Always save in screenshots directory
-  const filename = output.includes('/') ? output.split('/').pop()! : output;
-  const outputPath = resolve(screenshotsDirectory, filename);
-
-  // Launch browser
-  const browser = await chromium.launch({
-    headless: true,
-  });
+  const context = await initializeScreenshot(options);
 
   try {
-    // Create context with device emulation if mobile
-    const contextOptions = mobile
-      ? { ...devices['iPhone 13'] }
-      : { viewport };
-
-    const context = await browser.newContext(contextOptions);
-    const page = await context.newPage();
-
-    // Navigate to dev server
-    const baseUrl = process.env.VITE_DEV_SERVER_URL || `http://localhost:${port}`;
-    await page.goto(baseUrl, { waitUntil: 'networkidle' });
-
-    // Apply dark mode if requested
-    if (darkMode) {
-      await page.evaluate(() => {
-        document.documentElement.classList.add('dark');
-      });
-    }
-
-    // Navigate to specific component if provided
-    if (component !== 'theme') {
-      if (component === 'stories') {
-        // Navigate directly to stories page (empty hash)
-        await page.goto(`${baseUrl}#stories`, { waitUntil: 'networkidle' });
-        await page.waitForTimeout(500);
-      } else {
-        // Navigate directly to specific story using hash
-        await page.goto(`${baseUrl}#${component}`, { waitUntil: 'networkidle' });
-        await page.waitForTimeout(500);
-      }
+    // Navigate to component if specified
+    if (component) {
+      await navigateToComponent(context, component);
     }
 
     // Take screenshot
-    await page.screenshot({
-      path: outputPath,
-      fullPage,
-    });
-
+    const outputPath = await captureScreenshot(context.page, output, { fullPage });
     console.log(`✅ Screenshot saved to: ${outputPath}`);
 
     // Take additional viewport screenshots if requested
-    if (options.allViewports) {
-      const viewports = [
-        { name: 'mobile', width: 375, height: 667 },
-        { name: 'tablet', width: 768, height: 1024 },
-        { name: 'desktop', width: 1920, height: 1080 },
-      ];
-
-      for (const vp of viewports) {
-        await page.setViewportSize(vp);
-        await page.waitForTimeout(100);
-
-        const vpFilename = filename.replace('.png', `-${vp.name}.png`);
-        const vpPath = resolve(screenshotsDirectory, vpFilename);
-        await page.screenshot({
-          path: vpPath,
-          fullPage,
-        });
-
-        console.log(`✅ ${vp.name} screenshot saved to: ${vpPath}`);
-      }
+    if (allViewports) {
+      await captureMultipleViewports(context, output, { fullPage });
     }
   } catch (error) {
     console.error('❌ Screenshot failed:', error);
     throw error;
   } finally {
-    await browser.close();
+    await cleanup(context);
   }
 }
 
