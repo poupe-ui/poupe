@@ -50,11 +50,13 @@ async function copyToClipboard() {
 <style scoped>
 .story-code-block {
   font-family: 'Cascadia Code', 'JetBrains Mono', 'Fira Code', 'Consolas', 'Monaco', monospace;
+  max-width: 100%;
 }
 
 .story-code-block pre {
   margin: 0;
   line-height: 1.5;
+  max-width: 100%;
 }
 
 .story-code-block code {

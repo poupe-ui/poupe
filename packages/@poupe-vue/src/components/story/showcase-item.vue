@@ -19,7 +19,7 @@ const showCode = ref(false);
 </script>
 
 <template>
-  <div class="story-showcase-item">
+  <div class="story-showcase-item min-w-0">
     <div
       v-if="title || code"
       class="mb-2 flex items-center justify-between"
@@ -49,7 +49,7 @@ const showCode = ref(false);
 
     <div
       v-if="showCode && code"
-      class="mt-4"
+      class="mt-4 min-w-0"
     >
       <StoryCodeBlock
         :code="code"

@@ -15,7 +15,7 @@ withDefaults(defineProps<Props>(), {
 <template>
   <div
     :class="[
-      'flex',
+      'flex min-w-0',
       {
         'flex-wrap': wrap,
         'items-center': center,
