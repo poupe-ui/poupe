@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useHead } from '@unhead/vue';
 import { useDark, useToggle } from '@vueuse/core';
 
@@ -18,6 +18,32 @@ useHead({
 type Page = 'theme' | 'stories';
 const currentPage = ref<Page>('theme');
 const fabMenuOpen = ref(false);
+
+// Handle hash navigation
+const handleHashChange = () => {
+  const hash = globalThis.location.hash.slice(1);
+  // If there's any hash, we're on the stories page. No hash means theme page
+  currentPage.value = hash ? 'stories' : 'theme';
+};
+
+// Check URL hash on mount to support direct navigation
+onMounted(() => {
+  handleHashChange();
+  globalThis.addEventListener('hashchange', handleHashChange);
+});
+
+// Clean up listener on unmount
+onUnmounted(() => {
+  globalThis.removeEventListener('hashchange', handleHashChange);
+});
+
+// Watch for page changes to update URL
+watch(currentPage, (newPage) => {
+  if (newPage === 'theme' && globalThis.location.hash) {
+    // Clear hash when going back to theme
+    globalThis.location.hash = '';
+  }
+});
 
 // Dark mode with VueUse
 const isDark = useDark({

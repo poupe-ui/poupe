@@ -57,21 +57,14 @@ async function takeScreenshot(options: ScreenshotOptions = {}) {
 
     // Navigate to specific component if provided
     if (component !== 'theme') {
-      // Click on FAB menu
-      await page.click('button[aria-label="Toggle menu"]');
-      await page.waitForTimeout(300); // Wait for animation
-
-      // Click on stories toggle
-      await page.click('button[aria-label="Show Component Stories"]');
-      await page.waitForTimeout(500); // Wait for page transition
-
-      // If specific component requested, navigate to it
-      if (component !== 'stories') {
-        const componentButton = page.locator(`text="${component}"`).first();
-        if (await componentButton.isVisible()) {
-          await componentButton.click();
-          await page.waitForTimeout(300);
-        }
+      if (component === 'stories') {
+        // Navigate directly to stories page (empty hash)
+        await page.goto(`${baseUrl}#stories`, { waitUntil: 'networkidle' });
+        await page.waitForTimeout(500);
+      } else {
+        // Navigate directly to specific story using hash
+        await page.goto(`${baseUrl}#${component}`, { waitUntil: 'networkidle' });
+        await page.waitForTimeout(500);
       }
     }
 
@@ -126,6 +119,7 @@ Usage:
 
 Arguments:
   component    Component to screenshot (default: theme)
+               Can be: theme, stories, or any story name (e.g., button, surface, card)
   output       Output filename (default: [component]-[timestamp].png)
                Files are always saved in screenshots/ directory
 
