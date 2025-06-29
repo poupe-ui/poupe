@@ -16,7 +16,7 @@
     "nuxi": "^3.25.1"
   },
   "engines": {
-    "node": ">=20.19.2",
+    "node": ">=20.19.3",
     "pnpm": ">=10.10.0"
   },
   "packageManager": "pnpm@10.10.0"
