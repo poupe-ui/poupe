@@ -36,7 +36,10 @@ function getComponentName(component: Component, prefix: string): string {
   if (!name || typeof name !== 'string') return 'Component';
 
   // Return name as-is if it already has the prefix
-  return name.startsWith(prefix) ? name : `${prefix}${name}`;
+  if (name.startsWith(prefix)) return name;
+
+  // Add prefix and capitalize first letter of component name
+  return `${prefix}${name.charAt(0).toUpperCase()}${name.slice(1)}`;
 }
 
 function generatePropsString(props: Record<string, unknown>): string {
