@@ -105,7 +105,7 @@ declare module '../composables/use-poupe' {
 
 <script setup lang="ts">
 /* global MouseEvent, HTMLButtonElement */
-import { computed, ref } from 'vue';
+import { computed, useTemplateRef } from 'vue';
 import { usePoupeMergedProps, useRipple } from '../composables';
 import Icon from './icon.vue';
 import Surface from './surface.vue';
@@ -122,12 +122,15 @@ const props = computed(() =>
   usePoupeMergedProps(directProps, 'button', buttonDefaults),
 );
 
-// Button reference for ripple effect
-const buttonElement = ref<HTMLButtonElement>();
+// Button reference for ripple effect using useTemplateRef
+const buttonElement = useTemplateRef<InstanceType<typeof Surface>>('buttonElement');
+
+// Get the actual DOM element from Surface component
+const buttonDOMElement = computed<HTMLButtonElement | undefined>(() => buttonElement.value?.$el);
 
 // Use ripple effect (disabled state is handled reactively)
 const isDisabled = computed(() => props.value.disabled);
-useRipple(buttonElement, {
+const { ripples, getRippleStyle } = useRipple(buttonDOMElement, {
   disabled: isDisabled,
 });
 
@@ -234,7 +237,6 @@ const buttonClasses = computed(() => {
     'transition-all duration-200',
     'select-none',
     'font-medium',
-    'ripple-effect',
   ];
 
   // Size classes
@@ -318,15 +320,22 @@ const iconSize = computed(() => {
 <template>
   <Surface
     v-bind="surfaceProps"
+    ref="buttonElement"
     tag="button"
     :class="buttonClasses"
     :disabled="props.disabled || props.loading"
     @click="emit('click', $event)"
   >
-    <div
-      ref="buttonElement"
-      class="contents"
-    >
+    <!-- Ripple effects -->
+    <span
+      v-for="ripple in ripples"
+      :key="ripple.id"
+      class="ripple-effect"
+      :style="getRippleStyle(ripple)"
+    />
+
+    <!-- Button content -->
+    <div class="contents">
       <!-- Leading icon -->
       <Icon
         v-if="props.icon || props.iconStart"
