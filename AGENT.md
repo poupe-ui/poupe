@@ -414,6 +414,9 @@ Each package has its own AGENT.md file with specific details:
 - **CRITICAL: Always enumerate files explicitly in git commit commands**
 - **NEVER use bare `git commit` without file arguments**
 - **Check `git status --porcelain` before every commit**
+- NEVER apologize or explain why you did something wrong
+- Fix issues immediately without commentary
+- Stay focused on the task at hand
 
 ### GitHub Copilot Specific Instructions
 
@@ -430,6 +433,8 @@ Each package has its own AGENT.md file with specific details:
 - Use `pnpm -F` instead of `cd` to work with specific packages
 - Don't change working directory permanently unless instructed
 - When working across multiple packages, prefer `pnpm -r`
+- NEVER USE `cd` IN BASH COMMANDS - NO EXCEPTIONS
+- Always use absolute paths or pnpm -F for package operations
 
 ## Debugging Tips
 
