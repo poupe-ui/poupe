@@ -225,29 +225,83 @@ All scrim utilities support Tailwind's opacity modifier syntax:
 
 ## Shape System
 
-Material Design 3 shape utilities with extensible architecture:
+Abbreviated semantic Material Design 3 shape system balancing clarity with
+brevity. Optimized from 71KB to ~6KB of CSS utilities:
 
 ### Shape Scale
 
+Default rounded shapes (most common case):
+
 ```html
-<!-- Shape scale utilities -->
+<!-- Rounded shapes (default) -->
 <div class="shape-none">No rounding (0px)</div>
-<div class="shape-extra-small">Extra small (4px)</div>
-<div class="shape-small">Small (8px)</div>
-<div class="shape-medium">Medium (12px)</div>
-<div class="shape-large">Large (16px)</div>
-<div class="shape-extra-large">Extra large (28px)</div>
-<div class="shape-full">Full rounding (999px)</div>
+<div class="shape-xs">Extra small rounded (4px)</div>
+<div class="shape-sm">Small rounded (8px)</div>
+<div class="shape-md">Medium rounded (12px)</div>
+<div class="shape-lg">Large rounded (16px)</div>
+<div class="shape-xl">Extra large rounded (28px)</div>
+<div class="shape-full">Full rounding (pill/circle)</div>
 ```
 
 ### Shape Families
 
-```html
-<!-- Default rounded corners -->
-<div class="shape-medium shape-rounded">Rounded corners</div>
+Non-rounded shapes explicitly state their family:
 
-<!-- iOS-style squircle (smooth corners) -->
-<div class="shape-medium shape-squircle">Squircle shape</div>
+```html
+<!-- Squircle - iOS-style super-elliptical corners -->
+<div class="shape-squircle-md">Medium squircle</div>
+<div class="shape-squircle-lg">Large squircle</div>
+
+<!-- Cut - Angled corners -->
+<div class="shape-cut-sm">Small cut corners</div>
+<div class="shape-cut-xl">Extra large cut corners</div>
+
+<!-- Convex - Extra rounded (1.5x multiplier) -->
+<div class="shape-convex-md">Medium convex</div>
+<div class="shape-convex-full">Full convex</div>
+```
+
+### Component Shapes
+
+Semantic utilities for common MD3 components:
+
+```html
+<!-- Components with MD3-recommended defaults -->
+<button class="shape-button">Button (full)</button>
+<div class="shape-card">Card (md)</div>
+<button class="shape-fab">FAB (lg)</button>
+<span class="shape-chip">Chip (sm)</span>
+<dialog class="shape-dialog">Dialog (xl)</dialog>
+<input class="shape-text-field" placeholder="Text field (xs)">
+```
+
+### Corner-Specific Shapes
+
+Apply radius to specific corners:
+
+```html
+<!-- Single corners -->
+<div class="shape-lg-tl">Large top-left only</div>
+<div class="shape-md-br">Medium bottom-right only</div>
+
+<!-- Side groups (use full names) -->
+<div class="shape-lg-top">Large top corners</div>
+<div class="shape-xl-left">Extra large left corners</div>
+<div class="shape-md-bottom">Medium bottom corners</div>
+```
+
+### Dynamic Values
+
+Support for arbitrary values through TailwindCSS v4:
+
+```html
+<!-- Custom radius values -->
+<div class="shape-[20px]">Custom 20px radius</div>
+<div class="shape-[1.5rem]">Custom 1.5rem radius</div>
+
+<!-- Custom corner values -->
+<div class="shape-tl-[40px]">40px top-left only</div>
+<div class="shape-top-[2rem]">2rem top corners</div>
 ```
 
 ### CSS Variables
@@ -255,50 +309,35 @@ Material Design 3 shape utilities with extensible architecture:
 All shapes use CSS variables for customization:
 
 ```css
+/* Component shapes with fallbacks */
+.shape-button {
+  border-radius: var(--md-shape-button, var(--md-shape-full));
+}
+
+/* Override globally */
 :root {
-  --md-shape-none: 0px;
-  --md-shape-extra-small: 4px;
-  --md-shape-small: 8px;
-  --md-shape-medium: 12px;
-  --md-shape-large: 16px;
-  --md-shape-extra-large: 28px;
-  --md-shape-full: 999px;
+  --md-shape-button: 20px; /* Change all buttons */
+  --md-shape-card: 16px;   /* Change all cards */
+}
+
+/* Or per component */
+.my-button {
+  --md-shape-button: 8px; /* Just this button */
 }
 ```
 
-### Component-Specific Shapes
+### Migration from v0.5.x
 
-Material Design 3 component shape tokens with sensible defaults:
+v0.6.0 introduces abbreviated semantic shapes:
 
 ```html
-<!-- Component shapes with default values -->
-<button class="shape-button">Pill button (full rounding)</button>
-<div class="shape-card">Card with medium rounding</div>
-<button class="shape-fab">FAB with large rounding</button>
-<input class="shape-text-field" placeholder="Text field">
-<div class="shape-dialog">Dialog with extra-large rounding</div>
-<span class="shape-chip">Chip with small rounding</span>
-
-<!-- Squircle variants for smooth corners -->
-<button class="shape-squircle-button">Smooth pill button</button>
-<div class="shape-squircle-card">Smooth card</div>
+<!-- v0.5.x → v0.6.0 -->
+<div class="shape-rounded-lg"> → <div class="shape-lg">
+<div class="shape-rounded-lg-t"> → <div class="shape-lg-top">
+<div class="shape-squircle-md"> → <div class="shape-squircle-md"> (unchanged)
+<div class="shape-square"> → (removed - use shape-none)
+<div class="shape-top-square"> → <div class="shape-lg-bottom"> (positive)
 ```
-
-Component shapes cascade through CSS variables:
-
-- `--md-shape-button` → `--md-shape-full` → `999px`
-- `--md-shape-card` → `--md-shape-medium` → `12px`
-- `--md-shape-fab` → `--md-shape-large` → `16px`
-- `--md-shape-text-field` → `--md-shape-extra-small` → `4px`
-- `--md-shape-dialog` → `--md-shape-extra-large` → `28px`
-- `--md-shape-chip` → `--md-shape-small` → `8px`
-
-### Squircle Implementation
-
-- Uses SVG masks for true iOS-style smooth corners
-- Graceful fallback to border-radius for unsupported browsers
-- Configurable corner smoothing via `--md-shape-corner-smooth`
-- Future-ready for additional shape families (cut corners, diamonds, etc.)
 
 ### Programmatic Theme Generation
 

@@ -50,6 +50,8 @@ export {
   makeThemeComponents,
 } from './components';
 
+import { makeShapeConstants as makeSemanticShapeConstants } from './shape-semantic';
+
 export {
   type Theme,
 } from './types';
@@ -543,6 +545,10 @@ export function makeThemeConstants(theme: Readonly<Theme>): CSSRuleObject {
   for (const [key, value] of Object.entries(constants)) {
     out[`--${themePrefix}${key}`] = `var(--${themePrefix}${key}, ${value})`;
   }
+
+  // Always use semantic shape constants
+  const semanticShapeConstants = makeSemanticShapeConstants(themePrefix);
+  Object.assign(out, semanticShapeConstants);
 
   return out;
 }

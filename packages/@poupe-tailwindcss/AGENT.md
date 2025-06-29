@@ -105,30 +105,78 @@ examples/
 - Includes transition timing with `--md-state-transition-duration` CSS
   variable
 
-### Shape System
+### Shape System (v0.6.0) - Abbreviated Semantic Shapes
 
-- **Material Design 3 shape tokens**: Extensible shape system with scale
-  from `none` through `full`
-- **Shape scale utilities**: `.shape-none`, `.shape-extra-small`,
-  `.shape-small`, `.shape-medium`, `.shape-large`, `.shape-extra-large`,
-  `.shape-full`
-- **Squircle support**: iOS-style smooth corners using SVG masks with
-  graceful fallback
-- **Shape family utilities**: `.shape-rounded` (default),
-  `.shape-squircle` for future expansion
-- **CSS variables**: Each shape uses `--md-shape-*` variables for
-  customization
-- **Configurable prefix**: Defaults to `shape-` but can be customized via
-  `shapePrefix` option
-- **Component-specific shapes**:
-  - `.shape-button` - defaults to shape-full (pills)
-  - `.shape-card` - defaults to shape-medium
-  - `.shape-fab` - defaults to shape-large
-  - `.shape-text-field` - defaults to shape-extra-small
-  - `.shape-dialog` - defaults to shape-extra-large
-  - `.shape-chip` - defaults to shape-small
-- **Squircle variants**: Each component shape has a squircle variant
-  (e.g., `.shape-squircle-button`) with smooth corners
+- **Abbreviated Semantic Shape System**: Optimized implementation reducing CSS
+  from 71KB to ~6KB while balancing clarity with brevity
+- **Shape Scale Utilities**: Default to rounded (most common case)
+  - `.shape-none` - No rounding (0px)
+  - `.shape-xs` - 4px rounded corners
+  - `.shape-sm` - 8px rounded corners
+  - `.shape-md` - 12px rounded corners
+  - `.shape-lg` - 16px rounded corners
+  - `.shape-xl` - 28px rounded corners
+  - `.shape-full` - Complete rounding (pill/circle shape)
+- **Component Shape Utilities**: Semantic names with MD3 defaults
+  - `.shape-button` - defaults to full (with fallback)
+  - `.shape-card` - defaults to md
+  - `.shape-fab` - defaults to lg
+  - `.shape-chip` - defaults to sm
+  - `.shape-dialog` - defaults to xl
+  - `.shape-text-field` - defaults to xs
+  - `.shape-icon-button` - defaults to full
+  - `.shape-menu`, `.shape-tooltip`, `.shape-snackbar` - defaults to xs
+  - `.shape-navigation-bar`, `.shape-navigation-rail` - defaults to none
+  - `.shape-navigation-drawer` - defaults to lg
+  - `.shape-badge` - defaults to sm
+  - `.shape-avatar` - defaults to full
+  - `.shape-search` - defaults to xl
+- **Shape Family Utilities**: Non-rounded shapes with explicit naming
+  - `.shape-squircle-{scale}` - iOS-style super-elliptical corners
+  - `.shape-cut-{scale}` - Angled corners
+  - `.shape-concave-{scale}` - Inward curved corners (experimental)
+  - `.shape-convex-{scale}` - Enhanced rounded corners (1.5x multiplier)
+- **Corner-Specific Utilities**: Apply radius to specific corners
+  - `.shape-{scale}-tl` - Top-left corner only
+  - `.shape-{scale}-tr` - Top-right corner only
+  - `.shape-{scale}-br` - Bottom-right corner only
+  - `.shape-{scale}-bl` - Bottom-left corner only
+  - `.shape-{scale}-top` - Both top corners
+  - `.shape-{scale}-right` - Both right corners
+  - `.shape-{scale}-bottom` - Both bottom corners
+  - `.shape-{scale}-left` - Both left corners
+- **Dynamic Shape Utilities**: Support arbitrary values via TailwindCSS v4
+  - `.shape-[16px]` - Custom border-radius
+  - `.shape-tl-[20px]` - Custom top-left radius
+  - `.shape-t-[1rem]` - Custom top corners
+  - All corner positions supported: tl, tr, br, bl, t, r, b, l
+- **CSS Variables**: All overridable
+  - Scale variables: `--md-shape-none` through `--md-shape-full`
+  - Component variables: `--md-shape-button`, `--md-shape-card`, etc.
+  - Each component utility uses its own CSS variable with scale fallback
+- **Usage Examples**:
+
+  ```html
+  <!-- Simple shapes -->
+  <button class="shape-button">MD3 Button</button>
+  <div class="shape-card">Card Content</div>
+
+  <!-- Custom values -->
+  <div class="shape-[20px]">Custom radius</div>
+
+  <!-- Combining utilities -->
+  <div class="shape-lg shape-top-square">Large radius, square top</div>
+
+  <!-- Shape families with explicit naming -->
+  <button class="shape-squircle-lg">Large squircle button</button>
+  ```
+
+- **Migration from v0.5.x** (Breaking changes in v0.6.0):
+  - `.shape-rounded-lg` → `.shape-lg`
+  - `.shape-rounded-lg-t` → `.shape-lg-top`
+  - `.shape-squircle` → `.shape-squircle-{scale}`
+  - `.shape-top-square` → `.shape-{scale}-bottom`
+  - Component shapes remain the same: `.shape-button`
 
 ## TailwindCSS v4-to-v3 Bridge Pattern
 

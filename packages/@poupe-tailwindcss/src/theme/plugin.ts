@@ -33,6 +33,8 @@ import {
   makeThemeVariants,
 } from './variants';
 
+import { dynamicShapeUtilities } from './shape-semantic';
+
 /** poupe plugin for tailwindcss v4 for config use */
 export const themePlugin: PluginWithOptions<Partial<ThemeOptions>> = pluginWithOptions(
   themePluginFunction,
@@ -60,6 +62,10 @@ export function themePluginFunction(api: PluginAPI, theme: Theme): void {
     debugLog(theme.options.debug, 'plugin:components', components);
     addComponents(api, components);
   }
+
+  // Always add dynamic shape utilities
+  debugLog(theme.options.debug, 'plugin:dynamic-shapes', dynamicShapeUtilities);
+  addComponents(api, dynamicShapeUtilities);
 }
 
 function addComponents(api: PluginAPI, components: Record<string, CSSRuleObject>) {
