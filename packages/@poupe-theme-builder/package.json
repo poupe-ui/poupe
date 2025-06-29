@@ -65,7 +65,7 @@
     "type-fest": "^4.41.0"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "^0.7.5",
+    "@poupe/eslint-config": "^0.7.6",
     "@types/node": "^20.19.0",
     "eslint": "^9.30.0",
     "publint": "^0.3.12",

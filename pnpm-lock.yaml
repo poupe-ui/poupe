@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@poupe/eslint-config':
-        specifier: ^0.7.5
-        version: 0.7.5(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.30.0(jiti@2.4.2)))
+        specifier: ^0.7.6
+        version: 0.7.6(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.30.0(jiti@2.4.2)))
       eslint:
         specifier: ^9.30.0
         version: 9.30.0(jiti@2.4.2)
@@ -25,8 +25,8 @@ importers:
         version: 6.1.4
     devDependencies:
       '@poupe/eslint-config':
-        specifier: ^0.7.5
-        version: 0.7.5(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.30.0(jiti@2.4.2)))
+        specifier: ^0.7.6
+        version: 0.7.6(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.30.0(jiti@2.4.2)))
       '@types/node':
         specifier: ^20.19.0
         version: 20.19.0
@@ -110,8 +110,8 @@ importers:
         specifier: ^3.19.1
         version: 3.19.1(@types/node@20.19.0)(@vue/test-utils@2.4.6)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(magicast@0.3.5)(playwright-core@1.53.1)(terser@5.42.0)(tsx@4.20.3)(typescript@5.8.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@20.19.0)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(terser@5.42.0)(tsx@4.20.3)(yaml@2.8.0))(yaml@2.8.0)
       '@poupe/eslint-config':
-        specifier: ^0.7.5
-        version: 0.7.5(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.30.0(jiti@2.4.2)))
+        specifier: ^0.7.6
+        version: 0.7.6(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.30.0(jiti@2.4.2)))
       '@types/node':
         specifier: ^20.19.0
         version: 20.19.0
@@ -175,8 +175,8 @@ importers:
         version: 4.41.0
     devDependencies:
       '@poupe/eslint-config':
-        specifier: ^0.7.5
-        version: 0.7.5(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.30.0(jiti@2.4.2)))
+        specifier: ^0.7.6
+        version: 0.7.6(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.30.0(jiti@2.4.2)))
       '@tailwindcss/node':
         specifier: ^4.1.11
         version: 4.1.11
@@ -227,8 +227,8 @@ importers:
         version: 4.41.0
     devDependencies:
       '@poupe/eslint-config':
-        specifier: ^0.7.5
-        version: 0.7.5(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.30.0(jiti@2.4.2)))
+        specifier: ^0.7.6
+        version: 0.7.6(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.30.0(jiti@2.4.2)))
       '@types/node':
         specifier: ^20.19.0
         version: 20.19.0
@@ -297,8 +297,8 @@ importers:
         version: 3.5.17(typescript@5.8.3)
     devDependencies:
       '@poupe/eslint-config':
-        specifier: ^0.7.5
-        version: 0.7.5(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.30.0(jiti@2.4.2)))
+        specifier: ^0.7.6
+        version: 0.7.6(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.30.0(jiti@2.4.2)))
       '@tailwindcss/postcss':
         specifier: ^4.1.11
         version: 4.1.11
@@ -1350,8 +1350,8 @@ packages:
     resolution: {integrity: sha512-aQypoot0HPSJa6gDPEPTntc1GT6QINrSbgRlRhadGW2WaYqUK3tK4Bw9SBMZXhmxd3GeAlZjVcODHgiu+THY7A==}
     engines: {node: '>=18'}
 
-  '@poupe/eslint-config@0.7.5':
-    resolution: {integrity: sha512-/As0vBMgZBeDYRKehm/tQ80zQkG8mPReUK/hEA9aM1bqL3CtFvu+50FMPye7OHfBkC/tPEfRDA59C9T1XpIfeg==}
+  '@poupe/eslint-config@0.7.6':
+    resolution: {integrity: sha512-+MvZRuNKyM4YmHCI6lLyl0SldzG2IU0T7P2eXqMuNSR49qrLg74N2Bcb4lrx7Y0HPzhKOF8JXp9HpZJI1OJt+A==}
     engines: {node: '>= 18.20.8', pnpm: '>= 10.10.0'}
 
   '@poupe/material-color-utilities@0.3.6':
@@ -7314,7 +7314,7 @@ snapshots:
 
   '@poppinss/exception@1.2.1': {}
 
-  '@poupe/eslint-config@0.7.5(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.30.0(jiti@2.4.2)))':
+  '@poupe/eslint-config@0.7.6(jiti@2.4.2)(typescript@5.8.3)(vue-eslint-parser@10.1.3(eslint@9.30.0(jiti@2.4.2)))':
     dependencies:
       '@eslint/css': 0.8.1
       '@eslint/js': 9.30.0

@@ -94,7 +94,7 @@
     "vue": "^3.5.17"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "^0.7.5",
+    "@poupe/eslint-config": "^0.7.6",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/vite": "^4.1.11",
     "@tsconfig/node20": "^20.1.6",
