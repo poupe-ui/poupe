@@ -195,6 +195,10 @@ The `pnpm -r precommit` command will:
 - **NEVER commit without explicitly listing files (no `git commit` alone)**
 - **NEVER use `git add .` or `git add -A` before committing**
 - **NEVER trust the staging area - it may contain unintended changes**
+- **NEVER DELETE FILES WITHOUT EXPLICIT PERMISSION** - Only delete files if:
+  - The user explicitly asks you to delete them
+  - You have 100% certainty you created them as temporary files in the current session
+  - Examples of deletable temporary files: `.commit-msg-*` files you created
 
 ### Git Workflow
 
