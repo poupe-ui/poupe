@@ -153,6 +153,11 @@ declare module '../composables/use-poupe' {
 import { computed } from 'vue';
 import { usePoupeMergedProps } from '../composables';
 
+// Disable automatic attribute inheritance
+defineOptions({
+  inheritAttrs: false,
+});
+
 // Define props without withDefaults
 const directProps = defineProps<SurfaceProps>();
 
@@ -214,6 +219,7 @@ const classes = computed(() =>
   <component
     :is="props.tag"
     :class="classes"
+    v-bind="$attrs"
   >
     <slot />
   </component>
