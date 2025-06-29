@@ -113,7 +113,7 @@
     "publint": "^0.3.12",
     "tsx": "^4.20.3",
     "typescript": "~5.8.3",
-    "unplugin-vue-components": "^28.7.0",
+    "unplugin-vue-components": "^28.8.0",
     "vite": "^6.3.5",
     "vite-plugin-dts": "^4.5.4",
     "vite-plugin-vue-devtools": "^7.7.7",
