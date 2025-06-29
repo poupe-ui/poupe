@@ -11,7 +11,6 @@ import {
 import {
   type CSSRuleObject,
   debugLog,
-  warnLog,
 } from './utils';
 
 /** Default opacity for scrim utilities when no modifier is provided */
@@ -496,96 +495,8 @@ export function makeRippleComponents(theme: Readonly<Theme>): Record<string, CSS
   };
 }
 
-/**
- * Shape families supported by the shape system
- */
-export const SHAPE_FAMILIES = ['rounded', 'squircle'] as const;
-export type ShapeFamily = typeof SHAPE_FAMILIES[number];
-
-/**
- * Shape scale tokens for Material Design 3
- * Based on MD3 Expressive shape system
- */
-export const SHAPE_SCALE = {
-  'none': { rounded: '0px', squircle: '0' },
-  'extra-small': { rounded: '4px', squircle: '0.6' },
-  'small': { rounded: '8px', squircle: '0.8' },
-  'medium': { rounded: '12px', squircle: '1' },
-  'large': { rounded: '16px', squircle: '1.2' },
-  'extra-large': { rounded: '28px', squircle: '1.4' },
-  'full': { rounded: '9999px', squircle: '2' },
-} as const;
-
-/**
- * Shape scale keys for validation
- */
-export type ShapeScaleKey = keyof typeof SHAPE_SCALE;
-
-/**
- * Generates CSS properties for a squircle shape
- * Uses CSS mask with SVG path for smooth iOS-style squircles
- */
-function getSquircleStyles(smoothing: string): CSSRuleObject {
-  // Smoothing value of 1 = standard squircle, higher = more rounded
-  const s = smoothing;
-  return {
-    'mask-image': `url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='${getSquirclePath(s)}' fill='black'/%3E%3C/svg%3E")`,
-    'mask-size': '100% 100%',
-    'mask-repeat': 'no-repeat',
-    '-webkit-mask-image': `url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='${getSquirclePath(s)}' fill='black'/%3E%3C/svg%3E")`,
-    '-webkit-mask-size': '100% 100%',
-    '-webkit-mask-repeat': 'no-repeat',
-  };
-}
-
-/**
- * Generates SVG path for a squircle shape
- * Based on the iOS squircle formula
- */
-function getSquirclePath(smoothing: string): string {
-  const s = Number.parseFloat(smoothing);
-
-  // Validate smoothing parameter
-  // MD3 Expressive allows values up to 2 for maximum roundness
-  if (Number.isNaN(s) || s < 0 || s > 2) {
-    // Default to 0.6 for invalid values (MD3 standard smoothing)
-    const defaultSmoothing = 0.6;
-    warnLog(`Invalid smoothing value: ${smoothing}. Expected a number between 0 and 2. Using default: ${defaultSmoothing}`);
-    return getSquirclePath(String(defaultSmoothing));
-  }
-
-  if (s === 0) {
-    // Rectangle
-    return 'M 0 0 L 200 0 L 200 200 L 0 200 Z';
-  }
-
-  // Squircle path using cubic bezier curves
-  // This creates a superellipse-like shape
-
-  if (s >= 2) {
-    // Full circle
-    return 'M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z';
-  }
-
-  // For values 0-2, interpolate between rectangle and circle
-  // At s=1, this gives a standard squircle
-  // At s=2, this approaches a circle
-  const t = Math.min(s, 2) / 2; // Normalize to 0-1 range
-
-  // Corner radius: 0 at s=0, 100 (full circle) at s=2
-  const r = 100 * t;
-
-  // Control point offset for bezier curves
-  // This creates the squircle effect
-  const controlOffset = r * 0.552_284_749_831; // Magic number for circle approximation
-
-  // Ensure control points stay within bounds
-  const cornerX = Math.max(0, Math.min(100, r));
-  const cornerY = Math.max(0, Math.min(100, r));
-
-  // Generate path
-  return `M ${cornerX} 0 L ${200 - cornerX} 0 C ${200 - cornerX + controlOffset} 0 200 ${cornerY - controlOffset} 200 ${cornerY} L 200 ${200 - cornerY} C 200 ${200 - cornerY + controlOffset} ${200 - cornerX + controlOffset} 200 ${200 - cornerX} 200 L ${cornerX} 200 C ${cornerX - controlOffset} 200 0 ${200 - cornerY + controlOffset} 0 ${200 - cornerY} L 0 ${cornerY} C 0 ${cornerY - controlOffset} ${cornerX - controlOffset} 0 ${cornerX} 0 Z`;
-}
+// Import semantic shape utilities
+import { makeSemanticShapeUtilities } from './shape-semantic';
 
 /**
  * Generates shape components for Material Design 3 shape system
@@ -597,96 +508,6 @@ export function makeShapeComponents(theme: Readonly<Theme>): Record<string, CSSR
     return {};
   }
 
-  const components: Record<string, CSSRuleObject> = {};
-
-  // Validate theme has shape tokens if needed
-  const hasShapeTokens = Object.keys(theme.colors).some(key => key.startsWith('shape-'));
-  if (theme.options.debug && !hasShapeTokens) {
-    debugLog(true, 'shape-validation', 'No shape- tokens found in theme colors');
-  }
-
-  // Generate shape scale utilities for MD3 Expressive
-  for (const [scale, values] of Object.entries(SHAPE_SCALE)) {
-    // Shape token as CSS variable (MD3 Expressive design tokens)
-    const shapeVariable = `--${themePrefix}shape-${scale}`;
-
-    // Rounded corner shapes (default)
-    components[`.${shapePrefix}${scale}`] = {
-      'border-radius': `var(${shapeVariable}, ${values.rounded})`,
-    };
-
-    // Squircle shapes for MD3 Expressive
-    if (scale !== 'none') {
-      components[`.${shapePrefix}squircle-${scale}`] = {
-        ...getSquircleStyles(values.squircle),
-        // Store shape family for component reference
-        [`--${themePrefix}shape-family-${scale}`]: 'squircle',
-        // Fallback to rounded corners for browsers that don't support mask
-        '@supports not (mask-image: url())': {
-          'border-radius': `var(${shapeVariable}, ${values.rounded})`,
-        },
-      };
-    }
-  }
-
-  // Add shape family utilities (cleaner names without "family-")
-  components[`.${shapePrefix}rounded`] = {
-    [`--${themePrefix}shape-family`]: 'rounded',
-  };
-
-  components[`.${shapePrefix}squircle`] = {
-    [`--${themePrefix}shape-family`]: 'squircle',
-  };
-
-  // Component-specific shape tokens for MD3 Expressive
-  // These follow Material Design 3 component shape recommendations
-  const componentShapes: Record<string, keyof typeof SHAPE_SCALE> = {
-    // Interactive components
-    'button': 'full', // MD3: Buttons use full rounding
-    'fab': 'large', // MD3: FABs use large rounding
-    'chip': 'small', // MD3: Chips use small rounding
-    'icon-button': 'full', // MD3: Icon buttons are circular
-
-    // Container components
-    'card': 'medium', // MD3: Cards use medium rounding
-    'dialog': 'extra-large', // MD3: Dialogs use extra-large rounding
-    'menu': 'extra-small', // MD3: Menus use extra-small rounding
-    'snackbar': 'extra-small', // MD3: Snackbars use extra-small rounding
-    'tooltip': 'extra-small', // MD3: Tooltips use extra-small rounding
-
-    // Input components
-    'text-field': 'extra-small', // MD3: Text fields use extra-small rounding
-    'search': 'full', // MD3: Search bars often use full rounding
-
-    // Navigation components
-    'navigation-bar': 'none', // MD3: Nav bars typically have no rounding
-    'navigation-rail': 'none', // MD3: Nav rails typically have no rounding
-    'navigation-drawer': 'large', // MD3: Nav drawers use large rounding on one side
-  };
-
-  for (const [component, defaultScale] of Object.entries(componentShapes)) {
-    const shapeVariable = `--${themePrefix}shape-${component}`;
-    const defaultVariable = `--${themePrefix}shape-${defaultScale}`;
-
-    // Regular rounded component shapes with MD3 token hierarchy
-    components[`.${shapePrefix}${component}`] = {
-      'border-radius': `var(${shapeVariable}, var(${defaultVariable}, ${SHAPE_SCALE[defaultScale].rounded}))`,
-    };
-
-    // Squircle component shapes for MD3 Expressive
-    if (defaultScale !== 'none') {
-      components[`.${shapePrefix}squircle-${component}`] = {
-        ...getSquircleStyles(SHAPE_SCALE[defaultScale].squircle),
-        // Store component shape family
-        [`--${themePrefix}shape-family-${component}`]: 'squircle',
-        // Fallback to rounded corners for browsers that don't support mask
-        '@supports not (mask-image: url())': {
-          'border-radius': `var(${shapeVariable}, var(${defaultVariable}, ${SHAPE_SCALE[defaultScale].rounded}))`,
-        },
-      };
-    }
-  }
-
-  debugLog(theme.options.debug, 'shapes', components);
-  return components;
+  // Always use semantic shapes
+  return makeSemanticShapeUtilities(themePrefix);
 }

@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Uses `currentColor` for automatic color matching
   - Customizable via CSS variables (`--md-ripple-duration`, `--md-ripple-opacity`)
 
-### Changed
+### Updates
 
 - Added `precommit` script to package.json for consistent code quality checks
 

@@ -7,8 +7,11 @@ import {
   assembleSurfaceComponent,
   makeSurfaceName,
   makeShapeComponents,
-  SHAPE_SCALE,
 } from '../components';
+
+import {
+  SHAPE_SCALE,
+} from '../shapes';
 
 import {
   makeThemeFromPartialOptions,
@@ -348,20 +351,19 @@ describe('makeShapeComponents', () => {
     }
   });
 
-  it('should create squircle variants for non-none shapes', () => {
+  it('should create shape family utilities', () => {
     const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
     const result = makeShapeComponents(theme);
 
-    // Should have squircle variants for all scales except 'none'
-    const nonNoneScales = Object.keys(SHAPE_SCALE).filter(s => s !== 'none');
-    for (const scale of nonNoneScales) {
-      expect(result[`.shape-squircle-${scale}`]).toBeDefined();
-      expect(result[`.shape-squircle-${scale}`]['mask-image']).toBeDefined();
-      expect(result[`.shape-squircle-${scale}`]['--md-shape-family-' + scale]).toBe('squircle');
-    }
+    // Should have shape family + scale utilities (abbreviated semantic)
+    expect(result['.shape-squircle-lg']).toBeDefined();
+    expect(result['.shape-squircle-lg']['border-radius']).toBeDefined();
 
-    // Should not have squircle variant for 'none'
-    expect(result['.shape-squircle-none']).toBeUndefined();
+    expect(result['.shape-cut-md']).toBeDefined();
+    expect(result['.shape-cut-md']['border-radius']).toBeDefined();
+
+    expect(result['.shape-convex-xl']).toBeDefined();
+    expect(result['.shape-convex-xl']['border-radius']).toContain('calc');
   });
 
   it('should create MD3 component-specific shape tokens', () => {
@@ -386,33 +388,31 @@ describe('makeShapeComponents', () => {
     const theme = makeThemeFromPartialOptions({});
     const result = makeShapeComponents(theme);
 
-    // Verify specific MD3 recommendations
-    expect(result['.shape-button']['border-radius']).toContain('shape-full'); // Buttons are fully rounded
-    expect(result['.shape-card']['border-radius']).toContain('shape-medium'); // Cards use medium rounding
-    expect(result['.shape-dialog']['border-radius']).toContain('shape-extra-large'); // Dialogs use XL rounding
-    expect(result['.shape-text-field']['border-radius']).toContain('shape-extra-small'); // Text fields use XS
+    // Verify specific MD3 recommendations with fallbacks
+    expect(result['.shape-button']['border-radius']).toBe('var(--md-shape-button, var(--md-shape-full))');
+    expect(result['.shape-card']['border-radius']).toBe('var(--md-shape-card, var(--md-shape-md))');
+    expect(result['.shape-dialog']['border-radius']).toBe('var(--md-shape-dialog, var(--md-shape-xl))');
+    expect(result['.shape-text-field']['border-radius']).toBe('var(--md-shape-text-field, var(--md-shape-xs))');
   });
 
   it('should include shape family utilities', () => {
     const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
     const result = makeShapeComponents(theme);
 
-    expect(result['.shape-rounded']).toEqual({
-      '--md-shape-family': 'rounded',
-    });
-
-    expect(result['.shape-squircle']).toEqual({
-      '--md-shape-family': 'squircle',
-    });
+    // In abbreviated semantic, rounded is the default (no explicit utility needed)
+    // Non-rounded families are combined with scale (e.g., shape-squircle-lg)
+    expect(result['.shape-squircle-sm']).toBeDefined();
+    expect(result['.shape-cut-lg']).toBeDefined();
+    expect(result['.shape-convex-md']).toBeDefined();
   });
 
   it('should support custom shape prefix', () => {
     const theme = makeThemeFromPartialOptions({ shapePrefix: 'corner-' });
     const result = makeShapeComponents(theme);
 
-    // All utilities should use custom prefix
+    // Semantic shapes always use .shape- prefix
     const keys = Object.keys(result);
-    expect(keys.every(k => k.startsWith('.corner-'))).toBe(true);
+    expect(keys.every(k => k.startsWith('.shape-'))).toBe(true);
   });
 
   it('should validate theme has shape tokens in debug mode', () => {
@@ -424,9 +424,9 @@ describe('makeShapeComponents', () => {
 
     makeShapeComponents(theme);
 
-    // Should log validation warning when no shape tokens are present
-    // (default theme doesn't include shape- tokens)
-    expect(consoleLogSpy).toHaveBeenCalledWith(
+    // Semantic shapes don't need shape- tokens in theme colors
+    // No validation warning should be logged
+    expect(consoleLogSpy).not.toHaveBeenCalledWith(
       '@poupe/tailwindcss',
       'shape-validation',
       'No shape- tokens found in theme colors',
@@ -439,50 +439,31 @@ describe('makeShapeComponents', () => {
     const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
     const result = makeShapeComponents(theme);
 
-    // Component shapes should fallback to scale shapes
+    // Component shapes should use variable with fallback
     const cardShape = result['.shape-card'];
-    expect(cardShape['border-radius']).toBe(
-      'var(--md-shape-card, var(--md-shape-medium, 12px))',
-    );
+    expect(cardShape['border-radius']).toBe('var(--md-shape-card, var(--md-shape-md))');
   });
 
-  it('should provide browser fallback for squircle shapes', () => {
+  it('should provide shape family utilities', () => {
     const theme = makeThemeFromPartialOptions({});
     const result = makeShapeComponents(theme);
 
-    const squircleCard = result['.shape-squircle-card'];
-    const supportsRule = squircleCard['@supports not (mask-image: url())'];
-    expect(supportsRule).toBeDefined();
-    if (typeof supportsRule === 'object' && supportsRule !== null && !Array.isArray(supportsRule)) {
-      expect(supportsRule['border-radius']).toContain('shape-card');
-    }
+    // Abbreviated semantic: family + scale combined
+    const squircle = result['.shape-squircle-md'];
+    expect(squircle).toBeDefined();
+    expect(squircle['border-radius']).toBeDefined();
   });
 
-  it('should validate squircle smoothing parameter and use default for invalid values', () => {
+  it('should create corner modifier utilities', () => {
     const theme = makeThemeFromPartialOptions({});
     const result = makeShapeComponents(theme);
 
-    // Test that squircle shapes are generated with valid paths
-    const squircleSmall = result['.shape-squircle-small'];
-    expect(squircleSmall['mask-image']).toBeDefined();
-    expect(squircleSmall['mask-image']).toContain('data:image/svg+xml');
+    // Abbreviated semantic: positive corner utilities
+    expect(result['.shape-lg-top']).toBeDefined();
+    expect(result['.shape-lg-top']['border-top-left-radius']).toContain('--md-shape-lg');
+    expect(result['.shape-lg-top']['border-top-right-radius']).toContain('--md-shape-lg');
 
-    // The SVG path should contain valid coordinates
-    const maskImage = squircleSmall['mask-image'] as string;
-    expect(maskImage).toContain('%3Cpath');
-    expect(maskImage).toContain('M ');
-    expect(maskImage).not.toContain('NaN');
-
-    // Verify all squircle shapes have valid mask images
-    const squircleKeys = Object.keys(result).filter(key => key.includes('squircle'));
-    for (const key of squircleKeys) {
-      const shape = result[key];
-      if (shape['mask-image']) {
-        expect(shape['mask-image']).toContain('data:image/svg+xml');
-        expect(shape['mask-image']).not.toContain('NaN');
-      }
-    }
-
-    // Test values are all within valid range (0-2) per MD3 Expressive design
+    expect(result['.shape-md-tl']).toBeDefined();
+    expect(result['.shape-md-tl']['border-top-left-radius']).toContain('--md-shape-md');
   });
 });
