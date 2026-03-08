@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nuxi dev",
     "build": "nuxi build",
-    "generate": "nuxi generate"
+    "generate": "nuxi generate",
+    "clean": "rimraf .nuxt .output node_modules"
   },
   "dependencies": {
     "@poupe/nuxt": "workspace:^",

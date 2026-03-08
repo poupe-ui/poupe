@@ -52,7 +52,7 @@
     "build": "unbuild",
     "test": "vitest run",
     "dev": "vitest watch",
-    "clean": "rm -rf dist node_modules"
+    "clean": "rimraf dist node_modules"
   },
   "dependencies": {
     "defu": "^6.1.4"

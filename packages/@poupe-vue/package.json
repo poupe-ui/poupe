@@ -73,7 +73,7 @@
     "test": "vitest run",
     "dev": "vite",
     "preview": "vite preview",
-    "clean": "rm -rf dist node_modules",
+    "clean": "rimraf dist node_modules",
     "screenshot": "tsx src/scripts/screenshot.ts",
     "screenshot:auto": "tsx src/scripts/screenshot-auto.ts"
   },
