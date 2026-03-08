@@ -1,4 +1,4 @@
-# AGENT.md
+# AGENTS.md
 
 This file provides guidance to AI coding assistants (Claude Code, GitHub
 Copilot, Cody, etc.) when working with code in the Poupe UI Framework
@@ -87,7 +87,7 @@ ESLint):
 
 ## Documentation Formatting Guidelines
 
-Follow these rules for consistent documentation across all AGENT.md and
+Follow these rules for consistent documentation across all AGENTS.md and
 README.md files:
 
 ### Lists and Bullets
@@ -161,7 +161,7 @@ Before committing any changes, ALWAYS run:
 1. `pnpm -r precommit` - Run all precommit checks across the workspace
 2. Fix any issues found by the precommit checks
 3. Check IDE diagnostics panel for warnings
-4. Update AGENT.md if guidelines change
+4. Update AGENTS.md if guidelines change
 5. Update README.md if public API changes
 6. Review documentation formatting follows guidelines
 
@@ -191,7 +191,7 @@ The `pnpm -r precommit` command will:
 - Mix concerns between packages
 - Use relative imports between packages (use workspace deps)
 - Do not skip pre-commit checks
-- Do not ignore warnings or AGENT.md guidelines
+- Do not ignore warnings or AGENTS.md guidelines
 - **NEVER commit without explicitly listing files (no `git commit` alone)**
 - **NEVER use `git add .` or `git add -A` before committing**
 - **NEVER trust the staging area - it may contain unintended changes**
@@ -381,13 +381,13 @@ All packages work together to implement Material Design 3:
 
 ## Package-Specific Guidelines
 
-Each package has its own AGENT.md file with specific details:
+Each package has its own AGENTS.md file with specific details:
 
-- `packages/@poupe-css/AGENT.md` - CSS utilities specifics
-- `packages/@poupe-theme-builder/AGENT.md` - Theme generation details
-- `packages/@poupe-tailwindcss/AGENT.md` - TailwindCSS integration
-- `packages/@poupe-vue/AGENT.md` - Vue component development
-- `packages/@poupe-nuxt/AGENT.md` - Nuxt module configuration
+- `packages/@poupe-css/AGENTS.md` - CSS utilities specifics
+- `packages/@poupe-theme-builder/AGENTS.md` - Theme generation details
+- `packages/@poupe-tailwindcss/AGENTS.md` - TailwindCSS integration
+- `packages/@poupe-vue/AGENTS.md` - Vue component development
+- `packages/@poupe-nuxt/AGENTS.md` - Nuxt module configuration
 
 ## Agent-Specific Instructions
 
