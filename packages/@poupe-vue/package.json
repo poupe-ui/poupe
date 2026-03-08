@@ -63,8 +63,8 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "run-s lint type-check test build publint",
-    "precommit": "run-s lint type-check test build",
+    "prepack": "run-s lint type-check build test publint",
+    "precommit": "run-s lint type-check build test",
     "type-check": "vue-tsc --build --force",
     "lint": "env DEBUG=eslint:eslint eslint --fix .",
     "publint": "pnpx publint",
