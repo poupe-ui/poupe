@@ -1,16 +1,16 @@
 <script lang="ts">
 import {
-  type VariantProps,
   tv,
   twMerge,
+  type VariantProps,
 
-  onSlot,
-  surfaceInteractiveVariants,
-  containerInteractiveVariants,
-  shapeVariants,
-  shadowVariants,
   borderVariants,
   borderVariantsBase,
+  containerInteractiveVariants,
+  onSlot,
+  shadowVariants,
+  shapeVariants,
+  surfaceInteractiveVariants,
 } from './variants';
 
 // Define defaults in one place
@@ -177,10 +177,10 @@ const variants = computed(() => {
 
   // If interactive, use the interactive surface variant
   if (props.value.interactive) {
-    const role = props.value.role as 'surface' | 'container';
-    const interactiveVariants = role === 'container'
-      ? containerInteractiveVariants
-      : surfaceInteractiveVariants;
+    const role = props.value.role as 'container' | 'surface';
+    const interactiveVariants = role === 'container' ?
+      containerInteractiveVariants :
+      surfaceInteractiveVariants;
 
     // Determine the color key based on role, tone/level, and variant
     let colorKey: string | undefined;

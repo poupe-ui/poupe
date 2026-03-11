@@ -5,11 +5,11 @@ import {
   type Nuxt,
   type ThemeOptions,
 
-  defaultPrimaryColor,
   defaultComponentPrefix,
+  defaultPrimaryColor,
 } from './utils';
 
-export type TailwindPlugin = string | [ string, CSSProperties ];
+export type TailwindPlugin = [ string, CSSProperties ] | string;
 
 export interface TailwindOptions {
   sources?: string[]

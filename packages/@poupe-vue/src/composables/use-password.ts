@@ -1,4 +1,4 @@
-import { type MaybeRefOrGetter, computed, ref, toValue } from 'vue';
+import { computed, type MaybeRefOrGetter, ref, toValue } from 'vue';
 import { usePoupeIcons } from './use-icons';
 
 export function usePasswordToggle(origType: MaybeRefOrGetter<string>) {

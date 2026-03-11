@@ -9,8 +9,8 @@ export interface IconProps extends Omit<IconifyIconProps, 'icon'> {
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import { Icon as IconifyIcon } from '@iconify/vue';
+import { computed } from 'vue';
 import { usePoupeIcons } from '@/composables/use-icons';
 
 const props = defineProps<IconProps>();

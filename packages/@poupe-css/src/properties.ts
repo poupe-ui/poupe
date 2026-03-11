@@ -4,7 +4,7 @@ import {
 } from './utils';
 
 export type CSSProperties<K extends string = string> = Record<K, CSSValue>;
-export type CSSValue = string | number | boolean | (string | number | boolean)[];
+export type CSSValue = (boolean | number | string)[] | boolean | number | string;
 
 /**
  * Configuration options for CSS properties stringification.

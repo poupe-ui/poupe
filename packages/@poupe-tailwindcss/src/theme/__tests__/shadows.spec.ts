@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
-import { makeShadows, makeShadowRules } from '../shadows';
+import { describe, expect, it } from 'vitest';
 import type { Theme } from '../types';
 import { makeThemeFromPartialOptions } from '../plugin';
+import { makeShadowRules, makeShadows } from '../shadows';
 
 describe('shadow utilities', () => {
   const mockTheme: Theme = makeThemeFromPartialOptions({

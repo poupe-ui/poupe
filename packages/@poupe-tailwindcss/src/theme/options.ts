@@ -1,7 +1,4 @@
 import {
-  type ThemeColorOptions,
-  type ThemeColors,
-  type ThemeOptions,
   defaultPrimaryColor,
   defaultShapePrefix,
   defaultSurfacePrefix,
@@ -10,6 +7,9 @@ import {
   defaultThemeLightSuffix,
   defaultThemePrefix,
   defaultThemeScheme,
+  type ThemeColorOptions,
+  type ThemeColors,
+  type ThemeOptions,
 } from './types';
 
 import {
@@ -19,9 +19,9 @@ import {
 } from './utils';
 
 import {
-  type Shades,
   defaultShades,
   getShades,
+  type Shades,
 } from './shades';
 
 export {

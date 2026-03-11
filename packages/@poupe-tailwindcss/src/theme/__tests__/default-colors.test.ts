@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable unicorn/no-null */
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { defaultColors, withKnownColor } from '../default-colors';
 
 describe('defaultColors', () => {

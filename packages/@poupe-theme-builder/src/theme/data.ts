@@ -20,10 +20,10 @@ export const customDynamicColors = {
 } satisfies Record<string, (cc: ColorGroup) => Hct>;
 
 export type CustomDynamicColorKey<T extends string> =
-  `${T}` |
   `${T}-container` |
-  `on-${T}` |
-  `on-${T}-container`;
+  `${T}` |
+  `on-${T}-container` |
+  `on-${T}`;
 
 // StandardDynamicColor
 //

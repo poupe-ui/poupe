@@ -1,8 +1,8 @@
-import { describe, it, expect, vi } from 'vitest';
-import { mountWithPoupe } from './test-utils';
+import { describe, expect, it, vi } from 'vitest';
+import * as utils from '../../utils/utils';
 import Card from '../card.vue';
 import Surface from '../surface.vue';
-import * as utils from '../../utils/utils';
+import { mountWithPoupe } from './test-utils';
 
 describe('Card', () => {
   it('renders default slot content', () => {
@@ -108,9 +108,9 @@ describe('Card', () => {
     });
 
     expect(warnSpy).toHaveBeenCalledWith(
-      '[PCard] Both "surface" and "container" props are specified. '
-      + 'The "container" prop will take precedence. '
-      + 'Please use only one of these props.',
+      '[PCard] Both "surface" and "container" props are specified. ' +
+      'The "container" prop will take precedence. ' +
+      'Please use only one of these props.',
     );
 
     warnSpy.mockRestore();

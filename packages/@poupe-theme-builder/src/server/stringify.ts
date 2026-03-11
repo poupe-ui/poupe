@@ -1,6 +1,6 @@
 import {
-  type CSSRules,
   type CSSRuleObject,
+  type CSSRules,
   type CSSRulesFormatOptions,
   generateCSSRulesArray,
 } from '@poupe/css';
@@ -26,7 +26,7 @@ export interface CSSRulesStringifyOptions extends CSSRulesFormatOptions {
  * @returns A string with newLine-separated lines
  */
 export function stringifyCSSRulesArray(
-  rules: (string | CSSRules | CSSRuleObject)[] = [],
+  rules: (CSSRuleObject | CSSRules | string)[] = [],
   options: CSSRulesStringifyOptions = {},
 ): string {
   const {
@@ -49,7 +49,7 @@ export function stringifyCSSRulesArray(
  * @returns Formatted CSS lines with newLine endings
  */
 export async function* stringifyCSSRulesArrayStream(
-  rules: (string | CSSRules | CSSRuleObject)[] = [],
+  rules: (CSSRuleObject | CSSRules | string)[] = [],
   options: CSSRulesStringifyOptions = {},
 ): AsyncGenerator<string, void, unknown> {
   const {
@@ -73,7 +73,7 @@ export async function* stringifyCSSRulesArrayStream(
  * @returns A ReadableStream ready to be used in Response or other contexts
  */
 export function stringifyCSSRulesArrayAsStream(
-  rules: (string | CSSRules | CSSRuleObject)[] = [],
+  rules: (CSSRuleObject | CSSRules | string)[] = [],
   options: CSSRulesStringifyOptions = {},
 ): ReadableStream<Uint8Array> {
   const {
@@ -112,7 +112,7 @@ export function stringifyCSSRulesArrayAsStream(
  * @returns A Response object ready to be sent
  */
 export function stringifyCSSRulesArrayAsResponse(
-  rules: (string | CSSRules | CSSRuleObject)[] = [],
+  rules: (CSSRuleObject | CSSRules | string)[] = [],
   options: CSSRulesStringifyOptions & {
     /**
      * Additional headers to include in the response.
@@ -151,7 +151,7 @@ export function stringifyCSSRulesArrayAsResponse(
  * @returns A streaming Response object ready to be sent
  */
 export function stringifyCSSRulesArrayAsStreamingResponse(
-  rules: (string | CSSRules | CSSRuleObject)[] = [],
+  rules: (CSSRuleObject | CSSRules | string)[] = [],
   options: CSSRulesStringifyOptions & {
     /**
      * Additional headers to include in the response.

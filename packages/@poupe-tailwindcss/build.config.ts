@@ -1,17 +1,17 @@
-import { defineBuildConfig } from 'unbuild';
 import {
   mkdirSync,
-  writeFileSync,
   readFileSync,
+  writeFileSync,
 } from 'node:fs';
+import { defineBuildConfig } from 'unbuild';
 
 import {
   join,
 } from 'pathe';
 
 import {
-  type ThemeOptions,
   type ColorFormat,
+  type ThemeOptions,
 
   colorFormatter,
   formatTheme,

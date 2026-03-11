@@ -1,12 +1,12 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import {
+  assembleSurfaceComponent,
+  makeShapeComponents,
   makeSurfaceComponents,
+  makeSurfaceName,
   makeThemeComponents,
   makeZIndexComponents,
-  assembleSurfaceComponent,
-  makeSurfaceName,
-  makeShapeComponents,
   SHAPE_SCALE,
 } from '../components';
 

@@ -1,6 +1,6 @@
 import type { StoryGroup } from '../components/story/types';
-import { createStory, createStoryGroup } from '../components/story/utils';
 import { Icon } from '../components';
+import { createStory, createStoryGroup } from '../components/story/utils';
 
 // Size variants
 export const sizeVariants = createStoryGroup(

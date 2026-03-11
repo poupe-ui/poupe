@@ -1,12 +1,12 @@
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 
-import autoprefixer from 'autoprefixer';
 import tailwind from '@tailwindcss/vite';
+import autoprefixer from 'autoprefixer';
 
 import Vue from '@vitejs/plugin-vue';
-import VueDevTools from 'vite-plugin-vue-devtools';
 import Dts from 'vite-plugin-dts';
+import VueDevTools from 'vite-plugin-vue-devtools';
 
 const resolve = (path: string) => fileURLToPath(new URL(path, import.meta.url));
 

@@ -1,10 +1,10 @@
 /* eslint-disable unicorn/no-null */
 import { describe, expect, it, vi } from 'vitest';
+import type { PluginAPI } from '../utils';
 import { makeThemeComponents } from '../components';
-import { makeTheme } from '../theme';
 import { withDefaultThemeOptions } from '../options';
 import { doMatchUtility } from '../plugin';
-import type { PluginAPI } from '../utils';
+import { makeTheme } from '../theme';
 
 // Mock PluginAPI
 const createMockPluginAPI = () => {

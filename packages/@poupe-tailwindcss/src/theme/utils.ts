@@ -18,13 +18,13 @@ import {
   type ThemeColorOptions,
 } from './types';
 
+export * from '../utils';
+
 /* re-exports */
 export {
   getShades,
   validShade,
 } from './shades';
-
-export * from '../utils';
 
 /** @returns true if the given prefix is valid for theme CSS variables */
 export function validThemePrefix(prefix: string): boolean {

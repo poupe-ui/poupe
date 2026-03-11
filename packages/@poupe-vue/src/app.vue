@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
 import { useHead } from '@unhead/vue';
 import { useDark, useToggle } from '@vueuse/core';
+import { computed, ref } from 'vue';
 
-import { Card, Button, Icon } from './components';
+import { Button, Card, Icon } from './components';
 import { ThemeScheme } from './components/theme';
 import StoryIndex from './stories/index.vue';
 
@@ -14,7 +14,7 @@ useHead({
 });
 
 // Page state
-type Page = 'theme' | 'stories';
+type Page = 'stories' | 'theme';
 const currentPage = ref<Page>('theme');
 const fabMenuOpen = ref(false);
 

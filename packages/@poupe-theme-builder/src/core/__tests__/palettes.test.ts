@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Blend } from '@poupe/material-color-utilities';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
   hct,
 } from '../colors';
 
 import {
-  makeTonalPalette,
   makeCustomColor,
   makeCustomColorFromPalette,
+  makeTonalPalette,
 } from '../palettes';
 
 import {

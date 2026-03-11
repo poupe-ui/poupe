@@ -5,8 +5,8 @@ import {
 
 import {
   type AnyColor,
-  type RgbColor,
   Colord,
+  type RgbColor,
 } from 'colord';
 
 export {
@@ -18,10 +18,10 @@ export {
 
 export {
   type AnyColor,
-  type RgbColor,
-  type HslColor,
-  type HslaColor,
   Colord,
+  type HslaColor,
+  type HslColor,
+  type RgbColor,
 } from 'colord';
 
 export type ColorMap<K extends string> = Record<K, Hct>;
@@ -40,10 +40,10 @@ export interface HctColor {
 }
 
 /** ObjectColor represents a destructured Color object */
-export type ObjectColor = HctColor | Exclude<AnyColor, string>;
+export type ObjectColor = Exclude<AnyColor, string> | HctColor;
 
 /** Color is any accepted color representation */
-export type Color = Hct | Colord | ObjectColor | number | string;
+export type Color = Colord | Hct | number | ObjectColor | string;
 
 /**
  * Core Material Design 3 palettes for DynamicSchemeOptions.

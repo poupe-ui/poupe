@@ -1,8 +1,8 @@
-import { describe, it, expect } from 'vitest';
-import { mountWithPoupe } from './test-utils';
+import { describe, expect, it } from 'vitest';
 import Button from '../button.vue';
 import Card from '../card.vue';
 import InputWrapper from '../input/wrapper.vue';
+import { mountWithPoupe } from './test-utils';
 
 describe('Interactive State Classes', () => {
   describe('Button', () => {

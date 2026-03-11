@@ -17,7 +17,7 @@ import {
 const reHexValue = /^#?(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
 
 /** @returns if the value is a string suitable for {@link hct} */
-export const isHexValue = (s: string | HexColor): boolean => reHexValue.test(s);
+export const isHexValue = (s: HexColor | string): boolean => reHexValue.test(s);
 
 /** @returns if the value is a valid {@link StandardDynamicSchemeKey} */
 export const isThemeSchemeKey = (s?: string): boolean => !!s && s in standardDynamicSchemes;

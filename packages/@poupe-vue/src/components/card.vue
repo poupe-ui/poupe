@@ -7,12 +7,12 @@ export interface CardProps extends Omit<SurfaceProps, 'padding'> {
   title?: string
 
   /** Convenience prop for surface colors */
-  surface?: 'base' | 'dim' | 'bright' | 'lowest' |
-    'low' | 'container' | 'high' |
-    'highest'
+  surface?: 'base' | 'bright' | 'container' | 'dim' |
+    'high' | 'highest' | 'low' |
+    'lowest'
 
   /** Convenience prop for container colors */
-  container?: 'primary' | 'secondary' | 'tertiary' | 'error'
+  container?: 'error' | 'primary' | 'secondary' | 'tertiary'
 }
 
 // Define defaults in one place
@@ -34,8 +34,8 @@ declare module '../composables/use-poupe' {
 
 <script setup lang="ts">
 import { computed, useSlots } from 'vue';
-import { tryWarn } from '../utils/utils';
 import { usePoupeMergedProps } from '../composables';
+import { tryWarn } from '../utils/utils';
 import Surface from './surface.vue';
 
 // Define props without withDefaults
@@ -75,9 +75,9 @@ const surfaceProps = computed(() => {
   // Warn if both surface and container are specified
   if (props.value.surface && props.value.container) {
     tryWarn(
-      '[PCard] Both "surface" and "container" props are specified. '
-      + 'The "container" prop will take precedence. '
-      + 'Please use only one of these props.',
+      '[PCard] Both "surface" and "container" props are specified. ' +
+      'The "container" prop will take precedence. ' +
+      'Please use only one of these props.',
     );
   }
 

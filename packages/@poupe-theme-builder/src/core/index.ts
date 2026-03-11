@@ -1,3 +1,11 @@
+export * from './colors';
+
+export * from './default-colors';
+export * from './formatter';
+export * from './mix';
+export * from './palettes';
+export * from './states';
+export * from './types';
 // re-export
 //
 export {
@@ -6,14 +14,6 @@ export {
   generateCSSRules,
   generateCSSRulesArray,
 } from '@poupe/css';
-
-export * from './colors';
-export * from './default-colors';
-export * from './formatter';
-export * from './mix';
-export * from './palettes';
-export * from './states';
-export * from './types';
 
 // tools
 //

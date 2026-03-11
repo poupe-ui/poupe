@@ -3,21 +3,21 @@ import { Hct } from '@poupe/material-color-utilities';
 
 import { makeStateLayerColors } from '../core';
 
-import type { StandardDynamicColors, CustomDynamicColors } from './colors';
+import type { CustomDynamicColors, StandardDynamicColors } from './colors';
 
 /**
  * Base color keys that support state variants
  */
 type StandardInteractiveColorKey =
-  | 'primary' | 'secondary' | 'tertiary' | 'error'
-  | 'surface' | 'surface-variant'
-  | 'primary-container' | 'secondary-container' | 'tertiary-container' | 'error-container';
+  | 'error' | 'error-container' | 'primary' | 'primary-container' |
+  'secondary' | 'secondary-container' |
+  'surface' | 'surface-variant' | 'tertiary' | 'tertiary-container';
 
 /**
  * State variant types for standard Material Design 3 colors
  */
 type StandardStateVariants = {
-  [K in StandardInteractiveColorKey as `${K}-hover` | `${K}-focus` | `${K}-pressed` | `${K}-dragged` | `${K}-disabled`]: Hct;
+  [K in StandardInteractiveColorKey as `${K}-disabled` | `${K}-dragged` | `${K}-focus` | `${K}-hover` | `${K}-pressed`]: Hct;
 };
 
 /**
@@ -65,8 +65,8 @@ export function makeStandardStateVariants(colors: StandardDynamicColors): Standa
  * Custom color state variant type
  */
 type CustomStateVariantKey<T extends string> =
-  | `${T}-hover` | `${T}-focus` | `${T}-pressed` | `${T}-dragged` | `${T}-disabled`
-  | `${T}-container-hover` | `${T}-container-focus` | `${T}-container-pressed` | `${T}-container-dragged` | `${T}-container-disabled`;
+  | `${T}-container-disabled` | `${T}-container-dragged` | `${T}-container-focus` | `${T}-container-hover` | `${T}-container-pressed` |
+  `${T}-disabled` | `${T}-dragged` | `${T}-focus` | `${T}-hover` | `${T}-pressed`;
 
 type CustomStateVariants<T extends string> = { [K in CustomStateVariantKey<KebabCase<T>>]: Hct };
 

@@ -2,13 +2,13 @@
 import type { SurfaceProps } from './surface.vue';
 
 /** Material Design 3 button types */
-export type ButtonType = 'text' | 'outlined' | 'filled' | 'elevated' | 'tonal';
+export type ButtonType = 'elevated' | 'filled' | 'outlined' | 'text' | 'tonal';
 
 /** Button color variants */
-export type ButtonVariant = 'base' | 'primary' | 'secondary' | 'tertiary' | 'error';
+export type ButtonVariant = 'base' | 'error' | 'primary' | 'secondary' | 'tertiary';
 
 /** Button component props */
-export interface ButtonProps extends Omit<SurfaceProps, 'padding' | 'role' | 'tone' | 'level' | 'variant'> {
+export interface ButtonProps extends Omit<SurfaceProps, 'level' | 'padding' | 'role' | 'tone' | 'variant'> {
   /** Button label text */
   label?: string
 
@@ -16,7 +16,7 @@ export interface ButtonProps extends Omit<SurfaceProps, 'padding' | 'role' | 'to
   type?: ButtonType
 
   /** Button size */
-  size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl'
+  size?: 'base' | 'lg' | 'sm' | 'xl' | 'xs'
 
   /** Semantic color variant for the button */
   variant?: ButtonVariant
@@ -208,9 +208,9 @@ const surfaceProps = computed<Partial<SurfaceProps>>(() => {
 
     case 'tonal': {
       // For tonal buttons, use container variant colors
-      const tonalVariant = variant === 'base'
-        ? undefined
-        : `${variant}-container` as SurfaceProps['variant'];
+      const tonalVariant = variant === 'base' ?
+        undefined :
+        `${variant}-container` as SurfaceProps['variant'];
       return {
         ...baseProps,
         variant: tonalVariant,

@@ -37,10 +37,10 @@ export function* keys<T, K extends keyof T>(object: T, valid?: (key: keyof T) =>
  *
  */
 export function defaultValidPair<K extends string, T = unknown>(key: K, value: T): boolean {
-  return value !== null
-    && value !== undefined
-    && !key.includes(' ')
-    && !key.startsWith('_');
+  return value !== null &&
+    value !== undefined &&
+    !key.includes(' ') &&
+    !key.startsWith('_');
 }
 
 /**

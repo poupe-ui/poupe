@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
-  type CSSRules,
   type CSSRuleObject,
+  type CSSRules,
   type CSSRulesFormatOptions,
   defaultValidCSSRule,
   formatCSSRules,
@@ -92,10 +92,10 @@ describe('stringifyCSSRules', () => {
     const result = stringifyCSSRules(rules);
 
     expect(result).toBe(
-      '.container {\n'
-      + '  color: red;\n'
-      + '  fontSize: 16px;\n'
-      + '}',
+      '.container {\n' +
+      '  color: red;\n' +
+      '  fontSize: 16px;\n' +
+      '}',
     );
   });
 
@@ -119,12 +119,12 @@ describe('stringifyCSSRules', () => {
     const result = stringifyCSSRules(rules);
 
     expect(result).toBe(
-      '.container {\n'
-      + '  color: red;\n'
-      + '  .child {\n'
-      + '    backgroundColor: blue;\n'
-      + '  }\n'
-      + '}',
+      '.container {\n' +
+      '  color: red;\n' +
+      '  .child {\n' +
+      '    backgroundColor: blue;\n' +
+      '  }\n' +
+      '}',
     );
   });
 
@@ -138,9 +138,9 @@ describe('stringifyCSSRules', () => {
     const result = stringifyCSSRules(rules);
 
     expect(result).toBe(
-      '.container {\n'
-      + '  fontFamily: Arial, sans-serif;\n'
-      + '}',
+      '.container {\n' +
+      '  fontFamily: Arial, sans-serif;\n' +
+      '}',
     );
   });
 
@@ -161,10 +161,10 @@ describe('stringifyCSSRules', () => {
     const result = stringifyCSSRules(rules, options);
 
     expect(result).toBe(
-      '• .container {\r\n'
-      + '•     color: red;\r\n'
-      + '•     fontSize: 16px;\r\n'
-      + '• }',
+      '• .container {\r\n' +
+      '•     color: red;\r\n' +
+      '•     fontSize: 16px;\r\n' +
+      '• }',
     );
   });
 
@@ -402,7 +402,7 @@ describe('formatCSSRulesArray', () => {
   });
 
   it('handles nested arrays', () => {
-    const rules: (string | CSSRules)[] = [
+    const rules: (CSSRules | string)[] = [
       'color: red',
       {
         '.nested': {
@@ -627,7 +627,7 @@ describe('formatCSSRulesArray with blank line handling', () => {
   });
 
   it('handles mixed content types correctly', () => {
-    const rules: (string | CSSRules)[] = [
+    const rules: (CSSRules | string)[] = [
       'color: red',
       { fontSize: '16px' },
       '',
@@ -664,7 +664,7 @@ describe('formatCSSRulesArray with blank line handling', () => {
   });
 
   it('handles empty objects correctly', () => {
-    const rules: (string | CSSRules)[] = [
+    const rules: (CSSRules | string)[] = [
       'color: red',
       {},
       { fontSize: '16px' },
@@ -1344,7 +1344,7 @@ describe('normalizeProperties option', () => {
   });
 
   it('preserves at-rules in array format', () => {
-    const rules: (string | CSSRules | CSSRuleObject)[] = [
+    const rules: (CSSRuleObject | CSSRules | string)[] = [
       { fontSize: '16px' }, // Should be normalized
       { '@media print': { backgroundColor: 'white' } }, // At-rule NOT normalized, property inside normalized
       { '@keyframes fade': { '0%': { opacity: '0' }, '100%': { opacity: '1' } } },

@@ -26,8 +26,8 @@ import {
   type StandardDynamicColorKey,
   type StandardPaletteKey,
 
-  standardDynamicColors,
   customDynamicColors,
+  standardDynamicColors,
   standardPalettes,
 } from './data';
 

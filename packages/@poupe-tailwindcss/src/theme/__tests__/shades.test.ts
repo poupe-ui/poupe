@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/consistent-function-scoping */
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import {
   defaultShades,
@@ -44,7 +44,7 @@ describe('shades utilities', () => {
 
     it('handles negative values as append mode', () => {
       const expectedSet = new Set([...defaultShades, 100, 300]);
-      expect(getShades([-100, -300]).shades).toEqual([...expectedSet].sort((a, b) => a - b));
+      expect(getShades([-100, -300]).shades).toEqual([...expectedSet].toSorted((a, b) => a - b));
     });
 
     it('sorts shades in ascending order', () => {

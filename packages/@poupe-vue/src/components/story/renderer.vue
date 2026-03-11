@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, h, type VNode, type VNodeChild } from 'vue';
 import type { StoryConfig, StoryConfigOptions } from './types';
-import { generateCode } from './utils';
 import StoryShowcaseItem from './showcase-item.vue';
+import { generateCode } from './utils';
 
 interface Props {
   story: StoryConfig

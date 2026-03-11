@@ -13,23 +13,23 @@ import {
 } from '../core';
 
 import {
-  type StandardDynamicColors,
   makeCustomColorsFromPalettes,
   makeDynamicScheme,
   makeStandardColorsFromScheme,
   makeStandardPaletteFromScheme,
   makeStandardPaletteKeyColorsFromScheme,
+  type StandardDynamicColors,
 } from './colors';
 
 import {
-  makeStandardStateVariants,
   makeCustomStateVariants,
+  makeStandardStateVariants,
 } from './states';
 
 import {
   type CustomDynamicColorKey,
-  type StandardDynamicSchemeKey,
   type StandardDynamicColorKey,
+  type StandardDynamicSchemeKey,
   type StandardPaletteKey,
 
   customDynamicColors,
@@ -63,8 +63,8 @@ export type FlatThemeColors<K extends string> = { primary: ColorOptions } & Reco
  * the values.
  */
 export function makeThemeKeys<K extends string>(colors: Partial<ThemeColors<K>>) {
-  type PaletteKey = KebabCase<StandardPaletteKey> | KebabCase<K>;
-  type ColorKey = PaletteKey | StandardDynamicColorKey | CustomDynamicColorKey<KebabCase<K>>;
+  type PaletteKey = KebabCase<K> | KebabCase<StandardPaletteKey>;
+  type ColorKey = CustomDynamicColorKey<KebabCase<K>> | PaletteKey | StandardDynamicColorKey;
 
   const colorOptions = {} as Record<PaletteKey, Partial<ColorOptions>>;
   const kebabStandardPaletteKeys = standardPaletteKeys.map(s => kebabCase(s)) as PaletteKey[];

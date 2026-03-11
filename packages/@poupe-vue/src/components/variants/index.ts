@@ -1,9 +1,9 @@
-export { tv, type VariantProps } from 'tailwind-variants';
-export { twMerge } from 'tailwind-merge';
-
 export * from './consts';
 export * from './on-slot';
+
 export * from './on-variant';
+export { twMerge } from 'tailwind-merge';
+export { tv, type VariantProps } from 'tailwind-variants';
 
 export const borderVariantsBase = 'border-solid border';
 

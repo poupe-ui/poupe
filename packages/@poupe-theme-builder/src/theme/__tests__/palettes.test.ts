@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/no-null */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import {
   flattenColorOptions,
@@ -9,9 +9,9 @@ import {
 } from '../palettes';
 
 import {
-  ThemeColors,
   type ColorOptions,
   type CustomColorOptions,
+  ThemeColors,
 } from '../types';
 
 import {
@@ -20,9 +20,9 @@ import {
   TonalPalette,
 
   alphaFromArgb,
-  redFromArgb,
-  greenFromArgb,
   blueFromArgb,
+  greenFromArgb,
+  redFromArgb,
 } from '../utils';
 
 function expectArgbToBeClose(actualArgb: number, expectedArgb: number, tolerance: number) {
@@ -200,7 +200,7 @@ describe('makeThemePalette', () => {
   });
 
   it('should handle custom colors with default names', () => {
-    const colors: ThemeColors<'brand' | 'accent'> = {
+    const colors: ThemeColors<'accent' | 'brand'> = {
       primary: '#4285F4',
       brand: '#FF6B35',
       accent: '#7209B7',

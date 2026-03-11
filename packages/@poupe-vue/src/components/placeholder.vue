@@ -1,7 +1,7 @@
 <script lang="ts">
 import {
-  type VariantProps,
   tv,
+  type VariantProps,
 
   onSlot,
   roundedVariants,

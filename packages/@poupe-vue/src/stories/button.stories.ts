@@ -1,6 +1,6 @@
 import type { StoryGroup } from '../components/story/types';
-import { createStory, createStoryGroup } from '../components/story/utils';
 import { Button } from '../components';
+import { createStory, createStoryGroup } from '../components/story/utils';
 
 // Default button
 const defaultButton = createStory({

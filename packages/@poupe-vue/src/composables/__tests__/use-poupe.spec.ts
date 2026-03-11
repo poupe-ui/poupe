@@ -1,15 +1,15 @@
-import { describe, it, expect } from 'vitest';
-import { defineComponent, h, type Component } from 'vue';
 import { mount } from '@vue/test-utils';
-import { createPoupe, usePoupe, usePoupeDefaults, providePoupeOptions, usePoupeMergedProps } from '../use-poupe';
+import { describe, expect, it } from 'vitest';
+import { type Component, defineComponent, h } from 'vue';
+import { createPoupe, providePoupeOptions, usePoupe, usePoupeDefaults, usePoupeMergedProps } from '../use-poupe';
 
 // Test component types
 interface TestComponentProps {
-  color: 'primary' | 'secondary' | 'base' | 'none'
-  shape: 'none' | 'sm' | 'md' | 'lg'
-  size: 'sm' | 'md' | 'lg'
+  color: 'base' | 'none' | 'primary' | 'secondary'
+  shape: 'lg' | 'md' | 'none' | 'sm'
+  size: 'lg' | 'md' | 'sm'
   shadow: 'none' | 'z1' | 'z2'
-  padding: 'none' | 'sm' | 'md' | 'lg'
+  padding: 'lg' | 'md' | 'none' | 'sm'
 }
 
 // Test component type augmentation

@@ -39,9 +39,9 @@ export function makeConfig(
 ): Partial<Config> {
   debugLog(theme.options.debug, 'makeConfig', theme);
 
-  type ColorKey = keyof typeof theme.colors | keyof typeof persistentColors;
+  type ColorKey = keyof typeof persistentColors | keyof typeof theme.colors;
 
-  type ColorValue = string | Record<'DEFAULT' | number, string>;
+  type ColorValue = Record<'DEFAULT' | number, string> | string;
 
   const { extendColors = false } = theme.options;
 
@@ -75,16 +75,16 @@ export function makeConfig(
 
   return {
     theme: {
-      ...(extendColors
-        ? { extend: { colors } }
-        : { colors }),
+      ...(extendColors ?
+        { extend: { colors } } :
+        { colors }),
       boxShadow,
       dropShadow,
     },
   };
 }
 
-export function makeConfigColor<N extends number>(key: string, value: string, shades?: Record<N, string>): (string | Record<'DEFAULT' | N, string>) {
+export function makeConfigColor<N extends number>(key: string, value: string, shades?: Record<N, string>): (Record<'DEFAULT' | N, string> | string) {
   if (shades) {
     const out = {
       DEFAULT: `var(${value})`,

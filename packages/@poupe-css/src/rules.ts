@@ -1,5 +1,5 @@
 import { defu } from 'defu';
-import { pairs, kebabCase } from './utils';
+import { kebabCase, pairs } from './utils';
 
 import {
   formatCSSValue,
@@ -30,7 +30,7 @@ import {
  * ```
  */
 export type CSSRules = {
-  [name: string]: null | string | string[] | CSSRules | CSSRules[]
+  [name: string]: CSSRules | CSSRules[] | null | string | string[]
 };
 
 /**
@@ -81,7 +81,7 @@ export interface CSSRulesFormatOptions {
  * - It uses itself for nested rules rather than the broader CSSRules type
  */
 export type CSSRuleObject = {
-  [key: string]: string | string[] | CSSRuleObject
+  [key: string]: CSSRuleObject | string | string[]
 };
 
 /**
@@ -114,7 +114,7 @@ export type CSSRuleObject = {
  * ```
  */
 export function stringifyCSSRules(
-  rules: CSSRules | CSSRuleObject = {},
+  rules: CSSRuleObject | CSSRules = {},
   options: CSSRulesFormatOptions & {
     /**
      * Character(s) to use for line breaks.
@@ -156,7 +156,7 @@ export function stringifyCSSRules(
  * ```
  */
 export function formatCSSRules(
-  rules: CSSRules | CSSRuleObject = {},
+  rules: CSSRuleObject | CSSRules = {},
   options: CSSRulesFormatOptions = {},
 ): string[] {
   return [...generateCSSRules(rules, options)];
@@ -195,7 +195,7 @@ export function formatCSSRules(
  * ```
  */
 export function formatCSSRulesArray(
-  rules: (string | CSSRules | CSSRuleObject)[] = [],
+  rules: (CSSRuleObject | CSSRules | string)[] = [],
   options: CSSRulesFormatOptions = {},
 ): string[] {
   return [...generateCSSRulesArray(rules, options)];
@@ -258,7 +258,7 @@ function atRuleException(key: string, value: CSSRulesValue): boolean {
  *   endings
  */
 export function* generateCSSRulesArray(
-  rules: (string | CSSRules | CSSRuleObject)[] = [],
+  rules: (CSSRuleObject | CSSRules | string)[] = [],
   options: CSSRulesFormatOptions = {},
 ): Generator<string, void, unknown> {
   // Track if the last item was a blank line to avoid consecutive empty lines
@@ -308,7 +308,7 @@ export function* generateCSSRulesArray(
  *   endings
  */
 export function* generateCSSRules(
-  rules: CSSRules | CSSRuleObject = {},
+  rules: CSSRuleObject | CSSRules = {},
   options: CSSRulesFormatOptions = {},
 ): Generator<string, void, unknown> {
   const {
@@ -327,9 +327,9 @@ export function* generateCSSRules(
   const mayNormalize = (key: string): string => {
     if (!normalizeProperties) return key;
     // Don't normalize selectors or at-rules
-    if (key.startsWith('.') || key.startsWith('#')
-      || key.startsWith('@') || key.startsWith(':')
-      || key.includes(' ')) {
+    if (key.startsWith('.') || key.startsWith('#') ||
+      key.startsWith('@') || key.startsWith(':') ||
+      key.includes(' ')) {
       return key;
     }
     return kebabCase(key);
@@ -519,8 +519,8 @@ export function setDeepRule(
         p[k] = {} as CSSRules;
       } else if (typeof p[k] !== 'object' || p[k] === null) {
         throw new Error(
-          `Invalid path at segment ${i}: "${k}" in path: `
-          + `${path.join('.')}: ${typeof p[k]}`,
+          `Invalid path at segment ${i}: "${k}" in path: ` +
+          `${path.join('.')}: ${typeof p[k]}`,
         );
       }
 
@@ -599,8 +599,8 @@ export function getDeepRule(
 
   let current: CSSRulesValue = target;
   for (const key of segments) {
-    if (typeof current !== 'object' || current === null
-      || !Object.prototype.hasOwnProperty.call(current, key)) {
+    if (typeof current !== 'object' || current === null ||
+      !Object.prototype.hasOwnProperty.call(current, key)) {
       return undefined;
     }
     current = (current as CSSRules)[key];

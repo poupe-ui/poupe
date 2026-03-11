@@ -1,24 +1,24 @@
 import {
-  uint32,
   uint8,
+  uint32,
 
   alphaFromArgb,
-  redFromArgb,
-  greenFromArgb,
   blueFromArgb,
+  greenFromArgb,
+  redFromArgb,
 } from './utils';
 
 import { withKnownColor } from './default-colors';
 
 import {
   type Color,
+  Colord,
+  Hct,
   type HctColor,
   type HexColor,
   type HslaColor,
   type ObjectColor,
   type RgbaColor,
-  Colord,
-  Hct,
 } from './types';
 
 /*
@@ -44,15 +44,15 @@ export const isObjectColor = (c: unknown): boolean => {
     return false;
   else if (c instanceof Hct || c instanceof Colord)
     return false;
-  else if (('r' in c && 'g' in c && 'b' in c)
-    || ('h' in c && 'c' in c && 't' in c)
-    || ('h' in c && 's' in c && 'l' in c)
-    || ('h' in c && 's' in c && 'v' in c)
-    || ('h' in c && 'w' in c && 'b' in c)
-    || ('x' in c && 'y' in c && 'z' in c)
-    || ('l' in c && 'a' in c && 'b' in c)
-    || ('l' in c && 'c' in c && 'h' in c)
-    || ('c' in c && 'm' in c && 'y' in c && 'k' in c)
+  else if (('r' in c && 'g' in c && 'b' in c) ||
+    ('h' in c && 'c' in c && 't' in c) ||
+    ('h' in c && 's' in c && 'l' in c) ||
+    ('h' in c && 's' in c && 'v' in c) ||
+    ('h' in c && 'w' in c && 'b' in c) ||
+    ('x' in c && 'y' in c && 'z' in c) ||
+    ('l' in c && 'a' in c && 'b' in c) ||
+    ('l' in c && 'c' in c && 'h' in c) ||
+    ('c' in c && 'm' in c && 'y' in c && 'k' in c)
   )
     return true;
   else

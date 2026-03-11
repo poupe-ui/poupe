@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest';
-import { ref, nextTick, defineComponent } from 'vue';
+import { describe, expect, it, vi } from 'vitest';
+import { defineComponent, nextTick, ref } from 'vue';
 import { mountWithPoupe } from '../../components/__tests__/test-utils';
 import { useRipple } from '../use-ripple';
 

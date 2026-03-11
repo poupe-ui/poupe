@@ -1,9 +1,9 @@
+export * from '../core/index';
+
+export * from '../core/utils';
 export {
   camelCase,
 } from '@poupe/css';
-
-export * from '../core/index';
-export * from '../core/utils';
 
 /**
  * Checks if an object is non-empty (has at least one own property).

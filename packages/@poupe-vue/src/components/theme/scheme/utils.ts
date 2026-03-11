@@ -1,4 +1,4 @@
 export {
-  justifyClasses,
   gridColsClasses,
+  justifyClasses,
 } from '../../variants/consts';

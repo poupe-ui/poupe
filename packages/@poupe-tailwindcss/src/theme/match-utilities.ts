@@ -26,11 +26,11 @@ export type MatchUtilitiesOptions = Parameters<PluginAPI['matchUtilities']>[1];
  * and converts them to work with the matchUtilities JavaScript API, enabling arbitrary values
  * like scrim-z-[100] or scrim-z-[var(--custom-z)].
  */
-export function asMatchUtility(name: string, value: CSSRuleObject): ({
+export function asMatchUtility(name: string, value: CSSRuleObject): (undefined | {
   name: string
   value?: MatchUtilitiesValue
   options?: MatchUtilitiesOptions
-} | undefined) {
+}) {
   // Only process dynamic utilities (those ending with -*)
   if (!name.endsWith('-*')) {
     return undefined;
@@ -124,7 +124,7 @@ export function asMatchUtility(name: string, value: CSSRuleObject): ({
 
   return {
     name: utilityBaseName,
-    value: (userValue: string, { modifier }: { modifier: string | null }) => {
+    value: (userValue: string, { modifier }: { modifier: null | string }) => {
       // Start with static CSS rules
       const cssResult: CSSRuleObject = { ...staticCSSRules };
 

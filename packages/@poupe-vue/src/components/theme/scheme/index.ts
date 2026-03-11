@@ -11,12 +11,12 @@ export {
 } from './extra.vue';
 
 export {
-  default as ThemeSchemeGroups,
-} from './groups.vue';
-
-export {
   default as ThemeSchemeGroup,
 } from './group.vue';
+
+export {
+  default as ThemeSchemeGroups,
+} from './groups.vue';
 
 export {
   default as ThemeSchemeNeutral,

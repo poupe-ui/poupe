@@ -4,10 +4,10 @@
  * Usage: pnpm screenshot [component-name] [output-file]
  */
 
-import { chromium, devices } from 'playwright';
-import { resolve } from 'pathe';
 import { existsSync, mkdirSync } from 'node:fs';
-import { parseArguments, helpSections, type ScreenshotOptions } from './screenshot-shared';
+import { resolve } from 'pathe';
+import { chromium, devices } from 'playwright';
+import { helpSections, parseArguments, type ScreenshotOptions } from './screenshot-shared';
 
 async function takeScreenshot(options: ScreenshotOptions = {}) {
   const {
@@ -37,9 +37,9 @@ async function takeScreenshot(options: ScreenshotOptions = {}) {
 
   try {
     // Create context with device emulation if mobile
-    const contextOptions = mobile
-      ? { ...devices['iPhone 13'] }
-      : { viewport };
+    const contextOptions = mobile ?
+      { ...devices['iPhone 13'] } :
+      { viewport };
 
     const context = await browser.newContext(contextOptions);
     const page = await context.newPage();

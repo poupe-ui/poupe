@@ -1,12 +1,12 @@
 export {
-  type CSSValue,
   type CSSProperties,
   type CSSPropertiesOptions,
-  stringifyCSSProperties,
+  type CSSValue,
   formatCSSProperties,
   formatCSSValue,
   properties,
   spaceDelimitedProperties,
+  stringifyCSSProperties,
 
   // omit internal - quoted
 } from './properties';
@@ -21,9 +21,9 @@ export {
   formatCSSRulesArray,
   generateCSSRules,
   generateCSSRulesArray,
+  getDeepRule,
   interleavedRules,
   renameRules,
-  getDeepRule,
   setDeepRule,
   stringifyCSSRules,
 } from './rules';
@@ -31,11 +31,11 @@ export {
 export * from './selectors';
 
 export {
-  unsafeKeys,
-  keys,
-  pairs,
-  defaultValidPair,
-
-  kebabCase,
   camelCase,
+  defaultValidPair,
+  kebabCase,
+  keys,
+
+  pairs,
+  unsafeKeys,
 } from './utils';

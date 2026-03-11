@@ -16,7 +16,7 @@ import {
 export function makeColorMix(base: Color, other: Color, ratios: number): Hct;
 export function makeColorMix(base: Color, other: Color, ratios: Array<number>): Hct[];
 export function makeColorMix<K extends string>(base: Color, other: Color, ratios: Record<K, number>): Record<K, Hct>;
-export function makeColorMix<K extends string>(base: Color, other: Color, ratios: number | Array<number> | Record<K, number>): Hct | Hct[] | Record<K, Hct> {
+export function makeColorMix<K extends string>(base: Color, other: Color, ratios: Array<number> | number | Record<K, number>): Hct | Hct[] | Record<K, Hct> {
   const c0 = colord(base);
   const c1 = colord(other);
 
