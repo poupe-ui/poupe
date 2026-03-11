@@ -13,10 +13,10 @@
     "lint:check": "eslint --ignore-pattern 'packages/*' . && pnpm -r lint:check"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "^0.7.6",
+    "@poupe/eslint-config": "~0.8.3",
     "eslint": "^9.30.0",
     "pkg-pr-new": "^0.0.54",
     "rimraf": "^6.1.3"
   },
-  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac"
+  "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be"
 }
