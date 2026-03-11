@@ -4,10 +4,10 @@
   "type": "module",
   "description": "Development playground for the Poupe UI Nuxt module",
   "scripts": {
-    "dev": "nuxi dev",
     "build": "nuxi build",
-    "generate": "nuxi generate",
-    "clean": "rimraf .nuxt .output node_modules"
+    "clean": "rimraf .nuxt .output node_modules",
+    "dev": "nuxi dev",
+    "generate": "nuxi generate"
   },
   "dependencies": {
     "@poupe/nuxt": "workspace:^",

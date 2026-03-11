@@ -50,32 +50,32 @@
       "types": "./dist/resolver.d.ts",
       "import": "./dist/resolver.mjs"
     },
-    "./theme-scheme": {
-      "types": "./dist/theme-scheme.d.ts",
-      "import": "./dist/theme-scheme.mjs"
-    },
     "./story-viewer": {
       "types": "./dist/story-viewer.d.ts",
       "import": "./dist/story-viewer.mjs"
+    },
+    "./theme-scheme": {
+      "types": "./dist/theme-scheme.d.ts",
+      "import": "./dist/theme-scheme.mjs"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "prepack": "run-s lint type-check build test publint",
-    "precommit": "run-s lint type-check build test",
-    "type-check": "vue-tsc --build --force",
-    "lint": "env DEBUG=eslint:eslint eslint --fix .",
-    "publint": "pnpx publint",
     "build": "run-p type-check \"build-only {@}\" --",
     "build-only": "vite build",
-    "test": "vitest run",
-    "dev": "vite",
-    "preview": "vite preview",
     "clean": "rimraf dist node_modules",
+    "dev": "vite",
+    "lint": "env DEBUG=eslint:eslint eslint --fix .",
+    "precommit": "run-s lint type-check build test",
+    "prepack": "run-s lint type-check build test publint",
+    "preview": "vite preview",
+    "publint": "pnpx publint",
     "screenshot": "tsx src/scripts/screenshot.ts",
-    "screenshot:auto": "tsx src/scripts/screenshot-auto.ts"
+    "screenshot:auto": "tsx src/scripts/screenshot-auto.ts",
+    "test": "vitest run",
+    "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
     "@iconify-json/material-symbols": "^1.2.12",

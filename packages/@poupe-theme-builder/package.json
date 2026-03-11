@@ -46,16 +46,16 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "run-s lint type-check build test publint",
-    "precommit": "run-s lint type-check build test",
-    "dev:prepare": "unbuild --stub",
-    "type-check": "tsc --noEmit",
-    "lint": "env DEBUG=eslint:eslint eslint --fix .",
-    "publint": "pnpx publint",
     "build": "unbuild",
-    "test": "vitest run",
+    "clean": "rimraf dist node_modules",
     "dev": "vitest watch",
-    "clean": "rimraf dist node_modules"
+    "dev:prepare": "unbuild --stub",
+    "lint": "env DEBUG=eslint:eslint eslint --fix .",
+    "precommit": "run-s lint type-check build test",
+    "prepack": "run-s lint type-check build test publint",
+    "publint": "pnpx publint",
+    "test": "vitest run",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@poupe/css": "workspace:^",
