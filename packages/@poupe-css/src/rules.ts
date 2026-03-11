@@ -515,6 +515,10 @@ export function setDeepRule(
     // Create nested objects for all but the last path segment
     for (let i = 0; i < path.length - 1; i++) {
       const k = path[i];
+      if (k === '__proto__' || k === 'constructor' || k === 'prototype') {
+        return target;
+      }
+
       if (p[k] === undefined) {
         p[k] = {} as CSSRules;
       } else if (typeof p[k] !== 'object' || p[k] === null) {
@@ -531,6 +535,10 @@ export function setDeepRule(
     lastKey = path.at(-1) as string;
   } else {
     lastKey = path;
+  }
+
+  if (lastKey === '__proto__' || lastKey === 'constructor' || lastKey === 'prototype') {
+    return target;
   }
 
   p[lastKey] = defu(object, p[lastKey] ?? {} as typeof object);

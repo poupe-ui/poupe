@@ -85,7 +85,8 @@ export function kebabCase(s: string): string {
   const kebabbed = s
     .trim()
     // handle multiple uppercase letters (e.g., XMLHttpRequest -> xml-http-request)
-    .replaceAll(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
+    // use lookbehind + lookahead to avoid ReDoS from overlapping quantifiers
+    .replaceAll(/(?<=[A-Z])(?=[A-Z][a-z])/g, '-')
     // handle camelCase
     .replaceAll(/([a-z])([A-Z])/g, '$1-$2')
     // handle snakeCase
@@ -130,15 +131,15 @@ export function camelCase(s: string): string {
   let result = s.trim().replace(/^-/, '');
 
   // Handle explicit delimiter-separated words (kebab-case, snake_case, spaces)
-  result = result.replaceAll(/[-_\s]+([\w])/g, (_, c) => c.toUpperCase());
+  result = result.replaceAll(/[-_\s]+([a-zA-Z\d])/g, (_, c: string) => c.toUpperCase());
 
   // Handle internal capitalization patterns like "BGColor" -> "bgColor"
   // Look for uppercase letters that are preceded by lowercase or are the start
   // of a capital sequence followed by lowercase (like in "BGColor" or "HTMLElement")
   result = result
-    // First handle patterns like "BGColor" by preserving the capital letter after
-    // a sequence of capitals
-    .replaceAll(/([A-Z]+)([A-Z][a-z])/g, (_, g1, g2) => g1.toLowerCase() + g2)
+    // First handle patterns like "BGColor" -> "bgColor" by lowercasing
+    // uppercase runs before a capital+lowercase boundary
+    .replaceAll(/[A-Z]+(?=[A-Z][a-z])/g, match => match.toLowerCase())
     // Then ensure the first letter is lowercase (handling both PascalCase and
     // cases like "BG" at the start)
     .replaceAll(/^[A-Z]+/g, match => match.toLowerCase());

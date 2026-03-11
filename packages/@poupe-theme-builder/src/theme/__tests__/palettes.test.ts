@@ -11,7 +11,7 @@ import {
 import {
   type ColorOptions,
   type CustomColorOptions,
-  ThemeColors,
+  type ThemeColors,
 } from '../types';
 
 import {

@@ -397,7 +397,7 @@ ${styleContent}`;
         expect(outputCSS).toMatch(new RegExp(String.raw`\.${utility}[^{]*\{[^}]*background-color: rgb\(var\(--md-scrim-rgb\)[^}]*\)`));
 
         // Each utility should have proper z-index
-        expect(outputCSS).toMatch(new RegExp(String.raw`\.${utility}[^{]*\{[^}]*z-index: var\(--md-z-${utility.replace('scrim-', 'scrim-')}\)[^}]*\}`));
+        expect(outputCSS).toMatch(new RegExp(String.raw`\.${utility}[^{]*\{[^}]*z-index: var\(--md-z-${utility}\)[^}]*\}`));
       }
 
       // Verify the modifier system is correctly set up
