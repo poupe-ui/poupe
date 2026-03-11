@@ -294,7 +294,7 @@ When working with the StoryViewer components:
 
 ## Debugging
 
-- **ESLint issues**: `DEBUG=eslint:eslint pnpm lint`
+- **ESLint issues**: `DEBUG=eslint:eslint pnpm lint:check`
 - **Type errors**: Check `tsconfig.json` settings
 - **Build issues**: Run `pnpm clean` then rebuild
 - **Test failures**: Use `--reporter=verbose` flag

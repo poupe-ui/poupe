@@ -47,15 +47,16 @@ pnpm clean        # Remove dist/ and node_modules/
 
 ```bash
 pnpm lint         # Run ESLint with auto-fix
+pnpm lint:check   # Run ESLint without auto-fix (read-only)
 pnpm type-check   # Check TypeScript types
-pnpm prepack      # Full validation (lint, type-check, test, build, publint)
+pnpm prepack      # Full validation (lint:check, type-check, test, build, publint)
 pnpm publint      # Check package publishing configuration
 ```
 
 **Debugging:**
 
 ```bash
-DEBUG=eslint:eslint pnpm lint    # Debug ESLint issues
+DEBUG=eslint:eslint pnpm lint:check    # Debug ESLint issues
 ```
 
 **Monorepo Root Commands:**
@@ -442,7 +443,7 @@ Each package has its own AGENTS.md file with specific details:
 2. **Type Errors**: Check `tsconfig.json` references
 3. **Test Failures**: Use `--reporter=verbose` flag
 4. **Dependency Issues**: Verify workspace links with `pnpm list`
-5. **ESLint Problems**: Use `DEBUG=eslint:eslint pnpm lint`
+5. **ESLint Problems**: Use `DEBUG=eslint:eslint pnpm lint:check`
 
 ## Release Process
 

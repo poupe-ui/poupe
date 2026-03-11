@@ -9,7 +9,8 @@
   "scripts": {
     "build": "pnpm -r build",
     "clean": "pnpm -r clean && rimraf node_modules",
-    "lint": "env DEBUG=eslint:eslint eslint --fix --ignore-pattern 'packages/*' . && pnpm -r lint"
+    "lint": "eslint --fix --ignore-pattern 'packages/*' . && pnpm -r lint",
+    "lint:check": "eslint --ignore-pattern 'packages/*' . && pnpm -r lint:check"
   },
   "devDependencies": {
     "@poupe/eslint-config": "^0.7.6",
