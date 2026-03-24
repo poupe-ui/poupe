@@ -1,6 +1,6 @@
 import { addComponent } from '@nuxt/kit';
 
-import { components, themeComponents, DEFAULT_PREFIX, normalizedComponentPrefix } from '@poupe/vue/resolver';
+import { components, DEFAULT_PREFIX, normalizedComponentPrefix, themeComponents } from '@poupe/vue/resolver';
 
 import type { SetupContext } from './types';
 import { DEBUG } from './utils';

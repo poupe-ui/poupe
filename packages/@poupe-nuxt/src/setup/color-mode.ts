@@ -1,4 +1,4 @@
-import { installModule, hasNuxtModule } from '@nuxt/kit';
+import { hasNuxtModule, installModule } from '@nuxt/kit';
 
 import type { ModuleOptions as ColorModeModuleOptions } from '@nuxtjs/color-mode';
 

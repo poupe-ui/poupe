@@ -1,4 +1,4 @@
-import { expect, test, it, describe } from 'vitest';
+import { describe, expect, it, test } from 'vitest';
 import { Hct } from '../types';
 import { uint32 } from '../utils';
 
@@ -6,35 +6,35 @@ import {
   type Color,
 
   argb,
-  hct,
-  argbFromHct,
-  argbFromRgbaColor,
-  argbFromHctColor,
   argbFromColord,
+  argbFromHct,
+  argbFromHctColor,
+  argbFromRgbaColor,
   argbFromString,
-  splitArgb,
+  colord,
   colordFromArgb,
   colordFromHct,
-  colord,
+  hct,
   hctFromArgb,
-  hctFromRgbaColor,
   hctFromColord,
+  hctFromRgbaColor,
   hctFromString,
-  splitHct,
-  hslFromColord,
-  hslFromArgb,
-  hslFromHct,
-  hslString,
-  hexFromColord,
   hexFromArgb,
+  hexFromColord,
   hexFromHct,
   hexFromHctColor,
   hexString,
+  hslFromArgb,
+  hslFromColord,
+  hslFromHct,
+  hslString,
+  splitArgb,
+  splitHct,
 } from '../index';
 
 import { extend } from 'colord';
-import namesPlugin from 'colord/plugins/names';
 import labPlugin from 'colord/plugins/lab';
+import namesPlugin from 'colord/plugins/names';
 extend([namesPlugin, labPlugin]);
 
 function expectColorsSimilar(color1: Color, color2: Color, threshold = 0.01) {

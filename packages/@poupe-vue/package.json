@@ -50,32 +50,33 @@
       "types": "./dist/resolver.d.ts",
       "import": "./dist/resolver.mjs"
     },
-    "./theme-scheme": {
-      "types": "./dist/theme-scheme.d.ts",
-      "import": "./dist/theme-scheme.mjs"
-    },
     "./story-viewer": {
       "types": "./dist/story-viewer.d.ts",
       "import": "./dist/story-viewer.mjs"
+    },
+    "./theme-scheme": {
+      "types": "./dist/theme-scheme.d.ts",
+      "import": "./dist/theme-scheme.mjs"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "prepack": "run-s lint type-check test build publint",
-    "precommit": "run-s lint type-check test build",
-    "type-check": "vue-tsc --build --force",
-    "lint": "env DEBUG=eslint:eslint eslint --fix .",
-    "publint": "pnpx publint",
     "build": "run-p type-check \"build-only {@}\" --",
     "build-only": "vite build",
-    "test": "vitest run",
+    "clean": "rimraf dist node_modules",
     "dev": "vite",
+    "lint": "eslint --fix .",
+    "lint:check": "eslint .",
+    "precommit": "run-s lint type-check build test",
+    "prepack": "eslint --fix package.json && run-s lint:check type-check build test publint",
     "preview": "vite preview",
-    "clean": "rm -rf dist node_modules",
+    "publint": "publint",
     "screenshot": "tsx src/scripts/screenshot.ts",
-    "screenshot:auto": "tsx src/scripts/screenshot-auto.ts"
+    "screenshot:auto": "tsx src/scripts/screenshot-auto.ts",
+    "test": "vitest run",
+    "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
     "@iconify-json/material-symbols": "^1.2.12",
@@ -94,7 +95,7 @@
     "vue": "^3.5.17"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "^0.7.6",
+    "@poupe/eslint-config": "~0.8.3",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/vite": "^4.1.11",
     "@tsconfig/node20": "^20.1.6",
@@ -124,7 +125,7 @@
     "node": ">=20.19.2",
     "pnpm": ">=10.10.0"
   },
-  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
+  "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be",
   "publishConfig": {
     "access": "public"
   }

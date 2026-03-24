@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { StoryGroup, StoryConfigOptions } from './types';
+import type { StoryConfigOptions, StoryGroup } from './types';
+import StoryRenderer from './renderer.vue';
 import StorySection from './section.vue';
 import StoryShowcase from './showcase.vue';
-import StoryRenderer from './renderer.vue';
 
 interface Props {
   group: StoryGroup

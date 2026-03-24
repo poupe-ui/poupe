@@ -15,9 +15,9 @@ export function generateCode(
   const propsString = generatePropsString(story.props || {});
   const slotsString = story.slots ? generateSlotsString(story.slots) : '';
 
-  let componentCode = slotsString
-    ? `<${componentName}${propsString}>\n${slotsString}\n</${componentName}>`
-    : `<${componentName}${propsString} />`;
+  let componentCode = slotsString ?
+    `<${componentName}${propsString}>\n${slotsString}\n</${componentName}>` :
+    `<${componentName}${propsString} />`;
 
   // If wrapper class is specified, wrap the component
   if (story.wrapperClass) {
@@ -70,7 +70,7 @@ function generatePropsString(props: Record<string, unknown>): string {
   return ' ' + propsArray.join(' ');
 }
 
-function generateSlotsString(slots: Record<string, string | (() => unknown)>): string {
+function generateSlotsString(slots: Record<string, (() => unknown) | string>): string {
   const slotsArray = Object.entries(slots).map(([name, content]) => {
     const slotContent = typeof content === 'function' ? 'Dynamic content' : content;
 

@@ -1,8 +1,8 @@
-# AGENT.md - @poupe/tailwindcss
+# AGENTS.md - @poupe/tailwindcss
 
 This file provides package-specific guidance for the @poupe/tailwindcss
 package. For general monorepo guidelines, see the
-[root AGENT.md](../../AGENT.md).
+[root AGENTS.md](../../AGENTS.md).
 
 ## Package Overview
 

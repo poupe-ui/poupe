@@ -7,14 +7,14 @@ import {
 } from '@poupe/css';
 
 import {
-  type ColorMap,
-  type ThemeColors as ThemeBuilderColors,
   assembleCSSColors,
+  type ColorMap,
   getStateColorMixParams,
   Hct,
   makeTheme as makeThemeColors,
   makeThemeKeys,
   rgba,
+  type ThemeColors as ThemeBuilderColors,
 } from '@poupe/theme-builder';
 
 import {
@@ -22,16 +22,16 @@ import {
 } from './options';
 
 import {
-  type Shades,
   getShades,
   makeShades,
+  type Shades,
 } from './shades';
 
 import {
+  defaultThemePrefix,
   type Theme,
   type ThemeColorConfig,
   type ThemeOptions,
-  defaultThemePrefix,
 } from './types';
 
 import {

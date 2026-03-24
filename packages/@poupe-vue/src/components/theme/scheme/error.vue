@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {
+  type ThemeSchemeGroupEntry,
   default as ThemeSchemeGroups,
   type ThemeSchemeGroupsProps,
-  type ThemeSchemeGroupEntry,
 } from './groups.vue';
 
 const error: ThemeSchemeGroupEntry[] = [

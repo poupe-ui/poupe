@@ -7,14 +7,14 @@ import {
 
 import {
   type Color,
-  type CorePalettes,
-  type CorePaletteKey,
   Colord,
+  type CorePaletteKey,
+  type CorePalettes,
   Hct,
   TonalPalette,
 
-  corePaletteKeys,
   camelCase,
+  corePaletteKeys,
   hct,
   isObjectColor,
   makeTonalPalette,

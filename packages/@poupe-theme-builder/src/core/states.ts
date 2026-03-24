@@ -1,6 +1,6 @@
 import type { Color, Hct } from './types';
-import { makeColorMix } from './mix';
 import { hct } from './colors';
+import { makeColorMix } from './mix';
 
 /**
  * Material Design 3 state layer opacity values
@@ -18,7 +18,7 @@ export const stateLayerOpacities = {
 export type StateLayerOpacity = typeof stateLayerOpacities;
 export type InteractionState = keyof Omit<StateLayerOpacity, 'disabled' | 'onDisabled'>;
 export type StateVariants<T extends string> = {
-  [K in T as `${K}-hover` | `${K}-focus` | `${K}-pressed` | `${K}-dragged` | `${K}-disabled`]: Hct;
+  [K in T as `${K}-disabled` | `${K}-dragged` | `${K}-focus` | `${K}-hover` | `${K}-pressed`]: Hct;
 } & {
   [K in T as `on-${K}-disabled`]: Hct;
 };

@@ -28,7 +28,7 @@ import {
 } from '@poupe/theme-builder/core';
 
 /** Represents the possible types for color shades: an array of numbers or false */
-export type Shades = number[] | false;
+export type Shades = false | number[];
 
 /** Default color shades used when no custom shades are specified, representing a standard range of color intensity from lightest (50) to darkest (950) */
 export const defaultShades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
@@ -46,7 +46,7 @@ export const defaultShades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 9
  * - Validates each shade value
  * - Returns sorted unique shade values
  */
-export function getShades(shades?: number[] | boolean | undefined, defaults: number[] | false = defaultShades): { shades: Shades; ok: boolean } {
+export function getShades(shades?: boolean | number[] | undefined, defaults: false | number[] = defaultShades): { shades: Shades; ok: boolean } {
   if (shades === false) {
     return { shades: false, ok: true };
   } else if (shades === true || shades === undefined) {
@@ -82,7 +82,7 @@ export function getShades(shades?: number[] | boolean | undefined, defaults: num
   }
 
   return {
-    shades: [...out].sort((a, b) => a - b),
+    shades: [...out].toSorted((a, b) => a - b),
     ok: true,
   };
 }
@@ -119,8 +119,8 @@ export function validShade(n: number): boolean {
  */
 export function makeShades(color: Color, shades: false): undefined;
 export function makeShades<K extends number>(color: Color, shades: K[]): Record<K, Hct>;
-export function makeShades<K extends number>(color: Color, shades: K[] | false): Record<K, Hct> | undefined;
-export function makeShades<K extends number>(color: Color, shades: K[] | false): Record<K, Hct> | undefined {
+export function makeShades<K extends number>(color: Color, shades: false | K[]): Record<K, Hct> | undefined;
+export function makeShades<K extends number>(color: Color, shades: false | K[]): Record<K, Hct> | undefined {
   if (!shades) {
     return undefined;
   }

@@ -1,8 +1,8 @@
-# AGENT.md - @poupe/theme-builder
+# AGENTS.md - @poupe/theme-builder
 
 This file provides package-specific guidance for the @poupe/theme-builder
 package. For general monorepo guidelines, see the
-[root AGENT.md](../../AGENT.md).
+[root AGENTS.md](../../AGENTS.md).
 
 ## Package Overview
 

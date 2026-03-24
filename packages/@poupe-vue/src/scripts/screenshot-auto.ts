@@ -5,10 +5,10 @@
  */
 
 import { spawn } from 'node:child_process';
-import { resolve, dirname } from 'pathe';
 import { fileURLToPath } from 'node:url';
+import { dirname, resolve } from 'pathe';
 import { createServer } from 'vite';
-import { parseArguments, helpSections, type ScreenshotOptions } from './screenshot-shared';
+import { helpSections, parseArguments, type ScreenshotOptions } from './screenshot-shared';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

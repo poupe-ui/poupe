@@ -1,7 +1,7 @@
 import {
   type Color,
-  type HexColor,
   Hct,
+  type HexColor,
 } from './types';
 
 import {
@@ -20,7 +20,7 @@ import {
  * Supports predefined formats like 'numbers', 'rgb', 'hsl', 'hex',
  * or a custom formatting function that takes an Hct color and returns a string.
  */
-export type ColorFormat = 'numbers' | 'rgb' | 'hsl' | 'hex' | ((c: Hct) => string);
+export type ColorFormat = 'hex' | 'hsl' | 'numbers' | 'rgb' | ((c: Hct) => string);
 
 /**
  * Converts an HCT color to a specified format.

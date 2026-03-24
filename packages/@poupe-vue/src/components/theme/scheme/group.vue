@@ -5,7 +5,7 @@ export interface ThemeSchemeGroupItem extends ThemeSchemeSlotProps {
   class?: string
 };
 
-export type ThemeSchemeGroupEntry = ThemeSchemeGroupItem | Array<ThemeSchemeGroupItem>;
+export type ThemeSchemeGroupEntry = Array<ThemeSchemeGroupItem> | ThemeSchemeGroupItem;
 
 export interface ThemeSchemeGroupProps {
   ariaLabel?: string
@@ -18,8 +18,8 @@ export interface ThemeSchemeGroupProps {
 import { computed } from 'vue';
 
 import {
-  justifyClasses,
   gridColsClasses,
+  justifyClasses,
 } from './utils';
 
 import ThemeSchemeSlot from './slot.vue';

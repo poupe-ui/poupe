@@ -5,7 +5,7 @@ export interface StoryConfig {
   description?: string
   component?: Component
   props?: Record<string, unknown>
-  slots?: Record<string, string | (() => VNode | VNode[])>
+  slots?: Record<string, (() => VNode | VNode[]) | string>
   wrapperClass?: string
 }
 

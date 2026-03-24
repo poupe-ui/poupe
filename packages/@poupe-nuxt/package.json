@@ -37,27 +37,26 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "run-s dev:prepare lint type-check:check test build publint",
-    "precommit": "run-s dev:prepare lint type-check:check test build",
-    "type-check": "run-s dev:prepare type-check:check",
-    "type-check:check": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
-    "lint": "env DEBUG=eslint:eslint eslint --fix .",
-    "publint": "pnpx publint",
     "build": "run-s build:prepare build:build",
     "build:build": "nuxt-module-build build",
     "build:prepare": "[ -s .nuxt/tsconfig.json ] || run-s build:prepare:stub build:prepare:build",
-    "build:prepare:stub": "nuxt-module-build build --stub",
     "build:prepare:build": "nuxt-module-build prepare",
+    "build:prepare:stub": "nuxt-module-build build --stub",
+    "clean": "rimraf dist node_modules .nuxt",
     "dev": "nuxi dev playground",
     "dev:build:playground": "nuxi build playground",
-    "dev:prepare:playground": "nuxi prepare playground",
     "dev:prepare": "run-s build:prepare:stub build:prepare:build dev:prepare:playground",
+    "dev:prepare:playground": "nuxi prepare playground",
+    "lint": "eslint --fix .",
+    "lint:check": "eslint .",
+    "precommit": "run-s dev:prepare lint type-check:check build test",
+    "prepack": "eslint --fix package.json && run-s dev:prepare lint:check type-check:check build test publint",
+    "publint": "publint",
     "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "test": "vitest run",
     "test:watch": "vitest watch",
-    "clean:root": "rm -rf dist node_modules .nuxt",
-    "clean:playground": "rm -rf playground/dist playground/node_modules playground/.nuxt",
-    "clean": "run-s clean:root clean:playground"
+    "type-check": "run-s dev:prepare type-check:check",
+    "type-check:check": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
   },
   "dependencies": {
     "@nuxt/icon": "^1.13.0",
@@ -75,12 +74,12 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "^2.5.0",
-    "@nuxt/eslint-config": "^1.4.1",
+    "@nuxt/eslint-config": "^1.15.2",
     "@nuxt/kit": "^3.17.5",
     "@nuxt/module-builder": "^1.0.1",
     "@nuxt/schema": "^3.17.5",
     "@nuxt/test-utils": "^3.19.1",
-    "@poupe/eslint-config": "^0.7.6",
+    "@poupe/eslint-config": "~0.8.3",
     "@types/node": "^20.19.0",
     "changelogen": "^0.6.1",
     "defu": "^6.1.4",
@@ -98,7 +97,7 @@
     "node": ">=20.19.2",
     "pnpm": ">=10.10.0"
   },
-  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
+  "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be",
   "publishConfig": {
     "access": "public"
   }

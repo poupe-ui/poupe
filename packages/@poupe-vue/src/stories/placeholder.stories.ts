@@ -1,7 +1,7 @@
 import { h } from 'vue';
 import type { StoryGroup } from '../components/story/types';
+import { Icon, Placeholder } from '../components';
 import { createStory, createStoryGroup } from '../components/story/utils';
-import { Placeholder, Icon } from '../components';
 
 // Basic placeholder variants
 export const basicVariants = createStoryGroup(

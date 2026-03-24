@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/no-null */
 /* eslint-disable unicorn/consistent-function-scoping */
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { camelCase, defaultValidPair, kebabCase, keys, pairs, unsafeKeys } from '../utils';
 
 describe('defaultValidPair', () => {

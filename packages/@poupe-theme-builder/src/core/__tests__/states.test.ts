@@ -1,12 +1,12 @@
-import { describe, expect, it } from 'vitest';
 import { Hct } from '@poupe/material-color-utilities';
+import { describe, expect, it } from 'vitest';
+import { makeColorMix } from '../mix';
 import {
-  stateLayerOpacities,
+  getStateColorMixParams,
   makeStateLayerColors,
   makeStateVariants,
-  getStateColorMixParams,
+  stateLayerOpacities,
 } from '../states';
-import { makeColorMix } from '../mix';
 
 describe('states', () => {
   describe('stateLayerOpacities', () => {

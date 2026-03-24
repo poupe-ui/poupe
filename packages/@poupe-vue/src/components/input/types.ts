@@ -4,20 +4,20 @@ import {
 } from 'vue';
 
 import {
-  type VariantProps,
   tv,
+  type VariantProps,
 
   onSlot,
 
-  borderVariantsBase,
   borderInFocusVariantsBase,
+  borderVariantsBase,
 
-  borderVariants,
   borderInFocusVariants,
+  borderVariants,
   containerInteractiveVariants,
   roundedVariants,
 
-  ps, pe, px, py,
+  pe, ps, px, py,
 } from '../variants';
 
 export type InputValue = InputHTMLAttributes['value'];

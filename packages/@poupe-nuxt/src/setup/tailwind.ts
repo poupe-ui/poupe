@@ -6,16 +6,16 @@ import { contentGlobs } from '@poupe/vue/config';
 import {
   type CSSProperties,
 
+  DEBUG,
   formatCSSProperties,
   formatTheme,
   makeThemeFromPartialOptions,
-  DEBUG,
 } from './utils';
 
 import type {
   SetupContext,
-  TailwindPlugin,
   TailwindOptions,
+  TailwindPlugin,
 } from './types';
 
 const TAILWIND_CSS_FILENAME = 'tailwind.css';

@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { Toggle as RekaToggle, useForwardExpose } from 'reka-ui';
 import { computed } from 'vue';
-import { useForwardExpose, Toggle as RekaToggle } from 'reka-ui';
 import { twMerge } from '../variants';
 
 import { usePasswordToggle } from '@/composables/use-password';

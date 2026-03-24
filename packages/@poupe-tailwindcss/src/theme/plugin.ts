@@ -20,10 +20,10 @@ import {
 
 import {
   type CSSRuleObject,
-  type PluginAPI,
-  type PluginWithOptions,
   debugLog,
   pairs,
+  type PluginAPI,
+  type PluginWithOptions,
   pluginWithOptions,
   warnLog,
 } from './utils';

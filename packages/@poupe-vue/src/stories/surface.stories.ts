@@ -1,7 +1,7 @@
 import { h } from 'vue';
 import type { StoryGroup } from '../components/story/types';
+import { Button, Icon, Surface as PSurface } from '../components';
 import { createStory, createStoryGroup } from '../components/story/utils';
-import { Surface as PSurface, Icon, Button } from '../components';
 
 // Surface variants
 export const surfaceVariants = createStoryGroup(

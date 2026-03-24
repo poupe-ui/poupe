@@ -1,6 +1,6 @@
-import type { InjectionKey, App } from 'vue';
-import { inject, provide, reactive } from 'vue';
+import type { App, InjectionKey } from 'vue';
 import { defu } from 'defu';
+import { inject, provide, reactive } from 'vue';
 
 /**
  * Extendable interface for component defaults

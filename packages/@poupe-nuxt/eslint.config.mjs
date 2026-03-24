@@ -1,9 +1,9 @@
 // @ts-check
 import { createConfigForNuxt } from '@nuxt/eslint-config/flat';
-import { forNuxtModules } from '@poupe/eslint-config/nuxt';
+import { withPoupe } from '@poupe/eslint-config';
 
 // Run `pnpx @eslint/config-inspector` to inspect the resolved config interactively
-export default createConfigForNuxt({
+export default withPoupe(createConfigForNuxt({
   features: {
     // Rules for module authors
     tooling: true,
@@ -15,7 +15,7 @@ export default createConfigForNuxt({
       './playground',
     ],
   },
-}, ...forNuxtModules(), {
+}), {
   files: ['**/.vscode/*.json'],
   rules: {
     'jsonc/no-comments': 'off',

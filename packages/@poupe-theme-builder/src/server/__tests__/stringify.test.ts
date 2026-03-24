@@ -1,12 +1,12 @@
-import { describe, it, expect } from 'vitest';
-import { type CSSRules, type CSSRuleObject } from '@poupe/css';
+import { type CSSRuleObject, type CSSRules } from '@poupe/css';
+import { describe, expect, it } from 'vitest';
 import {
   type CSSRulesStringifyOptions,
   stringifyCSSRulesArray,
-  stringifyCSSRulesArrayStream,
-  stringifyCSSRulesArrayAsStream,
   stringifyCSSRulesArrayAsResponse,
+  stringifyCSSRulesArrayAsStream,
   stringifyCSSRulesArrayAsStreamingResponse,
+  stringifyCSSRulesArrayStream,
 } from '../stringify';
 
 describe('stringifyCSSRulesArray', () => {
@@ -45,7 +45,7 @@ describe('stringifyCSSRulesArray', () => {
   });
 
   it('should handle empty strings as blank lines', () => {
-    const rules: (string | CSSRules | CSSRuleObject)[] = [
+    const rules: (CSSRuleObject | CSSRules | string)[] = [
       { color: 'red' },
       '',
       { background: 'blue' },
@@ -55,7 +55,7 @@ describe('stringifyCSSRulesArray', () => {
   });
 
   it('should use custom newLine character', () => {
-    const rules: (string | CSSRules | CSSRuleObject)[] = [
+    const rules: (CSSRuleObject | CSSRules | string)[] = [
       { color: 'red' },
       { background: 'blue' },
     ];
@@ -96,16 +96,16 @@ describe('stringifyCSSRulesArray', () => {
     ];
     const result = stringifyCSSRulesArray(rules);
     expect(result).toBe(
-      'fontSize: 16px;\n'
-      + 'backgroundColor: blue;\n'
-      + 'borderTopLeftRadius: 4px;\n'
-      + 'WebkitTransform: scale(1);\n'
-      + 'msFlexDirection: row;\n'
-      + 'textDecoration: underline;\n'
-      + 'marginTop: 10px;\n'
-      + 'paddingBottom: 5px;\n'
-      + 'zIndex: 999;\n'
-      + 'lineHeight: 1.5;',
+      'fontSize: 16px;\n' +
+      'backgroundColor: blue;\n' +
+      'borderTopLeftRadius: 4px;\n' +
+      'WebkitTransform: scale(1);\n' +
+      'msFlexDirection: row;\n' +
+      'textDecoration: underline;\n' +
+      'marginTop: 10px;\n' +
+      'paddingBottom: 5px;\n' +
+      'zIndex: 999;\n' +
+      'lineHeight: 1.5;',
     );
   });
 
@@ -120,10 +120,10 @@ describe('stringifyCSSRulesArray', () => {
     ];
     const result = stringifyCSSRulesArray(rules);
     expect(result).toBe(
-      'font-size: 14px;\n'
-      + 'background-color: red;\n'
-      + 'margin-top: 8px;\n'
-      + 'border-radius: 2px;',
+      'font-size: 14px;\n' +
+      'background-color: red;\n' +
+      'margin-top: 8px;\n' +
+      'border-radius: 2px;',
     );
   });
 
@@ -138,10 +138,10 @@ describe('stringifyCSSRulesArray', () => {
     ];
     const result = stringifyCSSRulesArray(rules);
     expect(result).toBe(
-      '-webkit-transform: rotate(45deg);\n'
-      + '-moz-user-select: none;\n'
-      + '-ms-transition: all 0.3s;\n'
-      + '-o-transform: skew(10deg);',
+      '-webkit-transform: rotate(45deg);\n' +
+      '-moz-user-select: none;\n' +
+      '-ms-transition: all 0.3s;\n' +
+      '-o-transform: skew(10deg);',
     );
   });
 
@@ -162,16 +162,16 @@ describe('stringifyCSSRulesArray', () => {
     ];
     const result = stringifyCSSRulesArray(rules, { normalizeProperties: true });
     expect(result).toBe(
-      'font-size: 16px;\n'
-      + 'background-color: blue;\n'
-      + 'border-top-left-radius: 4px;\n'
-      + '-webkit-transform: scale(1);\n'
-      + '-ms-flex-direction: row;\n'
-      + 'text-decoration: underline;\n'
-      + 'margin-top: 10px;\n'
-      + 'padding-bottom: 5px;\n'
-      + 'z-index: 999;\n'
-      + 'line-height: 1.5;',
+      'font-size: 16px;\n' +
+      'background-color: blue;\n' +
+      'border-top-left-radius: 4px;\n' +
+      '-webkit-transform: scale(1);\n' +
+      '-ms-flex-direction: row;\n' +
+      'text-decoration: underline;\n' +
+      'margin-top: 10px;\n' +
+      'padding-bottom: 5px;\n' +
+      'z-index: 999;\n' +
+      'line-height: 1.5;',
     );
   });
 
@@ -192,16 +192,16 @@ describe('stringifyCSSRulesArray', () => {
     ];
     const result = stringifyCSSRulesArray(rules, { normalizeProperties: true });
     expect(result).toBe(
-      '.button {\n'
-      + '  font-size: 14px;\n'
-      + '  background-color: red;\n'
-      + '}\n'
-      + '@media (max-width: 768px) {\n'
-      + '  margin-top: 8px;\n'
-      + '}\n'
-      + ':hover {\n'
-      + '  border-radius: 2px;\n'
-      + '}',
+      '.button {\n' +
+      '  font-size: 14px;\n' +
+      '  background-color: red;\n' +
+      '}\n' +
+      '@media (max-width: 768px) {\n' +
+      '  margin-top: 8px;\n' +
+      '}\n' +
+      ':hover {\n' +
+      '  border-radius: 2px;\n' +
+      '}',
     );
   });
 
@@ -216,10 +216,10 @@ describe('stringifyCSSRulesArray', () => {
     ];
     const result = stringifyCSSRulesArray(rules, { normalizeProperties: true });
     expect(result).toBe(
-      'font-size: 14px;\n'
-      + 'background-color: red;\n'
-      + 'margin-top: 8px;\n'
-      + 'border-radius: 2px;',
+      'font-size: 14px;\n' +
+      'background-color: red;\n' +
+      'margin-top: 8px;\n' +
+      'border-radius: 2px;',
     );
   });
 });
@@ -247,7 +247,7 @@ describe('stringifyCSSRulesArrayStream', () => {
   });
 
   it('should use custom newLine character', async () => {
-    const rules: (string | CSSRules | CSSRuleObject)[] = [
+    const rules: (CSSRuleObject | CSSRules | string)[] = [
       { color: 'red' },
       { background: 'blue' },
     ];
@@ -305,7 +305,7 @@ describe('stringifyCSSRulesArrayAsStream', () => {
   });
 
   it('should use custom newLine in stream', async () => {
-    const rules: (string | CSSRules | CSSRuleObject)[] = [
+    const rules: (CSSRuleObject | CSSRules | string)[] = [
       { color: 'red' },
       { background: 'blue' },
     ];
@@ -409,7 +409,7 @@ describe('stringifyCSSRulesArrayAsResponse', () => {
   });
 
   it('should use custom newLine in response', async () => {
-    const rules: (string | CSSRules | CSSRuleObject)[] = [
+    const rules: (CSSRuleObject | CSSRules | string)[] = [
       { color: 'red' },
       { background: 'blue' },
     ];
@@ -476,7 +476,7 @@ describe('stringifyCSSRulesArrayAsStreamingResponse', () => {
   });
 
   it('should use custom newLine in streaming response', async () => {
-    const rules: (string | CSSRules | CSSRuleObject)[] = [
+    const rules: (CSSRuleObject | CSSRules | string)[] = [
       { color: 'red' },
       { background: 'blue' },
     ];

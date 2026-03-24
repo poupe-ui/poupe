@@ -3,9 +3,9 @@
  * Unit tests for compile utility
  */
 
-import { describe, test, expect, vi, beforeEach } from 'vitest';
-import { compile, extractCandidates, compileCSS, CLASS_PATTERNS, type ClassPattern } from '../compile';
 import { compile as tailwindCompile } from '@tailwindcss/node';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { CLASS_PATTERNS, type ClassPattern, compile, compileCSS, extractCandidates } from '../compile';
 
 // Mock @tailwindcss/node
 vi.mock('@tailwindcss/node', () => ({

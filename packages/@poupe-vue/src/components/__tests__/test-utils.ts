@@ -1,5 +1,5 @@
-import { mount } from '@vue/test-utils';
 import type { ComponentMountingOptions } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import { createPoupe } from '../../composables';
 
 /**

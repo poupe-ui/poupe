@@ -1,6 +1,6 @@
 import type { StoryGroup } from '../components/story/types';
-import { createStory, createStoryGroup } from '../components/story/utils';
 import { Input } from '../components';
+import { createStory, createStoryGroup } from '../components/story/utils';
 
 // Basic input variants
 export const basicVariants = createStoryGroup(

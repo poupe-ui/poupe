@@ -1,7 +1,7 @@
 export {
-  type FlatOptions,
-
   flatPlugin as default,
+
+  type FlatOptions,
 } from './flat/index';
 
 export {

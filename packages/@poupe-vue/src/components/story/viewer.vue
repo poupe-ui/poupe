@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, provide, watch, onMounted, onUnmounted, type Component } from 'vue';
 import type { RouteLocationNormalizedLoaded, Router } from 'vue-router';
+import { type Component, computed, onMounted, onUnmounted, provide, ref, watch } from 'vue';
 
 export interface StoryDefinition {
   name: string
@@ -33,8 +33,8 @@ const getStoryFromSlug = (slug: string) => {
 
 // Navigation abstraction
 const navigation = computed(() =>
-  props.useRouter
-    ? {
+  props.useRouter ?
+    {
     // Vue Router navigation
       getCurrentStory: () => {
         const storyParam = props.useRouter!.route.query.story as string;
@@ -58,8 +58,8 @@ const navigation = computed(() =>
           });
         }
       },
-    }
-    : {
+    } :
+    {
     // Hash-based navigation
       getCurrentStory: () => {
         if (globalThis.location !== undefined) {

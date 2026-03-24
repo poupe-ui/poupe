@@ -3,9 +3,9 @@ import {
 } from '@poupe/theme-builder';
 
 import {
-  type Theme,
-  defaultSurfacePrefix,
   defaultShapePrefix,
+  defaultSurfacePrefix,
+  type Theme,
 } from './types';
 
 import {
@@ -75,7 +75,7 @@ export function makeZIndexComponents(theme: Readonly<Theme>): Record<string, CSS
  * Note: Custom colors (blue, green, orange, etc.) get standard pairings
  * automatically through the first loop in findSurfacePairs()
  */
-const SURFACE_PAIRING_PATTERNS: Record<string, { patterns: string[]; type: 'standard' | 'fixed' | 'static' }> = {
+const SURFACE_PAIRING_PATTERNS: Record<string, { patterns: string[]; type: 'fixed' | 'standard' | 'static' }> = {
   // Dim variants (Material Design 2025) - use standard on-color
   '{}-dim': {
     patterns: ['on-{}'],
@@ -191,7 +191,7 @@ function isBaseColor(colorKey: string): boolean {
 /**
  * Checks if a color should be processed for the given pattern type
  */
-function shouldProcessColor(colorKey: string, type: 'standard' | 'fixed'): boolean {
+function shouldProcessColor(colorKey: string, type: 'fixed' | 'standard'): boolean {
   if (type === 'fixed' || type === 'standard') {
     return ['primary', 'secondary', 'tertiary'].includes(colorKey);
   }
@@ -206,7 +206,7 @@ function expandPatternPairings(
   pairs: Map<string, SurfacePair>,
   bgPattern: string,
   textPatterns: string[],
-  type: 'standard' | 'fixed',
+  type: 'fixed' | 'standard',
 ): void {
   for (const colorKey of theme.keys) {
     // Skip if it's not a base color
@@ -385,11 +385,11 @@ function isInteractiveColor(theme: Readonly<Theme>, colorName: string): boolean 
   }
 
   // Check if it's a known interactive color or has state variants defined
-  return knownInteractiveColors.has(colorName)
-    || theme.keys.includes(`${colorName}-hover`)
-    || theme.keys.includes(`${colorName}-focus`)
-    || theme.keys.includes(`${colorName}-pressed`)
-    || theme.keys.includes(`${colorName}-disabled`);
+  return knownInteractiveColors.has(colorName) ||
+    theme.keys.includes(`${colorName}-hover`) ||
+    theme.keys.includes(`${colorName}-focus`) ||
+    theme.keys.includes(`${colorName}-pressed`) ||
+    theme.keys.includes(`${colorName}-disabled`);
 }
 
 /**
@@ -454,8 +454,8 @@ export function makeInteractiveSurfaceComponents(
     }
 
     // Add disabled state
-    const hasDisabledBg = isInteractiveColor(theme, bgColor)
-      || theme.keys.includes(`${bgColor}-disabled`);
+    const hasDisabledBg = isInteractiveColor(theme, bgColor) ||
+      theme.keys.includes(`${bgColor}-disabled`);
 
     if (hasDisabledBg) {
       stateClasses.push(

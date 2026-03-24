@@ -1,12 +1,12 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
   type CSSProperties,
   type CSSPropertiesOptions,
   formatCSSProperties,
   formatCSSValue,
   properties,
-  stringifyCSSProperties,
   spaceDelimitedProperties,
+  stringifyCSSProperties,
 } from '../properties';
 
 describe('stringifyCSSProperties', () => {

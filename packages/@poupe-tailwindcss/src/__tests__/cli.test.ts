@@ -3,11 +3,11 @@
  * Tests CSS compilation using TailwindCSS programmatic API for better error handling
  */
 
-import { compile, compileCSS } from '../utils/compile';
-import { readFileSync, writeFileSync, unlinkSync } from 'node:fs';
-import path from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { afterEach, describe, test, expect } from 'vitest';
+import { readFileSync, unlinkSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
+import { afterEach, describe, expect, test } from 'vitest';
+import { compile, compileCSS } from '../utils/compile';
 
 // Path resolver functions for consistent file path handling
 const paths = {
@@ -391,13 +391,13 @@ ${styleContent}`;
 
       for (const utility of expectedScrimUtilities) {
         // Each utility should have the modifier declaration
-        expect(outputCSS).toMatch(new RegExp(`\\.${utility}[^{]*\\{[^}]*--md-scrim-opacity: --modifier\\(\\[percentage\\]\\)[^}]*\\}`));
+        expect(outputCSS).toMatch(new RegExp(String.raw`\.${utility}[^{]*\{[^}]*--md-scrim-opacity: --modifier\(\[percentage\]\)[^}]*\}`));
 
         // Each utility should have the RGB variable background-color
-        expect(outputCSS).toMatch(new RegExp(`\\.${utility}[^{]*\\{[^}]*background-color: rgb\\(var\\(--md-scrim-rgb\\)[^}]*\\)`));
+        expect(outputCSS).toMatch(new RegExp(String.raw`\.${utility}[^{]*\{[^}]*background-color: rgb\(var\(--md-scrim-rgb\)[^}]*\)`));
 
         // Each utility should have proper z-index
-        expect(outputCSS).toMatch(new RegExp(`\\.${utility}[^{]*\\{[^}]*z-index: var\\(--md-z-${utility.replace('scrim-', 'scrim-')}\\)[^}]*\\}`));
+        expect(outputCSS).toMatch(new RegExp(String.raw`\.${utility}[^{]*\{[^}]*z-index: var\(--md-z-${utility}\)[^}]*\}`));
       }
 
       // Verify the modifier system is correctly set up

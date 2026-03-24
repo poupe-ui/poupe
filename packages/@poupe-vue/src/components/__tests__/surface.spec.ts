@@ -1,9 +1,9 @@
-import { describe, it, expect } from 'vitest';
-import { defineComponent } from 'vue';
 import { mount } from '@vue/test-utils';
-import { mountWithPoupe } from './test-utils';
+import { describe, expect, it } from 'vitest';
+import { defineComponent } from 'vue';
 import { createPoupe } from '../../composables';
 import Surface from '../surface.vue';
+import { mountWithPoupe } from './test-utils';
 
 describe('Surface', () => {
   it('renders with default props', () => {

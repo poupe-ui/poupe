@@ -1,4 +1,4 @@
-import { ref, onMounted, onUnmounted, unref, type Ref, type MaybeRefOrGetter } from 'vue';
+import { type MaybeRefOrGetter, onMounted, onUnmounted, ref, type Ref, unref } from 'vue';
 
 export interface RippleOptions {
   /**

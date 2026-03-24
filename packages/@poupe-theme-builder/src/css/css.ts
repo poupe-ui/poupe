@@ -4,9 +4,9 @@ import {
 
 import {
   type CSSRuleObject,
-  unsafeKeys,
-  setDeepRule,
   processCSSSelectors,
+  setDeepRule,
+  unsafeKeys,
 } from '@poupe/css';
 
 import {

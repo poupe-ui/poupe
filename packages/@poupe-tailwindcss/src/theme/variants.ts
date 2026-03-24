@@ -1,6 +1,6 @@
 import {
-  processCSSSelectors,
   type CSSRuleObject,
+  processCSSSelectors,
 } from '@poupe/css';
 
 import {

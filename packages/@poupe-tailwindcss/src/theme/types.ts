@@ -13,16 +13,16 @@ import {
   type Shades,
 } from './shades';
 
-/* re-exports */
-export type { KebabCase } from 'type-fest';
-
 export {
   type Color,
   type ColorMap,
+  Hct,
   type StandardDynamicSchemeKey,
   type StandardPaletteKey,
-  Hct,
 } from '@poupe/theme-builder';
+
+/* re-exports */
+export type { KebabCase } from 'type-fest';
 
 export type Theme = {
   readonly options: ThemeOptions
@@ -54,13 +54,13 @@ export type ThemeOptions<K extends string = string> = {
    * Set to `false` to disable surface generation.
    *  @defaultValue `'surface-'`
    * */
-  surfacePrefix: string | false
+  surfacePrefix: false | string
 
   /** Prefix for shape class names, defaults to 'shape-'.
    * Set to `false` to disable shape generation.
    *  @defaultValue `'shape-'`
    * */
-  shapePrefix: string | false
+  shapePrefix: false | string
 
   /** Flag to omit theme generation, @defaultValue `false` */
   omitTheme: boolean

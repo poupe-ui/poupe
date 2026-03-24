@@ -1,13 +1,13 @@
-import { describe, expect, it } from 'vitest';
 import { Hct, Variant } from '@poupe/material-color-utilities';
+import { describe, expect, it } from 'vitest';
 import {
-  makeStandardColorsFromScheme,
   makeCustomColors,
   makeDynamicScheme,
+  makeStandardColorsFromScheme,
 } from '../colors';
 import {
-  makeStandardStateVariants,
   makeCustomStateVariants,
+  makeStandardStateVariants,
 } from '../states';
 
 describe('theme state variants', () => {

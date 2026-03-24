@@ -11,11 +11,11 @@ export {
 } from '@poupe/css';
 
 export {
-  type ThemeOptions,
-  type Theme,
   defaultPrimaryColor,
   formatTheme,
   makeThemeFromPartialOptions,
+  type Theme,
+  type ThemeOptions,
 } from '@poupe/tailwindcss/theme';
 
 export {

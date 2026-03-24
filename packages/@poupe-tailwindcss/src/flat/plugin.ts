@@ -1,10 +1,10 @@
 import {
-  type ThemeOptions,
   type ThemeColorOptions,
+  type ThemeOptions,
 
-  themePluginFunction,
-  themeConfigFunction,
   makeThemeFromPartialOptions,
+  themeConfigFunction,
+  themePluginFunction,
 
   defaultShades,
 } from '../theme/index';
@@ -17,16 +17,16 @@ import {
   type PluginWithOptions,
   pluginWithOptions,
 
-  validThemePrefix,
-  validThemeSuffix,
   validColorName,
   validColorOptions,
+  validThemePrefix,
+  validThemeSuffix,
 } from '../theme/utils';
 
 import {
   getBooleanValue,
-  getStringValue,
   getStringOrBooleanValue,
+  getStringValue,
   toKebabCase,
 } from './utils';
 
@@ -44,7 +44,7 @@ export type FlatOptions = {
    * Prefix used for surface components
    * @defaultValue 'surface-'
    */
-  surfacePrefix?: string | false
+  surfacePrefix?: false | string
 
   /**
    * When true, only generates variable references without color values
@@ -59,7 +59,7 @@ export type FlatOptions = {
   lightSuffix?: string
 
   /** @defaultValue [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] */
-  shades?: number[] | false
+  shades?: false | number[]
 } & {
   /**
    * Color configuration options. Supported formats:
@@ -77,12 +77,12 @@ export type FlatOptions = {
   [color: string]: PluginColorOptions
 };
 
-export type PluginColorOptions = string | boolean |
-  [ ...number[] ] |
-  [boolean, ...number[]] |
-  [string, boolean] |
+export type PluginColorOptions = [ ...number[] ] | [boolean, ...number[]] |
+  [string, ...number[]] |
   [string, boolean, ...number[]] |
-  [string, ...number[]];
+  [string, boolean] |
+  boolean |
+  string;
 
 /** poupe plugin for tailwindcss v4 embedded in the default CSS */
 export const flatPlugin: PluginWithOptions<FlatOptions> = pluginWithOptions(
@@ -316,7 +316,7 @@ function processColorParamShades(options: ThemeColorOptions, debug: boolean, val
       shades.add(shade);
     }
   }
-  options.shades = [...shades].sort((a, b) => a - b);
+  options.shades = [...shades].toSorted((a, b) => a - b);
   return true;
 }
 
@@ -341,7 +341,7 @@ function processShadesParam(options: Partial<ThemeOptions>, debug: boolean, valu
     }
 
     // unique and sorted
-    options.shades = [...shades].sort((a, b) => a - b);
+    options.shades = [...shades].toSorted((a, b) => a - b);
   } else {
     // single shade?
     const v = getShadeValue(value);

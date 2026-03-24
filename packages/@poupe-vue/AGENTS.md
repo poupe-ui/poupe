@@ -1,7 +1,7 @@
-# AGENT.md - @poupe/vue
+# AGENTS.md - @poupe/vue
 
 This file provides package-specific guidance for the @poupe/vue package.
-For general monorepo guidelines, see the [root AGENT.md](../../AGENT.md).
+For general monorepo guidelines, see the [root AGENTS.md](../../AGENTS.md).
 
 ## Package Overview
 
@@ -12,7 +12,7 @@ capabilities.
 
 ## Package-Specific Commands
 
-In addition to [common commands](../../AGENT.md#common-commands-all-packages):
+In addition to [common commands](../../AGENTS.md#common-commands-all-packages):
 
 ```bash
 pnpm preview      # Preview built application (unique to @poupe/vue)
@@ -294,7 +294,7 @@ When working with the StoryViewer components:
 
 ## Debugging
 
-- **ESLint issues**: `DEBUG=eslint:eslint pnpm lint`
+- **ESLint issues**: `DEBUG=eslint:eslint pnpm lint:check`
 - **Type errors**: Check `tsconfig.json` settings
 - **Build issues**: Run `pnpm clean` then rebuild
 - **Test failures**: Use `--reporter=verbose` flag

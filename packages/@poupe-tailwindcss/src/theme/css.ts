@@ -20,9 +20,9 @@ import {
 } from './theme';
 
 import {
+  Hct,
   type Theme,
   type ThemeColorConfig,
-  Hct,
 } from './types';
 
 import {
@@ -151,7 +151,7 @@ export function themeColors(
 
     // persistent colors not customized
     const colorRules: CSSRules = {};
-    for (const key of [...keys(persistentColors)].sort((a, b) => a.localeCompare(b))) {
+    for (const key of [...keys(persistentColors)].toSorted((a, b) => a.localeCompare(b))) {
       if (!(key in colors)) {
         colorRules[`--color-${key}`] = persistentColors[key];
       }
@@ -161,12 +161,12 @@ export function themeColors(
 
   // theme colors
   const themeColors: CSSRules = {};
-  for (const key of [...keys(colors)].sort((a, b) => a.localeCompare(b))) {
+  for (const key of [...keys(colors)].toSorted((a, b) => a.localeCompare(b))) {
     const c = colors[key];
     themeColors[`--color-${key}`] = `var(${c.value})`;
     if (c.shades) {
       // shades
-      for (const shade of [...keys(c.shades)].sort((a: number, b: number) => a - b)) {
+      for (const shade of [...keys(c.shades)].toSorted((a: number, b: number) => a - b)) {
         themeColors[`--color-${key}-${shade}`] = `var(${c.shades[shade]})`;
       }
     }

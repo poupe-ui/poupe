@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Props {
-  gap?: 'xs' | 'sm' | 'base' | 'lg' | 'xl'
+  gap?: 'base' | 'lg' | 'sm' | 'xl' | 'xs'
   wrap?: boolean
   center?: boolean
 }

@@ -1,4 +1,11 @@
-export * from './types';
+export {
+  type Config,
+  makeConfig,
+} from './config';
+
+export {
+  formatTheme,
+} from './css';
 
 export {
   defaultColors,
@@ -9,23 +16,23 @@ export {
 } from './options';
 
 export {
+  makeThemeFromPartialOptions,
+  themeConfigFunction,
   themePlugin,
   themePluginFunction,
-  themeConfigFunction,
-  makeThemeFromPartialOptions,
 } from './plugin';
 
 export {
-  type Shades,
   defaultShades,
   makeHexShades,
   makeShades,
+  type Shades,
   validShade,
 } from './shades';
 
 export {
-  makeShadows,
   makeShadowRules,
+  makeShadows,
 } from './shadows';
 
 export {
@@ -34,16 +41,9 @@ export {
   makeThemeComponents,
 } from './theme';
 
+export * from './types';
+
 export {
   type ColorFormat,
   colorFormatter,
 } from './utils';
-
-export {
-  type Config,
-  makeConfig,
-} from './config';
-
-export {
-  formatTheme,
-} from './css';

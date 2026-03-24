@@ -1,14 +1,14 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { type Component, h, markRaw } from 'vue';
 import { mountWithPoupe } from '../../__tests__/test-utils';
-import { h, markRaw, type Component } from 'vue';
 import StoryViewer from '../viewer.vue';
 
 interface StorySlotProps {
-  story: {
+  story: undefined | {
     name: string
     component?: Component
     description?: string
-  } | undefined
+  }
 }
 
 describe('StoryViewer', () => {

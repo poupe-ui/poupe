@@ -10,32 +10,32 @@ import {
 } from '../theme';
 
 import {
+  asThemeSchemeKey,
   getParam,
   isHexValue,
-  asThemeSchemeKey,
 } from './utils';
 
 // re-export
 //
 export {
   type Color,
-  type Hct,
   type Colord,
+  colord,
+  type Hct,
+  hct,
   type HexColor,
   hexString,
-  hct,
-  colord,
 } from '../core';
 
 export {
   type StandardDynamicSchemeKey,
 } from '../theme';
 
-// normalization utils and type checking
-export * from './utils';
-
 // CSS stringification utilities
 export * from './stringify';
+
+// normalization utils and type checking
+export * from './utils';
 
 /** Attempts to convert a parameter to a valid hex color.
  * @param param - An optional string or string array representing a color
@@ -44,7 +44,7 @@ export * from './stringify';
  * @remarks Supports hex values directly, as well as other color formats supported by colord
  * (including RGB, HSL, HSV, LAB, LCH, CMYK and color names if the colord plugin has been enabled)
  */
-export const getColorParam = (param?: string | string[], filter?: (s?: string)=>(string | undefined)): {
+export const getColorParam = (param?: string | string[], filter?: (s?: string) => (string | undefined)): {
   param?: string
   color?: HexColor
 } => {
@@ -72,7 +72,7 @@ export const getColorParam = (param?: string | string[], filter?: (s?: string)=>
  * @param filter - Optional function to pre-process the parameter before validation
  * @returns An object containing the original parameter and a validated theme scheme key, if applicable
  */
-export const getThemeSchemeParam = (param?: string | string[], filter?: (s?: string)=>(string | undefined)): {
+export const getThemeSchemeParam = (param?: string | string[], filter?: (s?: string) => (string | undefined)): {
   param?: string
   scheme?: StandardDynamicSchemeKey
 } => {
