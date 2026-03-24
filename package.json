@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@poupe/eslint-config": "~0.8.3",
-    "eslint": "^9.30.0",
+    "eslint": "^9.39.4",
     "pkg-pr-new": "^0.0.54",
     "rimraf": "^6.1.3"
   },
