@@ -80,7 +80,7 @@
     "@nuxt/schema": "^3.17.5",
     "@nuxt/test-utils": "^3.19.1",
     "@poupe/eslint-config": "~0.8.4",
-    "@types/node": "^20.19.0",
+    "@types/node": "^20.19.39",
     "changelogen": "^0.6.1",
     "defu": "^6.1.4",
     "eslint": "^9.39.4",
@@ -94,7 +94,7 @@
     "vue-tsc": "^2.2.10"
   },
   "engines": {
-    "node": ">=20.19.2",
+    "node": ">=20.20.2",
     "pnpm": ">=10.10.0"
   },
   "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be",
