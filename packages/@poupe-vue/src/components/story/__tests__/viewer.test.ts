@@ -5,9 +5,9 @@ import StoryViewer from '../viewer.vue';
 
 interface StorySlotProps {
   story: undefined | {
-    name: string
     component?: Component
     description?: string
+    name: string
   }
 }
 

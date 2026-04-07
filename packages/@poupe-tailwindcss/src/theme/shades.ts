@@ -46,7 +46,7 @@ export const defaultShades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 9
  * - Validates each shade value
  * - Returns sorted unique shade values
  */
-export function getShades(shades?: boolean | number[] | undefined, defaults: false | number[] = defaultShades): { shades: Shades; ok: boolean } {
+export function getShades(shades?: boolean | number[] | undefined, defaults: false | number[] = defaultShades): { ok: boolean; shades: Shades } {
   if (shades === false) {
     return { shades: false, ok: true };
   } else if (shades === true || shades === undefined) {

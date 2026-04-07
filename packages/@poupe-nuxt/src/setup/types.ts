@@ -12,8 +12,8 @@ import {
 export type TailwindPlugin = [ string, CSSProperties ] | string;
 
 export interface TailwindOptions {
-  sources?: string[]
   plugins?: TailwindPlugin[]
+  sources?: string[]
 }
 
 export interface ModuleOptions<K extends string = string> {
@@ -44,9 +44,9 @@ export const defaultModuleOptions: Readonly<ModuleOptions> = {
 
 /** Context for module setup */
 export type SetupContext<K extends string = string> = {
-  options: ModuleOptions<K>
   nuxt: Nuxt
+  options: ModuleOptions<K>
 
-  resolve: (...path: string[]) => string
   logger: ConsolaInstance
+  resolve: (...path: string[]) => string
 };

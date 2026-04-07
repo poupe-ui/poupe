@@ -31,7 +31,7 @@ const defaultIcons = {
 
 type IconNames = keyof typeof defaultIcons;
 
-const globalIcons = reactive<{ poupe: Record<IconNames, IconValue> } & Record<string, Record<string, IconValue>>>({
+const globalIcons = reactive<Record<string, Record<string, IconValue>> & { poupe: Record<IconNames, IconValue> }>({
   poupe: defaultIcons,
 });
 

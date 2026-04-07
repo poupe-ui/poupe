@@ -3,14 +3,14 @@
  */
 
 export interface ScreenshotOptions {
-  component?: string
-  output?: string
-  viewport?: { width: number; height: number }
-  fullPage?: boolean
-  darkMode?: boolean
-  mobile?: boolean
   allViewports?: boolean
+  component?: string
+  darkMode?: boolean
+  fullPage?: boolean
+  mobile?: boolean
+  output?: string
   port?: number
+  viewport?: { height: number; width: number }
 }
 
 export interface ParsedArguments {

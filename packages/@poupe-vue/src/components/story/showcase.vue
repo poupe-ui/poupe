@@ -1,8 +1,8 @@
 <script setup lang="ts">
 interface Props {
+  center?: boolean
   gap?: 'base' | 'lg' | 'sm' | 'xl' | 'xs'
   wrap?: boolean
-  center?: boolean
 }
 
 withDefaults(defineProps<Props>(), {

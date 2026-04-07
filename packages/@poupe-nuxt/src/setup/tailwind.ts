@@ -34,7 +34,7 @@ export const formatPlugin = (plugin: TailwindPlugin, indent: string = '  '): str
 
   return [
     `@plugin "${name}" {`,
-    ...lines.map(line => `${indent}${line};`),
+    ...lines.map((line) => `${indent}${line};`),
     '}',
   ];
 };
@@ -49,7 +49,7 @@ const prepareSources = (context: SetupContext): string[] => {
     ...contentGlobs(),
 
     // extra files to scan
-    ...(options.tailwind?.sources || []).filter(source => source != '').map(source => resolve(source)),
+    ...(options.tailwind?.sources || []).filter((source) => source != '').map((source) => resolve(source)),
   ];
 
   // reassemble. first-insert order preserved
@@ -114,9 +114,9 @@ const getCSSContent = <K extends string>(context: SetupContext<K>): string => {
     // @theme
     ...formatTheme(theme),
     // @plugin
-    ...(plugins ? ['', ...plugins.flatMap(plugin => formatPlugin(plugin))] : []),
+    ...(plugins ? ['', ...plugins.flatMap((plugin) => formatPlugin(plugin))] : []),
     // @source
-    ...(sources ? ['', ...sources.map(path => `@source "${path}";`)] : []),
+    ...(sources ? ['', ...sources.map((path) => `@source "${path}";`)] : []),
   ];
 
   return lines.join('\n');

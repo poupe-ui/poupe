@@ -72,7 +72,7 @@ const variantName = (name: string) => `@custom-variant ${name}`;
  * // Output: [{ '@utility button': { color: 'blue' } }]
  * ```
  */
-const prepareComponents = (components: Record<string, CSSRules>[]): CSSRules[] => components.map(group => renameRules(group, utilityName));
+const prepareComponents = (components: Record<string, CSSRules>[]): CSSRules[] => components.map((group) => renameRules(group, utilityName));
 
 /**
  * Transforms an array of variant CSS rules by converting their selectors to custom variant format.
@@ -86,7 +86,7 @@ const prepareComponents = (components: Record<string, CSSRules>[]): CSSRules[] =
  * // Output: [{ '@custom-variant hover': { color: 'blue' } }]
  * ```
  */
-const prepareVariants = (variants: CSSRules[]): CSSRules[] => variants.map(group => renameRules(group, variantName));
+const prepareVariants = (variants: CSSRules[]): CSSRules[] => variants.map((group) => renameRules(group, variantName));
 
 /**
  * Formats a theme configuration into a series of CSS rules and utilities.

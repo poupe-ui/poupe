@@ -43,9 +43,9 @@ export const basicVariants = createStoryGroup(
 export const surfaceVariants = createStoryGroup(
   'Surface Variants',
   'Cards with different surface colors',
-  ['base', 'low', 'container', 'high', 'highest'].map(surface =>
+  ['base', 'low', 'container', 'high', 'highest'].map((surface) =>
     createStory({
-      title: surface.replaceAll('-', ' ').replaceAll(/\b\w/g, l => l.toUpperCase()),
+      title: surface.replaceAll('-', ' ').replaceAll(/\b\w/g, (l) => l.toUpperCase()),
       component: Card,
       props: {
         surface,
@@ -62,7 +62,7 @@ export const surfaceVariants = createStoryGroup(
 export const shadowVariants = createStoryGroup(
   'Shadow Variants',
   'Cards with different elevation shadows',
-  ['none', 'z1', 'z2', 'z3', 'z4', 'z5'].map(shadow =>
+  ['none', 'z1', 'z2', 'z3', 'z4', 'z5'].map((shadow) =>
     createStory({
       title: `Shadow Level ${shadow}`,
       component: Card,
@@ -81,7 +81,7 @@ export const shadowVariants = createStoryGroup(
 export const shapeVariants = createStoryGroup(
   'Shape Variants',
   'Cards with different corner radius options',
-  ['xs', 'sm', 'md', 'lg', 'xl'].map(shape =>
+  ['xs', 'sm', 'md', 'lg', 'xl'].map((shape) =>
     createStory({
       title: `Shape ${shape}`,
       component: Card,

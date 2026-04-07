@@ -36,13 +36,13 @@ describe('useColorMix option', () => {
     const bases = makeThemeBases(theme);
 
     // Find the :root rule
-    const rootRule = bases.find(rule => ':root' in rule);
+    const rootRule = bases.find((rule) => ':root' in rule);
     expect(rootRule).toBeDefined();
 
     const rootStyles = rootRule![':root'] as Record<string, string>;
 
     // Debug: log keys to see what's available
-    const stateColorKeys = Object.keys(rootStyles).filter(key => key.includes('-hover') || key.includes('-focus'));
+    const stateColorKeys = Object.keys(rootStyles).filter((key) => key.includes('-hover') || key.includes('-focus'));
     expect(stateColorKeys.length).toBeGreaterThan(0);
 
     // Check for state color variables with color-mix
@@ -64,7 +64,7 @@ describe('useColorMix option', () => {
     const bases = makeThemeBases(theme);
 
     // Find the :root rule
-    const rootRule = bases.find(rule => ':root' in rule);
+    const rootRule = bases.find((rule) => ':root' in rule);
     expect(rootRule).toBeDefined();
 
     const rootStyles = rootRule![':root'] as Record<string, string>;
@@ -89,7 +89,7 @@ describe('useColorMix option', () => {
     const bases = makeThemeBases(theme);
 
     // Find the :root rule
-    const rootRule = bases.find(rule => ':root' in rule);
+    const rootRule = bases.find((rule) => ':root' in rule);
     expect(rootRule).toBeDefined();
 
     const rootStyles = rootRule![':root'] as Record<string, string>;

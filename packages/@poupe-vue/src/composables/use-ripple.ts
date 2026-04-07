@@ -2,37 +2,37 @@ import { type MaybeRefOrGetter, onMounted, onUnmounted, ref, type Ref, unref } f
 
 export interface RippleOptions {
   /**
+   * Whether the ripple is bounded by the container
+   * @defaultValue `true`
+   */
+  bounded?: boolean
+  /**
    * Ripple color (CSS color value)
    * @defaultValue `'currentColor'`
    */
   color?: string
   /**
-   * Ripple opacity
-   * @defaultValue `0.12`
+   * Disable ripple effect
+   * @defaultValue `false`
    */
-  opacity?: number
+  disabled?: MaybeRefOrGetter<boolean>
   /**
    * Duration in milliseconds
    * @defaultValue `600`
    */
   duration?: number
   /**
-   * Whether the ripple is bounded by the container
-   * @defaultValue `true`
+   * Ripple opacity
+   * @defaultValue `0.12`
    */
-  bounded?: boolean
-  /**
-   * Disable ripple effect
-   * @defaultValue `false`
-   */
-  disabled?: MaybeRefOrGetter<boolean>
+  opacity?: number
 }
 
 interface Ripple {
+  id: number
+  size: number
   x: number
   y: number
-  size: number
-  id: number
 }
 
 export function useRipple(
@@ -80,7 +80,7 @@ export function useRipple(
 
     // Remove ripple after animation
     setTimeout(() => {
-      ripples.value = ripples.value.filter(r => r.id !== id);
+      ripples.value = ripples.value.filter((r) => r.id !== id);
     }, duration);
   };
 

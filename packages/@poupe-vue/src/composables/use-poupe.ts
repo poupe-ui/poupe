@@ -26,20 +26,20 @@ export interface PoupeComponentDefaults {
 }
 
 export interface PoupeOptions {
-  defaults?: PoupeComponentDefaults
-  theme?: {
-    dark?: boolean
-    colors?: Record<string, string>
-  }
   accessibility?: {
-    reducedMotion?: boolean
     highContrast?: boolean
+    reducedMotion?: boolean
   }
+  defaults?: PoupeComponentDefaults
   ripple?: {
-    disabled?: boolean
     color?: string
-    opacity?: number
+    disabled?: boolean
     duration?: number
+    opacity?: number
+  }
+  theme?: {
+    colors?: Record<string, string>
+    dark?: boolean
   }
 }
 
@@ -132,10 +132,10 @@ export function usePoupeMergedProps<
   props: TProps,
   componentName: keyof PoupeComponentDefaults,
   componentDefaults: TDefaults,
-): TProps & Required<TDefaults> {
+): Required<TDefaults> & TProps {
   const globalDefaults = usePoupeDefaults(componentName) as Partial<TProps> | undefined;
 
   // defu merges in order: props > componentDefaults > globalDefaults
   // This ensures props override everything, component defaults override global
-  return defu(props, componentDefaults, globalDefaults || {}) as TProps & Required<TDefaults>;
+  return defu(props, componentDefaults, globalDefaults || {}) as Required<TDefaults> & TProps;
 }

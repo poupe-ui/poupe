@@ -82,22 +82,22 @@ export const buttonDefaults: Partial<ButtonProps> = {
 declare module '../composables/use-poupe' {
   interface PoupeComponentDefaults {
     button?: {
-      type?: ButtonType
-      size?: ButtonProps['size']
-      variant?: ButtonVariant
-      shape?: ButtonProps['shape']
-      shadow?: ButtonProps['shadow']
       border?: ButtonProps['border']
-      interactive?: ButtonProps['interactive']
       disabled?: ButtonProps['disabled']
-      loading?: ButtonProps['loading']
-      expand?: ButtonProps['expand']
       ellipsis?: ButtonProps['ellipsis']
-      fab?: ButtonProps['fab']
+      expand?: ButtonProps['expand']
       extended?: ButtonProps['extended']
+      fab?: ButtonProps['fab']
       iconButton?: ButtonProps['iconButton']
-      toggle?: ButtonProps['toggle']
+      interactive?: ButtonProps['interactive']
+      loading?: ButtonProps['loading']
       pressed?: ButtonProps['pressed']
+      shadow?: ButtonProps['shadow']
+      shape?: ButtonProps['shape']
+      size?: ButtonProps['size']
+      toggle?: ButtonProps['toggle']
+      type?: ButtonType
+      variant?: ButtonVariant
     }
   }
 }
