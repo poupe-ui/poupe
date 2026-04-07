@@ -106,12 +106,12 @@ The module provides several Nuxt hooks:
 - **Runtime**:
   - Workspace: @poupe/css, @poupe/tailwindcss, @poupe/theme-builder, @poupe/vue
   - External: @nuxt/icon, @nuxtjs/color-mode, @tailwindcss/vite, tailwindcss
-- **Development**: Nuxt 3.x, TypeScript, Vitest
+- **Development**: Nuxt 4.x, TypeScript, Vitest
 - **Note**: See package.json for specific versions
 
 ## Integration Notes
 
-- Requires Nuxt 3.x
+- Requires Nuxt 4.x
 - Integrates with @nuxtjs/color-mode
 - Uses @poupe/vue components
 - Supports Nuxt's nitro server

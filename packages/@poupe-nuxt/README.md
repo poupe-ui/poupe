@@ -108,7 +108,7 @@ For local development, check out the [playground](./playground) directory.
 
 ## Requirements
 
-- Nuxt ^3.17.2
+- Nuxt ^4.0.0
 - Node.js >=20.19.1
 - @poupe/theme-builder ^0.7.0
 - @poupe/vue ^0.4.1

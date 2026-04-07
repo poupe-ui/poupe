@@ -95,7 +95,7 @@ export function formatCSSProperties<K extends string>(object: CSSProperties<K>):
  */
 export function formatCSSValue(value: CSSValue, useComma = true): string {
   if (Array.isArray(value)) {
-    return value.map(v => quoted(v)).join(useComma ? ', ' : ' ');
+    return value.map((v) => quoted(v)).join(useComma ? ', ' : ' ');
   }
   return quoted(value);
 }
@@ -136,7 +136,7 @@ export function quoted(v: CSSValue): string {
  */
 export function* properties<K extends string>(object: CSSProperties<K>): Generator<[K, CSSValue]> {
   for (const [key, value] of pairs(object)) {
-    if (Array.isArray(value) ? (value.length > 0 && value.every(v => isValidValue(v))) : isValidValue(value)) {
+    if (Array.isArray(value) ? (value.length > 0 && value.every((v) => isValidValue(v))) : isValidValue(value)) {
       yield [key, value as CSSValue];
     }
   }

@@ -17,7 +17,8 @@ export default defineConfig({
     VueDevTools(),
     Dts({
       tsconfigPath: resolve('tsconfig.app.json'),
-      rollupTypes: true,
+      // Avoid OOM on Windows/CI when rolling up all d.ts into a single graph.
+      rollupTypes: false,
     }),
     tailwind(),
   ],

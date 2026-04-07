@@ -46,6 +46,9 @@ export default defineNuxtModule({
   meta: {
     name: '@poupe/nuxt',
     configKey: 'poupe',
+    compatibility: {
+      nuxt: '^4.0.0',
+    },
   },
   defaults: defaultModuleOptions,
   setup,

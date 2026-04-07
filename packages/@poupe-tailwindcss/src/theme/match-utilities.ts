@@ -79,7 +79,7 @@ export function asMatchUtility(name: string, value: CSSRuleObject): (undefined |
 
           if (modifierContent.includes(',')) {
             // Pattern: --modifier(type, default)
-            const parts = modifierContent.split(',').map(s => s.trim());
+            const parts = modifierContent.split(',').map((s) => s.trim());
             if (parts.length >= 2) {
               modifierType = parts[0].replaceAll(/[[\\]]/g, '');
               defaultValue = parts[1];

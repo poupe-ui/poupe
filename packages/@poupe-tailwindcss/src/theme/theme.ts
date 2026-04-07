@@ -194,7 +194,7 @@ function newThemeColorConfig(key: string, shades: Shades, prefix: string): Theme
 
   return {
     value: base,
-    shades: Object.fromEntries(shades.map(shade => [shade, `${base}-${shade}`])),
+    shades: Object.fromEntries(shades.map((shade) => [shade, `${base}-${shade}`])),
   };
 }
 
@@ -469,7 +469,7 @@ export function makeThemeBases(
     if (theme.options.useColorMix) {
       const stateColors = generateStateColorVariables(theme);
       // Find the :root rule in styles and add state colors
-      const rootRule = styles.find(style => ':root' in style);
+      const rootRule = styles.find((style) => ':root' in style);
       if (rootRule) {
         Object.assign(rootRule[':root'], stateColors);
       } else {

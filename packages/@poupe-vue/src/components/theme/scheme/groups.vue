@@ -23,7 +23,7 @@ const props = defineProps<ThemeSchemeGroupsProps>();
 const ariaRole = computed(() => props.ariaLabel ? 'group' : undefined);
 const ariaLabel = computed(() => props.ariaLabel);
 
-const maxEntries = computed(() => Math.max(...props.groups.map(group => group.length)));
+const maxEntries = computed(() => Math.max(...props.groups.map((group) => group.length)));
 
 // Create a flattened structure to avoid repeated calls and type casting
 const entriesGrid = computed(() => {

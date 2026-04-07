@@ -80,7 +80,7 @@ export function useRipple(
 
     // Remove ripple after animation
     setTimeout(() => {
-      ripples.value = ripples.value.filter(r => r.id !== id);
+      ripples.value = ripples.value.filter((r) => r.id !== id);
     }, duration);
   };
 

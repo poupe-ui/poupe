@@ -178,7 +178,7 @@ describe('makeSurfaceComponents', () => {
     const result = makeSurfaceComponents(theme);
 
     const keys = Object.keys(result);
-    const hasSurfacePrefix = keys.some(key => key.startsWith('surface-'));
+    const hasSurfacePrefix = keys.some((key) => key.startsWith('surface-'));
     expect(hasSurfacePrefix).toBe(true);
   });
 
@@ -353,7 +353,7 @@ describe('makeShapeComponents', () => {
     const result = makeShapeComponents(theme);
 
     // Should have squircle variants for all scales except 'none'
-    const nonNoneScales = Object.keys(SHAPE_SCALE).filter(s => s !== 'none');
+    const nonNoneScales = Object.keys(SHAPE_SCALE).filter((s) => s !== 'none');
     for (const scale of nonNoneScales) {
       expect(result[`.shape-squircle-${scale}`]).toBeDefined();
       expect(result[`.shape-squircle-${scale}`]['mask-image']).toBeDefined();
@@ -412,7 +412,7 @@ describe('makeShapeComponents', () => {
 
     // All utilities should use custom prefix
     const keys = Object.keys(result);
-    expect(keys.every(k => k.startsWith('.corner-'))).toBe(true);
+    expect(keys.every((k) => k.startsWith('.corner-'))).toBe(true);
   });
 
   it('should validate theme has shape tokens in debug mode', () => {
@@ -474,7 +474,7 @@ describe('makeShapeComponents', () => {
     expect(maskImage).not.toContain('NaN');
 
     // Verify all squircle shapes have valid mask images
-    const squircleKeys = Object.keys(result).filter(key => key.includes('squircle'));
+    const squircleKeys = Object.keys(result).filter((key) => key.includes('squircle'));
     for (const key of squircleKeys) {
       const shape = result[key];
       if (shape['mask-image']) {

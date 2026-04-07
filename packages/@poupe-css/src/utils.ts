@@ -139,10 +139,10 @@ export function camelCase(s: string): string {
   result = result
     // First handle patterns like "BGColor" -> "bgColor" by lowercasing
     // uppercase runs before a capital+lowercase boundary
-    .replaceAll(/[A-Z]+(?=[A-Z][a-z])/g, match => match.toLowerCase())
+    .replaceAll(/[A-Z]+(?=[A-Z][a-z])/g, (match) => match.toLowerCase())
     // Then ensure the first letter is lowercase (handling both PascalCase and
     // cases like "BG" at the start)
-    .replaceAll(/^[A-Z]+/g, match => match.toLowerCase());
+    .replaceAll(/^[A-Z]+/g, (match) => match.toLowerCase());
 
   return result;
 }

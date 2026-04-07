@@ -67,7 +67,7 @@ export function makeThemeKeys<K extends string>(colors: Partial<ThemeColors<K>>)
   type ColorKey = CustomDynamicColorKey<KebabCase<K>> | PaletteKey | StandardDynamicColorKey;
 
   const colorOptions = {} as Record<PaletteKey, Partial<ColorOptions>>;
-  const kebabStandardPaletteKeys = standardPaletteKeys.map(s => kebabCase(s)) as PaletteKey[];
+  const kebabStandardPaletteKeys = standardPaletteKeys.map((s) => kebabCase(s)) as PaletteKey[];
   const paletteKeys = [...kebabStandardPaletteKeys];
   const keys: ColorKey[] = [...standardDynamicColorKeys];
 

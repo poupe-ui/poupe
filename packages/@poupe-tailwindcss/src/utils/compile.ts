@@ -34,7 +34,7 @@ export async function compile(
   // Compile the CSS
   const compiler = await tailwindCompile(inputCSS, {
     base,
-    onDependency: dep => dependencies.add(dep),
+    onDependency: (dep) => dependencies.add(dep),
   });
 
   // Extract candidate classes from content

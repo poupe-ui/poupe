@@ -35,7 +35,7 @@ export const commonIcons = createStoryGroup(
     'add', 'remove', 'edit', 'delete', 'close',
     'check', 'arrow-back', 'arrow-forward', 'menu',
     'more-vert', 'refresh', 'share', 'download', 'upload',
-  ].map(name =>
+  ].map((name) =>
     createStory({
       title: name,
       component: Icon,

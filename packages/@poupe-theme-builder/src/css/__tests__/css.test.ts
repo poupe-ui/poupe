@@ -180,7 +180,7 @@ describe('makeCSSTheme', () => {
     const result = makeCSSTheme(colors, { stringify: customStringify });
 
     // Check that the custom stringify was used
-    const hasHslFormat = Object.values(result.darkValues).some(value =>
+    const hasHslFormat = Object.values(result.darkValues).some((value) =>
       typeof value === 'string' && value.startsWith('hsl('));
     expect(hasHslFormat).toBe(true);
   });

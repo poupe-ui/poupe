@@ -27,7 +27,7 @@ const createSlug = (name: string) => name.toLowerCase().replaceAll(/\s+/g, '-');
 
 // Get story name from slug
 const getStoryFromSlug = (slug: string) => {
-  const story = props.stories.find(s => createSlug(s.name) === slug);
+  const story = props.stories.find((s) => createSlug(s.name) === slug);
   return story?.name || '';
 };
 
@@ -98,7 +98,7 @@ const getInitialStoryName = () => {
 const currentStoryName = ref<string>(getInitialStoryName());
 
 const currentStory = computed(() => {
-  return props.stories.find(s => s.name === currentStoryName.value);
+  return props.stories.find((s) => s.name === currentStoryName.value);
 });
 
 // Update current story when props change
