@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from '@poupe/eslint-config';
+import tailwindcss from '@poupe/eslint-plugin-tailwindcss';
 
 export default defineConfig({
   files: ['**/*.spec.ts', '**/*.test.ts'],
@@ -16,4 +17,4 @@ export default defineConfig({
   rules: {
     'markdownlint/md007': ['error', { indent: 2 }],
   },
-});
+}, tailwindcss.configs.recommended);

@@ -97,6 +97,7 @@
   },
   "devDependencies": {
     "@poupe/eslint-config": "~0.9.1",
+    "@poupe/eslint-plugin-tailwindcss": "~0.3.1",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/vite": "^4.1.11",
     "@tsconfig/node20": "^20.1.6",

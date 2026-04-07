@@ -189,6 +189,9 @@ importers:
       '@poupe/eslint-config':
         specifier: ~0.9.1
         version: 0.9.1(@vue/compiler-sfc@3.5.17)(jiti@2.6.1)(typescript@5.8.3)(vue-eslint-parser@10.4.0(eslint@9.39.4(jiti@2.6.1)))
+      '@poupe/eslint-plugin-tailwindcss':
+        specifier: ~0.3.1
+        version: 0.3.1(@eslint/css@1.1.0)(eslint@9.39.4(jiti@2.6.1))
       '@tailwindcss/node':
         specifier: ^4.1.11
         version: 4.1.11
@@ -314,6 +317,9 @@ importers:
       '@poupe/eslint-config':
         specifier: ~0.9.1
         version: 0.9.1(@vue/compiler-sfc@3.5.17)(jiti@2.6.1)(typescript@5.8.3)(vue-eslint-parser@10.4.0(eslint@9.39.4(jiti@2.6.1)))
+      '@poupe/eslint-plugin-tailwindcss':
+        specifier: ~0.3.1
+        version: 0.3.1(@eslint/css@1.1.0)(eslint@9.39.4(jiti@2.6.1))
       '@tailwindcss/postcss':
         specifier: ^4.1.11
         version: 4.1.11
@@ -1568,6 +1574,13 @@ packages:
     engines: {node: '>= 20.20.2', pnpm: '>= 10.33.0'}
     peerDependencies:
       '@vue/compiler-sfc': ^3.5.32
+
+  '@poupe/eslint-plugin-tailwindcss@0.3.1':
+    resolution: {integrity: sha512-oThCvrhoWRenH5hxde7/QX89b9tJLeZbZo88RS7ahT/YdJORy0AvMvmMw2LCqP0gdrlK9P0PpG0Zaa2x6orNcA==}
+    engines: {node: '>= 20.19.0', pnpm: '>= 10.30.3'}
+    peerDependencies:
+      '@eslint/css': ^1.1.0
+      eslint: ^9.30.0
 
   '@poupe/material-color-utilities@0.3.6':
     resolution: {integrity: sha512-I7rNfLnN+ZQn0b7HjDhsvZhWnNSYAGzkwRzoKq41MuXVvYQpewekg9gUJ3hmnC1NdK0SpALKIMWYXt9nv1sv8A==}
@@ -7865,6 +7878,14 @@ snapshots:
       - supports-color
       - typescript
       - vue-eslint-parser
+
+  '@poupe/eslint-plugin-tailwindcss@0.3.1(@eslint/css@1.1.0)(eslint@9.39.4(jiti@2.6.1))':
+    dependencies:
+      '@eslint/core': 1.1.1
+      '@eslint/css': 1.1.0
+      '@eslint/css-tree': 3.6.9
+      eslint: 9.39.4(jiti@2.6.1)
+      tailwind-csstree: 0.3.0(@eslint/css@1.1.0)
 
   '@poupe/material-color-utilities@0.3.6': {}
 
