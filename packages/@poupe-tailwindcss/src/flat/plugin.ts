@@ -31,6 +31,21 @@ import {
 } from './utils';
 
 export type FlatOptions = {
+  /**
+   * Color configuration options. Supported formats:
+   *
+   * - `string`: Define color using colord-compatible value or name
+   * - `boolean`: Whether to harmonize known-color with primary
+   * - `number[]`: Custom shades (0 disables, negative adds to defaults)
+   * - `[boolean, ...number[]]`: Harmonize flag with custom shades
+   * - `[string, ...number[]]`: Custom color with custom shades
+   * - `[string, boolean, ...number[]]`: Custom color with harmonize flag
+   *   and custom shades
+   *
+   * Colors are harmonized by default using colord for parsing.
+   */
+  [color: string]: PluginColorOptions
+} & {
   /** Enables options parser logs */
   debug?: boolean
 
@@ -60,21 +75,6 @@ export type FlatOptions = {
 
   /** @defaultValue [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] */
   shades?: false | number[]
-} & {
-  /**
-   * Color configuration options. Supported formats:
-   *
-   * - `string`: Define color using colord-compatible value or name
-   * - `boolean`: Whether to harmonize known-color with primary
-   * - `number[]`: Custom shades (0 disables, negative adds to defaults)
-   * - `[boolean, ...number[]]`: Harmonize flag with custom shades
-   * - `[string, ...number[]]`: Custom color with custom shades
-   * - `[string, boolean, ...number[]]`: Custom color with harmonize flag
-   *   and custom shades
-   *
-   * Colors are harmonized by default using colord for parsing.
-   */
-  [color: string]: PluginColorOptions
 };
 
 export type PluginColorOptions = [ ...number[] ] | [boolean, ...number[]] |

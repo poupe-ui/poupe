@@ -15,7 +15,7 @@ const defaultButton = createStory({
 export const typeVariants = createStoryGroup(
   'Button Types',
   'Material Design 3 button types',
-  ['text', 'outlined', 'filled', 'elevated', 'tonal'].map(type =>
+  ['text', 'outlined', 'filled', 'elevated', 'tonal'].map((type) =>
     createStory({
       title: `${type} button`,
       component: Button,
@@ -31,7 +31,7 @@ export const typeVariants = createStoryGroup(
 export const colorVariants = createStoryGroup(
   'Color Variants',
   'Semantic color variants for buttons',
-  ['base', 'primary', 'secondary', 'tertiary', 'error'].map(variant =>
+  ['base', 'primary', 'secondary', 'tertiary', 'error'].map((variant) =>
     createStory({
       title: `${variant} variant`,
       component: Button,
@@ -47,8 +47,8 @@ export const colorVariants = createStoryGroup(
 export const typeColorCombinations = createStoryGroup(
   'Type & Color Combinations',
   'All button type and color variant combinations',
-  ['text', 'outlined', 'filled', 'elevated', 'tonal'].flatMap(type =>
-    ['base', 'primary', 'secondary', 'tertiary', 'error'].map(variant =>
+  ['text', 'outlined', 'filled', 'elevated', 'tonal'].flatMap((type) =>
+    ['base', 'primary', 'secondary', 'tertiary', 'error'].map((variant) =>
       createStory({
         title: `${type} ${variant}`,
         component: Button,
@@ -66,7 +66,7 @@ export const typeColorCombinations = createStoryGroup(
 export const sizeVariants = createStoryGroup(
   'Size Variants',
   'Different button sizes for various use cases',
-  ['xs', 'sm', 'base', 'lg', 'xl'].map(size =>
+  ['xs', 'sm', 'base', 'lg', 'xl'].map((size) =>
     createStory({
       title: `Size ${size}`,
       component: Button,
@@ -83,7 +83,7 @@ export const sizeVariants = createStoryGroup(
 export const shapeVariants = createStoryGroup(
   'Shape Variants',
   'Different button shapes',
-  ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', 'full'].map(shape =>
+  ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', 'full'].map((shape) =>
     createStory({
       title: `Shape ${shape}`,
       component: Button,
@@ -100,7 +100,7 @@ export const shapeVariants = createStoryGroup(
 export const shadowVariants = createStoryGroup(
   'Shadow Variants',
   'Different shadow elevations following Material Design',
-  ['none', 'z1', 'z2', 'z3', 'z4', 'z5'].map(shadow =>
+  ['none', 'z1', 'z2', 'z3', 'z4', 'z5'].map((shadow) =>
     createStory({
       title: `Shadow ${shadow}`,
       component: Button,

@@ -24,22 +24,22 @@ import {
 } from '../theme';
 
 export interface CSSThemeOptions {
-  /** @defaultValue `'.dark'` */
-  darkMode: boolean | string | string[]
-  /** @defaultValue `'.light'` */
-  lightMode: boolean | string | string[]
-  /** @defaultValue `'md-'` */
-  prefix: string
-  /** @defaultValue `'-dark'` */
-  darkSuffix: string
-  /** @defaultValue `'-light'` */
-  lightSuffix: string
-  /** @defaultValue `rgb('{r} {g} {b}')` */
-  stringify: (c: Hct) => string
   /** @defaultValue `true` */
   addStarVariantsToDark?: boolean
   /** @defaultValue `true` */
   addStarVariantsToLight?: boolean
+  /** @defaultValue `'.dark'` */
+  darkMode: boolean | string | string[]
+  /** @defaultValue `'-dark'` */
+  darkSuffix: string
+  /** @defaultValue `'.light'` */
+  lightMode: boolean | string | string[]
+  /** @defaultValue `'-light'` */
+  lightSuffix: string
+  /** @defaultValue `'md-'` */
+  prefix: string
+  /** @defaultValue `rgb('{r} {g} {b}')` */
+  stringify: (c: Hct) => string
 };
 
 /** apply defaults to {@link CSSThemeOptions} */
@@ -244,10 +244,10 @@ export function assembleCSSColors<K extends string>(dark: ColorMap<K>, light: Co
 }
 
 export interface MakeCSSThemeOptions extends CSSThemeOptions {
-  /** @defaultValue `'content'` */
-  scheme?: StandardDynamicSchemeKey
   /** @defaultValue `0` */
   contrastLevel?: number
+  /** @defaultValue `'content'` */
+  scheme?: StandardDynamicSchemeKey
 }
 
 /**

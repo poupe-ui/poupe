@@ -9,9 +9,9 @@ export const surfaceVariants = createStoryGroup(
   'Different Material Design 3 surface colors',
   ['surface', 'surface-dim', 'surface-bright', 'surface-container-lowest',
     'surface-container-low', 'surface-container', 'surface-container-high',
-    'surface-container-highest'].map(surface =>
+    'surface-container-highest'].map((surface) =>
     createStory({
-      title: surface.replaceAll('-', ' ').replaceAll(/\b\w/g, l => l.toUpperCase()),
+      title: surface.replaceAll('-', ' ').replaceAll(/\b\w/g, (l) => l.toUpperCase()),
       component: PSurface,
       props: {
         surface,
@@ -31,7 +31,7 @@ export const surfaceVariants = createStoryGroup(
 export const containerVariants = createStoryGroup(
   'Container Variants',
   'Color container variants for brand emphasis',
-  ['primary', 'secondary', 'tertiary', 'error'].map(container =>
+  ['primary', 'secondary', 'tertiary', 'error'].map((container) =>
     createStory({
       title: container.charAt(0).toUpperCase() + container.slice(1) + ' Container',
       component: PSurface,
@@ -60,7 +60,7 @@ export const shapeVariants = createStoryGroup(
     'squircle-xs', 'squircle-sm', 'squircle-md', 'squircle-lg', 'squircle-xl',
     // Special variants
     'rounded', 'full',
-  ].map(shape =>
+  ].map((shape) =>
     createStory({
       title: 'Shape ' + shape,
       component: PSurface,
@@ -94,7 +94,7 @@ export const shapeVariants = createStoryGroup(
 export const shadowVariants = createStoryGroup(
   'Shadow Variants',
   'Elevation levels for depth perception',
-  ['none', '1', '2', '3', '4', '5'].map(shadow =>
+  ['none', '1', '2', '3', '4', '5'].map((shadow) =>
     createStory({
       title: 'Shadow Level ' + shadow,
       component: PSurface,
@@ -118,9 +118,9 @@ export const shadowVariants = createStoryGroup(
 export const borderVariants = createStoryGroup(
   'Border Variants',
   'Border styles for additional emphasis',
-  ['none', 'primary', 'outline', 'outline-variant'].map(border =>
+  ['none', 'primary', 'outline', 'outline-variant'].map((border) =>
     createStory({
-      title: border === 'none' ? 'No Border' : border.replaceAll('-', ' ').replaceAll(/\b\w/g, l => l.toUpperCase()),
+      title: border === 'none' ? 'No Border' : border.replaceAll('-', ' ').replaceAll(/\b\w/g, (l) => l.toUpperCase()),
       component: PSurface,
       props: {
         surface: 'surface',
@@ -153,7 +153,7 @@ export const borderVariants = createStoryGroup(
 export const paddingVariants = createStoryGroup(
   'Padding Variants',
   'Different padding sizes for content spacing',
-  ['none', 'xs', 'sm', 'md', 'lg', 'xl'].map(padded =>
+  ['none', 'xs', 'sm', 'md', 'lg', 'xl'].map((padded) =>
     createStory({
       title: 'Padding ' + padded,
       component: PSurface,
@@ -176,7 +176,7 @@ export const paddingVariants = createStoryGroup(
 export const interactiveVariants = createStoryGroup(
   'Interactive Surfaces',
   'Surfaces with hover and focus states',
-  ['surface', 'primary', 'secondary', 'tertiary'].map(variant =>
+  ['surface', 'primary', 'secondary', 'tertiary'].map((variant) =>
     createStory({
       title: variant.charAt(0).toUpperCase() + variant.slice(1) + ' Interactive',
       component: PSurface,

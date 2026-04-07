@@ -90,16 +90,16 @@ export interface InputWrapperProps {
   modelValue?: InputValue
   value?: never
 
-  iconStart?: string
   iconEnd?: string
+  iconStart?: string
   unit?: string
 
-  surface?: InputWrapperVariantProps['surface']
   border?: InputWrapperVariantProps['border']
-  outline?: InputWrapperVariantProps['outline']
-  rounded?: InputWrapperVariantProps['rounded']
-  padding?: InputWrapperVariantProps['padding']
   expand?: InputWrapperVariantProps['expand']
+  outline?: InputWrapperVariantProps['outline']
+  padding?: InputWrapperVariantProps['padding']
+  rounded?: InputWrapperVariantProps['rounded']
+  surface?: InputWrapperVariantProps['surface']
 }
 
 export const defaultInputWrapperProps: InputWrapperProps = {

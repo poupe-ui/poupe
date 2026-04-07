@@ -45,8 +45,8 @@ export * from './utils';
  * (including RGB, HSL, HSV, LAB, LCH, CMYK and color names if the colord plugin has been enabled)
  */
 export const getColorParam = (param?: string | string[], filter?: (s?: string) => (string | undefined)): {
-  param?: string
   color?: HexColor
+  param?: string
 } => {
   const s = filter ? filter(getParam(param)) : getParam(param);
   if (s === undefined || s === '') {

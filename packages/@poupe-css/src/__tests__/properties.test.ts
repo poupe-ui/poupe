@@ -139,7 +139,7 @@ describe('formatCSSProperties', () => {
 
     // Check that it contains the background-image property
     // but be more flexible about the exact format
-    const backgroundImageLine = result.find(line => line.startsWith('background-image:'));
+    const backgroundImageLine = result.find((line) => line.startsWith('background-image:'));
     expect(backgroundImageLine).toBeDefined();
     expect(backgroundImageLine).toContain('url(bg.jpg)');
     expect(backgroundImageLine).toContain('linear-gradient(red, blue)');
@@ -249,9 +249,9 @@ describe('formatCSSProperties', () => {
     const result = formatCSSProperties(cssProps);
 
     // Find the relevant properties
-    const marginLine = result.find(line => line.startsWith('margin:'));
-    const paddingLine = result.find(line => line.startsWith('padding:'));
-    const transformLine = result.find(line => line.startsWith('transform:'));
+    const marginLine = result.find((line) => line.startsWith('margin:'));
+    const paddingLine = result.find((line) => line.startsWith('padding:'));
+    const transformLine = result.find((line) => line.startsWith('transform:'));
 
     // Check for space-delimited values for margin and padding
     expect(marginLine).toBe('margin: 10 20 30 40');
@@ -373,7 +373,7 @@ describe('properties generator', () => {
     expect(result).toHaveLength(2);
     expect(result).toContainEqual(['color', 'red']);
     expect(result).toContainEqual(['fontSize', 16]);
-    expect(result.map(pair => pair[0])).not.toContain('margin');
+    expect(result.map((pair) => pair[0])).not.toContain('margin');
   });
 
   it('handles array values', () => {
@@ -402,8 +402,8 @@ describe('properties generator', () => {
 
     expect(result).toHaveLength(1);
     expect(result).toContainEqual(['fontFamily', ['Arial', 'sans-serif']]);
-    expect(result.map(pair => pair[0])).not.toContain('padding');
-    expect(result.map(pair => pair[0])).not.toContain('margin');
+    expect(result.map((pair) => pair[0])).not.toContain('padding');
+    expect(result.map((pair) => pair[0])).not.toContain('margin');
   });
 
   it('handles empty objects', () => {
@@ -425,7 +425,7 @@ describe('properties generator', () => {
     expect(result).toHaveLength(2);
     expect(result).toContainEqual(['padding', [10, 20]]);
     expect(result).toContainEqual(['color', 'red']);
-    expect(result.map(pair => pair[0])).not.toContain('margin');
+    expect(result.map((pair) => pair[0])).not.toContain('margin');
   });
 });
 
@@ -458,7 +458,7 @@ describe('isValidValue', () => {
 
     expect(result).toHaveLength(1);
     expect(result).toContainEqual(['backgroundColor', 'blue']);
-    expect(result.map(pair => pair[0])).not.toContain('color');
+    expect(result.map((pair) => pair[0])).not.toContain('color');
   });
 
   it('handles array values properly', () => {
@@ -478,7 +478,7 @@ describe('isValidValue', () => {
     expect(result).toHaveLength(2);
     expect(result).toContainEqual(['margin', [0, 10, 20]]);
     expect(result).toContainEqual(['color', 'red']);
-    expect(result.map(pair => pair[0])).not.toContain('padding');
+    expect(result.map((pair) => pair[0])).not.toContain('padding');
   });
 
   it('rejects empty arrays', () => {
@@ -492,6 +492,6 @@ describe('isValidValue', () => {
 
     expect(result).toHaveLength(1);
     expect(result).toContainEqual(['color', 'blue']);
-    expect(result.map(pair => pair[0])).not.toContain('margin');
+    expect(result.map((pair) => pair[0])).not.toContain('margin');
   });
 });

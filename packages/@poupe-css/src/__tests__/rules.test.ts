@@ -327,7 +327,7 @@ describe('formatCSSRules', () => {
 
     // Custom validator that filters out keys starting with underscore
     const options: CSSRulesFormatOptions = {
-      valid: key => !key.startsWith('_'),
+      valid: (key) => !key.startsWith('_'),
     };
 
     const result = formatCSSRules(rules, options);
@@ -532,7 +532,7 @@ describe('interleavedRules', () => {
 
 describe('renameRules', () => {
   it('returns empty object for empty input', () => {
-    const result = renameRules({}, key => key);
+    const result = renameRules({}, (key) => key);
     expect(result).toEqual({});
   });
 
@@ -542,7 +542,7 @@ describe('renameRules', () => {
       '.card': { padding: '10px' },
     };
 
-    const result = renameRules(rules, key => `@custom${key}`);
+    const result = renameRules(rules, (key) => `@custom${key}`);
 
     expect(result).toEqual({
       '@custom.button': { color: 'blue' },
@@ -556,7 +556,7 @@ describe('renameRules', () => {
       '.internal': { padding: '10px' },
     };
 
-    const result = renameRules(rules, key =>
+    const result = renameRules(rules, (key) =>
       key.startsWith('.int') ? '' : key,
     );
 
@@ -576,7 +576,7 @@ describe('renameRules', () => {
       },
     };
 
-    const result = renameRules(rules, key => key.toUpperCase());
+    const result = renameRules(rules, (key) => key.toUpperCase());
 
     expect(result).toEqual({
       '.PARENT': {
@@ -641,7 +641,7 @@ describe('formatCSSRulesArray with blank line handling', () => {
     expect(result).toContain('@media screen {');
 
     // Verify there's exactly one blank line between content blocks
-    const blankLineCount = result.filter(line => line === '').length;
+    const blankLineCount = result.filter((line) => line === '').length;
     expect(blankLineCount).toBe(1);
   });
 
@@ -748,7 +748,7 @@ describe('integration tests for CSS rule formatting', () => {
       '.card': { backgroundColor: 'white' },
     };
 
-    const renamed = renameRules(rules, key => `@component${key}`);
+    const renamed = renameRules(rules, (key) => `@component${key}`);
     const result = stringifyCSSRules(renamed);
 
     expect(result).toContain('@component.button {');

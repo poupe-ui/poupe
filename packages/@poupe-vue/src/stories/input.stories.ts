@@ -169,7 +169,7 @@ export const helperTextVariants = createStoryGroup(
 export const surfaceVariants = createStoryGroup(
   'Surface Variants',
   'Different surface colors for input fields',
-  ['base', 'lowest', 'low', 'high', 'highest'].map(surface =>
+  ['base', 'lowest', 'low', 'high', 'highest'].map((surface) =>
     createStory({
       title: `Surface ${surface}`,
       component: Input,
@@ -186,7 +186,7 @@ export const surfaceVariants = createStoryGroup(
 export const borderVariants = createStoryGroup(
   'Border Variants',
   'Different border styles for input fields',
-  ['none', 'current', 'primary', 'secondary', 'tertiary', 'error', 'outline'].map(border =>
+  ['none', 'current', 'primary', 'secondary', 'tertiary', 'error', 'outline'].map((border) =>
     createStory({
       title: `Border ${border}`,
       component: Input,
@@ -204,7 +204,7 @@ export const borderVariants = createStoryGroup(
 export const outlineVariants = createStoryGroup(
   'Outline Variants',
   'Different outline colors when focused',
-  ['none', 'current', 'primary', 'secondary', 'tertiary', 'error', 'outline'].map(outline =>
+  ['none', 'current', 'primary', 'secondary', 'tertiary', 'error', 'outline'].map((outline) =>
     createStory({
       title: `Outline ${outline}`,
       component: Input,
@@ -221,7 +221,7 @@ export const outlineVariants = createStoryGroup(
 export const roundedVariants = createStoryGroup(
   'Rounded Variants',
   'Different corner radius options',
-  ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', 'full'].map(rounded =>
+  ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', 'full'].map((rounded) =>
     createStory({
       title: `Rounded ${rounded}`,
       component: Input,
@@ -238,7 +238,7 @@ export const roundedVariants = createStoryGroup(
 export const paddingVariants = createStoryGroup(
   'Padding Variants',
   'Different padding sizes',
-  [0, 1, 2, 3, 4].map(padding =>
+  [0, 1, 2, 3, 4].map((padding) =>
     createStory({
       title: `Padding ${padding}`,
       component: Input,

@@ -6,10 +6,10 @@ import { createPoupe, providePoupeOptions, usePoupe, usePoupeDefaults, usePoupeM
 // Test component types
 interface TestComponentProps {
   color: 'base' | 'none' | 'primary' | 'secondary'
+  padding: 'lg' | 'md' | 'none' | 'sm'
+  shadow: 'none' | 'z1' | 'z2'
   shape: 'lg' | 'md' | 'none' | 'sm'
   size: 'lg' | 'md' | 'sm'
-  shadow: 'none' | 'z1' | 'z2'
-  padding: 'lg' | 'md' | 'none' | 'sm'
 }
 
 // Test component type augmentation
@@ -27,8 +27,8 @@ interface TestComponentInstance {
 
 // Helper to mount with Poupe plugin
 function mountWithPoupe<T>(component: T, options?: {
-  poupeOptions?: Parameters<typeof createPoupe>[0]
   mountOptions?: Parameters<typeof mount>[1]
+  poupeOptions?: Parameters<typeof createPoupe>[0]
 }) {
   const mountOptions = options?.mountOptions || {};
   const poupeOptions = options?.poupeOptions || {};

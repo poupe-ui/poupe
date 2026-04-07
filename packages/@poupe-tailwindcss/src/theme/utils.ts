@@ -66,7 +66,7 @@ export function validColorOptions(name: string, options: ThemeColorOptions): boo
 
 const isStandardKeyName = (name: string): boolean => standardPaletteKeys.includes(name as StandardPaletteKey);
 
-export function getColor(name: string, value: Color | undefined): { ok: boolean; color?: string } {
+export function getColor(name: string, value: Color | undefined): { color?: string; ok: boolean } {
   let v = value || (isStandardKeyName(name) ? undefined : name);
   if (v === undefined) {
     // standard keys can be undefined.

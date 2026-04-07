@@ -21,7 +21,7 @@ describe('plugin matchUtilities integration', () => {
     const components = makeThemeComponents(theme);
 
     // Find the component object containing scrim-*
-    const componentWithScrim = components.find(comp => 'scrim-*' in comp);
+    const componentWithScrim = components.find((comp) => 'scrim-*' in comp);
     expect(componentWithScrim).toBeDefined();
 
     const { api, matchUtilitiesMock } = createMockPluginAPI();
@@ -53,7 +53,7 @@ describe('plugin matchUtilities integration', () => {
     const theme = makeTheme(withDefaultThemeOptions({}));
     const components = makeThemeComponents(theme);
 
-    const componentWithScrim = components.find(comp => 'scrim-*' in comp);
+    const componentWithScrim = components.find((comp) => 'scrim-*' in comp);
     const { api, matchUtilitiesMock } = createMockPluginAPI();
 
     doMatchUtility(api, 'scrim-*', componentWithScrim!['scrim-*']);
@@ -88,7 +88,7 @@ describe('plugin matchUtilities integration', () => {
     const theme = makeTheme(withDefaultThemeOptions({}));
     const components = makeThemeComponents(theme);
 
-    const componentWithScrim = components.find(comp => 'scrim-*' in comp);
+    const componentWithScrim = components.find((comp) => 'scrim-*' in comp);
     const { api, matchUtilitiesMock } = createMockPluginAPI();
 
     doMatchUtility(api, 'scrim-*', componentWithScrim!['scrim-*']);
@@ -140,7 +140,7 @@ describe('plugin matchUtilities integration', () => {
     const theme = makeTheme(withDefaultThemeOptions({}));
     const components = makeThemeComponents(theme);
 
-    const componentWithZIndex = components.find(comp => 'z-modal' in comp);
+    const componentWithZIndex = components.find((comp) => 'z-modal' in comp);
     expect(componentWithZIndex).toBeDefined();
 
     const { api, matchUtilitiesMock } = createMockPluginAPI();

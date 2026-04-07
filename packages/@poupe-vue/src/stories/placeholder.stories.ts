@@ -44,7 +44,7 @@ export const basicVariants = createStoryGroup(
 export const borderVariants = createStoryGroup(
   'Border Variants',
   'Different border styles',
-  ['none', 'solid', 'dashed'].map(border =>
+  ['none', 'solid', 'dashed'].map((border) =>
     createStory({
       title: `Border ${border}`,
       component: Placeholder,
@@ -60,7 +60,7 @@ export const borderVariants = createStoryGroup(
 export const colorVariants = createStoryGroup(
   'Color Variants',
   'Different pattern and border colors',
-  ['current', 'outline-variant', 'outline', 'primary', 'secondary', 'tertiary', 'error'].map(color =>
+  ['current', 'outline-variant', 'outline', 'primary', 'secondary', 'tertiary', 'error'].map((color) =>
     createStory({
       title: `Color ${color}`,
       component: Placeholder,
@@ -77,7 +77,7 @@ export const colorVariants = createStoryGroup(
 export const roundedVariants = createStoryGroup(
   'Rounded Variants',
   'Different corner radius options',
-  ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', 'full'].map(rounded =>
+  ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', 'full'].map((rounded) =>
     createStory({
       title: `Rounded ${rounded}`,
       component: Placeholder,
@@ -95,7 +95,7 @@ export const roundedVariants = createStoryGroup(
 export const shadowVariants = createStoryGroup(
   'Shadow Variants',
   'Different shadow elevations',
-  ['none', 'z1', 'z2', 'z3', 'z4', 'z5'].map(shadow =>
+  ['none', 'z1', 'z2', 'z3', 'z4', 'z5'].map((shadow) =>
     createStory({
       title: `Shadow ${shadow}`,
       component: Placeholder,

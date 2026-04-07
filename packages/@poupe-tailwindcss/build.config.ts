@@ -21,8 +21,8 @@ import {
 import { compileCSS } from './src/utils/compile';
 
 type FileThemeOptions<K extends string> = {
-  theme: Partial<ThemeOptions<K>>
   format?: ColorFormat
+  theme: Partial<ThemeOptions<K>>
 };
 
 const debugThemes = false;

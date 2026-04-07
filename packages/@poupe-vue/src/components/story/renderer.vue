@@ -5,8 +5,8 @@ import StoryShowcaseItem from './showcase-item.vue';
 import { generateCode } from './utils';
 
 interface Props {
-  story: StoryConfig
   options?: StoryConfigOptions | undefined
+  story: StoryConfig
 }
 
 const props = withDefaults(defineProps<Props>(), {

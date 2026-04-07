@@ -34,7 +34,7 @@ export async function compile(
   // Compile the CSS
   const compiler = await tailwindCompile(inputCSS, {
     base,
-    onDependency: dep => dependencies.add(dep),
+    onDependency: (dep) => dependencies.add(dep),
   });
 
   // Extract candidate classes from content
@@ -50,14 +50,14 @@ export async function compile(
  * Pattern configuration for extracting class candidates
  */
 export interface ClassPattern {
-  /** Regular expression to match the pattern */
-  regex: RegExp
   /** Index of the capture group containing class names */
   captureGroup: number
-  /** Whether to split the captured text by whitespace */
-  splitByWhitespace: boolean
   /** Description of what this pattern matches */
   description: string
+  /** Regular expression to match the pattern */
+  regex: RegExp
+  /** Whether to split the captured text by whitespace */
+  splitByWhitespace: boolean
 }
 
 /**

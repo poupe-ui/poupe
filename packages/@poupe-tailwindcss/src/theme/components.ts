@@ -104,8 +104,8 @@ const SURFACE_PAIRING_PATTERNS: Record<string, { patterns: string[]; type: 'fixe
  */
 interface SurfacePair {
   bgColor: string
-  textColor: string
   surfaceName: string
+  textColor: string
 }
 
 /**
@@ -263,7 +263,7 @@ export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: st
 
   const surfaces: Record<string, CSSRuleObject> = {};
 
-  const [bgPrefix, textPrefix] = ['bg-', 'text-'].map(prefix => `${tailwindPrefix}${prefix}`);
+  const [bgPrefix, textPrefix] = ['bg-', 'text-'].map((prefix) => `${tailwindPrefix}${prefix}`);
 
   for (const pair of pairs.values()) {
     const { bgColor, textColor, surfaceName } = pair;
@@ -416,7 +416,7 @@ export function makeInteractiveSurfaceComponents(
   }
 
   const [bgPrefix, textPrefix, borderPrefix] = ['bg-', 'text-', 'border-']
-    .map(prefix => `${tailwindPrefix}${prefix}`);
+    .map((prefix) => `${tailwindPrefix}${prefix}`);
 
   // Calculate disabled text opacity once
   const onDisabledOpacity = Math.round(stateLayerOpacities.onDisabled * 100);
@@ -600,7 +600,7 @@ export function makeShapeComponents(theme: Readonly<Theme>): Record<string, CSSR
   const components: Record<string, CSSRuleObject> = {};
 
   // Validate theme has shape tokens if needed
-  const hasShapeTokens = Object.keys(theme.colors).some(key => key.startsWith('shape-'));
+  const hasShapeTokens = Object.keys(theme.colors).some((key) => key.startsWith('shape-'));
   if (theme.options.debug && !hasShapeTokens) {
     debugLog(true, 'shape-validation', 'No shape- tokens found in theme colors');
   }
