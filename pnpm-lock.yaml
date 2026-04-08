@@ -119,8 +119,8 @@ importers:
         specifier: ^20.19.0
         version: 20.19.0
       changelogen:
-        specifier: ^0.6.1
-        version: 0.6.1(magicast@0.3.5)
+        specifier: ^0.6.2
+        version: 0.6.2(magicast@0.3.5)
       defu:
         specifier: ^6.1.4
         version: 6.1.5
@@ -2683,8 +2683,8 @@ packages:
   change-case@5.4.4:
     resolution: {integrity: sha512-HRQyTk2/YPEkt9TnUPbOpr64Uw3KOicFWPVBb+xiHvd6eBx/qPr9xqfBFDT8P2vWsvvz4jbEkfDe71W3VyNu2w==}
 
-  changelogen@0.6.1:
-    resolution: {integrity: sha512-rTw2bZgiEHMgyYzWFMH+qTMFOSpCf4qwmd8LyxLDUKCtL4T/7O7978tPPtKYpjiFbPoHG64y4ugdF0Mt/l+lQg==}
+  changelogen@0.6.2:
+    resolution: {integrity: sha512-QtC7+r9BxoUm+XDAwhLbz3CgU134J1ytfE3iCpLpA4KFzX2P1e6s21RrWDwUBzfx66b1Rv+6lOA2nS2btprd+A==}
     hasBin: true
 
   character-entities-legacy@3.0.0:
@@ -9027,7 +9027,7 @@ snapshots:
 
   change-case@5.4.4: {}
 
-  changelogen@0.6.1(magicast@0.3.5):
+  changelogen@0.6.2(magicast@0.3.5):
     dependencies:
       c12: 3.0.4(magicast@0.3.5)
       confbox: 0.2.4
