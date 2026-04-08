@@ -46,11 +46,12 @@ pnpm clean        # Remove dist/ and node_modules/
 **Code Quality:**
 
 ```bash
-pnpm lint         # Run ESLint with auto-fix
-pnpm lint:check   # Run ESLint without auto-fix (read-only)
-pnpm type-check   # Check TypeScript types
-pnpm prepack      # Full validation (lint:check, type-check, test, build, publint)
-pnpm publint      # Check package publishing configuration
+pnpm lint           # Run ESLint with auto-fix
+pnpm lint:check     # Run ESLint without auto-fix (read-only)
+pnpm type-check     # Check TypeScript types
+pnpm prepack        # Full validation (lint:check, type-check, test, build, publint)
+pnpm publint        # Check package publishing configuration
+pnpm publish:maybe  # Publish to npm only if version is not yet published
 ```
 
 **Debugging:**
@@ -65,6 +66,10 @@ DEBUG=eslint:eslint pnpm lint:check    # Debug ESLint issues
 pnpm build        # Build all packages
 pnpm clean        # Clean all packages
 pnpm lint         # Lint all packages
+pnpm precommit    # Full pipeline: build, lint, type-check, test
+pnpm prepack      # Full publish gate: lint:check + per-package prepack
+pnpm test         # Run tests in all packages
+pnpm type-check   # Type-check all packages
 ```
 
 ## Code Style Guidelines
@@ -159,19 +164,19 @@ README.md files:
 
 Before committing any changes, ALWAYS run:
 
-1. `pnpm -r precommit` - Run all precommit checks across the workspace
+1. `pnpm precommit` - Run the workspace precommit pipeline
 2. Fix any issues found by the precommit checks
 3. Check IDE diagnostics panel for warnings
 4. Update AGENTS.md if guidelines change
 5. Update README.md if public API changes
 6. Review documentation formatting follows guidelines
 
-The `pnpm -r precommit` command will:
+The `pnpm precommit` command runs, in order:
 
-- Run ESLint and fix linting issues
+- Build all packages (build first refreshes stubs)
+- Run ESLint with auto-fix
 - Check TypeScript types
-- Run tests
-- Ensure code quality standards are met
+- Run all tests
 
 ### DO
 

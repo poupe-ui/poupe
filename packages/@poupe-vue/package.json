@@ -73,6 +73,7 @@
     "prepack": "eslint --fix package.json && run-s lint:check type-check build test publint",
     "preview": "vite preview",
     "publint": "publint",
+    "publish:maybe": "npm view ${npm_package_name}@${npm_package_version} version 2>/dev/null && echo \"${npm_package_name}@${npm_package_version} already published\" || pnpm publish",
     "screenshot": "tsx src/scripts/screenshot.ts",
     "screenshot:auto": "tsx src/scripts/screenshot-auto.ts",
     "test": "vitest run",

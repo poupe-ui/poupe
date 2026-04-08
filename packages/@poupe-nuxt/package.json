@@ -52,6 +52,7 @@
     "precommit": "run-s dev:prepare lint type-check:check build test",
     "prepack": "eslint --fix package.json && run-s dev:prepare lint:check type-check:check build test publint",
     "publint": "publint",
+    "publish:maybe": "npm view ${npm_package_name}@${npm_package_version} version 2>/dev/null && echo \"${npm_package_name}@${npm_package_version} already published\" || pnpm publish",
     "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "test": "vitest run",
     "test:watch": "vitest watch",

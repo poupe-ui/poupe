@@ -125,10 +125,13 @@ This is a monorepo managed with pnpm.
 pnpm install
 
 # Build all packages
-pnpm -r build
+pnpm build
 
 # Run tests
-pnpm -r test
+pnpm test
+
+# Run the full precommit pipeline (build, lint, type-check, test)
+pnpm precommit
 ```
 
 ## Contributing

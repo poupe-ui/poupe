@@ -58,6 +58,7 @@
     "precommit": "run-s lint type-check build test",
     "prepack": "eslint --fix package.json && run-s lint:check type-check build test publint",
     "publint": "publint",
+    "publish:maybe": "npm view ${npm_package_name}@${npm_package_version} version 2>/dev/null && echo \"${npm_package_name}@${npm_package_version} already published\" || pnpm publish",
     "test": "vitest run",
     "type-check": "tsc --noEmit"
   },
