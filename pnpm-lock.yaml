@@ -217,8 +217,8 @@ importers:
         specifier: workspace:^
         version: link:../@poupe-css
       '@poupe/material-color-utilities':
-        specifier: ^0.3.6
-        version: 0.3.6
+        specifier: ^0.4.0
+        version: 0.4.0
       colord:
         specifier: ^2.9.3
         version: 2.9.3
@@ -1552,8 +1552,8 @@ packages:
     peerDependencies:
       '@vue/compiler-sfc': ^3.5.32
 
-  '@poupe/material-color-utilities@0.3.6':
-    resolution: {integrity: sha512-I7rNfLnN+ZQn0b7HjDhsvZhWnNSYAGzkwRzoKq41MuXVvYQpewekg9gUJ3hmnC1NdK0SpALKIMWYXt9nv1sv8A==}
+  '@poupe/material-color-utilities@0.4.0':
+    resolution: {integrity: sha512-J5A/tSQfyK6/ncJp1sdlUnJHsLVH3yND7M8XVRzc/bEHOr0LMC5+YOGAdv+gBPwH3UEHDzgO6CVEHrPkBk0WYw==}
 
   '@publint/pack@0.1.2':
     resolution: {integrity: sha512-S+9ANAvUmjutrshV4jZjaiG8XQyuJIZ8a4utWmN/vW1sgQ9IfBnPndwkmQYw53QmouOIytT874u65HEmu6H5jw==}
@@ -7847,7 +7847,7 @@ snapshots:
       - typescript
       - vue-eslint-parser
 
-  '@poupe/material-color-utilities@0.3.6': {}
+  '@poupe/material-color-utilities@0.4.0': {}
 
   '@publint/pack@0.1.2': {}
 
