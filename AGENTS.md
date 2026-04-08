@@ -454,8 +454,10 @@ Each package has its own AGENTS.md file with specific details:
 
 1. Run `pnpm prepack` in the package directory
 2. Ensure all tests pass
-3. Update version in package.json
-4. Build and publish to npm
+3. Open a PR updating the version in `package.json` and adding
+   an entry to `CHANGELOG.md`
+4. Once merged, run `pnpm publish:maybe` from the package
+   directory to publish to npm
 
 ## Important Notes
 
