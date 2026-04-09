@@ -46,11 +46,12 @@ pnpm clean        # Remove dist/ and node_modules/
 **Code Quality:**
 
 ```bash
-pnpm lint         # Run ESLint with auto-fix
-pnpm lint:check   # Run ESLint without auto-fix (read-only)
-pnpm type-check   # Check TypeScript types
-pnpm prepack      # Full validation (lint:check, type-check, test, build, publint)
-pnpm publint      # Check package publishing configuration
+pnpm lint           # Run ESLint with auto-fix
+pnpm lint:check     # Run ESLint without auto-fix (read-only)
+pnpm type-check     # Check TypeScript types
+pnpm prepack        # Full validation (lint:check, type-check, test, build, publint)
+pnpm publint        # Check package publishing configuration
+pnpm publish:maybe  # Publish to npm only if version is not yet published
 ```
 
 **Debugging:**
@@ -65,6 +66,10 @@ DEBUG=eslint:eslint pnpm lint:check    # Debug ESLint issues
 pnpm build        # Build all packages
 pnpm clean        # Clean all packages
 pnpm lint         # Lint all packages
+pnpm precommit    # Full pipeline: build, lint, type-check, test
+pnpm prepack      # Full publish gate: lint:check + per-package prepack
+pnpm test         # Run tests in all packages
+pnpm type-check   # Type-check all packages
 ```
 
 ## Code Style Guidelines
@@ -159,19 +164,19 @@ README.md files:
 
 Before committing any changes, ALWAYS run:
 
-1. `pnpm -r precommit` - Run all precommit checks across the workspace
+1. `pnpm precommit` - Run the workspace precommit pipeline
 2. Fix any issues found by the precommit checks
 3. Check IDE diagnostics panel for warnings
 4. Update AGENTS.md if guidelines change
 5. Update README.md if public API changes
 6. Review documentation formatting follows guidelines
 
-The `pnpm -r precommit` command will:
+The `pnpm precommit` command runs, in order:
 
-- Run ESLint and fix linting issues
+- Build all packages (build first refreshes stubs)
+- Run ESLint with auto-fix
 - Check TypeScript types
-- Run tests
-- Ensure code quality standards are met
+- Run all tests
 
 ### DO
 
@@ -449,8 +454,26 @@ Each package has its own AGENTS.md file with specific details:
 
 1. Run `pnpm prepack` in the package directory
 2. Ensure all tests pass
-3. Update version in package.json
-4. Build and publish to npm
+3. Open a PR updating the version in `package.json` and adding
+   an entry to `CHANGELOG.md`
+4. Once merged, tag the merge commit with `v<version>` (semver,
+   matching `v[0-9]*`) and push the tag. `publish.yml` runs
+   `publish:maybe` across the workspace and publishes any package
+   whose `<name>@<version>` is not yet on the registry
+
+The workflow always publishes to the `latest` dist-tag.
+Prereleases such as `v0.1.0-beta.1` land on `latest` and need a
+manual `npm dist-tag add` fixup post-publish (requires `npm login`
+with publish rights — OIDC tokens cannot mutate dist-tags).
+
+Each publishable package needs a one-time trusted publisher entry
+on npmjs.com (Repository: `poupe-ui/poupe`, Workflow:
+`publish.yml`, Environment: none) before `publish.yml` can
+authenticate.
+
+Pull requests get preview builds with
+[pkg-pr-new](https://github.com/stackblitz-labs/pkg-pr-new) — an
+install-instructions comment appears on the PR.
 
 ## Important Notes
 
