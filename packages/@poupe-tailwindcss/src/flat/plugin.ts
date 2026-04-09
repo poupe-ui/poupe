@@ -77,10 +77,10 @@ export type FlatOptions = {
   shades?: false | number[]
 };
 
-export type PluginColorOptions = [ ...number[] ] | [boolean, ...number[]] |
-  [string, ...number[]] |
-  [string, boolean, ...number[]] |
+export type PluginColorOptions = [boolean, number, ...number[]] | [number, ...number[]] |
+  [string, boolean, number, ...number[]] |
   [string, boolean] |
+  [string, number, ...number[]] |
   boolean |
   string;
 

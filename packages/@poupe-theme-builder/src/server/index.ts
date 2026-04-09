@@ -58,10 +58,14 @@ export const getColorParam = (param?: string | string[], filter?: (s?: string) =
     return { param: s, color: hex };
   }
 
-  const c = colord(s);
-  if (c.isValid()) {
-    const hex = c.toHex() as HexColor;
-    return { param: s, color: hex };
+  try {
+    const c = colord(s);
+    if (c.isValid()) {
+      const hex = c.toHex() as HexColor;
+      return { param: s, color: hex };
+    }
+  } catch {
+    // invalid colour string — fall through
   }
 
   return { param: s };

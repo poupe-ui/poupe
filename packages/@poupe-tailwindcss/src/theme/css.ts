@@ -20,7 +20,7 @@ import {
 } from './theme';
 
 import {
-  Hct,
+  type Hct,
   type Theme,
   type ThemeColorConfig,
 } from './types';
