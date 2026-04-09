@@ -80,7 +80,7 @@
     "typescript": "^5.8.3",
     "unbuild": "3.6.1",
     "vitest": "^3.2.4",
-    "vue-tsc": "^2.2.10"
+    "vue-tsc": "^2.2.12"
   },
   "peerDependencies": {
     "tailwindcss": "^4.1.11"
