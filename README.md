@@ -5,8 +5,8 @@ provides a complete solution for building beautiful, accessible, and
 customizable user interfaces.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENCE.txt)
-[![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.19.1-brightgreen)](package.json)
-[![pnpm](https://img.shields.io/badge/pnpm-%3E%3D10.10.0-orange)](package.json)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.19.2-brightgreen)](package.json)
+[![pnpm](https://img.shields.io/badge/pnpm-%3E%3D10.33.0-orange)](package.json)
 
 ## Features
 
@@ -29,8 +29,8 @@ customizable user interfaces.
 
 ## Requirements
 
-- Node.js >=20.19.1
-- pnpm >=10.10.0
+- Node.js >=20.19.2
+- pnpm >=10.33.0
 
 ## Installation
 

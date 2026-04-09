@@ -369,11 +369,11 @@ When referencing other packages in the monorepo:
 
 ## Common Dependencies
 
-- **TypeScript**: ~5.7.2 (strict mode enabled)
-- **Vitest**: ^2.1.8 for testing
+- **TypeScript**: ~5.8.3 (strict mode enabled)
+- **Vitest**: ^3.2.4 for testing
 - **ESLint**: Via @poupe/eslint-config
 - **Node.js**: >=20.19.2
-- **pnpm**: >=10.10.0
+- **pnpm**: >=10.33.0
 
 ## Material Design 3 Principles
 

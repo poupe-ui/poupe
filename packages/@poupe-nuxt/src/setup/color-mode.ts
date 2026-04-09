@@ -9,6 +9,8 @@ import type { SetupContext } from './types';
 export async function setupColorMode<K extends string>(context: SetupContext<K>) {
   const { nuxt } = context;
 
+  if (nuxt.options.colorMode === false) return;
+
   if (hasNuxtModule('@nuxtjs/color-mode', nuxt)) {
     if (nuxt.options.colorMode) {
       nuxt.options.colorMode.classPrefix = '';
