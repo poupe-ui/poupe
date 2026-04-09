@@ -456,8 +456,24 @@ Each package has its own AGENTS.md file with specific details:
 2. Ensure all tests pass
 3. Open a PR updating the version in `package.json` and adding
    an entry to `CHANGELOG.md`
-4. Once merged, run `pnpm publish:maybe` from the package
-   directory to publish to npm
+4. Once merged, tag the merge commit with `v<version>` (semver,
+   matching `v[0-9]*`) and push the tag. `publish.yml` runs
+   `publish:maybe` across the workspace and publishes any package
+   whose `<name>@<version>` is not yet on the registry
+
+The workflow always publishes to the `latest` dist-tag.
+Prereleases such as `v0.1.0-beta.1` land on `latest` and need a
+manual `npm dist-tag add` fixup post-publish (requires `npm login`
+with publish rights — OIDC tokens cannot mutate dist-tags).
+
+Each publishable package needs a one-time trusted publisher entry
+on npmjs.com (Repository: `poupe-ui/poupe`, Workflow:
+`publish.yml`, Environment: none) before `publish.yml` can
+authenticate.
+
+Pull requests get preview builds with
+[pkg-pr-new](https://github.com/stackblitz-labs/pkg-pr-new) — an
+install-instructions comment appears on the PR.
 
 ## Important Notes
 

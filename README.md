@@ -136,6 +136,10 @@ pnpm precommit
 
 ## Contributing
 
+Pull requests get preview builds with
+[pkg-pr-new](https://github.com/stackblitz-labs/pkg-pr-new) — a
+comment with install instructions appears on the PR.
+
 1. Fork the repository
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
