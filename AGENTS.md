@@ -450,6 +450,63 @@ Each package has its own AGENTS.md file with specific details:
 4. **Dependency Issues**: Verify workspace links with `pnpm list`
 5. **ESLint Problems**: Use `DEBUG=eslint:eslint pnpm lint:check`
 
+## Dev Server Management
+
+Two development playgrounds are available:
+
+- **@poupe/vue** (Vite) — port 5173
+- **@poupe-nuxt/playground** (Nuxt) — port 3000
+
+Start both with `--host` so they bind to `0.0.0.0` and are
+reachable from outside the container at the IP from
+`hostname -I`:
+
+```bash
+pnpm --filter @poupe/vue dev -- --host --port 5173
+pnpm --filter @poupe/nuxt dev -- --host --port 3000
+```
+
+Run these as background tasks (`run_in_background`). Stop with
+`TaskStop` — this sends SIGTERM to the entire process group.
+
+### Headless Chromium (MCP)
+
+A headless Chromium instance enables screenshots and DOM
+inspection with the chrome-devtools MCP server. Start it
+before using MCP tools:
+
+```bash
+chromium --headless --no-sandbox --remote-debugging-port=9235 \
+  --no-first-run --no-default-browser-check --disable-gpu \
+  about:blank
+```
+
+Port 9235 is project-local (9234 is used by awesome-apptly).
+Use `mcp__chrome-devtools__new_page` to navigate to a dev
+server, then `take_screenshot` or `take_snapshot` for visual
+and DOM verification.
+
+### `.mcp.json`
+
+`.mcp.json` is gitignored — create it locally to configure
+MCP servers:
+
+```json
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "chrome-devtools-mcp@latest",
+        "--browserUrl",
+        "http://127.0.0.1:9235"
+      ]
+    }
+  }
+}
+```
+
 ## Release Process
 
 1. Run `pnpm prepack` in the package directory
