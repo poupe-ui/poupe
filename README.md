@@ -125,13 +125,20 @@ This is a monorepo managed with pnpm.
 pnpm install
 
 # Build all packages
-pnpm -r build
+pnpm build
 
 # Run tests
-pnpm -r test
+pnpm test
+
+# Run the full precommit pipeline (build, lint, type-check, test)
+pnpm precommit
 ```
 
 ## Contributing
+
+Pull requests get preview builds with
+[pkg-pr-new](https://github.com/stackblitz-labs/pkg-pr-new) — a
+comment with install instructions appears on the PR.
 
 1. Fork the repository
 2. Create your feature branch: `git checkout -b my-new-feature`

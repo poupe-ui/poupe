@@ -60,10 +60,10 @@ type PlaceholderVariantProps = VariantProps<typeof placeholder>;
 
 /** Placeholder component props */
 export type PlaceholderProps = {
-  /** rhombus width. @defaultValue 10 */
-  rw?: number
   /** rhombus height. @defaultValue 20 */
   rh?: number
+  /** rhombus width. @defaultValue 10 */
+  rw?: number
 
   /** placeholder border. @defaultValue `'dashed'` */
   border?: PlaceholderVariantProps['border']

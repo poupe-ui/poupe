@@ -1,8 +1,8 @@
 <script lang="ts">
 export interface ThemeSchemeSlotProps {
   bg: string
-  text: string
   label?: string
+  text: string
 }
 </script>
 

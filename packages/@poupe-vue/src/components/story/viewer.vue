@@ -3,14 +3,14 @@ import type { RouteLocationNormalizedLoaded, Router } from 'vue-router';
 import { type Component, computed, onMounted, onUnmounted, provide, ref, watch } from 'vue';
 
 export interface StoryDefinition {
-  name: string
   component: Component
   description?: string
+  name: string
 }
 
 interface Props {
-  stories: StoryDefinition[]
   defaultStory?: string
+  stories: StoryDefinition[]
   useRouter?: {
     route: RouteLocationNormalizedLoaded
     router: Router

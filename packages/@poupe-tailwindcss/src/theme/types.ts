@@ -25,18 +25,18 @@ export {
 export type { KebabCase } from 'type-fest';
 
 export type Theme = {
+  readonly keys: string[]
   readonly options: ThemeOptions
   readonly paletteKeys: string[]
-  readonly keys: string[]
 
+  readonly colors: Record<string, ThemeColorConfig>
   readonly dark: ColorMap<string> | undefined
   readonly light: ColorMap<string> | undefined
-  readonly colors: Record<string, ThemeColorConfig>
 };
 
 export type ThemeColorConfig = {
-  value: string
   shades?: Record<number, string>
+  value: string
 };
 
 /**
@@ -107,11 +107,11 @@ export type ThemeOptions<K extends string = string> = {
  * - Custom color keys transformed to kebab-case
  */
 export type ThemeColors<K extends string> = {
-  primary: string | ThemeColorOptions
-} & {
   [name in Exclude<StandardPaletteKey, 'primary'>]?: string | ThemeColorOptions
 } & {
   [name in KebabCase<K>]: boolean | string | ThemeColorOptions
+} & {
+  primary: string | ThemeColorOptions
 };
 
 /**
@@ -123,9 +123,9 @@ export type ThemeColors<K extends string> = {
  * - The shades associated with the color.
  */
 export type ThemeColorOptions = {
-  value?: string
   harmonized?: boolean
   shades?: Shades | true /** @defaultValue `[50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]` */
+  value?: string
 };
 
 export const defaultPrimaryColor = '#74bef5'; // blue from Tailwind CSS's logo

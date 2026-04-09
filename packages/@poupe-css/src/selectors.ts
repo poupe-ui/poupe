@@ -27,10 +27,10 @@ export function expandSelectorAlias(
 export interface ProcessCSSSelectorOptions {
   /** Whether to add "selector *" variants to each selector */
   addStarVariants?: boolean
-  /** Whether to allow comma-separated selectors to pass through */
-  allowCommaPassthrough?: boolean
   /** Custom selector aliases to use for expansion */
   aliases?: Record<string, string>
+  /** Whether to allow comma-separated selectors to pass through */
+  allowCommaPassthrough?: boolean
 }
 
 /**

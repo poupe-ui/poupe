@@ -52,6 +52,7 @@
     "precommit": "run-s dev:prepare lint type-check:check build test",
     "prepack": "eslint --fix package.json && run-s dev:prepare lint:check type-check:check build test publint",
     "publint": "publint",
+    "publish:maybe": "npm view ${npm_package_name}@${npm_package_version} version 2>/dev/null && echo \"${npm_package_name}@${npm_package_version} already published\" || pnpm publish",
     "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "test": "vitest run",
     "test:watch": "vitest watch",
@@ -88,7 +89,7 @@
     "nuxt": "^4.4.2",
     "publint": "^0.3.12",
     "typescript": "^5.8.3",
-    "unbuild": "3.5.0",
+    "unbuild": "3.6.1",
     "vite": "^6.3.5",
     "vitest": "^3.2.4",
     "vue-tsc": "^2.2.10"
@@ -98,9 +99,9 @@
   },
   "engines": {
     "node": ">=20.19.2",
-    "pnpm": ">=10.10.0"
+    "pnpm": ">=10.33.0"
   },
-  "packageManager": "pnpm@10.32.1+sha512.a706938f0e89ac1456b6563eab4edf1d1faf3368d1191fc5c59790e96dc918e4456ab2e67d613de1043d2e8c81f87303e6b40d4ffeca9df15ef1ad567348f2be",
+  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319",
   "publishConfig": {
     "access": "public"
   }

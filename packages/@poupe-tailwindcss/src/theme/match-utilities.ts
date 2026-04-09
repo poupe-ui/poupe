@@ -28,8 +28,8 @@ export type MatchUtilitiesOptions = Parameters<PluginAPI['matchUtilities']>[1];
  */
 export function asMatchUtility(name: string, value: CSSRuleObject): (undefined | {
   name: string
-  value?: MatchUtilitiesValue
   options?: MatchUtilitiesOptions
+  value?: MatchUtilitiesValue
 }) {
   // Only process dynamic utilities (those ending with -*)
   if (!name.endsWith('-*')) {
@@ -42,8 +42,8 @@ export function asMatchUtility(name: string, value: CSSRuleObject): (undefined |
   // Separate --value() and --modifier() patterns from static CSS rules
   const dynamicProperties: Array<{
     cssProperty: string
-    valuePattern: string
     type: string
+    valuePattern: string
   }> = [];
   const modifierProperties: Array<ModifierProperties> = [];
   const staticCSSRules: CSSRuleObject = {};
@@ -155,9 +155,9 @@ export function asMatchUtility(name: string, value: CSSRuleObject): (undefined |
 
 type ModifierProperties = {
   cssProperty: string
+  defaultValue: string
   modifierPattern: string
   modifierType: string
-  defaultValue: string
 };
 
 /**

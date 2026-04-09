@@ -12,12 +12,12 @@ export type CSSValue = (boolean | number | string)[] | boolean | number | string
 export type CSSPropertiesOptions = {
   /** Indentation string, defaults to two spaces. */
   indent?: string
-  /** Prefix string added before each line, defaults to empty string. */
-  prefix?: string
-  /** New line character, defaults to LF. */
-  newLine?: string
   /** Whether to format output on a single line, defaults to false. */
   inline?: boolean
+  /** New line character, defaults to LF. */
+  newLine?: string
+  /** Prefix string added before each line, defaults to empty string. */
+  prefix?: string
   /** Maximum number of properties to format on a single line, defaults to 1. */
   singleLineThreshold?: number
 };

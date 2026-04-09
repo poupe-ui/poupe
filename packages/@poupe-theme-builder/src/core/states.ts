@@ -27,14 +27,14 @@ export type StateVariants<T extends string> = {
  * State color mix parameters for CSS color-mix() function
  */
 export interface StateColorMixParams {
-  /** The state type */
-  state: keyof typeof stateLayerOpacities
   /** The base color CSS variable name */
   baseColor: string
   /** The on-color CSS variable name */
   onColor: string
   /** The opacity percentage for mixing (0-100) */
   opacityPercent: number
+  /** The state type */
+  state: keyof typeof stateLayerOpacities
 }
 
 /**

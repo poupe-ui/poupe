@@ -56,7 +56,7 @@ import {
 /**
  * FlatThemeColors defines the colors of the theme
  */
-export type FlatThemeColors<K extends string> = { primary: ColorOptions } & Record<K, ColorOptions>;
+export type FlatThemeColors<K extends string> = Record<K, ColorOptions> & { primary: ColorOptions };
 
 /**
  * makeThemeKeys returns the keys of makeTheme makes without calculating
@@ -197,7 +197,7 @@ export function makeThemeFromSchemes<K extends string>(
     keyColors: extraKeyColors,
   } = cookThemeCustomColors(extraPalettes);
 
-  type ColorKey = keyof typeof darkKeyColors & keyof typeof darkStandardColors & keyof typeof darkCustomColors;
+  type ColorKey = keyof typeof darkCustomColors & keyof typeof darkKeyColors & keyof typeof darkStandardColors;
   type ThemeKeyColor = keyof typeof darkKeyColors & keyof typeof extraPalettes;
 
   const dark: { [P in ColorKey]: Hct } = {

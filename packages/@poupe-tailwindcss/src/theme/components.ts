@@ -104,8 +104,8 @@ const SURFACE_PAIRING_PATTERNS: Record<string, { patterns: string[]; type: 'fixe
  */
 interface SurfacePair {
   bgColor: string
-  textColor: string
   surfaceName: string
+  textColor: string
 }
 
 /**

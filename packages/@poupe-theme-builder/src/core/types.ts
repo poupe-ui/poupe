@@ -33,10 +33,10 @@ export type RgbaColor = RgbColor & { a?: number };
 
 /** destructured {@link Hct} color with optional alpha value */
 export interface HctColor {
-  h: number
-  c: number
-  t: number
   a?: number
+  c: number
+  h: number
+  t: number
 }
 
 /** ObjectColor represents a destructured Color object */
@@ -50,12 +50,12 @@ export type Color = Colord | Hct | number | ObjectColor | string;
  * Contains tonal palettes for the standard Material Design color roles.
  */
 export type CorePalettes = {
+  error?: TonalPalette
+  neutral?: TonalPalette
+  neutralVariant?: TonalPalette
   primary: TonalPalette
   secondary?: TonalPalette
   tertiary?: TonalPalette
-  neutral?: TonalPalette
-  neutralVariant?: TonalPalette
-  error?: TonalPalette
 };
 
 /**
@@ -85,10 +85,10 @@ export const corePaletteKeys: Readonly<CorePaletteKey[]> = [
  * @param dark - Color group representing the dark scheme variant
  */
 export type CustomColor = {
+  dark: Readonly<ColorGroup>
+  light: Readonly<ColorGroup>
   name?: string
   tones: TonalPalette
-  light: Readonly<ColorGroup>
-  dark: Readonly<ColorGroup>
 };
 
 /**
@@ -101,7 +101,7 @@ export type CustomColor = {
  */
 export type ColorGroup = {
   color: Hct
-  onColor: Hct
   colorContainer: Hct
+  onColor: Hct
   onColorContainer: Hct
 };

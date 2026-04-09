@@ -7,8 +7,6 @@ export {
   properties,
   spaceDelimitedProperties,
   stringifyCSSProperties,
-
-  // omit internal - quoted
 } from './properties';
 
 export {
