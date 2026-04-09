@@ -369,7 +369,7 @@ When referencing other packages in the monorepo:
 
 ## Common Dependencies
 
-- **TypeScript**: ~5.8.3 (strict mode enabled)
+- **TypeScript**: ~5.9.3 (strict mode enabled)
 - **Vitest**: ^3.2.4 for testing
 - **ESLint**: Via @poupe/eslint-config
 - **Node.js**: >=20.19.2
