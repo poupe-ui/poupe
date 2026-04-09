@@ -1,7 +1,5 @@
 import { hasNuxtModule, installModule } from '@nuxt/kit';
 
-import type { ModuleOptions as ColorModeModuleOptions } from '@nuxtjs/color-mode';
-
 import type { SetupContext } from './types';
 
 /**
@@ -12,15 +10,15 @@ export async function setupColorMode<K extends string>(context: SetupContext<K>)
   const { nuxt } = context;
 
   if (hasNuxtModule('@nuxtjs/color-mode', nuxt)) {
-    nuxt.options.colorMode.classPrefix = '';
-    nuxt.options.colorMode.classSuffix = '';
+    if (nuxt.options.colorMode) {
+      nuxt.options.colorMode.classPrefix = '';
+      nuxt.options.colorMode.classSuffix = '';
+    }
   } else {
-    const colorModeModuleOptions: ColorModeModuleOptions = {
-      ...nuxt.options.colorMode,
+    await installModule('@nuxtjs/color-mode', {
+      ...(nuxt.options.colorMode ?? undefined),
       classPrefix: '',
       classSuffix: '',
-    };
-
-    await installModule('@nuxtjs/color-mode', colorModeModuleOptions, nuxt);
+    }, nuxt);
   }
 };
