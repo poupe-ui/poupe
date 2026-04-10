@@ -89,7 +89,7 @@
     "npm-run-all2": "^8.0.4",
     "nuxt": "^3.21.2",
     "publint": "^0.3.18",
-    "typescript": "~5.9.3",
+    "typescript": "~6.0.2",
     "unbuild": "3.6.1",
     "vite": "^6.4.2",
     "vitest": "^3.2.4",
