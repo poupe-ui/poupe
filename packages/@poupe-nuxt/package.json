@@ -69,7 +69,7 @@
     "@tailwindcss/vite": "^4.1.11",
     "consola": "^3.4.2",
     "std-env": "^3.10.0",
-    "stringify-object": "^5.0.0",
+    "stringify-object": "^6.0.0",
     "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4.1.11"
   },
