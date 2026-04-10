@@ -5,10 +5,19 @@ import { useRipple } from '../use-ripple';
 
 describe('useRipple', () => {
   it('should initialize with empty ripples', () => {
-    const elementReference = ref<HTMLElement>();
-    const { ripples } = useRipple(elementReference);
+    const TestComponent = defineComponent({
+      setup() {
+        const elementReference = ref<HTMLElement>();
+        const { ripples } = useRipple(elementReference);
+        return { ripples };
+      },
+      template: '<div></div>',
+    });
 
-    expect(ripples.value).toEqual([]);
+    const wrapper = mountWithPoupe(TestComponent);
+    const vm = wrapper.vm as InstanceType<typeof TestComponent>;
+
+    expect(vm.ripples).toEqual([]);
   });
 
   it('should add ripple on mouse click', async () => {
@@ -102,13 +111,23 @@ describe('useRipple', () => {
   });
 
   it('should generate correct ripple style', () => {
-    const elementReference = ref<HTMLElement>();
-    const { getRippleStyle } = useRipple(elementReference);
+    const TestComponent = defineComponent({
+      setup() {
+        const elementReference = ref<HTMLElement>();
+        const { getRippleStyle } = useRipple(elementReference);
 
-    const ripple = { x: 50, y: 50, size: 100, id: 0 };
-    const style = getRippleStyle(ripple);
+        const ripple = { x: 50, y: 50, size: 100, id: 0 };
+        const style = getRippleStyle(ripple);
 
-    expect(style).toEqual({
+        return { style };
+      },
+      template: '<div></div>',
+    });
+
+    const wrapper = mountWithPoupe(TestComponent);
+    const vm = wrapper.vm as InstanceType<typeof TestComponent>;
+
+    expect(vm.style).toEqual({
       position: 'absolute',
       left: '50px',
       top: '50px',

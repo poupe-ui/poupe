@@ -36,32 +36,32 @@
       "default": "./dist/index.mjs"
     },
     "./components": {
-      "types": "./dist/components.d.ts",
+      "types": "./dist/components/index.d.ts",
       "import": "./dist/components.mjs",
       "default": "./dist/components.mjs"
     },
     "./composables": {
-      "types": "./dist/composables.d.ts",
+      "types": "./dist/composables/index.d.ts",
       "import": "./dist/composables.mjs",
       "default": "./dist/composables.mjs"
     },
     "./config": {
-      "types": "./dist/config.d.ts",
+      "types": "./dist/config/index.d.ts",
       "import": "./dist/config.mjs",
       "default": "./dist/config.mjs"
     },
     "./resolver": {
-      "types": "./dist/resolver.d.ts",
+      "types": "./dist/resolver/index.d.ts",
       "import": "./dist/resolver.mjs",
       "default": "./dist/resolver.mjs"
     },
     "./story-viewer": {
-      "types": "./dist/story-viewer.d.ts",
+      "types": "./dist/components/story/index.d.ts",
       "import": "./dist/story-viewer.mjs",
       "default": "./dist/story-viewer.mjs"
     },
     "./theme-scheme": {
-      "types": "./dist/theme-scheme.d.ts",
+      "types": "./dist/components/theme/index.d.ts",
       "import": "./dist/theme-scheme.mjs",
       "default": "./dist/theme-scheme.mjs"
     }

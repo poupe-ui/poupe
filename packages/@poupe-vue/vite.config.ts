@@ -17,6 +17,8 @@ export default defineConfig({
     VueDevTools(),
     Dts({
       tsconfigPath: resolve('tsconfig.app.json'),
+      outDir: resolve('dist'),
+      entryRoot: resolve('src'),
       // Avoid OOM on Windows/CI when rolling up all d.ts into a single graph.
       rollupTypes: false,
     }),
