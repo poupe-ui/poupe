@@ -36,6 +36,9 @@ node_modules
 # Env
 .env
 
+# Local config
+.mcp.json
+
 # Testing
 reports
 coverage
