@@ -130,7 +130,7 @@ pnpm build
 # Run tests
 pnpm test
 
-# Run the full precommit pipeline (build, lint, type-check, test)
+# Run the full precommit pipeline (dev:prepare, lint, type-check, build, test)
 pnpm precommit
 ```
 

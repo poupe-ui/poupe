@@ -66,8 +66,8 @@ DEBUG=eslint:eslint pnpm lint:check    # Debug ESLint issues
 pnpm build        # Build all packages
 pnpm clean        # Clean all packages
 pnpm lint         # Lint all packages
-pnpm precommit    # Full pipeline: build, lint, type-check, test
-pnpm prepack      # Full publish gate: lint:check + per-package prepack
+pnpm precommit    # Full pipeline: dev:prepare, lint, type-check, build, test
+pnpm prepack      # Full publish gate: lint:root:check + per-package prepack
 pnpm test         # Run tests in all packages
 pnpm type-check   # Type-check all packages
 ```
@@ -173,9 +173,11 @@ Before committing any changes, ALWAYS run:
 
 The `pnpm precommit` command runs, in order:
 
-- Build all packages (build first refreshes stubs)
+- Stub all packages (`dev:prepare` runs `unbuild --stub` so cross-package
+  type and lint resolution works)
 - Run ESLint with auto-fix
 - Check TypeScript types
+- Build all packages (real build, prerequisite for tests)
 - Run all tests
 
 ### DO

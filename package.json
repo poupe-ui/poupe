@@ -9,12 +9,13 @@
   "scripts": {
     "build": "pnpm -r build",
     "clean": "pnpm -r clean && rimraf node_modules",
+    "dev:prepare": "pnpm -r dev:prepare",
     "lint": "run-s lint:root && pnpm -r lint",
     "lint:check": "run-s lint:root:check && pnpm -r lint:check",
     "lint:root": "eslint --fix --ignore-pattern 'packages/*' .",
     "lint:root:check": "eslint --ignore-pattern 'packages/*' .",
-    "precommit": "run-s build lint type-check test",
-    "prepack": "run-s lint:check && pnpm -r prepack",
+    "precommit": "run-s dev:prepare lint type-check build test",
+    "prepack": "run-s lint:root:check && pnpm -r prepack",
     "test": "pnpm -r test",
     "type-check": "pnpm -r type-check"
   },
