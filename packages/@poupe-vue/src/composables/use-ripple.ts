@@ -64,6 +64,7 @@ export function useRipple(
       y = event.clientY - rect.top;
     } else {
       const touch = event.touches[0];
+      if (!touch) return;
       x = touch.clientX - rect.left;
       y = touch.clientY - rect.top;
     }
