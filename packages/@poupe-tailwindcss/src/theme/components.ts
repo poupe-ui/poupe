@@ -265,7 +265,8 @@ export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: st
 
   const surfaces: Record<string, CSSRuleObject> = {};
 
-  const [bgPrefix, textPrefix] = ['bg-', 'text-'].map((prefix) => `${tailwindPrefix}${prefix}`);
+  const bgPrefix = `${tailwindPrefix}bg-`;
+  const textPrefix = `${tailwindPrefix}text-`;
 
   for (const pair of pairs.values()) {
     const { bgColor, textColor, surfaceName } = pair;
