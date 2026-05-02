@@ -33,15 +33,15 @@
     ".": {
       "types": "./dist/index.d.ts",
       "style": "./dist/style.css",
-      "import": "./dist/index.mjs"
+      "default": "./dist/index.mjs"
     },
     "./theme": {
       "types": "./dist/theme.d.ts",
-      "import": "./dist/theme.mjs"
+      "default": "./dist/theme.mjs"
     },
     "./utils": {
       "types": "./dist/utils.d.ts",
-      "import": "./dist/utils.mjs"
+      "default": "./dist/utils.mjs"
     }
   },
   "style": "./dist/style.css",

@@ -32,31 +32,31 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs"
+      "default": "./dist/index.mjs"
     },
     "./components": {
       "types": "./dist/components.d.ts",
-      "import": "./dist/components.mjs"
+      "default": "./dist/components.mjs"
     },
     "./composables": {
       "types": "./dist/composables.d.ts",
-      "import": "./dist/composables.mjs"
+      "default": "./dist/composables.mjs"
     },
     "./config": {
       "types": "./dist/config.d.ts",
-      "import": "./dist/config.mjs"
+      "default": "./dist/config.mjs"
     },
     "./resolver": {
       "types": "./dist/resolver.d.ts",
-      "import": "./dist/resolver.mjs"
+      "default": "./dist/resolver.mjs"
     },
     "./story-viewer": {
       "types": "./dist/story-viewer.d.ts",
-      "import": "./dist/story-viewer.mjs"
+      "default": "./dist/story-viewer.mjs"
     },
     "./theme-scheme": {
       "types": "./dist/theme-scheme.d.ts",
-      "import": "./dist/theme-scheme.mjs"
+      "default": "./dist/theme-scheme.mjs"
     }
   },
   "files": [
@@ -67,10 +67,11 @@
     "build-only": "vite build",
     "clean": "rimraf dist node_modules",
     "dev": "vite",
+    "dev:prepare": "vite build",
     "lint": "eslint --fix .",
     "lint:_pkg-pr-new": "eslint --fix package.json",
     "lint:check": "eslint .",
-    "precommit": "run-s lint type-check build test",
+    "precommit": "run-s dev:prepare lint type-check build test",
     "prepack": "run-s lint:_pkg-pr-new lint:check type-check build test publint",
     "preview": "vite preview",
     "publint": "publint",
