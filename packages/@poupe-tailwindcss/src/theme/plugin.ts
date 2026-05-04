@@ -47,8 +47,8 @@ export function themePluginFunction(api: PluginAPI, theme: Theme): void {
   debugLog(theme.options.debug, 'plugin', `darkMode:${darkMode}`, theme.paletteKeys);
 
   for (const variant of makeThemeVariants(theme, darkMode)) {
-    for (const name of Object.keys(variant)) {
-      api.addVariant(name, variant[name]);
+    for (const [name, handler] of Object.entries(variant)) {
+      api.addVariant(name, handler);
     }
   }
 

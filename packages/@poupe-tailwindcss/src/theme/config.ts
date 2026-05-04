@@ -50,7 +50,7 @@ export function makeConfig(
   };
 
   for (const key of theme.keys) {
-    const c = theme.colors[key];
+    const c = theme.colors[key]!;
     colors[key] = makeConfigColor(key, c.value, c.shades);
   }
 
