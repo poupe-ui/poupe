@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Dependencies
+
+- Drop `unbuild`. Add `obuild`.
+
+### Internal
+
+- Migrate build pipeline from `unbuild` to `obuild` + rolldown,
+  mirroring `@poupe/css`. Each published subpath (`.`, `./core`,
+  `./server`) gets its own bundle entry — a single multi-input
+  bundle would couple them through rolldown's shared module
+  graph. Dist layout moves from flat (`dist/core.mjs`) to
+  nested (`dist/core/index.mjs`) and types switch from `.d.ts`
+  to `.d.mts`; the `exports` map is repointed so the import
+  surface is unchanged. Sourcemap emission via the
+  `rolldownOutput` hook.
+
 ## [0.10.2] - 2026-05-10
 
 ### Fixed

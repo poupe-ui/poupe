@@ -27,35 +27,35 @@
     "ui-framework"
   ],
   "main": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.mts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
     },
     "./core": {
-      "types": "./dist/core.d.ts",
-      "default": "./dist/core.mjs"
+      "types": "./dist/core/index.d.mts",
+      "default": "./dist/core/index.mjs"
     },
     "./server": {
-      "types": "./dist/server.d.ts",
-      "default": "./dist/server.mjs"
+      "types": "./dist/server/index.d.mts",
+      "default": "./dist/server/index.mjs"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
+    "build": "obuild",
     "clean": "rimraf dist node_modules",
     "dev": "vitest watch",
-    "dev:prepare": "unbuild --stub",
+    "dev:prepare": "obuild --stub",
     "lint": "eslint --fix .",
     "lint:_pkg-pr-new": "eslint --fix package.json",
     "lint:check": "eslint .",
     "precommit": "run-s dev:prepare lint type-check build test",
     "prepack": "run-s lint:_pkg-pr-new lint:check type-check build test publint",
-    "prepare": "cross-test -s dist/index.mjs || unbuild --stub",
+    "prepare": "cross-test -s dist/index.mjs || obuild --stub",
     "publint": "publint",
     "publish:maybe": "npm view ${npm_package_name}@${npm_package_version} version 2>/dev/null && echo \"${npm_package_name}@${npm_package_version} already published\" || pnpm publish",
     "test": "vitest run",
@@ -73,9 +73,9 @@
     "@poupe/eslint-config": "^0.9.1",
     "@types/node": "^20.19.40",
     "eslint": "^9.39.4",
+    "obuild": "^0.4.34",
     "publint": "^0.3.20",
     "typescript": "^6.0.3",
-    "unbuild": "^3.6.1",
     "vitest": "^3.2.4",
     "vue-tsc": "^3.2.8"
   },
