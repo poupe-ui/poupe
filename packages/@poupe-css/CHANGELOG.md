@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Dependencies
+
+- Drop `unbuild`. Add `obuild`.
+
+### Internal
+
+- Migrate build pipeline from `unbuild` to `obuild` + rolldown,
+  aligning with the rest of the workspace. `build.config.ts`
+  declares an explicit `entries` array; sourcemap parity is
+  preserved through a `rolldownOutput` hook that flips
+  `outConfig.sourcemap` — obuild only exposes rolldown's
+  `InputOptions` per bundle entry, so the output-side knob has
+  to be reached through the hook. Output layout, `exports`
+  map, and consumer-visible API are unchanged.
+
 ## [0.3.2] - 2026-05-10
 
 ### Fixed
