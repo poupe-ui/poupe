@@ -241,9 +241,15 @@ importers:
       '@types/node':
         specifier: ^20.19.40
         version: 20.19.40
+      consola:
+        specifier: ^3.4.2
+        version: 3.4.2
       eslint:
         specifier: ^9.39.4
         version: 9.39.4(jiti@2.6.1)
+      obuild:
+        specifier: ^0.4.34
+        version: 0.4.35(chokidar@5.0.0)(dotenv@17.4.1)(giget@3.2.0)(jiti@2.6.1)(magicast@0.5.2)(typescript@6.0.3)(vue-tsc@3.2.8(typescript@6.0.3))
       pathe:
         specifier: ^2.0.3
         version: 2.0.3
@@ -256,9 +262,6 @@ importers:
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
-      unbuild:
-        specifier: ^3.6.1
-        version: 3.6.1(typescript@6.0.3)(vue-sfc-transformer@0.1.17(@vue/compiler-core@3.5.34)(esbuild@0.28.0)(vue@3.5.34(typescript@6.0.3)))(vue-tsc@3.2.8(typescript@6.0.3))(vue@3.5.34(typescript@6.0.3))
       vitest:
         specifier: ^3.2.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.40)(jiti@2.6.1)(jsdom@26.1.0)(lightningcss@1.30.1)(terser@5.42.0)(tsx@4.20.3)(yaml@2.8.3)
