@@ -38,7 +38,7 @@ export const createResolver = (options: ResolverOptions = {}): ComponentResolver
   return {
     type: 'component',
     resolve: (name: string) => {
-      const componentName = prefix ? deprefix(name, prefix) : name;
+      const componentName = prefix ? stripPrefix(name, prefix) : name;
       if (componentName) {
         if (components.includes(componentName as ComponentName)) {
           return {
@@ -59,4 +59,4 @@ export const createResolver = (options: ResolverOptions = {}): ComponentResolver
 
 export default createResolver;
 
-const deprefix = (name: string, prefix: string) => name.startsWith(prefix) ? name.slice(prefix.length) : undefined;
+const stripPrefix = (name: string, prefix: string) => name.startsWith(prefix) ? name.slice(prefix.length) : undefined;

@@ -175,8 +175,8 @@ Surface props:
 - `variant`: 'surface' | 'container' - Surface type
 - `color`: Surface color based on MD3 color system
 - `shape`: Shape variant (none, xs, sm, md, lg, xl, rounded, full,
-  squircle-xs, etc.) - uses Material Design 3 shape system where size-only
-  variants are squircles
+  squircle-xs, etc.) - uses Material Design 3 shape system where each
+  size-only variant is a squircle
 - `shadow`: Elevation shadow (none, z1-z5)
 - `border`: Border style (none, primary, secondary, outline, etc.)
 - `interactive`: Enable hover/focus/pressed states

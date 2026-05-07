@@ -387,10 +387,10 @@ describe('makeShapeComponents', () => {
     const result = makeShapeComponents(theme);
 
     // Verify specific MD3 recommendations
-    expect(result['.shape-button']['border-radius']).toContain('shape-full'); // Buttons are fully rounded
-    expect(result['.shape-card']['border-radius']).toContain('shape-medium'); // Cards use medium rounding
-    expect(result['.shape-dialog']['border-radius']).toContain('shape-extra-large'); // Dialogs use XL rounding
-    expect(result['.shape-text-field']['border-radius']).toContain('shape-extra-small'); // Text fields use XS
+    expect(result['.shape-button']['border-radius']).toContain('shape-full'); // Button is fully rounded
+    expect(result['.shape-card']['border-radius']).toContain('shape-medium'); // Card uses medium rounding
+    expect(result['.shape-dialog']['border-radius']).toContain('shape-extra-large'); // Dialog uses XL rounding
+    expect(result['.shape-text-field']['border-radius']).toContain('shape-extra-small'); // Text field uses XS
   });
 
   it('should include shape family utilities', () => {

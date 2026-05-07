@@ -140,7 +140,7 @@ Global configuration and defaults composable:
 Material Design ripple effect composable:
 
 - Handles mouse and touch events to create ripple animations
-- Configurable color, opacity, duration, and bounded behavior
+- Configurable colour, opacity, duration, and bounded behaviour
 - Automatically cleans up ripples after animation completes
 - Integrates with the `.ripple-effect` utility from @poupe/tailwindcss
 - Used by interactive components for tactile feedback

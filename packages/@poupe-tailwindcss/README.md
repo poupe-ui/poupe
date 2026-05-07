@@ -190,9 +190,9 @@ Material Design z-index scale:
 --md-z-navigation-floating: 1050;    /* FAB, speed dial */
 --md-z-navigation-top: 1100;         /* App bar, top navigation */
 --md-z-drawer: 1200;                 /* Navigation drawer */
---md-z-modal: 1300;                  /* Modal dialogs */
---md-z-snackbar: 1400;               /* Snackbars, toasts */
---md-z-tooltip: 1500;                /* Tooltips */
+--md-z-modal: 1300;                  /* Modal dialog */
+--md-z-snackbar: 1400;               /* Snackbar, toast */
+--md-z-tooltip: 1500;                /* Tooltip */
 ```
 
 Scrim variants (simplified naming):

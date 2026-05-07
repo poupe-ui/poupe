@@ -1065,8 +1065,8 @@ describe('getDeepRule', () => {
 
   it('returns undefined for non-existent paths', () => {
     expect(getDeepRule(testRules, ['components', 'header'])).toBeUndefined();
-    expect(getDeepRule(testRules, ['nonexistent'])).toBeUndefined();
-    expect(getDeepRule(testRules, ['components', 'button', 'nonexistent'])).toBeUndefined();
+    expect(getDeepRule(testRules, ['non-existent'])).toBeUndefined();
+    expect(getDeepRule(testRules, ['components', 'button', 'non-existent'])).toBeUndefined();
   });
 
   it('returns undefined for invalid path segments', () => {
@@ -1095,7 +1095,7 @@ describe('getDeepRule', () => {
 
     expect(getDeepRule(ruleObject, 'color')).toBe('red');
     expect(getDeepRule(ruleObject, ['nested', 'fontSize'])).toBe('14px');
-    expect(getDeepRule(ruleObject, 'nonexistent')).toBeUndefined();
+    expect(getDeepRule(ruleObject, 'non-existent')).toBeUndefined();
   });
 
   it('preserves type safety with overloaded signatures', () => {

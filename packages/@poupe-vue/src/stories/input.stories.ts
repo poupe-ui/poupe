@@ -424,7 +424,7 @@ export const combinationVariants = createStoryGroup(
         outline: 'error',
         iconEnd: 'material-symbols:error',
         helperText: 'This username is already taken',
-        modelValue: 'johndoe',
+        modelValue: 'john.doe',
       },
     }),
     createStory({

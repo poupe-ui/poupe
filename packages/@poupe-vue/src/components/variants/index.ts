@@ -44,7 +44,7 @@ export const roundedVariants = {
 
 export const shapeVariants = {
   'none': 'shape-none',
-  // Size-only variants are aliases for squircles
+  // Size-only variant is an alias for the squircle of the same size
   'xs': 'shape-squircle-extra-small',
   'sm': 'shape-squircle-small',
   'md': 'shape-squircle-medium',

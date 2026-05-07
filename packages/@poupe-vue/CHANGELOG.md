@@ -39,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **useRipple**: Material Design ripple effect implementation
   - Handles mouse and touch events to create ripple animations
-  - Configurable color, opacity, duration, and bounded behavior
+  - Configurable colour, opacity, duration, and bounded behaviour
   - Automatically cleans up ripples after animation completes
   - Integrates with the `.ripple-effect` utility from @poupe/tailwindcss
 

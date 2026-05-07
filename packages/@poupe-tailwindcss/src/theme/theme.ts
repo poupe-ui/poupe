@@ -522,10 +522,10 @@ export function makeThemeConstants(theme: Readonly<Theme>): CSSRuleObject {
     ['z-navigation-persistent']: 1000, /* Mobile stepper, bottom navigation */
     ['z-navigation-floating']: 1050, /* FAB, speed dial */
     ['z-navigation-top']: 1100, /* App bar, top navigation */
-    ['z-drawer']: 1200, /* Navigation drawer, side sheets */
-    ['z-modal']: 1300, /* Modal dialogs */
-    ['z-snackbar']: 1400, /* Snackbars, toasts */
-    ['z-tooltip']: 1500, /* Tooltips */
+    ['z-drawer']: 1200, /* Navigation drawer, side sheet */
+    ['z-modal']: 1300, /* Modal dialog */
+    ['z-snackbar']: 1400, /* Snackbar, toast */
+    ['z-tooltip']: 1500, /* Tooltip */
 
     /* Below navigation layer */
     ['z-scrim-base']: 950, /* Basic overlay, below all navigation */

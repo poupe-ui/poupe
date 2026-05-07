@@ -53,9 +53,9 @@ function writeTheme<K extends string>(dirname: string, filename: string, format:
     '',
   ].join(newLine);
 
-  const destdir = join(process.cwd(), dirname);
-  mkdirSync(destdir, { recursive: true });
-  writeFileSync(join(destdir, filename), content);
+  const destination = join(process.cwd(), dirname);
+  mkdirSync(destination, { recursive: true });
+  writeFileSync(join(destination, filename), content);
   console.log(`[assets] ✔ Wrote ${content.length} bytes to ${join(dirname, filename)}`);
 }
 

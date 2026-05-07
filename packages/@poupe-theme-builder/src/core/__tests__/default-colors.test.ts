@@ -135,9 +135,9 @@ describe('withKnownColor', () => {
     });
 
     it('should return unknown color names unchanged', () => {
-      expect(withKnownColor('unknowncolor')).toBe('unknowncolor');
-      expect(withKnownColor('notacolor')).toBe('notacolor');
-      expect(withKnownColor('invalidname')).toBe('invalidname');
+      expect(withKnownColor('unknownColor')).toBe('unknownColor');
+      expect(withKnownColor('notAColor')).toBe('notAColor');
+      expect(withKnownColor('invalidName')).toBe('invalidName');
     });
 
     it('should return strings with non-letter characters unchanged', () => {
