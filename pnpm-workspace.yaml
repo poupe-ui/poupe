@@ -1,3 +1,4 @@
+# cspell:words esbuild unrs
 packages:
   - packages/*
   - packages/*/playground

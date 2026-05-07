@@ -1,3 +1,5 @@
+// cspell:words quot
+
 import type { Component } from 'vue';
 import type { StoryConfig, StoryConfigOptions, StoryGroup } from './types';
 

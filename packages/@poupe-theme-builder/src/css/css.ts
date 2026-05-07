@@ -1,3 +1,5 @@
+// cspell:words vars
+
 import {
   defu,
 } from 'defu';

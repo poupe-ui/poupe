@@ -1,3 +1,5 @@
+<!-- cspell:words autosquash heredocs npmjs Sourcegraph -->
+
 # AGENTS.md
 
 This file provides guidance to AI coding assistants (Claude Code, GitHub

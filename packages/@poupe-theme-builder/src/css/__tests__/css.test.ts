@@ -1,3 +1,5 @@
+// cspell:words vars
+
 import { describe, expect, it } from 'vitest';
 
 import {

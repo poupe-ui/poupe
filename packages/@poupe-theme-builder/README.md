@@ -1,3 +1,5 @@
+<!-- cspell:words vars -->
+
 # @poupe/theme-builder
 
 [![jsDocs.io][jsdocs-badge]][jsdocs-url]

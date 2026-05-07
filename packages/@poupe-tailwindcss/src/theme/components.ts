@@ -1,3 +1,5 @@
+// cspell:words Csvg superellipse
+
 import {
   stateLayerOpacities,
 } from '@poupe/theme-builder';

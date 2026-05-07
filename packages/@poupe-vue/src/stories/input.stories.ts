@@ -1,3 +1,5 @@
+// cspell:words maxlength
+
 import type { StoryGroup } from '../components/story/types';
 import { Input } from '../components';
 import { createStory, createStoryGroup } from '../components/story/utils';

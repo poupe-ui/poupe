@@ -1,3 +1,5 @@
+<!-- cspell:words passthrough -->
+
 # @poupe/css
 
 [![jsDocs.io][jsdocs-badge]][jsdocs-url]

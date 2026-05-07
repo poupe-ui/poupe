@@ -1,5 +1,7 @@
 /* eslint-disable unicorn/no-null */
 /* eslint-disable unicorn/consistent-function-scoping */
+// cspell:words khtml vars
+
 import { describe, expect, it } from 'vitest';
 import { camelCase, defaultValidPair, kebabCase, keys, pairs, unsafeKeys } from '../utils';
 

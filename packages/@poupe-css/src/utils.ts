@@ -1,3 +1,5 @@
+// cspell:words khtml
+
 /**
  * A type-safe wrapper around Object.keys that preserves the object's key types.
  *
