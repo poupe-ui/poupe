@@ -1,5 +1,7 @@
+import { createPoupe } from '@poupe/vue/composables';
+
 import { defineNuxtPlugin } from '#app';
 
-export default defineNuxtPlugin((_nuxtApp) => {
-  console.log('Plugin injected by @poupe/nuxt!');
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.use(createPoupe());
 });
