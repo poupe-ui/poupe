@@ -480,15 +480,17 @@ inspection with the chrome-devtools MCP server. Start it
 before using MCP tools:
 
 ```bash
-chromium --headless --no-sandbox --remote-debugging-port=9235 \
+chromium-browser --headless --no-sandbox --remote-debugging-port=9235 \
   --no-first-run --no-default-browser-check --disable-gpu \
   about:blank
 ```
 
-Port 9235 is project-local (9234 is used by awesome-apptly).
-Use `mcp__chrome-devtools__new_page` to navigate to a dev
-server, then `take_screenshot` or `take_snapshot` for visual
-and DOM verification.
+The binary is `chromium-browser` on Debian/Ubuntu and `chromium`
+on Arch — adjust to whichever your distribution ships. Port 9235
+is the project-local debug port. Use
+`mcp__chrome-devtools__new_page` to navigate to a dev server,
+then `take_screenshot` or `take_snapshot` for visual and DOM
+verification.
 
 **Known race:** VS Code Remote's auto-forward can bind the host
 port before chromium does, leaving chrome-devtools-mcp pointing
