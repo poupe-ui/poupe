@@ -46,15 +46,10 @@
 			"**/node_modules": true
 		},
 		// cSpell
-		"cSpell.language": "en-GB",
-		"cSpell.words": [
-			"apptly",
-			"defu",
-			"nuxi",
-			"nuxt",
-			"nuxtjs",
-			"poupe"
+		"cSpell.import": [
+			"internal/build/cspell.json"
 		],
+		"cSpell.language": "en-GB",
 		// ESLint
 		"eslint.format.enable": true,
 		"eslint.useFlatConfig": true
