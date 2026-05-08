@@ -490,6 +490,18 @@ Use `mcp__chrome-devtools__new_page` to navigate to a dev
 server, then `take_screenshot` or `take_snapshot` for visual
 and DOM verification.
 
+**Known race:** VS Code Remote's auto-forward can bind the host
+port before chromium does, leaving chrome-devtools-mcp pointing
+at a stalled IPv4 forwarder. Both `poupe.code-workspace` and
+`.vscode/settings.json` set
+`remote.portsAttributes.9235.onAutoForward` to `ignore` to
+prevent the forward — workspace covers the multi-root case,
+`.vscode/settings.json` covers opening the directory alone. If
+it hasn't taken effect,
+`curl http://127.0.0.1:9235/json/version` in the container
+connects but returns zero bytes; reload the VS Code window to
+clear it.
+
 ### `.mcp.json`
 
 `.mcp.json` is gitignored — create it locally to configure

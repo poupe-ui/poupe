@@ -52,7 +52,13 @@
 		"cSpell.language": "en-GB",
 		// ESLint
 		"eslint.format.enable": true,
-		"eslint.useFlatConfig": true
+		"eslint.useFlatConfig": true,
+		// Suppress auto-forward of chrome-devtools-mcp port.
+		"remote.portsAttributes": {
+			"9235": {
+				"onAutoForward": "ignore"
+			}
+		}
 	},
 	"extensions": {
 		"recommendations": [
