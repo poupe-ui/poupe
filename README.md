@@ -26,6 +26,7 @@ customizable user interfaces.
 | [@poupe/tailwindcss](./packages/@poupe-tailwindcss) | [![npm version](https://img.shields.io/npm/v/@poupe/tailwindcss.svg)](https://www.npmjs.com/package/@poupe/tailwindcss) | TailwindCSS v4 plugin with theme customization support |
 | [@poupe/vue](./packages/@poupe-vue) | [![npm version](https://img.shields.io/npm/v/@poupe/vue.svg)](https://www.npmjs.com/package/@poupe/vue) | Vue component library with theme customization and accessibility support |
 | [@poupe/nuxt](./packages/@poupe-nuxt) | [![npm version](https://img.shields.io/npm/v/@poupe/nuxt.svg)](https://www.npmjs.com/package/@poupe/nuxt) | Nuxt module for integrating Poupe UI framework |
+| [@poupe/rolldown-vue-css](./packages/@poupe-rolldown-vue-css) | [![npm version](https://img.shields.io/npm/v/@poupe/rolldown-vue-css.svg)](https://www.npmjs.com/package/@poupe/rolldown-vue-css) | Build-time Rolldown plugin that emits per-component CSS from Vue SFCs |
 
 ## Requirements
 

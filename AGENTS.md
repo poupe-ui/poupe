@@ -22,12 +22,13 @@ providing:
 ```bash
 poupe/
 ├── packages/
-│   ├── @poupe-css/           # CSS utilities library
-│   ├── @poupe-nuxt/          # Nuxt module
-│   │   └── playground/       # Nuxt development playground
-│   ├── @poupe-tailwindcss/   # TailwindCSS v4 plugin
-│   ├── @poupe-theme-builder/ # Theme token generation
-│   └── @poupe-vue/           # Vue 3 components
+│   ├── @poupe-css/                # CSS utilities library
+│   ├── @poupe-nuxt/               # Nuxt module
+│   │   └── playground/            # Nuxt development playground
+│   ├── @poupe-rolldown-vue-css/   # Rolldown plugin for SFC CSS emission
+│   ├── @poupe-tailwindcss/        # TailwindCSS v4 plugin
+│   ├── @poupe-theme-builder/      # Theme token generation
+│   └── @poupe-vue/                # Vue 3 components
 ├── scripts/                  # Build and utility scripts
 ├── test/                     # Root-level test utilities
 ├── pnpm-workspace.yaml       # Workspace configuration
@@ -369,6 +370,7 @@ When referencing other packages in the monorepo:
 
 - **unbuild**: Used by @poupe/css, @poupe/theme-builder,
   @poupe/tailwindcss, @poupe/nuxt
+- **obuild**: Used by @poupe/rolldown-vue-css
 - **vite**: Used by @poupe/vue for better Vue component handling
 
 ## Common Dependencies
@@ -398,6 +400,7 @@ Each package has its own AGENTS.md file with specific details:
 - `packages/@poupe-tailwindcss/AGENTS.md` - TailwindCSS integration
 - `packages/@poupe-vue/AGENTS.md` - Vue component development
 - `packages/@poupe-nuxt/AGENTS.md` - Nuxt module configuration
+- `packages/@poupe-rolldown-vue-css/AGENTS.md` - Rolldown SFC CSS plugin
 
 ## Agent-Specific Instructions
 
