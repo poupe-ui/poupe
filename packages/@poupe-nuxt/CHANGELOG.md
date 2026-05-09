@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Dependencies
+
+- Nuxt 3 ecosystem refresh: `nuxt`, `@nuxt/kit`,
+  `@nuxt/schema` devDeps `^3.21.4 → ^3.21.6`
+  (`nuxt@3.21.6` pins `@nuxt/kit` exactly at 3.21.6).
+- `@nuxt/devtools` devDep `^2.7.0 → ^3.2.4`. The 3.x
+  line depends directly on `@nuxt/kit@^4`, already in
+  the tree via `@dxup/nuxt` and
+  `unplugin-vue-components`, so the bump doesn't widen
+  the Nuxt 4 leakage surface. Drops the dual
+  `@nuxt/devtools@2.7.0` install and its
+  `magicast@0.3.5` duplicate.
+- `vite` devDep `^6.4.2 → ^8.0.14`.
+- `vitest` devDep `^3.2.4 → ^4.1.7`.
+
 ## [0.4.3] - 2026-05-10
 
 ### Fixed

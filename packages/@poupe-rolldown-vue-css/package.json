@@ -67,7 +67,7 @@
     "publint": "^0.3.20",
     "rolldown": "^1.0.0",
     "typescript": "^6.0.3",
-    "vitest": "^3.2.4"
+    "vitest": "^4.1.7"
   },
   "peerDependencies": {
     "rolldown": "1.x || ^1.0.0-beta || ^1.0.0-rc"

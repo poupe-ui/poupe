@@ -69,7 +69,7 @@
     "obuild": "^0.4.34",
     "publint": "^0.3.20",
     "typescript": "^6.0.3",
-    "vitest": "^3.2.4",
+    "vitest": "^4.1.7",
     "vue-tsc": "^3.2.8"
   },
   "engines": {

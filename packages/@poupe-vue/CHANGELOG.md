@@ -60,6 +60,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `build.config.ts`. obuild's auto-external from
   `peerDependencies` now covers it.
 
+### Dependencies
+
+- `vite` devDep `^6.4.2 → ^8.0.14`. `unplugin-vue@7.2`
+  pulls vite 8 internally, so keeping vite on `^6.4.2`
+  left the workspace with two vite versions and a
+  plugin-shape mismatch in `vitest.config.ts`.
+- `vitest` devDep `^3.2.4 → ^4.1.7`.
+
 ## [0.6.2] - 2026-05-13
 
 ### Fixed
