@@ -5,6 +5,10 @@
 			"path": "."
 		},
 		{
+			"name": "@poupe/color",
+			"path": "packages/@poupe-color"
+		},
+		{
 			"name": "@poupe/css",
 			"path": "packages/@poupe-css"
 		},
