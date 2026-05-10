@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [0.6.1] - 2026-05-10
+
+### Fixed
+
+- Guard empty `TouchList` in `useRipple` so multi-touch end
+  events don't throw.
+- Scan component entry points in `contentGlobs` so consumers
+  receive the full utility set.
+- Install `createPoupe()` in the dev playground main.ts
+  (dev-only).
+- Unblock workspace `dev:prepare` jiti chain.
+
+### Changed
+
+- Tighten button size-class types via `ButtonSize`.
+- Bind the dev playground to `0.0.0.0`.
+
+### Dependencies
+
+- vue ^3.5.34, @iconify/vue ^5.0.1, @iconify-json/material-symbols
+  ^1.2.71, @unhead/vue ^2.1.15, @vueuse/core ^13.9.0,
+  tailwind-merge ^3.5.0, tailwindcss ^4.1.11.
+- TypeScript 6.0.3, vue-tsc 3.2.8, vitest 3.2.4, eslint 9.39.4,
+  @poupe/eslint-config ~0.9.1.
+
+### Internal
+
+- Replace screenshot-capture tooling with the chrome-devtools-mcp
+  loop (developer workflow only).
+- Workspace cspell pipeline.
+- Standardised precommit/prepack/clean scripts and `prepare` hook.
+
 ## [0.6.0] - 2025-06-20
 
 ### Added
