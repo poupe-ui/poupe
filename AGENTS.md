@@ -461,13 +461,12 @@ Two development playgrounds are available:
 - **@poupe/vue** (Vite) — port 5173
 - **@poupe-nuxt/playground** (Nuxt) — port 3000
 
-Start both with `--host` so they bind to `0.0.0.0` and are
-reachable from outside the container at the IP from
+Reachable from outside the container at the IP from
 `hostname -I`:
 
 ```bash
-pnpm --filter @poupe/vue dev -- --host --port 5173
-pnpm --filter @poupe/nuxt dev -- --host --port 3000
+pnpm --filter @poupe/vue dev -- --port 5173
+pnpm --filter @poupe/nuxt dev -- --port 3000
 ```
 
 Run these as background tasks (`run_in_background`). Stop with
