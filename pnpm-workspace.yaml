@@ -5,6 +5,8 @@ packages:
 ignoredBuiltDependencies:
   - unrs-resolver
 onlyBuiltDependencies:
+  - '@parcel/watcher'
   - '@poupe/eslint-config'
+  - '@tailwindcss/oxide'
   - esbuild
   - vue-demi
