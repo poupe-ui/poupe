@@ -7,5 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-05-10
+
+### Fixed
+
+- Restore unbuild stub generation by removing a stripped comment.
+- Resolve CodeQL and review alerts surfaced during workspace lint.
+
+### Changed
+
+- Extract deep-rule helpers for reuse across the package.
+
+### Dependencies
+
+- TypeScript 6.0.3, vue-tsc 3.2.8, vitest 3.2.4, eslint 9.39.4,
+  unbuild 3.6.1, @poupe/eslint-config ~0.9.1.
+
+### Internal
+
+- Workspace cspell pipeline; tightened spelling and
+  singular-noun casing across sources.
+- Standardised precommit/prepack/clean scripts and a shared
+  `prepare` hook via `@kagal/cross-test`.
+
 Earlier release notes (up to and including `0.3.1`) are available
 in git history.
