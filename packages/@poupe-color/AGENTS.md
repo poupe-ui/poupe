@@ -6,23 +6,39 @@ package. For general monorepo guidelines, see the
 
 ## Package Overview
 
-@poupe/color is a TypeScript library for colour seeding and scheme
-preset utilities. It sits below `@poupe/theme-builder` in the
-dependency graph and wraps `@poupe/material-color-utilities` and
-`colord` behind an extendable preset abstraction.
+@poupe/color resolves Material Design 3 themes from a declarative
+`Recipe`. It sits below `@poupe/theme-builder` in the dependency
+graph and wraps `@poupe/material-color-utilities` (HCT, palettes,
+dynamic schemes) and `colord` (input parsing) into a typed `Theme`:
+two `ModalTheme` units (dark and light), each with every MD3 role
+resolved as `Hct` plus its underlying tonal palette.
 
 ## Status
 
-Scaffold stage. The only public export is `VERSION` (sourced from
-`package.json`). Public API will accrete here as the design lands.
+Type surface and colour-conversion helpers implemented. Public
+exports include the type catalogue (`Theme`, `ModalTheme`, `Recipe`,
+the MD3 role types, `ARGB`), the runtime value arrays those types
+derive from, and the `argb` umbrella with its per-type variants
+(`argbFromHCT`, `argbFromColord`, `asARGB`). Theme computation from a
+recipe is not yet implemented.
 
 ## Package Structure
 
 ```text
 src/
-├── __tests__/        # Unit tests
-│   └── index.test.ts
-└── index.ts          # Main exports
+├── __tests__/                  # Package-level smoke tests
+├── index.ts                    # Public barrel
+├── types/                      # Public type surface
+│   ├── __tests__/              # Type-level and runtime tests
+│   ├── argb.ts                 # Opaque-ARGB branded primitive
+│   ├── index.ts                # Types-layer barrel
+│   ├── mcu.ts                  # Centralised MCU type surface
+│   ├── recipe.ts               # Recipe input shapes
+│   └── theme.ts                # Resolved theme shapes and role catalogues
+└── utils/                      # Runtime helpers
+    ├── __tests__/              # Conversion behaviour tests
+    ├── argb.ts                 # `argb` umbrella + per-type converters
+    └── index.ts                # Utils-layer barrel
 ```
 
 ## Build Configuration
@@ -38,10 +54,29 @@ src/
 
 ## Testing Guidelines
 
-- Tests live in `src/__tests__/`
-- Use Vitest (`pnpm test`); `globals: true` is enabled
-- The first test asserts `VERSION` matches `package.json`
-- Add focused unit tests as new public API lands
+- Type tests live in `*.types.ts` files under `__tests__/`.
+  Vitest skips them at runtime; `tsc` validates them.
+- Runtime tests live in `*.test.ts` files under `__tests__/`.
+- Use Vitest (`pnpm -F @poupe/color test`); the script invokes
+  `vitest run`.
+- Every concrete catalogue (`paletteKeys`, `modes`,
+  `requiredStandardRoles`, …) has both a type test (the derived
+  type matches the array) and a runtime test (declared order,
+  no-duplicates, plus disjointness or composition against
+  neighbouring catalogues where applicable — e.g.
+  `extendedRoles` ∩ `standardRoles` is empty;
+  `standardRoles` = `requiredStandardRoles` ++ `specDependentRoles`).
+- Spec-parameterised types (`SpecDependentRole<S>`,
+  `ModalRoles<K, S>`, `Theme<K, S>`, `Recipe<K, S>`) carry
+  type-level rows pinning their shape at each spec literal —
+  `'2021'` (no `*Dim` quartet), `'2025'`, `'2026'`, mixed-union
+  distribution, and `keyof ModalRoles<never, '2025'>`
+  exhaustiveness.
+- K-parameterised types (`ExtraRole<K>`, `ModalPalettes<K>`,
+  `ModalRoles<K, S>`) carry rows for the four-quad expansion and
+  bare-key palette slots; `Recipe<K>` adds K-inference rows that
+  bind the union across baseline / dark / light seed sites.
+- Add focused tests for each new public API symbol.
 
 ## Dependencies
 
@@ -60,8 +95,3 @@ This package is intended to be consumed by:
 It is not consumed directly by `@poupe/tailwindcss`, `@poupe/vue`, or
 `@poupe/nuxt` — those reach it transitively through
 `@poupe/theme-builder`.
-
-## Build Output
-
-- `dist/index.mjs` — ES module
-- `dist/index.d.mts` — TypeScript definitions

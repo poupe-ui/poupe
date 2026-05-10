@@ -21,6 +21,7 @@ customizable user interfaces.
 
 | Package | Version | Description |
 |---------|---------|-------------|
+| [@poupe/color](./packages/@poupe-color) | [![npm version](https://img.shields.io/npm/v/@poupe/color.svg)](https://www.npmjs.com/package/@poupe/color) | Colour seeding and scheme presets |
 | [@poupe/css](./packages/@poupe-css) | [![npm version](https://img.shields.io/npm/v/@poupe/css.svg)](https://www.npmjs.com/package/@poupe/css) | CSS-in-JS utilities |
 | [@poupe/theme-builder](./packages/@poupe-theme-builder) | [![npm version](https://img.shields.io/npm/v/@poupe/theme-builder.svg)](https://www.npmjs.com/package/@poupe/theme-builder) | Design token management and theme generation system |
 | [@poupe/tailwindcss](./packages/@poupe-tailwindcss) | [![npm version](https://img.shields.io/npm/v/@poupe/tailwindcss.svg)](https://www.npmjs.com/package/@poupe/tailwindcss) | TailwindCSS v4 plugin with theme customization support |

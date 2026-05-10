@@ -22,6 +22,7 @@ providing:
 ```bash
 poupe/
 ├── packages/
+│   ├── @poupe-color/              # Colour seeding and scheme presets
 │   ├── @poupe-css/                # CSS utilities library
 │   ├── @poupe-nuxt/               # Nuxt module
 │   │   └── playground/            # Nuxt development playground
@@ -395,6 +396,7 @@ All packages work together to implement Material Design 3:
 
 Each package has its own AGENTS.md file with specific details:
 
+- `packages/@poupe-color/AGENTS.md` - Colour seeding and scheme presets
 - `packages/@poupe-css/AGENTS.md` - CSS utilities specifics
 - `packages/@poupe-theme-builder/AGENTS.md` - Theme generation details
 - `packages/@poupe-tailwindcss/AGENTS.md` - TailwindCSS integration
