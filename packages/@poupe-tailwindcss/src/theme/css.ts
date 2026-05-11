@@ -2,7 +2,6 @@ import {
   type CSSRules,
   formatCSSRulesArray,
   interleavedRules,
-  keys,
   renameRules,
 } from '@poupe/css';
 
@@ -151,9 +150,9 @@ export function themeColors(
 
     // persistent colors not customized
     const colorRules: CSSRules = {};
-    for (const key of [...keys(persistentColors)].toSorted((a, b) => a.localeCompare(b))) {
+    for (const [key, value] of sortedEntries(persistentColors)) {
       if (!(key in colors)) {
-        colorRules[`--color-${key}`] = persistentColors[key];
+        colorRules[`--color-${key}`] = value;
       }
     }
     rules.push(colorRules);
@@ -161,16 +160,24 @@ export function themeColors(
 
   // theme colors
   const themeColors: CSSRules = {};
-  for (const key of [...keys(colors)].toSorted((a, b) => a.localeCompare(b))) {
-    const c = colors[key];
+  for (const [key, c] of sortedEntries(colors)) {
     themeColors[`--color-${key}`] = `var(${c.value})`;
     if (c.shades) {
-      // shades
-      for (const shade of [...keys(c.shades)].toSorted((a: number, b: number) => a - b)) {
-        themeColors[`--color-${key}-${shade}`] = `var(${c.shades[shade]})`;
+      for (const [shade, reference] of sortedNumericEntries(c.shades)) {
+        themeColors[`--color-${key}-${shade}`] = `var(${reference})`;
       }
     }
   }
   rules.push(themeColors);
   return rules;
 }
+
+/** Returns object entries sorted alphabetically by key. */
+const sortedEntries = <V>(object: Record<string, V>): [string, V][] =>
+  Object.entries(object).toSorted(([a], [b]) => a.localeCompare(b));
+
+/** Returns object entries sorted numerically by key. */
+const sortedNumericEntries = <V>(object: Record<number, V>): [number, V][] =>
+  Object.entries(object)
+    .map(([k, v]) => [Number(k), v] as [number, V])
+    .toSorted(([a], [b]) => a - b);

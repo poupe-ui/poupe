@@ -38,6 +38,8 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
+        '@poupe/css',
+        '@poupe/tailwindcss',
         '@poupe/theme-builder',
         'tailwind-variants',
         'tailwind-scrollbar',
@@ -46,6 +48,8 @@ export default defineConfig({
       ],
       output: {
         globals: {
+          ['@poupe/css']: 'PoupeCSS',
+          ['@poupe/tailwindcss']: 'PoupeTailwindCSS',
           ['@poupe/theme-builder']: 'PoupeThemeBuilder',
           ['tailwind-variants']: 'TailwindVariants',
           ['tailwind-scrollbar']: 'TailwindScrollbar',
@@ -66,5 +70,8 @@ export default defineConfig({
         autoprefixer(),
       ],
     },
+  },
+  server: {
+    host: '0.0.0.0',
   },
 });

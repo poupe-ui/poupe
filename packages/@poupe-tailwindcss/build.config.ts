@@ -1,4 +1,5 @@
 import {
+  cpSync,
   mkdirSync,
   readFileSync,
   writeFileSync,
@@ -53,10 +54,14 @@ function writeTheme<K extends string>(dirname: string, filename: string, format:
     '',
   ].join(newLine);
 
-  const destdir = join(process.cwd(), dirname);
-  mkdirSync(destdir, { recursive: true });
-  writeFileSync(join(destdir, filename), content);
+  const destination = join(process.cwd(), dirname);
+  mkdirSync(destination, { recursive: true });
+  writeFileSync(join(destination, filename), content);
   console.log(`[assets] ✔ Wrote ${content.length} bytes to ${join(dirname, filename)}`);
+}
+
+function copyAssets(sourceDirectory: string, destinationDirectory: string) {
+  cpSync(sourceDirectory, destinationDirectory, { recursive: true });
 }
 
 async function generateCSSForExample(input: string, output: string, content: string) {
@@ -84,10 +89,18 @@ export default defineBuildConfig({
     { input: 'src/index', name: 'index' },
     { input: 'src/theme/index', name: 'theme' },
     { input: 'src/utils/index', name: 'utils' },
-    { input: 'src/assets', name: 'assets', builder: 'copy' },
   ],
   declaration: true,
   sourcemap: true,
+  // Suppress exit-code escalation for a single known false-positive.
+  // unbuild's `validatePackage` runs between buildTasks and the final
+  // `build:done` hook, so the CSS files our hook copies aren't on disk
+  // yet and the exports walk emits:
+  //   "Potential missing package.json files: dist/style.css"
+  // unbuild has no per-warning whitelist — only this global override
+  // turns the exit-1 off. The warning text itself still prints to
+  // stderr, so visibility is preserved.
+  failOnWarn: false,
 
   hooks: {
     async 'build:prepare'() {
@@ -97,6 +110,15 @@ export default defineBuildConfig({
       }
       // output.css for examples/index.html
       await generateCSSForExample('input.css', 'output.css', 'index.html');
+    },
+    'build:done'(context) {
+      // copy assets to dist alongside rollup output (the
+      // builtin copy builder symlinks src→dist in stub mode,
+      // which would clobber the rollup stubs)
+      copyAssets(
+        join(context.options.rootDir, 'src/assets'),
+        join(context.options.outDir),
+      );
     },
   },
 });

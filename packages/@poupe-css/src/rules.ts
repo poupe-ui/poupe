@@ -454,6 +454,53 @@ export function renameRules(
   return Object.fromEntries(map);
 }
 
+const UNSAFE_PROTO_KEYS: ReadonlySet<string> = new Set([
+  '__proto__',
+  'constructor',
+  'prototype',
+]);
+
+/** True for keys that would mutate the prototype chain when assigned. */
+function isUnsafeKey(key: string): boolean {
+  return UNSAFE_PROTO_KEYS.has(key);
+}
+
+/** Descends into `parent[key]`, creating an empty CSSRules if missing.
+ * Throws if a non-object value already occupies the slot. */
+function getOrCreateChild(
+  parent: CSSRules,
+  key: string,
+  segmentIndex: number,
+  fullPath: string[],
+): CSSRules {
+  const existing = parent[key];
+  if (existing === undefined) {
+    const empty = {} as CSSRules;
+    parent[key] = empty;
+    return empty;
+  }
+  if (typeof existing !== 'object' || existing === null) {
+    throw new Error(
+      `Invalid path at segment ${segmentIndex}: "${key}" in path: ` +
+      `${fullPath.join('.')}: ${typeof existing}`,
+    );
+  }
+  return existing as CSSRules;
+}
+
+/** Returns the own-property at `key` of `current`, or undefined when
+ * `current` is not a non-null object or does not own the key. */
+function lookupChild(
+  current: CSSRulesValue | undefined,
+  key: string,
+): CSSRulesValue | undefined {
+  if (typeof current !== 'object' || current === null ||
+    !Object.prototype.hasOwnProperty.call(current, key)) {
+    return undefined;
+  }
+  return (current as CSSRules)[key];
+}
+
 /**
  * Sets a CSS rule object at a specified path within a target object,
  * merging with existing objects and creating intermediate objects as needed.
@@ -512,34 +559,17 @@ export function setDeepRule(
   if (Array.isArray(path)) {
     if (path.length === 0) return target;
 
-    // Create nested objects for all but the last path segment
-    for (let i = 0; i < path.length - 1; i++) {
-      const k = path[i];
-      if (k === '__proto__' || k === 'constructor' || k === 'prototype') {
-        return target;
-      }
-
-      if (p[k] === undefined) {
-        p[k] = {} as CSSRules;
-      } else if (typeof p[k] !== 'object' || p[k] === null) {
-        throw new Error(
-          `Invalid path at segment ${i}: "${k}" in path: ` +
-          `${path.join('.')}: ${typeof p[k]}`,
-        );
-      }
-
-      p = p[k] as CSSRules;
+    for (const [i, k] of path.slice(0, -1).entries()) {
+      if (isUnsafeKey(k)) return target;
+      p = getOrCreateChild(p, k, i, path);
     }
 
-    // Assign the obj to the last path segment
     lastKey = path.at(-1) as string;
   } else {
     lastKey = path;
   }
 
-  if (lastKey === '__proto__' || lastKey === 'constructor' || lastKey === 'prototype') {
-    return target;
-  }
+  if (isUnsafeKey(lastKey)) return target;
 
   p[lastKey] = defu(object, p[lastKey] ?? {} as typeof object);
 
@@ -605,13 +635,10 @@ export function getDeepRule(
     return target;
   }
 
-  let current: CSSRulesValue = target;
+  let current: CSSRulesValue | undefined = target;
   for (const key of segments) {
-    if (typeof current !== 'object' || current === null ||
-      !Object.prototype.hasOwnProperty.call(current, key)) {
-      return undefined;
-    }
-    current = (current as CSSRules)[key];
+    current = lookupChild(current, key);
+    if (current === undefined) return undefined;
   }
 
   return current;

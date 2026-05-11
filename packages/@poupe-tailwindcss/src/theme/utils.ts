@@ -1,7 +1,7 @@
 /* imports */
 import {
   hexString,
-  StandardPaletteKey,
+  type StandardPaletteKey,
   standardPaletteKeys,
 } from '@poupe/theme-builder';
 

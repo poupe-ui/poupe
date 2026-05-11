@@ -1,4 +1,4 @@
-import {
+import type {
   ColorOptions,
   CustomColorOptions,
   Palettes,
@@ -117,7 +117,7 @@ export const makeThemePalettes = <K extends string>(colors: ThemeColors<K>) => {
 
 function cookThemeColors<K extends string>(colors: ThemeColors<K>) {
   const { primary, ...rest } = colors;
-  const out: Record<string, ColorOptions> = {
+  const out: Record<string, ColorOptions> & { primary: ColorOptions } = {
     primary: flattenColorOptions(primary),
   };
 
@@ -127,10 +127,5 @@ function cookThemeColors<K extends string>(colors: ThemeColors<K>) {
     out[camelCase(name)] = $options;
   }
 
-  const keys = Object.keys(out);
-
-  return {
-    keys, // just to avoid having the as unused
-    colors: out as Record<typeof keys[number], ColorOptions>,
-  };
+  return { keys: Object.keys(out), colors: out };
 }

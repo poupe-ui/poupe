@@ -5,6 +5,32 @@ All notable changes to `@poupe/tailwindcss` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## [0.5.1] - 2026-05-10
+
+### Fixed
+
+- Replace the file-copy plugin with a `build:done` hook,
+  dropping the build-time copy dependency.
+- Inline `bgPrefix`/`textPrefix` in `makeSurfaceComponents`
+  so resolved class strings survive Tailwind's content scan.
+- Type-only import of `StandardPaletteKey` to keep the
+  runtime bundle clean.
+- Satisfy `noUncheckedIndexedAccess` across theme helpers.
+- Unblock @poupe/nuxt's jiti chain (workspace cross-effect).
+- Address CodeQL and code-review alerts.
+
+### Dependencies
+
+- TypeScript 6.0.3, vue-tsc 3.2.8, vitest 3.2.4, eslint 9.39.4,
+  unbuild 3.6.1, @poupe/eslint-config ~0.9.1.
+
+### Internal
+
+- Workspace cspell pipeline; singular-noun casing pass.
+- Standardised precommit/prepack/clean scripts and `prepare` hook.
+
 ## [0.5.0] - 2025-06-19
 
 ### Added

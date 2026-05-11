@@ -1,0 +1,12 @@
+{
+  "cSpell.import": [
+    "internal/build/cspell.json"
+  ],
+  "cSpell.language": "en-GB",
+  // Suppress auto-forward of chrome-devtools-mcp port.
+  "remote.portsAttributes": {
+    "9235": {
+      "onAutoForward": "ignore"
+    }
+  }
+}

@@ -1,3 +1,5 @@
+// cspell:words maxlength
+
 import type { StoryGroup } from '../components/story/types';
 import { Input } from '../components';
 import { createStory, createStoryGroup } from '../components/story/utils';
@@ -424,7 +426,7 @@ export const combinationVariants = createStoryGroup(
         outline: 'error',
         iconEnd: 'material-symbols:error',
         helperText: 'This username is already taken',
-        modelValue: 'johndoe',
+        modelValue: 'john.doe',
       },
     }),
     createStory({

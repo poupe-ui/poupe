@@ -3,10 +3,10 @@ name: Publish to NPM
 on:
   push:
     tags:
-      - 'v[0-9]*'
+      - '@*/*@v[0-9]*'
 
 concurrency:
-  group: publish
+  group: publish-${{ github.ref_name }}
   cancel-in-progress: false
 
 jobs:
@@ -25,4 +25,7 @@ jobs:
           node-version: '24'
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm -r publish:maybe --provenance --no-git-checks
+      - name: Publish ${{ github.ref_name }}
+        run: pnpm --filter "${TAG%@v*}" publish:maybe --provenance --no-git-checks
+        env:
+          TAG: ${{ github.ref_name }}

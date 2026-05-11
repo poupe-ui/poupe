@@ -1,3 +1,5 @@
+// cspell:words favorite Tabler
+
 import type { StoryGroup } from '../components/story/types';
 import { Icon } from '../components';
 import { createStory, createStoryGroup } from '../components/story/utils';

@@ -13,6 +13,17 @@ export type MatchUtilitiesValue = Parameters<PluginAPI['matchUtilities']>[0][str
 /** The options type for {@link PluginAPI.matchUtilities} function */
 export type MatchUtilitiesOptions = Parameters<PluginAPI['matchUtilities']>[1];
 
+type DynamicProperty = {
+  cssProperty: string
+  type: string
+};
+
+type ModifierProperty = {
+  cssProperty: string
+  defaultValue: string
+  modifierPattern: string
+};
+
 /**
  * Transforms a utility class name and its CSS rule object into a match utility configuration
  * for Tailwind CSS's matchUtilities API. This enables dynamic utilities that accept arbitrary values.
@@ -40,77 +51,34 @@ export function asMatchUtility(name: string, value: CSSRuleObject): (undefined |
   const utilityBaseName = name.slice(0, -2);
 
   // Separate --value() and --modifier() patterns from static CSS rules
-  const dynamicProperties: Array<{
-    cssProperty: string
-    type: string
-    valuePattern: string
-  }> = [];
-  const modifierProperties: Array<ModifierProperties> = [];
+  const dynamicProperties: DynamicProperty[] = [];
+  const modifierProperties: ModifierProperty[] = [];
   const staticCSSRules: CSSRuleObject = {};
 
   for (const [cssProperty, cssValue] of Object.entries(value)) {
-    if (typeof cssValue === 'string') {
-      if (cssValue.includes('--value(')) {
-        // Parse --value() pattern
-        // Note: In Tailwind v4 CSS syntax, --value(integer, [integer]) means
-        // the utility accepts both bare values (tab-4) and arbitrary values (tab-[4])
-        // Since matchUtilities automatically handles arbitrary values, we only
-        // need to extract the base type
-        const valueMatch = cssValue.match(/--value\(([^)]+)\)/);
-        if (valueMatch) {
-          const valuePattern = valueMatch[1];
-          // Extract the first type, ignoring additional syntax like [type]
-          const type = valuePattern.split(',')[0].trim().replaceAll(/[[\]]/g, '') || 'any';
-
-          dynamicProperties.push({
-            cssProperty,
-            valuePattern: cssValue,
-            type,
-          });
-        }
-      } else if (cssValue.includes('--modifier(')) {
-        // Parse --modifier() pattern for opacity and other modifiers
-        // Handle both --modifier([percentage]) and --modifier(type, default) patterns
-        const modifierMatch = cssValue.match(/--modifier\(([^)]+)\)/);
-        if (modifierMatch) {
-          const modifierContent = modifierMatch[1].trim();
-          let modifierType = 'any';
-          let defaultValue = '';
-
-          if (modifierContent.includes(',')) {
-            // Pattern: --modifier(type, default)
-            const parts = modifierContent.split(',').map((s) => s.trim());
-            if (parts.length >= 2) {
-              modifierType = parts[0].replaceAll(/[[\\]]/g, '');
-              defaultValue = parts[1];
-            } else {
-              // Fallback if comma is present but split doesn't work as expected
-              modifierType = modifierContent.replaceAll(/[[\\]]/g, '');
-            }
-          } else {
-            // Pattern: --modifier([percentage]) or --modifier(percentage)
-            modifierType = modifierContent.replaceAll(/[[\\]]/g, '');
-            // Set default based on the CSS property name for known properties
-            if (cssProperty.includes('scrim-opacity')) {
-              defaultValue = DEFAULT_SCRIM_OPACITY;
-            }
-          }
-
-          modifierProperties.push({
-            cssProperty,
-            modifierPattern: cssValue,
-            modifierType,
-            defaultValue,
-          });
-        }
-      } else {
-        // Static CSS rules (like @apply directives)
-        staticCSSRules[cssProperty] = cssValue;
-      }
-    } else {
-      // Non-string values
+    if (typeof cssValue !== 'string') {
       staticCSSRules[cssProperty] = cssValue;
+      continue;
     }
+
+    const dynamic = parseValuePattern(cssValue);
+    if (dynamic) {
+      dynamicProperties.push({ cssProperty, type: dynamic.type });
+      continue;
+    }
+
+    const modifier = parseModifierPattern(cssValue, cssProperty);
+    if (modifier) {
+      modifierProperties.push({
+        cssProperty,
+        modifierPattern: cssValue,
+        defaultValue: modifier.defaultValue,
+      });
+      continue;
+    }
+
+    // Static CSS rules (e.g. @apply directives)
+    staticCSSRules[cssProperty] = cssValue;
   }
 
   // If no dynamic properties found, this isn't a dynamic utility
@@ -118,27 +86,22 @@ export function asMatchUtility(name: string, value: CSSRuleObject): (undefined |
     return undefined;
   }
 
-  // Determine options from the primary dynamic property
-  const primaryDynamicProp = dynamicProperties[0];
-  const options = convertTypeToMatchUtilitiesOptions(primaryDynamicProp.type);
+  // length ≥ 1 verified above; [0] cannot be undefined
+  const options = convertTypeToMatchUtilitiesOptions(dynamicProperties[0]!.type);
 
   return {
     name: utilityBaseName,
     value: (userValue: string, { modifier }: { modifier: null | string }) => {
-      // Start with static CSS rules
       const cssResult: CSSRuleObject = { ...staticCSSRules };
 
-      // Replace each --value() pattern with the user's input
       for (const { cssProperty } of dynamicProperties) {
         cssResult[cssProperty] = userValue;
       }
 
-      // Replace each --modifier() pattern with modifier value or default
       for (const { cssProperty, defaultValue, modifierPattern } of modifierProperties) {
         if (modifierPattern.includes('[percentage]')) {
-          // For percentage types, append % to the modifier value
-          const value = modifier ? `${modifier}%` : defaultValue;
-          cssResult[cssProperty] = value;
+          // Percentage modifiers receive the user value with `%` appended
+          cssResult[cssProperty] = modifier ? `${modifier}%` : defaultValue;
         } else {
           cssResult[cssProperty] = modifier || defaultValue;
         }
@@ -153,12 +116,44 @@ export function asMatchUtility(name: string, value: CSSRuleObject): (undefined |
   };
 }
 
-type ModifierProperties = {
-  cssProperty: string
-  defaultValue: string
-  modifierPattern: string
-  modifierType: string
-};
+/**
+ * Parses a `--value(type)` or `--value(type, [type])` pattern, returning the
+ * resolved type. In Tailwind v4 syntax, the bracketed `[type]` alternative
+ * marks arbitrary-value support — but matchUtilities accepts arbitrary values
+ * automatically, so we only need the first (bare) type.
+ *
+ * `[^)]+` guarantees a non-empty capture group when the match succeeds, and
+ * `String.split` always yields ≥1 element.
+ */
+function parseValuePattern(cssValue: string): undefined | { type: string } {
+  const match = cssValue.match(/--value\(([^)]+)\)/);
+  if (!match) return undefined;
+  const firstType = match[1]!.split(',')[0]!.trim().replaceAll(/[[\]]/g, '');
+  return { type: firstType || 'any' };
+}
+
+/**
+ * Parses a `--modifier(type)` or `--modifier(type, default)` pattern, returning
+ * the resolved default value. Falls back to `DEFAULT_SCRIM_OPACITY` for
+ * scrim-opacity properties when no explicit default is given.
+ */
+function parseModifierPattern(
+  cssValue: string,
+  cssProperty: string,
+): undefined | { defaultValue: string } {
+  const match = cssValue.match(/--modifier\(([^)]+)\)/);
+  if (!match) return undefined;
+  const content = match[1]!.trim();
+
+  if (content.includes(',')) {
+    // includes(',') guarantees split yields ≥2 elements
+    return { defaultValue: content.split(',')[1]!.trim() };
+  }
+
+  return {
+    defaultValue: cssProperty.includes('scrim-opacity') ? DEFAULT_SCRIM_OPACITY : '',
+  };
+}
 
 /**
  * Converts --value() type specifications to matchUtilities options.
@@ -178,9 +173,7 @@ function convertTypeToMatchUtilitiesOptions(type: string): MatchUtilitiesOptions
     any: 'any',
   };
 
-  const mappedType = typeMapping[type] || 'any';
-
   return {
-    type: mappedType,
+    type: typeMapping[type] || 'any',
   };
 }

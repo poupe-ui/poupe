@@ -1,3 +1,5 @@
+// cspell:words Csvg superellipse
+
 import {
   stateLayerOpacities,
 } from '@poupe/theme-builder';
@@ -263,7 +265,8 @@ export function makeSurfaceComponents(theme: Readonly<Theme>, tailwindPrefix: st
 
   const surfaces: Record<string, CSSRuleObject> = {};
 
-  const [bgPrefix, textPrefix] = ['bg-', 'text-'].map((prefix) => `${tailwindPrefix}${prefix}`);
+  const bgPrefix = `${tailwindPrefix}bg-`;
+  const textPrefix = `${tailwindPrefix}text-`;
 
   for (const pair of pairs.values()) {
     const { bgColor, textColor, surfaceName } = pair;
@@ -523,7 +526,7 @@ export type ShapeScaleKey = keyof typeof SHAPE_SCALE;
 
 /**
  * Generates CSS properties for a squircle shape
- * Uses CSS mask with SVG path for smooth iOS-style squircles
+ * Uses CSS mask with SVG path for a smooth iOS-style squircle
  */
 function getSquircleStyles(smoothing: string): CSSRuleObject {
   // Smoothing value of 1 = standard squircle, higher = more rounded
@@ -642,26 +645,26 @@ export function makeShapeComponents(theme: Readonly<Theme>): Record<string, CSSR
   // These follow Material Design 3 component shape recommendations
   const componentShapes: Record<string, keyof typeof SHAPE_SCALE> = {
     // Interactive components
-    'button': 'full', // MD3: Buttons use full rounding
-    'fab': 'large', // MD3: FABs use large rounding
-    'chip': 'small', // MD3: Chips use small rounding
-    'icon-button': 'full', // MD3: Icon buttons are circular
+    'button': 'full', // MD3: Button uses full rounding
+    'fab': 'large', // MD3: FAB uses large rounding
+    'chip': 'small', // MD3: Chip uses small rounding
+    'icon-button': 'full', // MD3: Icon button is circular
 
     // Container components
-    'card': 'medium', // MD3: Cards use medium rounding
-    'dialog': 'extra-large', // MD3: Dialogs use extra-large rounding
-    'menu': 'extra-small', // MD3: Menus use extra-small rounding
-    'snackbar': 'extra-small', // MD3: Snackbars use extra-small rounding
-    'tooltip': 'extra-small', // MD3: Tooltips use extra-small rounding
+    'card': 'medium', // MD3: Card uses medium rounding
+    'dialog': 'extra-large', // MD3: Dialog uses extra-large rounding
+    'menu': 'extra-small', // MD3: Menu uses extra-small rounding
+    'snackbar': 'extra-small', // MD3: Snackbar uses extra-small rounding
+    'tooltip': 'extra-small', // MD3: Tooltip uses extra-small rounding
 
     // Input components
-    'text-field': 'extra-small', // MD3: Text fields use extra-small rounding
-    'search': 'full', // MD3: Search bars often use full rounding
+    'text-field': 'extra-small', // MD3: Text field uses extra-small rounding
+    'search': 'full', // MD3: Search bar often uses full rounding
 
     // Navigation components
-    'navigation-bar': 'none', // MD3: Nav bars typically have no rounding
-    'navigation-rail': 'none', // MD3: Nav rails typically have no rounding
-    'navigation-drawer': 'large', // MD3: Nav drawers use large rounding on one side
+    'navigation-bar': 'none', // MD3: Nav bar typically has no rounding
+    'navigation-rail': 'none', // MD3: Nav rail typically has no rounding
+    'navigation-drawer': 'large', // MD3: Nav drawer uses large rounding on one side
   };
 
   for (const [component, defaultScale] of Object.entries(componentShapes)) {

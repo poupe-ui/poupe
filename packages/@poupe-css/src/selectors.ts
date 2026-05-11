@@ -55,7 +55,7 @@ export function processCSSSelectors(
   // Convert string to array for unified processing
   const selectorArray = Array.isArray(selectors) ? selectors : [selectors];
 
-  // Handle comma passthrough for single strings
+  // Handle comma pass-through for single strings
   if (!Array.isArray(selectors) && allowCommaPassthrough && selectors.includes(',')) {
     const expanded = expandSelectorAlias(selectors, aliases);
     return [expanded];

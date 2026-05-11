@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@poupe/nuxt": "workspace:^",
-    "nuxt": "^3.21.2"
+    "nuxt": "^3.21.4"
   },
   "devDependencies": {
-    "nuxi": "^3.34.0"
+    "nuxi": "^3.35.1"
   },
   "engines": {
     "node": ">=20.19.2",

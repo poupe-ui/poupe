@@ -176,7 +176,7 @@ function newThemeColorHct(key: string, value: Hct, shades: Shades): [string, Hct
   if (shades) {
     const shadesMap = makeShades(value, shades);
     for (const shade of shades) {
-      out.push([`${key}-${shade}`, shadesMap[shade]]);
+      out.push([`${key}-${shade}`, shadesMap[shade]!]);
     }
   }
 
@@ -470,11 +470,12 @@ export function makeThemeBases(
       const stateColors = generateStateColorVariables(theme);
       // Find the :root rule in styles and add state colors
       const rootRule = styles.find((style) => ':root' in style);
-      if (rootRule) {
-        Object.assign(rootRule[':root'], stateColors);
-      } else {
+      const rootEntry = rootRule?.[':root'];
+      if (rootEntry === undefined) {
         // Create a new :root rule if none exists
         styles.unshift({ ':root': stateColors });
+      } else {
+        Object.assign(rootEntry, stateColors);
       }
     }
 
@@ -522,10 +523,10 @@ export function makeThemeConstants(theme: Readonly<Theme>): CSSRuleObject {
     ['z-navigation-persistent']: 1000, /* Mobile stepper, bottom navigation */
     ['z-navigation-floating']: 1050, /* FAB, speed dial */
     ['z-navigation-top']: 1100, /* App bar, top navigation */
-    ['z-drawer']: 1200, /* Navigation drawer, side sheets */
-    ['z-modal']: 1300, /* Modal dialogs */
-    ['z-snackbar']: 1400, /* Snackbars, toasts */
-    ['z-tooltip']: 1500, /* Tooltips */
+    ['z-drawer']: 1200, /* Navigation drawer, side sheet */
+    ['z-modal']: 1300, /* Modal dialog */
+    ['z-snackbar']: 1400, /* Snackbar, toast */
+    ['z-tooltip']: 1500, /* Tooltip */
 
     /* Below navigation layer */
     ['z-scrim-base']: 950, /* Basic overlay, below all navigation */

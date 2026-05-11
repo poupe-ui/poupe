@@ -7,6 +7,9 @@ export type ButtonType = 'elevated' | 'filled' | 'outlined' | 'text' | 'tonal';
 /** Button color variants */
 export type ButtonVariant = 'base' | 'error' | 'primary' | 'secondary' | 'tertiary';
 
+/** Button size scale */
+export type ButtonSize = 'base' | 'lg' | 'sm' | 'xl' | 'xs';
+
 /** Button component props */
 export interface ButtonProps extends Omit<SurfaceProps, 'level' | 'padding' | 'role' | 'tone' | 'variant'> {
   /** Button label text */
@@ -16,7 +19,7 @@ export interface ButtonProps extends Omit<SurfaceProps, 'level' | 'padding' | 'r
   type?: ButtonType
 
   /** Button size */
-  size?: 'base' | 'lg' | 'sm' | 'xl' | 'xs'
+  size?: ButtonSize
 
   /** Semantic color variant for the button */
   variant?: ButtonVariant
@@ -238,7 +241,7 @@ const buttonClasses = computed(() => {
   ];
 
   // Size classes
-  const sizeClasses: Record<string, string> = {
+  const sizeClasses: Record<ButtonSize, string> = {
     xs: 'text-xs h-8 px-2',
     sm: 'text-sm h-9 px-3',
     base: 'text-sm h-10 px-6',
@@ -247,7 +250,7 @@ const buttonClasses = computed(() => {
   };
 
   // FAB size classes
-  const fabSizeClasses: Record<string, string> = {
+  const fabSizeClasses: Record<ButtonSize, string> = {
     xs: 'h-10 w-10',
     sm: 'h-12 w-12',
     base: 'h-14 w-14',
@@ -256,7 +259,7 @@ const buttonClasses = computed(() => {
   };
 
   // Extended FAB size classes
-  const extendedFabSizeClasses: Record<string, string> = {
+  const extendedFabSizeClasses: Record<ButtonSize, string> = {
     xs: 'h-10 px-3',
     sm: 'h-12 px-4',
     base: 'h-14 px-5',
@@ -265,7 +268,7 @@ const buttonClasses = computed(() => {
   };
 
   // Icon button size classes
-  const iconButtonSizeClasses: Record<string, string> = {
+  const iconButtonSizeClasses: Record<ButtonSize, string> = {
     xs: 'h-8 w-8',
     sm: 'h-9 w-9',
     base: 'h-10 w-10',
@@ -275,13 +278,13 @@ const buttonClasses = computed(() => {
 
   // Apply size classes
   if (fab && !props.value.extended) {
-    classes.push(fabSizeClasses[size] || fabSizeClasses.base);
+    classes.push(fabSizeClasses[size]);
   } else if (fab && props.value.extended) {
-    classes.push(extendedFabSizeClasses[size] || extendedFabSizeClasses.base);
+    classes.push(extendedFabSizeClasses[size]);
   } else if (iconButton) {
-    classes.push(iconButtonSizeClasses[size] || iconButtonSizeClasses.base);
+    classes.push(iconButtonSizeClasses[size]);
   } else {
-    classes.push(sizeClasses[size] || sizeClasses.base);
+    classes.push(sizeClasses[size]);
   }
 
   // State classes
@@ -304,14 +307,14 @@ const computedLabel = computed(() => {
 
 // Icon size based on button size
 const iconSize = computed(() => {
-  const sizes: Record<string, string> = {
+  const sizes: Record<ButtonSize, string> = {
     xs: 'text-base',
     sm: 'text-lg',
     base: 'text-xl',
     lg: 'text-2xl',
     xl: 'text-3xl',
   };
-  return sizes[props.value.size] || sizes.base;
+  return sizes[props.value.size];
 });
 </script>
 

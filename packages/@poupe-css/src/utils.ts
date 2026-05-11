@@ -1,3 +1,5 @@
+// cspell:words khtml
+
 /**
  * A type-safe wrapper around Object.keys that preserves the object's key types.
  *
@@ -82,7 +84,7 @@ export function* pairs<K extends string = string, T = unknown>(
  */
 export function kebabCase(s: string): string {
   // Apply standard kebab-case transformations
-  const kebabbed = s
+  const result = s
     .trim()
     // handle multiple uppercase letters (e.g., XMLHttpRequest -> xml-http-request)
     // use lookbehind + lookahead to avoid ReDoS from overlapping quantifiers
@@ -94,11 +96,11 @@ export function kebabCase(s: string): string {
     .toLowerCase();
 
   // Check for vendor prefixes using a regex and add leading hyphen if needed
-  if (vendorPrefixPattern.test(kebabbed)) {
-    return `-${kebabbed}`;
+  if (vendorPrefixPattern.test(result)) {
+    return `-${result}`;
   }
 
-  return kebabbed;
+  return result;
 }
 
 const vendorPrefixPattern = /^(webkit|moz|ms|o|khtml)-/;

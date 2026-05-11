@@ -1,3 +1,5 @@
+<!-- cspell:words autosquash heredocs npmjs Sourcegraph -->
+
 # AGENTS.md
 
 This file provides guidance to AI coding assistants (Claude Code, GitHub
@@ -66,8 +68,8 @@ DEBUG=eslint:eslint pnpm lint:check    # Debug ESLint issues
 pnpm build        # Build all packages
 pnpm clean        # Clean all packages
 pnpm lint         # Lint all packages
-pnpm precommit    # Full pipeline: build, lint, type-check, test
-pnpm prepack      # Full publish gate: lint:check + per-package prepack
+pnpm precommit    # Full pipeline: dev:prepare, lint, type-check, build, test
+pnpm prepack      # Full publish gate: lint:root:check + per-package prepack
 pnpm test         # Run tests in all packages
 pnpm type-check   # Type-check all packages
 ```
@@ -173,9 +175,11 @@ Before committing any changes, ALWAYS run:
 
 The `pnpm precommit` command runs, in order:
 
-- Build all packages (build first refreshes stubs)
+- Stub all packages (`dev:prepare` runs `unbuild --stub` so cross-package
+  type and lint resolution works)
 - Run ESLint with auto-fix
 - Check TypeScript types
+- Build all packages (real build, prerequisite for tests)
 - Run all tests
 
 ### DO
@@ -369,7 +373,7 @@ When referencing other packages in the monorepo:
 
 ## Common Dependencies
 
-- **TypeScript**: ~5.9.3 (strict mode enabled)
+- **TypeScript**: ~6.0.3 (strict mode enabled)
 - **Vitest**: ^3.2.4 for testing
 - **ESLint**: Via @poupe/eslint-config
 - **Node.js**: >=20.19.2
@@ -457,13 +461,12 @@ Two development playgrounds are available:
 - **@poupe/vue** (Vite) — port 5173
 - **@poupe-nuxt/playground** (Nuxt) — port 3000
 
-Start both with `--host` so they bind to `0.0.0.0` and are
-reachable from outside the container at the IP from
+Reachable from outside the container at the IP from
 `hostname -I`:
 
 ```bash
-pnpm --filter @poupe/vue dev -- --host --port 5173
-pnpm --filter @poupe/nuxt dev -- --host --port 3000
+pnpm --filter @poupe/vue dev -- --port 5173
+pnpm --filter @poupe/nuxt dev -- --port 3000
 ```
 
 Run these as background tasks (`run_in_background`). Stop with
@@ -476,15 +479,29 @@ inspection with the chrome-devtools MCP server. Start it
 before using MCP tools:
 
 ```bash
-chromium --headless --no-sandbox --remote-debugging-port=9235 \
+chromium-browser --headless --no-sandbox --remote-debugging-port=9235 \
   --no-first-run --no-default-browser-check --disable-gpu \
   about:blank
 ```
 
-Port 9235 is project-local (9234 is used by awesome-apptly).
-Use `mcp__chrome-devtools__new_page` to navigate to a dev
-server, then `take_screenshot` or `take_snapshot` for visual
-and DOM verification.
+The binary is `chromium-browser` on Debian/Ubuntu and `chromium`
+on Arch — adjust to whichever your distribution ships. Port 9235
+is the project-local debug port. Use
+`mcp__chrome-devtools__new_page` to navigate to a dev server,
+then `take_screenshot` or `take_snapshot` for visual and DOM
+verification.
+
+**Known race:** VS Code Remote's auto-forward can bind the host
+port before chromium does, leaving chrome-devtools-mcp pointing
+at a stalled IPv4 forwarder. Both `poupe.code-workspace` and
+`.vscode/settings.json` set
+`remote.portsAttributes.9235.onAutoForward` to `ignore` to
+prevent the forward — workspace covers the multi-root case,
+`.vscode/settings.json` covers opening the directory alone. If
+it hasn't taken effect,
+`curl http://127.0.0.1:9235/json/version` in the container
+connects but returns zero bytes; reload the VS Code window to
+clear it.
 
 ### `.mcp.json`
 

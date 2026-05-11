@@ -1,4 +1,5 @@
 #!/bin/sh
+# cspell:words nuxt
 
 set -eu
 BASE="$(dirname "$0")"
