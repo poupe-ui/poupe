@@ -23,7 +23,7 @@
     "type-check": "pnpm -r type-check"
   },
   "devDependencies": {
-    "@poupe/eslint-config": "~0.9.1",
+    "@poupe/eslint-config": "^0.9.1",
     "cspell": "^10.0.0",
     "eslint": "^9.39.4",
     "npm-run-all2": "^8.0.4",
