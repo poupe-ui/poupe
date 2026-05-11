@@ -1,4 +1,4 @@
-import type { ComponentMountingOptions } from '@vue/test-utils';
+import type { ComponentMountingOptions, VueWrapper } from '@vue/test-utils';
 import { mount } from '@vue/test-utils';
 import { createPoupe } from '../../composables';
 
@@ -9,7 +9,7 @@ import { createPoupe } from '../../composables';
 export function mountWithPoupe<T>(
   component: T,
   options?: ComponentMountingOptions<T>,
-) {
+): VueWrapper {
   return mount(component, {
     ...options,
     global: {
