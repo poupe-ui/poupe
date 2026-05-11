@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Declare `@poupe/css` and `vue-router` in `package.json`.
+  `@poupe/css` is called at runtime; `vue-router` is consumed
+  as a type by the story-viewer component. Both were satisfied
+  by the workspace's `shamefully-hoist` flag but missing from
+  the manifest. `@poupe/css` joins `dependencies` as
+  `workspace:^`; `vue-router` joins `devDependencies` and
+  `peerDependencies` as `^4.0.0` with
+  `peerDependenciesMeta.optional = true`.
+
 ## [0.6.1] - 2026-05-10
 
 ### Fixed
