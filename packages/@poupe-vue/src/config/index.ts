@@ -1,5 +1,6 @@
-import { dirname } from 'pathe';
+import { fileURLToPath } from 'node:url';
 
+import { dirname } from 'pathe';
 import ScrollbarPlugin from 'tailwind-scrollbar';
 
 /** @returns array of required third-party tailwind plugins */
@@ -8,7 +9,8 @@ export const tailwindPlugins = [
 ];
 
 /** @returns the directory path to the `@poupe/vue` package */
-export const contentPath = () => dirname(new URL(import.meta.url).pathname);
+export const contentPath = (): string =>
+  dirname(fileURLToPath(import.meta.url));
 
 /** entry points that contain component templates with CSS classes */
 const contentEntries = [

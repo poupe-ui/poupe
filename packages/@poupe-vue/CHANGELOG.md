@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `workspace:^`; `vue-router` joins `devDependencies` and
   `peerDependencies` as `^4.0.0` with
   `peerDependenciesMeta.optional = true`.
+- Resolve `contentPath()`'s package directory through
+  `node:url`'s `fileURLToPath` + `pathe.dirname`. The previous
+  form (`dirname(new URL(import.meta.url).pathname)`) left a
+  leading slash before drive letters on Windows (`/C:/...`),
+  breaking `contentGlobs()` for consumers who pasted it into a
+  tailwindcss `content` config.
 
 ## [0.6.1] - 2026-05-10
 

@@ -38,6 +38,7 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
+        /^node:/,
         '@poupe/css',
         '@poupe/tailwindcss',
         '@poupe/theme-builder',
