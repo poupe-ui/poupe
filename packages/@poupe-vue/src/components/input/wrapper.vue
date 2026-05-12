@@ -3,7 +3,7 @@ import { Toggle as RekaToggle, useForwardExpose } from 'reka-ui';
 import { computed } from 'vue';
 import { twMerge } from '../variants';
 
-import { usePasswordToggle } from '@/composables/use-password';
+import { usePasswordToggle } from '../../composables/use-password';
 
 import Icon from '../icon.vue';
 

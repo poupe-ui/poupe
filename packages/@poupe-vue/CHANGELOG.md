@@ -24,6 +24,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   breaking `contentGlobs()` for consumers who pasted it into a
   tailwindcss `content` config.
 
+### Dependencies
+
+- Add `obuild`, `unplugin-vue`, `@kagal/cross-test`,
+  `@poupe/rolldown-vue-css`, `@tailwindcss/vite`.
+- Drop `@vitejs/plugin-vue`, `vite-plugin-dts`,
+  `vite-plugin-vue-devtools`, `autoprefixer`,
+  `@tailwindcss/postcss`, `pathe`.
+
+### Internal
+
+- Migrate build pipeline from vite to obuild + rolldown,
+  aligning @poupe/vue with the rest of the workspace. Vue
+  SFC `<style>` blocks emit as sibling `.css` files
+  alongside each audience's chunk; the chunks auto-import
+  their stylesheet via bare specifier
+  (`@poupe/vue/<aud>/index.css`). Public exports unchanged;
+  dist layout moves to per-subpath nested
+  (`dist/<aud>/index.mjs`).
+- Add re-export bridges (`src/theme-scheme/index.ts`,
+  `src/story-viewer/index.ts`) so obuild's
+  source-mirrors-dist distName algorithm produces the
+  existing audience shape.
+- Rewrite `tryWarn` to narrow `import.meta.env` via a
+  local type — downstream type-check passes (e.g.
+  @poupe/nuxt's) no longer need vite's ambient
+  augmentation just to read the DEV gate.
+- Switch two SFC `@/composables/*` aliased imports
+  (`icon.vue`, `input/wrapper.vue`) to relative paths;
+  rolldown doesn't read tsconfig `paths`, so the alias is
+  now type-only.
+- Dev server uses `unplugin-vue/vite` to match the
+  build-side SFC parser; `vitest.config.ts` is standalone
+  (no longer merging vite's library config).
+
 ## [0.6.1] - 2026-05-10
 
 ### Fixed

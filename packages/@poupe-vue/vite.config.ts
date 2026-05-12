@@ -1,75 +1,23 @@
 import { fileURLToPath, URL } from 'node:url';
-import { defineConfig } from 'vite';
 
 import tailwind from '@tailwindcss/vite';
-import autoprefixer from 'autoprefixer';
-
-import Vue from '@vitejs/plugin-vue';
-import Dts from 'vite-plugin-dts';
-import VueDevTools from 'vite-plugin-vue-devtools';
+import Vue from 'unplugin-vue/vite';
+import { defineConfig } from 'vite';
 
 const resolve = (path: string) => fileURLToPath(new URL(path, import.meta.url));
 
-// https://vitejs.dev/config/
+// Dev server only — serves the in-house story viewer
+// (src/app.vue → src/stories/index.vue) for component
+// development. The library build runs through obuild
+// (build.config.ts).
 export default defineConfig({
   plugins: [
     Vue(),
-    VueDevTools(),
-    Dts({
-      tsconfigPath: resolve('tsconfig.app.json'),
-      rollupTypes: true,
-    }),
     tailwind(),
   ],
-  build: {
-    lib: {
-      formats: ['es'],
-      name: '@poupe/vue',
-      fileName: (_, name) => `${name}.mjs`,
-      entry: {
-        'index': resolve('src/index.ts'),
-        'components': resolve('src/components/index.ts'),
-        'composables': resolve('src/composables/index.ts'),
-        'config': resolve('src/config/index.ts'),
-        'resolver': resolve('src/resolver/index.ts'),
-        'theme-scheme': resolve('src/components/theme/index.ts'),
-        'story-viewer': resolve('src/components/story/index.ts'),
-      },
-    },
-    rollupOptions: {
-      external: [
-        /^node:/,
-        '@poupe/css',
-        '@poupe/tailwindcss',
-        '@poupe/theme-builder',
-        'tailwind-variants',
-        'tailwind-scrollbar',
-        'tailwindcss',
-        'vue',
-      ],
-      output: {
-        globals: {
-          ['@poupe/css']: 'PoupeCSS',
-          ['@poupe/tailwindcss']: 'PoupeTailwindCSS',
-          ['@poupe/theme-builder']: 'PoupeThemeBuilder',
-          ['tailwind-variants']: 'TailwindVariants',
-          ['tailwind-scrollbar']: 'TailwindScrollbar',
-          tailwindcss: 'Tailwindcss',
-          vue: 'Vue',
-        },
-      },
-    },
-  },
   resolve: {
     alias: {
       '@': resolve('src'),
-    },
-  },
-  css: {
-    postcss: {
-      plugins: [
-        autoprefixer(),
-      ],
     },
   },
   server: {
