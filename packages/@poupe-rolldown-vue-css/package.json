@@ -1,6 +1,6 @@
 {
   "name": "@poupe/rolldown-vue-css",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Rolldown plugin that emits Vue SFC <style> blocks as per-component CSS build assets, suitable for strict-CSP consumers",
   "author": "Alejandro Mery <amery@apptly.co>",
