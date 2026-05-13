@@ -2,11 +2,11 @@
 
 This file provides package-specific guidance for the
 @poupe/rolldown-vue-css package. For general monorepo
-guidelines, see the [root AGENTS.md](../../AGENTS.md).
+guidelines, see the [root AGENTS.md][root-agents].
 
 ## Package Overview
 
-A [Rolldown](https://rolldown.rs) plugin that emits each Vue
+A [Rolldown][rolldown] plugin that emits each Vue
 SFC `<style>` block as a per-component CSS build asset and
 rewrites the per-component output module to side-effect import
 that asset. CSP-clean by construction — no runtime
@@ -35,30 +35,27 @@ src/
   emitted CSS asset's filename (relative to the output dir) to
   the import specifier the chunk references. Defaults to
   `./<basename>` — see *Specifier choice* below.
+- `Specifier` — the `(cssFileName: string) => string` function
+  type used by `options.specifier`. Exported so callers can name
+  their own implementations without inlining the shape.
 
 The public name uses upper-case `CSS` (acronym), matching the
 spec usage; lower-case `Css` is not a word.
 
-## Status
-
-Initial implementation. The plugin emits per-component CSS
-files next to their `.mjs` chunks and rewrites those chunks to
-side-effect import the CSS asset.
-
 ## How it works
 
-A `buildStart` hook resets the per-invocation Maps so re-runs
-(watch mode, sequential bundles in one process) do not carry
-state from the previous build. The asset emission itself runs
-in three phases:
+A `buildStart` hook resets the plugin instance's capture and
+output maps so re-runs (watch mode, sequential bundles in one
+process) do not carry state from the previous build. The asset
+emission itself runs in three phases:
 
 1. **`transform`** matches virtual modules whose id matches the
    `?vue&type=style` contract `unplugin-vue` emits, captures the
-   CSS source against the virtual id in a closure-scoped Map,
-   and returns an empty `js` module so the import becomes a
-   no-op in the bundled chunk. `moduleType: 'js'` is forced
-   because the virtual id ends in `lang.css`, which would
-   otherwise route through Rolldown's removed CSS pipeline.
+   CSS source against the virtual id, and returns an empty `js`
+   module so the import becomes a no-op in the bundled chunk.
+   `moduleType: 'js'` is forced because the virtual id ends in
+   `lang.css`, which would otherwise route through Rolldown's
+   removed CSS pipeline.
 
 2. **`renderChunk`** walks each chunk's `moduleIds`, gathers
    captured CSS blocks for modules in that chunk, queues a write
@@ -74,7 +71,7 @@ in three phases:
    its removed CSS pipeline and aborts under #4271.
 
 Rolldown removed CSS-as-import handling
-([rolldown/rolldown#4271](https://github.com/rolldown/rolldown/issues/4271)),
+([rolldown/rolldown#4271][rolldown-4271]),
 so the plugin cannot ask Rolldown to resolve a `.css` import
 itself. The three-phase split is required: phase one captures
 the CSS bytes; phase two queues the side-effect import; phase
@@ -107,13 +104,7 @@ reference.
 
 ## Diagnostics
 
-Build-time warnings and errors use
-[`consola`](https://github.com/unjs/consola) directly
-(`consola.warn(...)`, `consola.error(...)`) — no DEV gate, no
-`tryWarn`-style wrapper. The plugin runs only at build time,
-so warnings should always surface; the runtime DEV gating that
-`@poupe/vue/utils.tryWarn` applies to browser code is
-unnecessary here.
+Build-time warnings use [`consola`][consola].
 
 ## Testing Guidelines
 
@@ -128,3 +119,8 @@ unnecessary here.
 dist/index.mjs    # ES module
 dist/index.d.mts  # TypeScript definitions
 ```
+
+[consola]: https://github.com/unjs/consola
+[rolldown]: https://rolldown.rs
+[rolldown-4271]: https://github.com/rolldown/rolldown/issues/4271
+[root-agents]: ../../AGENTS.md

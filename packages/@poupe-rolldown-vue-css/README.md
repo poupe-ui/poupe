@@ -9,6 +9,33 @@ SFC `<style>` block as a per-component CSS build asset, so
 consumer bundlers handle the styles via standard CSS imports
 instead of runtime `<style>` injection.
 
+## Table of Contents
+
+- [Features](#features)
+- [Why](#why)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API](#api)
+- [Integration with Poupe Ecosystem](#integration-with-poupe-ecosystem)
+- [Requirements](#requirements)
+- [Licence](#licence)
+
+## Features
+
+- 🛡️ CSP-safe: emits SFC `<style>` blocks as real `.css` assets
+  instead of runtime `<style>` injection
+- 📦 Per-component CSS file alongside each `.mjs` chunk; consumer
+  bundlers (Vite, webpack, Rsbuild, Nuxt) treat it like any
+  imported stylesheet
+- 🔗 Configurable import specifier — defaults to `./<basename>`,
+  override for package self-reference when chunks are re-bundled
+  by another rolldown (e.g. `obuild`'s `distSize`)
+- ⚙️ Three-phase plugin lifecycle (`transform`, `renderChunk`,
+  `writeBundle`) — no asset emit, sidesteps rolldown's removed
+  CSS pipeline (rolldown/rolldown#4271)
+- 🧪 Unit tests cover the plugin hooks and multi-instance
+  isolation
+
 ## Why
 
 The `unplugin-vue` Rolldown adapter compiles each Vue SFC into a
@@ -29,16 +56,16 @@ silently breaks consumers that hardened their CSP.
 - Lets the consumer's bundler (Vite, webpack, Rsbuild, Nuxt…)
   handle the CSS the way it handles every other CSS dependency.
 
-## Status
-
-Initial implementation, targeting Rolldown 1.x. The plugin
-emits per-component CSS files next to their `.mjs` chunks and
-rewrites those chunks to side-effect import the CSS asset.
-Unit tests exercise the plugin hooks directly.
-
 ## Installation
 
 ```bash
+# npm
+npm install -D @poupe/rolldown-vue-css
+
+# yarn
+yarn add -D @poupe/rolldown-vue-css
+
+# pnpm
 pnpm add -D @poupe/rolldown-vue-css
 ```
 
@@ -99,10 +126,12 @@ the top of the chunk.
 
 ### Options
 
-- **`specifier?: (cssFileName: string) => string`** — maps a
-  CSS asset's filename (relative to the output dir) to the
-  module specifier that goes into the `import` statement.
-  Defaults to `./<basename(cssFileName)>`.
+- **`specifier?: Specifier`** — a
+  `(cssFileName: string) => string` function that maps a CSS
+  asset's filename (relative to the output dir) to the module
+  specifier that goes into the `import` statement. Defaults to
+  `./<basename(cssFileName)>`. The `Specifier` type is exported
+  for callers who want to name their own implementations.
 
   The default is suitable for downstream bundlers (Vite,
   webpack, Rsbuild) but **fails when the produced chunks are
@@ -112,9 +141,23 @@ the top of the chunk.
   specifier that resolves via your package's `exports`, as
   shown above.
 
+## Integration with Poupe Ecosystem
+
+- [@poupe/css](../@poupe-css) - CSS utility library
+- [@poupe/theme-builder](../@poupe-theme-builder) - Design tokens generation
+- [@poupe/tailwindcss](../@poupe-tailwindcss) - TailwindCSS integration
+- [@poupe/vue](../@poupe-vue) - Vue components library (primary consumer)
+- [@poupe/nuxt](../@poupe-nuxt) - Nuxt integration
+
+## Requirements
+
+- Node.js >=20.19.2
+- pnpm >=10.33.0
+- rolldown 1.x (peer dependency)
+
 ## Licence
 
-MIT — see the repository [LICENCE.txt](../../LICENCE.txt).
+MIT licensed. See [LICENCE.txt](../../LICENCE.txt).
 
 [jsdocs-badge]: https://img.shields.io/badge/jsDocs.io-reference-blue
 [jsdocs-url]: https://www.jsdocs.io/package/@poupe/rolldown-vue-css
