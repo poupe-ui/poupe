@@ -13,6 +13,7 @@ import {
   type CorePalettes,
   DynamicScheme,
   Hct,
+  type SpecVersion,
   TonalPalette,
   Variant,
 
@@ -137,13 +138,18 @@ export function makeCustomColorsFromPalettes<K extends string>(colors: Record<K,
 
 /**
  * Creates a dynamic color scheme based on the provided source color, variant, and other parameters.
- * Uses Material Design 2025 specification with phone platform.
+ * Targets the `'phone'` platform. The MCU spec version defaults to
+ * `'2025'` (theme-builder's historical pin); see `specVersion` to
+ * override.
  *
  * @param source - The source color in HCT color space
  * @param variant - The color scheme to apply
  * @param contrastLevel - The desired contrast level
  * @param isDark - Whether the scheme is for a dark or light theme
  * @param palettes - Optional color palettes to customize the scheme
+ * @param specVersion - MCU specification version. Defaults to
+ *   `'2025'` (theme-builder's historical pin); callers may override
+ *   (e.g. `'2021'` to align with MCU's own default).
  * @returns A configured DynamicScheme instance
  */
 export function makeDynamicScheme(
@@ -152,6 +158,7 @@ export function makeDynamicScheme(
   contrastLevel: number,
   isDark: boolean,
   palettes: Partial<CorePalettes> = {},
+  specVersion: SpecVersion = '2025',
 ): DynamicScheme {
   return new DynamicScheme({
     sourceColorHct: source,
@@ -164,7 +171,7 @@ export function makeDynamicScheme(
     neutralPalette: palettes.neutral,
     neutralVariantPalette: palettes.neutralVariant,
     errorPalette: palettes.error,
-    specVersion: '2025',
+    specVersion,
     platform: 'phone',
   });
 }
