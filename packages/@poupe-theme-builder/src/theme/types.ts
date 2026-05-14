@@ -1,6 +1,7 @@
 import {
   type Color,
   type CorePalettes,
+  type SpecVersion,
   TonalPalette,
 } from '../core';
 
@@ -65,6 +66,13 @@ export interface ThemeGenerationOptions {
   contrastLevel?: number
   /** Material color scheme to use. Defaults to 'content' */
   scheme?: StandardDynamicSchemeKey
+  /**
+   * MCU specification version to pass to `DynamicScheme`. Defaults to
+   * `'2025'` — theme-builder's historical pin. Callers that need a
+   * different baseline (e.g. `'2021'` to align with MCU's own default)
+   * can override.
+   */
+  specVersion?: SpecVersion
   /** Use CSS color-mix() for state colors instead of generating pre-computed variants. Defaults to false */
   useColorMix?: boolean
 }

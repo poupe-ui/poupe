@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `ThemeGenerationOptions.specVersion` — opt-in override for the
+  MCU spec version. Re-exports `SpecVersion` from `core`.
+  Defaults to `'2025'`, theme-builder's historical pin.
+
+### Changed
+
+- `makeDynamicScheme` accepts an optional trailing `specVersion`
+  argument (default `'2025'`) instead of hard-coding it.
+
 ## [0.10.4] - 2026-05-25
 
 ### Fixed

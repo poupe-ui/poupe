@@ -1,4 +1,5 @@
 import {
+  DynamicScheme,
   Hct,
   TonalPalette,
 } from '@poupe/material-color-utilities';
@@ -15,6 +16,13 @@ export {
   TonalPalette,
   Variant,
 } from '@poupe/material-color-utilities';
+
+/**
+ * MCU specification year. Derived from {@link DynamicScheme}'s
+ * `specVersion` field because MCU does not re-export the type from
+ * its top-level barrel.
+ */
+export type SpecVersion = DynamicScheme['specVersion'];
 
 export {
   type AnyColor,
