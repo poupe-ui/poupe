@@ -3,7 +3,7 @@ name: Publish to NPM
 on:
   push:
     tags:
-      - '@*/*@v[0-9]*'
+      - '@*/*@[0-9]*'
 
 concurrency:
   group: publish-${{ github.ref_name }}
@@ -26,6 +26,6 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Publish ${{ github.ref_name }}
-        run: pnpm --filter "${TAG%@v*}" publish:maybe --provenance --no-git-checks
+        run: pnpm --filter "${TAG%@*}" publish:maybe --provenance --no-git-checks
         env:
           TAG: ${{ github.ref_name }}

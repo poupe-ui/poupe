@@ -2,7 +2,6 @@
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": [
     "env.d.ts",
-    "tailwind.config.*",
     "src/**/*.ts",
     "src/**/*.vue"
   ],

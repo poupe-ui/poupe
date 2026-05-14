@@ -1,10 +1,11 @@
+import consola from 'consola';
 import {
   cpSync,
   mkdirSync,
   readFileSync,
   writeFileSync,
 } from 'node:fs';
-import { defineBuildConfig } from 'unbuild';
+import { defineBuildConfig } from 'obuild/config';
 
 import {
   join,
@@ -57,7 +58,7 @@ function writeTheme<K extends string>(dirname: string, filename: string, format:
   const destination = join(process.cwd(), dirname);
   mkdirSync(destination, { recursive: true });
   writeFileSync(join(destination, filename), content);
-  console.log(`[assets] ✔ Wrote ${content.length} bytes to ${join(dirname, filename)}`);
+  consola.success(`[assets] wrote ${content.length} bytes to ${join(dirname, filename)}`);
 }
 
 function copyAssets(sourceDirectory: string, destinationDirectory: string) {
@@ -76,34 +77,29 @@ async function generateCSSForExample(input: string, output: string, content: str
     // Use the examples directory as base to properly resolve relative imports
     const css = await compileCSS(inputCSS, htmlContent, join(process.cwd(), 'examples'));
     writeFileSync(outputPath, css);
-    console.log(`[examples] ✔ Successfully generated: ${outputPath}`);
+    consola.success(`[examples] generated ${outputPath}`);
   } catch (error: unknown) {
-    console.error(`[examples] ✘ Failed to generate: ${outputPath}`);
-    console.error(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    consola.error(`[examples] failed to generate ${outputPath}`, error);
     throw error;
   }
 }
 
+// Asset-copy hook target. obuild's BuildContext doesn't expose
+// outDir (it's per-entry, defaults to 'dist'); the const documents
+// the convention shared with the bundle entries below.
+const outDirectory = 'dist';
+
 export default defineBuildConfig({
   entries: [
-    { input: 'src/index', name: 'index' },
-    { input: 'src/theme/index', name: 'theme' },
-    { input: 'src/utils/index', name: 'utils' },
+    // One bundle entry per published subpath — keeps each
+    // subpath's scope independent. A single multi-input bundle
+    // would couple them through rolldown's shared module graph.
+    { type: 'bundle', input: ['./src/index.ts'] },
+    { type: 'bundle', input: ['./src/theme/index.ts'] },
+    { type: 'bundle', input: ['./src/utils/index.ts'] },
   ],
-  declaration: true,
-  sourcemap: true,
-  // Suppress exit-code escalation for a single known false-positive.
-  // unbuild's `validatePackage` runs between buildTasks and the final
-  // `build:done` hook, so the CSS files our hook copies aren't on disk
-  // yet and the exports walk emits:
-  //   "Potential missing package.json files: dist/style.css"
-  // unbuild has no per-warning whitelist — only this global override
-  // turns the exit-1 off. The warning text itself still prints to
-  // stderr, so visibility is preserved.
-  failOnWarn: false,
-
   hooks: {
-    async 'build:prepare'() {
+    async start() {
       // assemble assets
       for (const [filename, { theme, format }] of Object.entries(themes)) {
         writeTheme('src/assets', `${filename}.css`, format, theme);
@@ -111,14 +107,15 @@ export default defineBuildConfig({
       // output.css for examples/index.html
       await generateCSSForExample('input.css', 'output.css', 'index.html');
     },
-    'build:done'(context) {
-      // copy assets to dist alongside rollup output (the
-      // builtin copy builder symlinks src→dist in stub mode,
-      // which would clobber the rollup stubs)
+    end(context) {
+      // copy assets to dist alongside rolldown output
       copyAssets(
-        join(context.options.rootDir, 'src/assets'),
-        join(context.options.outDir),
+        join(context.pkgDir, 'src/assets'),
+        join(context.pkgDir, outDirectory),
       );
+    },
+    rolldownOutput(outConfig) {
+      outConfig.sourcemap = true;
     },
   },
 });

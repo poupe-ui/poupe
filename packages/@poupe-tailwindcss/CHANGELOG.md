@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.2] - 2026-05-13
+
+### Dependencies
+
+- Drop `unbuild`. Add `obuild`, `consola`.
+
+### Internal
+
+- Migrate build pipeline from `unbuild` to `obuild` + rolldown,
+  mirroring `@poupe/theme-builder`. One bundle entry per
+  published subpath (`.`, `./theme`, `./utils`); nested dist
+  layout (`dist/theme/index.mjs` etc.) and `.d.mts` types;
+  sourcemap via the `rolldownOutput` hook. The `exports` map
+  is repointed; the `style` condition on `.` still resolves at
+  flat `dist/style.css` because the asset-copy hook deposits
+  the CSS at the dist root.
+- Rewire the asset pipeline off the new build hooks. unbuild's
+  `build:prepare` / `build:done` become obuild's `start` /
+  `end`. The asset-copy step migrates off
+  `context.options.rootDir` / `context.options.outDir` (gone
+  from obuild's `BuildContext`) to `context.pkgDir` plus a
+  top-level `outDirectory` const. `failOnWarn: false` drops
+  out — it was suppressing unbuild's `validatePackage` walk,
+  which obuild has no equivalent of.
+- Build-time logging in `writeTheme` and
+  `generateCSSForExample` switches from `console.log/error` to
+  `consola.success/error`, matching the rest of the
+  workspace's obuild build configs.
+
 ## [0.5.1] - 2026-05-10
 
 ### Fixed

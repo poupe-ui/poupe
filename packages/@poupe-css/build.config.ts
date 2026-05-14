@@ -1,5 +1,12 @@
-import { defineBuildConfig } from 'unbuild';
+import { defineBuildConfig } from 'obuild/config';
 
 export default defineBuildConfig({
-  sourcemap: true,
+  entries: [
+    { type: 'bundle', input: ['./src/index.ts'] },
+  ],
+  hooks: {
+    rolldownOutput(outConfig) {
+      outConfig.sourcemap = true;
+    },
+  },
 });

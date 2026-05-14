@@ -1,11 +1,17 @@
-import { defineBuildConfig } from 'unbuild';
+import { defineBuildConfig } from 'obuild/config';
 
 export default defineBuildConfig({
   entries: [
-    { input: 'src/index', name: 'index' },
-    { input: 'src/core/index', name: 'core' },
-    { input: 'src/server/index', name: 'server' },
+    // One bundle entry per published subpath — keeps each
+    // subpath's scope independent. A single multi-input bundle
+    // would couple them through rolldown's shared module graph.
+    { type: 'bundle', input: ['./src/index.ts'] },
+    { type: 'bundle', input: ['./src/core/index.ts'] },
+    { type: 'bundle', input: ['./src/server/index.ts'] },
   ],
-  declaration: true,
-  sourcemap: true,
+  hooks: {
+    rolldownOutput(outConfig) {
+      outConfig.sourcemap = true;
+    },
+  },
 });

@@ -358,4 +358,117 @@ describe('vueCSS', () => {
       expect(writeFile).not.toHaveBeenCalled();
     });
   });
+
+  describe('multiple instances', () => {
+    it('keeps captured CSS isolated between separate plugin instances', () => {
+      const pluginA = vueCSS() as unknown as PluginLike;
+      const pluginB = vueCSS() as unknown as PluginLike;
+
+      pluginA.transform.call({}, '.a { color: red; }', STYLE_ID_0);
+
+      // pluginB never saw STYLE_ID_0, so a chunk that lists it
+      // should not produce CSS through pluginB.
+      const resultB = pluginB.renderChunk.call(
+        {},
+        'code',
+        { fileName: 'foo.mjs', moduleIds: [STYLE_ID_0] },
+      );
+      expect(resultB).toBeUndefined();
+
+      // Meanwhile pluginA still has the captured CSS available.
+      const resultA = pluginA.renderChunk.call(
+        {},
+        'code',
+        { fileName: 'foo.mjs', moduleIds: [STYLE_ID_0] },
+      ) as { code: string };
+      expect(resultA.code).toMatch(/^import "\.\/foo\.css";\n/);
+    });
+
+    it('uses each instance\'s own specifier without cross-contamination', () => {
+      const pluginA = vueCSS({
+        specifier: (css) => `@scope-a/${css}`,
+      }) as unknown as PluginLike;
+      const pluginB = vueCSS({
+        specifier: (css) => `@scope-b/${css}`,
+      }) as unknown as PluginLike;
+
+      pluginA.transform.call({}, '.a {}', STYLE_ID_0);
+      pluginB.transform.call({}, '.b {}', STYLE_ID_1);
+
+      const resultA = pluginA.renderChunk.call(
+        {},
+        'code',
+        { fileName: 'foo.mjs', moduleIds: [STYLE_ID_0] },
+      ) as { code: string };
+      const resultB = pluginB.renderChunk.call(
+        {},
+        'code',
+        { fileName: 'bar.mjs', moduleIds: [STYLE_ID_1] },
+      ) as { code: string };
+
+      expect(resultA.code).toMatch(/^import "@scope-a\/foo\.css";\n/);
+      expect(resultB.code).toMatch(/^import "@scope-b\/bar\.css";\n/);
+    });
+
+    it('does not flush another instance\'s pending writes during writeBundle', async () => {
+      const pluginA = vueCSS() as unknown as PluginLike;
+      const pluginB = vueCSS() as unknown as PluginLike;
+
+      pluginA.transform.call({}, '.a { color: red; }', STYLE_ID_0);
+      pluginA.renderChunk.call(
+        {},
+        'code',
+        { fileName: 'foo.mjs', moduleIds: [STYLE_ID_0] },
+      );
+      // pluginB has nothing queued.
+
+      vi.mocked(mkdir).mockResolvedValue(undefined);
+      vi.mocked(writeFile).mockResolvedValue(undefined);
+
+      await pluginB.writeBundle.call({}, { dir: '/out' }, {});
+      expect(writeFile).not.toHaveBeenCalled();
+
+      await pluginA.writeBundle.call({}, { dir: '/out' }, {});
+      expect(writeFile).toHaveBeenCalledExactlyOnceWith(
+        '/out/foo.css',
+        '.a { color: red; }',
+        'utf8',
+      );
+    });
+
+    it('isolates buildStart resets between instances', async () => {
+      const pluginA = vueCSS() as unknown as PluginLike;
+      const pluginB = vueCSS() as unknown as PluginLike;
+
+      pluginA.transform.call({}, '.a { color: red; }', STYLE_ID_0);
+      pluginB.transform.call({}, '.b { color: blue; }', STYLE_ID_1);
+
+      // Resetting pluginA must not clear pluginB's capture.
+      pluginB.buildStart.call({});
+
+      const resultA = pluginA.renderChunk.call(
+        {},
+        'code',
+        { fileName: 'foo.mjs', moduleIds: [STYLE_ID_0] },
+      ) as { code: string };
+      expect(resultA.code).toMatch(/^import "\.\/foo\.css";\n/);
+
+      // pluginB was the one reset, so its STYLE_ID_1 capture is gone.
+      const resultB = pluginB.renderChunk.call(
+        {},
+        'code',
+        { fileName: 'bar.mjs', moduleIds: [STYLE_ID_1] },
+      );
+      expect(resultB).toBeUndefined();
+
+      vi.mocked(mkdir).mockResolvedValue(undefined);
+      vi.mocked(writeFile).mockResolvedValue(undefined);
+      await pluginA.writeBundle.call({}, { dir: '/out' }, {});
+      expect(writeFile).toHaveBeenCalledExactlyOnceWith(
+        '/out/foo.css',
+        '.a { color: red; }',
+        'utf8',
+      );
+    });
+  });
 });

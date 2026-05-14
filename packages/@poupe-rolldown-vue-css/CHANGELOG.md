@@ -8,6 +8,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-05-13
+
+### Changed
+
+- Refactor plugin state into a `Context` class with private
+  fields (`cssByVirtualID`, `pendingWrites`, `specifier`),
+  explicit lifecycle methods (`reset`, `capture`, `render`,
+  `flush`), and named accessors for each map: `pushCapture` /
+  `peekCapture` / `purgeCaptures` for the capture map;
+  `pushOutput` / `drainOutputs` / `pendingOutputCount` for the
+  output queue. The factory `vueCSS()` becomes a thin wrapper
+  that constructs a `Context` and delegates each hook to it.
+  Pure string transforms (`cssFileNameFor`, `rewriteWithImport`)
+  move out to module-scope helpers. No behaviour change — the
+  public hook contract and warn paths are identical to 0.1.0.
+- Apply the project's ID-naming convention to identifiers that
+  hold module IDs (`cssByVirtualID`, `moduleID`).
+
+### Added
+
+- Public `Specifier` type alias for the `options.specifier`
+  function signature (`(cssFileName: string) => string`). Callers
+  can now type their own specifier implementations without
+  inlining the shape.
+
 ## [0.1.0] - 2026-05-11
 
 ### Added
