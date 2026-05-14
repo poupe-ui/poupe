@@ -32,6 +32,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Dependencies
 
+- Bump `@poupe/material-color-utilities` to `^0.4.1`. The new MCU
+  changes scheme output independently of the spec version
+  selection; the bundled `@poupe/tailwindcss` baseline CSS
+  regenerates accordingly.
 - `vitest` devDep `^3.2.4 → ^4.1.7`.
 
 ## [0.10.3] - 2026-05-13
