@@ -11,14 +11,25 @@ variant, contrast, optional named extras. Produces a typed `Theme`: two
 
 ## Status
 
-Available today: the public type surface (`Theme`, `ModalTheme`,
-`Recipe`, the MD3 role catalogues, the `ARGB` brand), the runtime
-value catalogues those types derive from (`paletteKeys`, `modes`,
-`extendedRoles`, `requiredStandardRoles`, `specDependentRoles`,
-`specsWithDim`, `standardRoles`), and the `argb` umbrella with its
-per-type variants (`argbFromHCT`, `argbFromColord`, `asARGB`). Theme
-computation from a recipe is not yet implemented; the shapes it will
-return and the helpers that prepare its input are already exported.
+Shipped today:
+
+- Public type surface: `Theme`, `ModalTheme`, `Recipe`, the MD3
+  role catalogues, the `ARGB` brand.
+- Runtime value catalogues those types derive from: `paletteKeys`,
+  `modes`, `extendedRoles`, `requiredStandardRoles`,
+  `specDependentRoles`, `specsWithDim`, `standardRoles`.
+- `argb` umbrella with the per-type converters (`argbFromHCT`,
+  `argbFromColord`) plus the `asARGB` numeric brand stamp.
+- `getRandomColor` for rolling a fresh opaque source when no
+  fixed input is on hand.
+- `camelCase` / `capitalize` string helpers used for role-name
+  construction.
+- `keys` / `unsafeKeys` typed access to an object's own
+  string keys.
+
+Not yet shipped: theme computation from a recipe. The shapes it
+will return and the helpers that prepare its input are already
+exported.
 
 ## Installation
 
@@ -170,6 +181,33 @@ typed `Hct` or `Colord` value.
 - `asARGB(n: number): ARGB` — stamp a `number` as an opaque
   `ARGB` at a trust boundary. Validates u32 range and forces
   alpha to `0xFF`.
+- `getRandomColor(): ARGB` — opaque random colour, validated via
+  `colord`'s `isValid()` (throws on an invalid roll). Drop in
+  directly as a `Recipe`'s `primary` when no fixed source is on
+  hand; the colord parse is internal so callers don't take a
+  direct `colord` dependency.
+- `camelCase(s: string): string` — convert a string to camelCase.
+  Handles kebab-case, snake_case, and space-separated forms plus
+  internal capitalisation patterns like `BGColor` → `bgColor` and
+  `HTMLElement` → `htmlElement`; vendor-prefix leading hyphens
+  (`-webkit-foo`) are stripped before conversion. Mirrors
+  `@poupe/css`'s `camelCase` verbatim.
+- `capitalize<S extends string>(s: S): Capitalize<S>` — uppercase
+  the first character. The return type threads TypeScript's
+  intrinsic `Capitalize<S>`, so the literal-string type is
+  preserved (e.g. `capitalize('foo')` is typed `'Foo'`), pairing
+  naturally with template-literal role-name construction.
+- `keys<T, K extends keyof T>(object: T, valid?): Generator<K>` —
+  type-safe own-string-keys iteration. Yields each own string key
+  of `object` that passes the optional `valid` predicate. Drops
+  the `as K[]` cast at `for (const k of …)` call sites against
+  typed records. Mirrors `@poupe/css`'s `keys` verbatim.
+- `unsafeKeys<T>(object: T): Array<keyof T>` — `Object.keys` cast
+  to preserve key types. The "unsafe" tag reflects that the cast
+  is stronger than the runtime guarantee: a `Record<'a' | 'b', V>`
+  may carry extra keys at runtime that the type pretends are
+  absent. Reach for `keys` instead unless you need the array form.
+  Mirrors `@poupe/css`'s `unsafeKeys` verbatim.
 
 ### `VERSION`
 

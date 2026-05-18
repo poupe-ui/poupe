@@ -44,11 +44,19 @@ export {
   type SeedValue,
 } from './types';
 
-// Colour-conversion helpers
+// Runtime helpers.
 export {
   argb,
   argbFromColord,
   argbFromHCT,
+
+  getRandomColor,
+
+  camelCase,
+  capitalize,
+
+  keys,
+  unsafeKeys,
 } from './utils';
 
 /** `@poupe/color` package version, sourced from `package.json`. */

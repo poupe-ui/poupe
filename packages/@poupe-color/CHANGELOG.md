@@ -24,3 +24,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     version.
   - MCU type re-exports (`Hct`, `TonalPalette`, `DynamicScheme`,
     `Variant`, `SpecVersion`).
+- Runtime helpers:
+  - `getRandomColor(): ARGB` — opaque random colour, validated via
+    `colord`'s `isValid()` before stamping. Callers consume the
+    `ARGB` directly without taking a `colord` dependency.
+  - `camelCase(s)` / `capitalize<S>(s)` — string-shape helpers;
+    `capitalize` threads the intrinsic `Capitalize<S>` so
+    literal-string types are preserved, and `camelCase` mirrors
+    the `@poupe/css` utility verbatim.
+  - `keys(object, valid?)` / `unsafeKeys(object)` — typed
+    own-string-keys access; `keys` yields a `Generator<K>`,
+    `unsafeKeys` returns `Array<keyof T>`. Drops the `as K[]`
+    cast at `for (const k of Object.keys(t))` loops over typed
+    records. Both mirror `@poupe/css`'s helpers verbatim.

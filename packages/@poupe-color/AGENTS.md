@@ -15,12 +15,15 @@ resolved as `Hct` plus its underlying tonal palette.
 
 ## Status
 
-Type surface and colour-conversion helpers implemented. Public
-exports include the type catalogue (`Theme`, `ModalTheme`, `Recipe`,
-the MD3 role types, `ARGB`), the runtime value arrays those types
-derive from, and the `argb` umbrella with its per-type variants
-(`argbFromHCT`, `argbFromColord`, `asARGB`). Theme computation from a
-recipe is not yet implemented.
+Type surface and runtime helpers implemented. Public exports
+include the type catalogue (`Theme`, `ModalTheme`, `Recipe`, the
+MD3 role types, `ARGB`), the runtime value arrays those types
+derive from, the `argb` umbrella with its per-type variants
+(`argbFromHCT`, `argbFromColord`, `asARGB`), `getRandomColor` for
+rolling a fresh opaque ARGB source, the `camelCase` /
+`capitalize` string helpers, and the `keys` / `unsafeKeys`
+object-key helpers. Theme computation from a recipe is not yet
+implemented.
 
 ## Package Structure
 
@@ -36,9 +39,13 @@ src/
 │   ├── recipe.ts               # Recipe input shapes
 │   └── theme.ts                # Resolved theme shapes and role catalogues
 └── utils/                      # Runtime helpers
-    ├── __tests__/              # Conversion behaviour tests
+    ├── __tests__/              # Helper behaviour tests
     ├── argb.ts                 # `argb` umbrella + per-type converters
-    └── index.ts                # Utils-layer barrel
+    ├── index.ts                # Utils-layer barrel
+    ├── keys.ts                 # Typed object-key helpers
+    ├── memoize.ts              # Unary per-call memo cache
+    ├── random.ts               # Random opaque colour generator
+    └── strings.ts              # String-shape helpers
 ```
 
 ## Build Configuration
