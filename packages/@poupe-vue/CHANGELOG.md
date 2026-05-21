@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `createPoupe()` and `usePoupe()` now share a single
+  `poupeInjectionKey` identity across the package's
+  subpaths. obuild's per-audience bundling previously
+  inlined `Symbol('poupe')` into every subpath, so
+  components from `.` injected one Symbol while
+  composables from `./composables` provided a
+  different one — `inject()` missed and `usePoupe()`
+  returned `undefined` even when the plugin was
+  installed. Composables are now emitted as a
+  `type: 'transform'` entry (file-by-file under
+  `dist/composables/`); a rolldown plugin externalises
+  every `./composables` / `../composables` runtime
+  import to the bare specifier
+  `@poupe/vue/composables[/<rest>]`, resolved
+  identically from any output location via the
+  package's own `exports` map. Same shape collapses
+  the duplicated `PoupeComponentDefaults` declaration
+  across audience `.d.mts` files.
+
+### Added
+
+- `./composables/*` subpath in `exports` so the
+  externalised composables specifiers resolve at
+  consumer side. Also gives consumers a direct entry
+  point to specific composables.
+
+### Changed
+
+- Composables (`useIcons`, `usePassword`, `usePoupe`,
+  `useRipple`) declare explicit return types — the
+  `--isolatedDeclarations` floor oxc-transform's dts
+  pipeline enforces. The composables' return shapes
+  and `useRipple`'s `Ripple` interface are part of
+  the public surface as a result.
+
 ## [0.6.2] - 2026-05-13
 
 ### Fixed

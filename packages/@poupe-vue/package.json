@@ -43,6 +43,10 @@
       "types": "./dist/composables/index.d.mts",
       "default": "./dist/composables/index.mjs"
     },
+    "./composables/*": {
+      "types": "./dist/composables/*.d.mts",
+      "default": "./dist/composables/*.mjs"
+    },
     "./config": {
       "types": "./dist/config/index.d.mts",
       "default": "./dist/config/index.mjs"

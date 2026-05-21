@@ -16,7 +16,8 @@
     ],
 
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@poupe/vue/composables/*": ["./src/composables/*"]
     }
   }
 }

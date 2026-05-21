@@ -28,7 +28,7 @@ export interface RippleOptions {
   opacity?: number
 }
 
-interface Ripple {
+export interface Ripple {
   id: number
   size: number
   x: number
@@ -38,7 +38,10 @@ interface Ripple {
 export function useRipple(
   elementReference: Ref<HTMLElement | undefined>,
   options: RippleOptions = {},
-) {
+): {
+  getRippleStyle: (ripple: Ripple) => Record<string, number | string>
+  ripples: Ref<Ripple[]>
+} {
   const {
     color = 'currentColor',
     opacity = 0.12,
