@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Add the missing `prepare` lifecycle hook so `pnpm
+  install` stubs the module like the other workspace
+  packages. Without it, a fresh checkout could install
+  cleanly but `pnpm --filter @poupe/nuxt dev` would
+  fail with "Could not load @poupe/nuxt. Is it
+  installed?" because `dist/module.mjs` was never
+  produced. The hook delegates to the existing
+  `dev:prepare` script, gated by
+  `cross-test -s dist/module.mjs`.
+
+### Changed
+
+- Point every `nuxi <cmd>` script at the `nuxt <cmd>`
+  binary across @poupe/nuxt and its playground; drop
+  the explicit `nuxi` devDep from the playground.
+  `@nuxt/cli` ships both binaries and arrives
+  transitively via `nuxt`, so neither the direct devDep
+  nor the older `nuxi` binary was earning its keep.
+
 ### Dependencies
 
 - Nuxt 3 ecosystem refresh: `nuxt`, `@nuxt/kit`,

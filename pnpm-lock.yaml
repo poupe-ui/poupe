@@ -172,10 +172,6 @@ importers:
       nuxt:
         specifier: ^3.21.6
         version: 3.21.6(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.6)(@types/node@22.15.17)(@vue/compiler-sfc@3.5.34)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.4(jiti@2.7.0))(ioredis@5.10.1)(lightningcss@1.32.0)(magicast@0.5.2)(optionator@0.9.4)(rolldown@1.0.2)(rollup-plugin-visualizer@7.0.1(rolldown@1.0.2)(rollup@4.60.3))(rollup@4.60.3)(terser@5.42.0)(tsx@4.20.3)(typescript@6.0.3)(vite@8.0.14(@types/node@22.15.17)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.42.0)(tsx@4.20.3)(yaml@2.8.3))(yaml@2.8.3)
-    devDependencies:
-      nuxi:
-        specifier: ^3.35.1
-        version: 3.35.1
 
   packages/@poupe-rolldown-vue-css:
     dependencies:
@@ -5218,11 +5214,6 @@ packages:
 
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
-
-  nuxi@3.35.1:
-    resolution: {integrity: sha512-jUuGYx6LaaRoHBChxi37owgSXV0lxjMieppz5Ryuu0Gh/XakjERbBuwJms3tPGyLThOGO7fYEcBN8QQmHCzcNQ==}
-    engines: {node: ^16.10.0 || >=18.0.0}
-    hasBin: true
 
   nuxt@3.21.6:
     resolution: {integrity: sha512-jIs488icdWIzzwTQYa4J2WmbhDlBcVDPGc7LBTxezaHwf8C5LKnWZvBkFqREQ8UjMQe5KBnA98pFRUqT6ZDPYA==}
@@ -12048,8 +12039,6 @@ snapshots:
   nth-check@2.1.1:
     dependencies:
       boolbase: 1.0.0
-
-  nuxi@3.35.1: {}
 
   nuxt@3.21.6(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.6)(@types/node@20.19.40)(@vue/compiler-sfc@3.5.34)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.4(jiti@2.7.0))(ioredis@5.10.1)(lightningcss@1.32.0)(magicast@0.5.2)(optionator@0.9.4)(rolldown@1.0.2)(rollup-plugin-visualizer@7.0.1(rolldown@1.0.2)(rollup@4.60.3))(rollup@4.60.3)(terser@5.42.0)(tsx@4.20.3)(typescript@6.0.3)(vite@8.0.14(@types/node@20.19.40)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.42.0)(tsx@4.20.3)(yaml@2.8.3))(vue-tsc@3.2.8(typescript@6.0.3))(yaml@2.8.3):
     dependencies:
