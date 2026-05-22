@@ -1,6 +1,6 @@
 {
   "name": "@poupe/color",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "description": "Colour seeding and scheme preset utilities for Poupe UI",
   "author": "Alejandro Mery <amery@apptly.co>",

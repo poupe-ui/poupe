@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.1] - 2026-05-22
+
 - Initial scaffold.
 - Public type surface for the Recipe → Theme pipeline:
   - `Recipe<K, S>`, `Theme<K, S>`, `ModalTheme<K, S>` and the
