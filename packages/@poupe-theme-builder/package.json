@@ -62,6 +62,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@poupe/color": "workspace:^",
     "@poupe/css": "workspace:^",
     "@poupe/material-color-utilities": "^0.4.1",
     "colord": "^2.9.3",
