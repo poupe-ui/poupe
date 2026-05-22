@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `createPoupe()` and `usePoupe()` now share a single
   `poupeInjectionKey` identity across the package's
-  subpaths. obuild's per-audience bundling previously
+  subpath entries. obuild's per-audience bundling previously
   inlined `Symbol('poupe')` into every subpath, so
   components from `.` injected one Symbol while
   composables from `./composables` provided a
@@ -43,6 +43,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   pipeline enforces. The composables' return shapes
   and `useRipple`'s `Ripple` interface are part of
   the public surface as a result.
+- `unplugin-vue-components` moves to `peerDependencies`
+  (`^28.0.0`) with `optional: true`, mirroring the
+  existing `vue-router` shape. The type-only import
+  in `src/resolver/index.ts` leaks into the public
+  `dist/resolver/index.d.mts` surface; a
+  devDependency-only placement made the type
+  unresolvable for consumers who installed only
+  `@poupe/vue`. The devDependency entry stays for
+  local type-check/build/test.
+
+### Internal
+
+- Drop the explicit
+  `external: ['unplugin-vue-components']` line from
+  `build.config.ts`. obuild's auto-external from
+  `peerDependencies` now covers it.
 
 ## [0.6.2] - 2026-05-13
 

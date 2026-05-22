@@ -125,9 +125,13 @@
     "vue-tsc": "^3.2.8"
   },
   "peerDependencies": {
+    "unplugin-vue-components": "^28.0.0",
     "vue-router": "^4.0.0"
   },
   "peerDependenciesMeta": {
+    "unplugin-vue-components": {
+      "optional": true
+    },
     "vue-router": {
       "optional": true
     }

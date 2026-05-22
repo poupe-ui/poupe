@@ -38,7 +38,6 @@ const rolldown = {
       specifier: (css) => `@poupe/vue/${css}`,
     }),
   ],
-  external: ['unplugin-vue-components'],
 };
 
 const dts = {
