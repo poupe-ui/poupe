@@ -62,6 +62,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Dependencies
 
+- `tailwindcss` peer `^4.1.11 → ^4.3.0`;
+  `@tailwindcss/vite` devDep `^4.1.11 → ^4.3.0`.
 - `vite` devDep `^6.4.2 → ^8.0.14`. `unplugin-vue@7.2`
   pulls vite 8 internally, so keeping vite on `^6.4.2`
   left the workspace with two vite versions and a
@@ -118,7 +120,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   rolldown doesn't read tsconfig `paths`, so the alias is
   now type-only.
 - Dev server uses `unplugin-vue/vite` to match the
-  build-side SFC parser; `vitest.config.ts` is standalone
+  build-side SFC parser; `vitest.config.ts` is stand-alone
   (no longer merging vite's library config).
 
 ## [0.6.1] - 2026-05-10

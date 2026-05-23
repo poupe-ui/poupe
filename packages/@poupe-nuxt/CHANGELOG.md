@@ -1,5 +1,7 @@
 # Changelog
 
+<!-- cspell:words dxup nuxi -->
+
 All notable changes to `@poupe/nuxt` will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
@@ -30,6 +32,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Dependencies
 
+- `tailwindcss` and `@tailwindcss/vite` deps
+  `^4.1.11 → ^4.3.0`. The widened `vite` peer on
+  `@tailwindcss/vite@4.3.0` clears the prior 4.1.x
+  cap against `vite ^8`.
 - Nuxt 3 ecosystem refresh: `nuxt`, `@nuxt/kit`,
   `@nuxt/schema` devDeps `^3.21.4 → ^3.21.6`
   (`nuxt@3.21.6` pins `@nuxt/kit` exactly at 3.21.6).

@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Dependencies
 
+- Lift `tailwindcss` peer floor `^4.1.11 → ^4.3.0`,
+  with matching devDep bumps for `tailwindcss` and
+  `@tailwindcss/node`. Downstream
+  `@tailwindcss/vite@4.3.0` widens its `vite` peer to
+  `^5.2 || ^6 || ^7 || ^8`, clearing the prior 4.1.x
+  cap against `vite ^8`.
 - `vitest` devDep `^3.2.4 → ^4.1.7`.
 
 ## [0.5.2] - 2026-05-13
