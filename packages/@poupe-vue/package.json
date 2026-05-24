@@ -1,6 +1,6 @@
 {
   "name": "@poupe/vue",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "type": "module",
   "description": "Vue component library for Poupe UI framework with theme customization and accessibility support",
   "author": "Alejandro Mery <amery@apptly.co>",
@@ -42,6 +42,10 @@
     "./composables": {
       "types": "./dist/composables/index.d.mts",
       "default": "./dist/composables/index.mjs"
+    },
+    "./composables/*": {
+      "types": "./dist/composables/*.d.mts",
+      "default": "./dist/composables/*.mjs"
     },
     "./config": {
       "types": "./dist/config/index.d.mts",
@@ -94,14 +98,14 @@
     "tailwind-merge": "^3.5.0",
     "tailwind-scrollbar": "^4.0.2",
     "tailwind-variants": "^1.0.0",
-    "tailwindcss": "^4.1.11",
+    "tailwindcss": "^4.3.0",
     "vue": "^3.5.34"
   },
   "devDependencies": {
     "@kagal/cross-test": "^0.1.3",
     "@poupe/eslint-config": "^0.9.1",
     "@poupe/rolldown-vue-css": "workspace:^",
-    "@tailwindcss/vite": "^4.1.11",
+    "@tailwindcss/vite": "^4.3.0",
     "@tsconfig/node20": "^20.1.9",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^20.19.40",
@@ -115,15 +119,19 @@
     "typescript": "^6.0.3",
     "unplugin-vue": "^6.2.0",
     "unplugin-vue-components": "^28.8.0",
-    "vite": "^6.4.2",
-    "vitest": "^3.2.4",
+    "vite": "^8.0.14",
+    "vitest": "^4.1.7",
     "vue-router": "^4.6.4",
     "vue-tsc": "^3.2.8"
   },
   "peerDependencies": {
+    "unplugin-vue-components": "^28.0.0",
     "vue-router": "^4.0.0"
   },
   "peerDependenciesMeta": {
+    "unplugin-vue-components": {
+      "optional": true
+    },
     "vue-router": {
       "optional": true
     }

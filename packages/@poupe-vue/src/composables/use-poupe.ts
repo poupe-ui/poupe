@@ -49,11 +49,11 @@ export const poupeInjectionKey: InjectionKey<PoupeOptions> = Symbol('poupe');
  * Creates a Poupe instance for the Vue app
  * Used by `@poupe/nuxt` to inject app-wide defaults
  */
-export function createPoupe(options: PoupeOptions = {}) {
+export function createPoupe(options: PoupeOptions = {}): { install(app: App): void } {
   const poupe = reactive(options);
 
   return {
-    install(app: App) {
+    install(app: App): void {
       app.provide(poupeInjectionKey, poupe);
     },
   };
@@ -63,7 +63,7 @@ export function createPoupe(options: PoupeOptions = {}) {
  * Use Poupe options in components
  * Provides access to global defaults set via app.config.ts
  */
-export function usePoupe() {
+export function usePoupe(): PoupeOptions | undefined {
   return inject(poupeInjectionKey);
 }
 
@@ -84,7 +84,7 @@ export function usePoupeDefaults(
 /**
  * Provider for isolated Poupe instances (e.g., in stories)
  */
-export function providePoupeOptions(options: PoupeOptions) {
+export function providePoupeOptions(options: PoupeOptions): void {
   provide(poupeInjectionKey, reactive(options));
 }
 

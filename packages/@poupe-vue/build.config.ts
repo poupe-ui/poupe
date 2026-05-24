@@ -3,39 +3,41 @@ import { defineBuildConfig } from 'obuild/config';
 import VueRolldown from 'unplugin-vue/rolldown';
 
 // Audience names map 1:1 to dist subpaths via obuild's distName
-// algorithm (`relative('src/', input)` minus extension). `.` is the
-// root barrel (`./src/index.ts` → `dist/index.mjs`); the rest follow
-// `./src/<name>/index.ts` → `dist/<name>/index.mjs`. `theme-scheme`
-// and `story-viewer` get one-line re-export bridges under `src/` so
-// their dist layout mirrors the pre-migration `build.lib.entry`
-// shape from `vite.config.ts` — the only on-wire change is the
-// `foo.mjs → foo/index.mjs` form swap.
+// algorithm. Composables are emitted file-by-file via a `transform`
+// entry (below) so every bundle imports the same on-disk
+// `use-poupe.mjs` — single `Symbol("poupe")`, single
+// `PoupeComponentDefaults` declaration target for augmentations.
 const audiences = [
   '.',
   'components',
-  'composables',
   'config',
   'resolver',
   'story-viewer',
   'theme-scheme',
 ];
 
+// Externalise composables before rolldown resolves them to source
+// `.ts` paths. Rewriting to the bare `@poupe/vue/composables[/*]`
+// specifier means the emitted string is identical from any output
+// location (main bundle, components bundle, etc.); consumers resolve
+// it via the package's own `exports` map.
+const externalComposables = {
+  name: 'external-composables',
+  resolveId(source: string) {
+    const match = /^\.\.?\/composables($|\/.*)/.exec(source);
+    if (!match) return;
+    return { id: `@poupe/vue/composables${match[1]}`, external: true };
+  },
+};
+
 const rolldown = {
   plugins: [
+    externalComposables,
     VueRolldown(),
-    // Bare specifier resolves via package self-reference, so obuild's
-    // distSize re-bundle (rolldown with no plugins) externalises the
-    // import via its `id[0] !== '.'` filter instead of routing it
-    // through the removed CSS pipeline (rolldown/rolldown#4271).
-    // Matches the `./*/index.css` wildcard in package.json exports.
     vueCSS({
       specifier: (css) => `@poupe/vue/${css}`,
     }),
   ],
-  // unplugin-vue-components is a devDep (referenced from the resolver
-  // source for types) so obuild's auto-external from dependencies
-  // misses it. Everything in dependencies is externalised already.
-  external: ['unplugin-vue-components'],
 };
 
 const dts = {
@@ -47,12 +49,23 @@ const dts = {
 };
 
 export default defineBuildConfig({
-  entries: audiences.map((a) => ({
-    type: 'bundle' as const,
-    input: a === '.' ? './src/index.ts' : `./src/${a}/index.ts`,
-    rolldown,
-    dts,
-  })),
+  entries: [
+    // Transform composables first so distSize for the bundles below
+    // can resolve their externalised `./composables/*.mjs` imports.
+    {
+      type: 'transform' as const,
+      input: './src/composables',
+      outDir: './dist/composables',
+      filter: (p) => !p.includes('__tests__'),
+      dts: true,
+    },
+    ...audiences.map((a) => ({
+      type: 'bundle' as const,
+      input: a === '.' ? './src/index.ts' : `./src/${a}/index.ts`,
+      rolldown,
+      dts,
+    })),
+  ],
   hooks: {
     rolldownOutput(outConfig) {
       outConfig.sourcemap = true;

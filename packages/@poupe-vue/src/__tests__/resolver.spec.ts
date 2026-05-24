@@ -3,8 +3,10 @@ import * as PoupeComponents from '../components';
 import * as PoupeIndex from '../index';
 import { components, createResolver } from '../resolver';
 
-it('should export only the components from index', () => {
-  expect(new Set(Object.keys(PoupeIndex))).toEqual(new Set(components));
+it('should export components plus the plugin factory from index', () => {
+  expect(new Set(Object.keys(PoupeIndex))).toEqual(
+    new Set([...components, 'createPoupe', 'poupeInjectionKey']),
+  );
 });
 
 it('should export only the components from components entry point', () => {

@@ -7,6 +7,71 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.3] - 2026-05-23
+
+### Fixed
+
+- `createPoupe()` and `usePoupe()` now share a single
+  `poupeInjectionKey` identity across the package's
+  subpath entries. obuild's per-audience bundling previously
+  inlined `Symbol('poupe')` into every subpath, so
+  components from `.` injected one Symbol while
+  composables from `./composables` provided a
+  different one — `inject()` missed and `usePoupe()`
+  returned `undefined` even when the plugin was
+  installed. Composables are now emitted as a
+  `type: 'transform'` entry (file-by-file under
+  `dist/composables/`); a rolldown plugin externalises
+  every `./composables` / `../composables` runtime
+  import to the bare specifier
+  `@poupe/vue/composables[/<rest>]`, resolved
+  identically from any output location via the
+  package's own `exports` map. Same shape collapses
+  the duplicated `PoupeComponentDefaults` declaration
+  across audience `.d.mts` files.
+
+### Added
+
+- `./composables/*` subpath in `exports` so the
+  externalised composables specifiers resolve at
+  consumer side. Also gives consumers a direct entry
+  point to specific composables.
+
+### Changed
+
+- Composables (`useIcons`, `usePassword`, `usePoupe`,
+  `useRipple`) declare explicit return types — the
+  `--isolatedDeclarations` floor oxc-transform's dts
+  pipeline enforces. The composables' return shapes
+  and `useRipple`'s `Ripple` interface are part of
+  the public surface as a result.
+- `unplugin-vue-components` moves to `peerDependencies`
+  (`^28.0.0`) with `optional: true`, mirroring the
+  existing `vue-router` shape. The type-only import
+  in `src/resolver/index.ts` leaks into the public
+  `dist/resolver/index.d.mts` surface; a
+  devDependency-only placement made the type
+  unresolvable for consumers who installed only
+  `@poupe/vue`. The devDependency entry stays for
+  local type-check/build/test.
+
+### Internal
+
+- Drop the explicit
+  `external: ['unplugin-vue-components']` line from
+  `build.config.ts`. obuild's auto-external from
+  `peerDependencies` now covers it.
+
+### Dependencies
+
+- `tailwindcss` peer `^4.1.11 → ^4.3.0`;
+  `@tailwindcss/vite` devDep `^4.1.11 → ^4.3.0`.
+- `vite` devDep `^6.4.2 → ^8.0.14`. `unplugin-vue@7.2`
+  pulls vite 8 internally, so keeping vite on `^6.4.2`
+  left the workspace with two vite versions and a
+  plugin-shape mismatch in `vitest.config.ts`.
+- `vitest` devDep `^3.2.4 → ^4.1.7`.
+
 ## [0.6.2] - 2026-05-13
 
 ### Fixed
@@ -57,7 +122,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   rolldown doesn't read tsconfig `paths`, so the alias is
   now type-only.
 - Dev server uses `unplugin-vue/vite` to match the
-  build-side SFC parser; `vitest.config.ts` is standalone
+  build-side SFC parser; `vitest.config.ts` is stand-alone
   (no longer merging vite's library config).
 
 ## [0.6.1] - 2026-05-10

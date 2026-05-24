@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Dependencies
+
+- `vitest` devDep `^3.2.4 → ^4.1.7`.
+
 ## [0.1.1] - 2026-05-13
 
 ### Changed

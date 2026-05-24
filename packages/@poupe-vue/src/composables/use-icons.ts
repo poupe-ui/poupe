@@ -1,4 +1,5 @@
 import {
+  type DeepReadonly,
   type MaybeRefOrGetter,
 
   reactive,
@@ -20,7 +21,9 @@ const blankIcon: IconValue = {
     height: 100,
   };
 
-const defaultIcons = {
+type IconNames = 'blankIcon' | 'hidePassword' | 'showPassword' | 'spinner' | 'unknownIcon';
+
+const defaultIcons: Record<IconNames, IconValue> = {
   blankIcon,
   unknownIcon,
   spinner: 'svg-spinners:6-dots-scale',
@@ -29,13 +32,13 @@ const defaultIcons = {
   hidePassword: 'heroicons:eye-slash',
 };
 
-type IconNames = keyof typeof defaultIcons;
+type GlobalIcons = Record<string, Record<string, IconValue>> & { poupe: Record<IconNames, IconValue> };
 
-const globalIcons = reactive<Record<string, Record<string, IconValue>> & { poupe: Record<IconNames, IconValue> }>({
+const globalIcons: GlobalIcons = reactive<GlobalIcons>({
   poupe: defaultIcons,
 });
 
-const registerIcons = (namespace: string, icons: Record<string, IconValue>) => {
+const registerIcons = (namespace: string, icons: Record<string, IconValue>): void => {
   globalIcons[namespace] = {
     ...globalIcons[namespace],
     ...icons,
@@ -65,10 +68,12 @@ const toIcon = (icon: MaybeRefOrGetter<IconifyIcon | string | undefined>): Iconi
   return globalIcons.poupe.unknownIcon;
 };
 
-export const usePoupeIcons = () => {
-  return {
-    icons: readonly(globalIcons),
-    toIcon,
-    registerIcons,
-  } as const;
-};
+export const usePoupeIcons = (): {
+  icons: DeepReadonly<typeof globalIcons>
+  registerIcons: typeof registerIcons
+  toIcon: typeof toIcon
+} => ({
+  icons: readonly(globalIcons),
+  toIcon,
+  registerIcons,
+});
