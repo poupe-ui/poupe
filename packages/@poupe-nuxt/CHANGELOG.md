@@ -9,6 +9,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-05-25
+
+### Changed
+
+- Require Nuxt 4. `nuxt`, `@nuxt/kit`, and `@nuxt/schema`
+  bump `^3.21 → ^4.4`; `@nuxt/test-utils` lifts to `^4.0`.
+  The module now declares `peerDependencies: { nuxt: ^4.0.0 }`
+  so missing-host installs surface as peer mismatches, and
+  `meta.compatibility: { nuxt: ^4.0.0 }` so Nuxt's module
+  loader can refuse registration under a too-old host.
+  Consumers on Nuxt 3 should stay on `@poupe/nuxt@0.4.x`.
+
+### Dependencies
+
+- `@nuxt/icon` `^1.15 → ^2.2`.
+- `@nuxtjs/color-mode` `^3.5 → ^4.0`.
+
 ## [0.4.4] - 2026-05-23
 
 ### Fixed
