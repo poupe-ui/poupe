@@ -97,6 +97,19 @@ describe('Button', () => {
     expect(wrapper.emitted('click')).toBeTruthy();
   });
 
+  // Regression: the .ripple-effect Tailwind utility sets
+  // pointer-events:none — applying it to the host (instead of
+  // the ripple particles) silently swallows all clicks.
+  it('should not apply ripple-effect class to the host', () => {
+    const wrapper = mountWithPoupe(Button, {
+      props: { label: 'click me' },
+    });
+    const button = wrapper.find('button');
+    expect(button.classes()).not.toContain('ripple-effect');
+    const styleAttribute = button.attributes('style') ?? '';
+    expect(styleAttribute).not.toMatch(/pointer-events\s*:\s*none/);
+  });
+
   // Multiple variants combination
   it('should apply multiple variants correctly', () => {
     const props: ButtonProps = {

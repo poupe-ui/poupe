@@ -525,20 +525,94 @@ export const SHAPE_SCALE = {
 export type ShapeScaleKey = keyof typeof SHAPE_SCALE;
 
 /**
- * Generates CSS properties for a squircle shape
- * Uses CSS mask with SVG path for a smooth iOS-style squircle
+ * Generates CSS properties for a squircle shape.
+ *
+ * Implements a size-aware composite mask: four corner SVGs (each
+ * cropped to one corner of the squircle path via `viewBox`) plus
+ * four solid edge layers and one solid centre layer. The corners
+ * stay at a fixed CSS-pixel size; the edges and centre stretch to
+ * fill the rest of the element. A naive single-layer mask stretched
+ * to fill the box lets the corner inset grow proportionally to the
+ * element, producing stadium-shaped curves at large widths that
+ * clip heading and edge content behind the corner. `mask-border`
+ * would be the canonical single-property fix, but Chrome's
+ * `-webkit-mask-box-image` ignores the `fill` slice keyword and
+ * leaves the centre region transparent.
+ *
+ * @param smoothing - MD3 smoothing factor (0 = rectangle,
+ *   1 = squircle, 2 = circle). Drives the SVG path corner inset.
+ * @param rounded - CSS pixel value (e.g. `12px`) for the on-element
+ *   corner size. `9999px` is treated as a pill request and rendered
+ *   with `50%` corners, giving a true pill at any aspect ratio.
  */
-function getSquircleStyles(smoothing: string): CSSRuleObject {
-  // Smoothing value of 1 = standard squircle, higher = more rounded
-  const s = smoothing;
-  return {
-    'mask-image': `url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='${getSquirclePath(s)}' fill='black'/%3E%3C/svg%3E")`,
-    'mask-size': '100% 100%',
-    'mask-repeat': 'no-repeat',
-    '-webkit-mask-image': `url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='${getSquirclePath(s)}' fill='black'/%3E%3C/svg%3E")`,
-    '-webkit-mask-size': '100% 100%',
-    '-webkit-mask-repeat': 'no-repeat',
+function getSquircleStyles(smoothing: string, rounded: string): CSSRuleObject {
+  const path = getSquirclePath(smoothing);
+
+  // Corner inset in the 200×200 SVG path. The path's curve lives in
+  // the first/last `r` units on each axis; the centre and straight
+  // edges are uniform fill. Cropping to an `r × r` corner viewBox
+  // gives us just the curve to use as a corner mask.
+  const s = Number.parseFloat(smoothing);
+  const validS = Number.isNaN(s) || s < 0 ? 0.6 : Math.min(s, 2);
+  const r = Math.round((validS / 2) * 100);
+
+  const w = rounded === '9999px' ? '50%' : rounded;
+  const inner = `calc(100% - 2 * ${w})`;
+
+  const cornerSvg = (x: number, y: number) =>
+    `url("data:image/svg+xml,%3Csvg viewBox='${x} ${y} ${r} ${r}' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='${path}' fill='black'/%3E%3C/svg%3E")`;
+
+  const layers = {
+    image: [
+      cornerSvg(0, 0),
+      cornerSvg(200 - r, 0),
+      cornerSvg(0, 200 - r),
+      cornerSvg(200 - r, 200 - r),
+      'linear-gradient(#000, #000)', // centre
+      'linear-gradient(#000, #000)', // top edge
+      'linear-gradient(#000, #000)', // bottom edge
+      'linear-gradient(#000, #000)', // left edge
+      'linear-gradient(#000, #000)', // right edge
+    ].join(', '),
+    position: [
+      'top left',
+      'top right',
+      'bottom left',
+      'bottom right',
+      `${w} ${w}`,
+      `${w} 0`,
+      `${w} 100%`,
+      `0 ${w}`,
+      `100% ${w}`,
+    ].join(', '),
+    size: [
+      `${w} ${w}`,
+      `${w} ${w}`,
+      `${w} ${w}`,
+      `${w} ${w}`,
+      `${inner} ${inner}`,
+      `${inner} ${w}`,
+      `${inner} ${w}`,
+      `${w} ${inner}`,
+      `${w} ${inner}`,
+    ].join(', '),
   };
+
+  return {
+    'mask-image': layers.image,
+    'mask-position': layers.position,
+    'mask-size': layers.size,
+    'mask-repeat': 'no-repeat',
+  };
+}
+
+/**
+ * Round to 2 decimal places — sub-pixel precision the rendered
+ * mask can't resolve anyway, and the trailing `0.385762508450004`
+ * digits from float maths bloat every embedded SVG payload.
+ */
+function r2(v: number): number {
+  return +v.toFixed(2);
 }
 
 /**
@@ -586,8 +660,8 @@ function getSquirclePath(smoothing: string): string {
   const cornerX = Math.max(0, Math.min(100, r));
   const cornerY = Math.max(0, Math.min(100, r));
 
-  // Generate path
-  return `M ${cornerX} 0 L ${200 - cornerX} 0 C ${200 - cornerX + controlOffset} 0 200 ${cornerY - controlOffset} 200 ${cornerY} L 200 ${200 - cornerY} C 200 ${200 - cornerY + controlOffset} ${200 - cornerX + controlOffset} 200 ${200 - cornerX} 200 L ${cornerX} 200 C ${cornerX - controlOffset} 200 0 ${200 - cornerY + controlOffset} 0 ${200 - cornerY} L 0 ${cornerY} C 0 ${cornerY - controlOffset} ${cornerX - controlOffset} 0 ${cornerX} 0 Z`;
+  // Generate path; floats rounded to 2 dp via module-scope `r2`.
+  return `M ${cornerX} 0 L ${200 - cornerX} 0 C ${r2(200 - cornerX + controlOffset)} 0 200 ${r2(cornerY - controlOffset)} 200 ${cornerY} L 200 ${200 - cornerY} C 200 ${r2(200 - cornerY + controlOffset)} ${r2(200 - cornerX + controlOffset)} 200 ${200 - cornerX} 200 L ${cornerX} 200 C ${r2(cornerX - controlOffset)} 200 0 ${r2(200 - cornerY + controlOffset)} 0 ${200 - cornerY} L 0 ${cornerY} C 0 ${r2(cornerY - controlOffset)} ${r2(cornerX - controlOffset)} 0 ${cornerX} 0 Z`;
 }
 
 /**
@@ -621,10 +695,11 @@ export function makeShapeComponents(theme: Readonly<Theme>): Record<string, CSSR
     // Squircle shapes for MD3 Expressive
     if (scale !== 'none') {
       components[`.${shapePrefix}squircle-${scale}`] = {
-        ...getSquircleStyles(values.squircle),
+        ...getSquircleStyles(values.squircle, values.rounded),
         // Store shape family for component reference
         [`--${themePrefix}shape-family-${scale}`]: 'squircle',
-        // Fallback to rounded corners for browsers that don't support mask
+        // Fallback for browsers without CSS mask-image support.
+        // Renders a plain rounded rectangle instead of a squircle.
         '@supports not (mask-image: url())': {
           'border-radius': `var(${shapeVariable}, ${values.rounded})`,
         },
@@ -679,10 +754,10 @@ export function makeShapeComponents(theme: Readonly<Theme>): Record<string, CSSR
     // Squircle component shapes for MD3 Expressive
     if (defaultScale !== 'none') {
       components[`.${shapePrefix}squircle-${component}`] = {
-        ...getSquircleStyles(SHAPE_SCALE[defaultScale].squircle),
+        ...getSquircleStyles(SHAPE_SCALE[defaultScale].squircle, SHAPE_SCALE[defaultScale].rounded),
         // Store component shape family
         [`--${themePrefix}shape-family-${component}`]: 'squircle',
-        // Fallback to rounded corners for browsers that don't support mask
+        // Fallback for browsers without CSS mask-image support.
         '@supports not (mask-image: url())': {
           'border-radius': `var(${shapeVariable}, var(${defaultVariable}, ${SHAPE_SCALE[defaultScale].rounded}))`,
         },

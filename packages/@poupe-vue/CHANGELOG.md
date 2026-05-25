@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.4] - 2026-05-25
+
+### Fixed
+
+- Button clicks are no longer swallowed by the
+  `.ripple-effect` utility's `pointer-events: none`. The
+  class belongs on the ripple particle `<span>`s, not the
+  Button host. `useRipple` was also bound to a
+  `display: contents` wrapper instead of the real
+  `<button>`, so its inline-style mutations were no-ops
+  and particles never rendered. Surface now exposes its
+  rendered root via `defineExpose({ rootElement })`; Button
+  forwards a template ref to Surface, binds `useRipple` to
+  the actual `<button>`, renders the particles as direct
+  children, and drops the ghost wrapper.
+
 ## [0.6.3] - 2026-05-23
 
 ### Fixed

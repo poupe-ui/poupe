@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.4] - 2026-05-25
+
+### Fixed
+
+- `shape-squircle-*` utilities now keep corner curves at a
+  fixed pixel size at any element dimension. The previous
+  single-SVG mask scaled the 200×200 path to the element,
+  so wide containers (e.g. a 1216×632 Card) got 300+px
+  corners that clipped heading and edge content. `getSquircleStyles`
+  emits a 9-layer composite mask instead: four corner sub-SVGs
+  viewBox-cropped from the existing squircle path and sized
+  to the SHAPE_SCALE `rounded` value (12px for medium), plus
+  four solid edge fills and one centre fill that cover the
+  rest via `calc(100% - 2 * <r>)`. `full` keeps its pill /
+  circle behaviour at 50% corners.
+
+### Internal
+
+- Drop the `-webkit-mask-*` duplications. Unprefixed `mask-*`
+  is baseline since Safari 15.4 / 2022.
+- Round SVG path floats to 2 dp via a module-scope `r2`
+  helper — sub-pixel precision the mask rasteriser can't
+  resolve anyway. Combined with the prefix drop, per-utility
+  payload drops from ~4.2 KB to ~1.8 KB.
+- Refresh agent docs to use `pnpm exec @tailwindcss/cli`
+  instead of the deprecated `pnpx` invocation for the
+  example builder.
+
 ## [0.5.3] - 2026-05-23
 
 ### Dependencies
