@@ -176,8 +176,9 @@ Before committing any changes, ALWAYS run:
 
 The `pnpm precommit` command runs, in order:
 
-- Stub all packages (`dev:prepare` runs `unbuild --stub` so cross-package
-  type and lint resolution works)
+- Stub all packages (`dev:prepare` runs `obuild --stub` for the library
+  packages and `nuxt-module-build --stub` for `@poupe/nuxt` so
+  cross-package type and lint resolution works)
 - Run ESLint with auto-fix
 - Check TypeScript types
 - Build all packages (real build, prerequisite for tests)
@@ -368,15 +369,14 @@ When referencing other packages in the monorepo:
 
 ## Build Systems
 
-- **unbuild**: Used by @poupe/css, @poupe/theme-builder,
-  @poupe/tailwindcss, @poupe/nuxt
-- **obuild**: Used by @poupe/rolldown-vue-css
-- **vite**: Used by @poupe/vue for better Vue component handling
+- **obuild**: Used by @poupe/css, @poupe/theme-builder,
+  @poupe/tailwindcss, @poupe/vue, @poupe/rolldown-vue-css
+- **nuxt-module-build**: Used by @poupe/nuxt
 
 ## Common Dependencies
 
-- **TypeScript**: ~6.0.3 (strict mode enabled)
-- **Vitest**: ^3.2.4 for testing
+- **TypeScript**: ^6.0.3 (strict mode enabled)
+- **Vitest**: ^4.1.7 for testing
 - **ESLint**: Via @poupe/eslint-config
 - **Node.js**: >=20.19.2
 - **pnpm**: >=10.33.0
@@ -423,7 +423,8 @@ Each package has its own AGENTS.md file with specific details:
 
 ### Claude Code Specific Instructions
 
-- Use TodoWrite tool for complex multi-step tasks
+- Use the `TaskCreate` / `TaskUpdate` / `TaskList` tools for complex
+  multi-step work
 - **CRITICAL: Always enumerate files explicitly in git commit commands**
 - **NEVER use bare `git commit` without file arguments**
 - **Check `git status --porcelain` before every commit**

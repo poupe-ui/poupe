@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.4] - 2026-05-25
+
+### Fixed
+
+- `makeTheme` no longer silently routes `scheme: 'monochrome'` to
+  `content`. `makeThemeWithOptions` fell back via
+  `standardDynamicSchemes[scheme] || standardDynamicSchemes.content`,
+  collapsing `Variant.MONOCHROME` (=0) under JS truthiness. The
+  fallback uses `??`, so the unknown-key defence (against
+  TS-bypass / `any` callers) is preserved while every zero-valued
+  variant survives the lookup.
+
 ### Dependencies
 
 - `vitest` devDep `^3.2.4 → ^4.1.7`.

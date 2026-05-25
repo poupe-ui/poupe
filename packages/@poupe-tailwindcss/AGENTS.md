@@ -215,7 +215,7 @@ The package provides two pre-built CSS files in `src/assets/`:
 
 - **Hook**: `build:done` in `build.config.ts`
 - **Output**: `examples/*/output.css` files
-- **Command**: Uses `pnpx @tailwindcss/cli` for each example
+- **Command**: Uses `pnpm exec @tailwindcss/cli` for each example
 - **Purpose**: Human-viewable CSS files for browser testing
 
 #### Build Commands

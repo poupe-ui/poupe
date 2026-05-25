@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, expect, it } from 'vitest';
-import { Hct } from '../../core';
+import { Hct, Variant } from '../../core';
 import { makeTheme } from '../theme';
 
 describe('makeTheme with options', () => {
@@ -67,6 +67,16 @@ describe('makeTheme with options', () => {
 
       expect((theme.dark as any)['primary-hover']).toBeDefined();
       expect(theme.darkScheme.contrastLevel).toBe(0.2);
+    });
+  });
+
+  describe('scheme option', () => {
+    it('should route monochrome to MONOCHROME, not collapse to content', () => {
+      // Variant.MONOCHROME === 0 — JS truthiness on a numeric enum
+      // used to silently route the scheme through content.
+      const theme = makeTheme(colors, 'monochrome');
+      expect(theme.darkScheme.variant).toBe(Variant.MONOCHROME);
+      expect(theme.lightScheme.variant).toBe(Variant.MONOCHROME);
     });
   });
 
