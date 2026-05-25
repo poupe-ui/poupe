@@ -86,8 +86,7 @@ This package is used by:
 
 ## Build Output
 
-Builds to both ESM and CJS formats:
+ESM-only via obuild:
 
-- `dist/index.mjs` - ES modules
-- `dist/index.cjs` - CommonJS
-- `dist/index.d.ts` - TypeScript definitions
+- `dist/index.mjs` - ES module
+- `dist/index.d.mts` - TypeScript definitions

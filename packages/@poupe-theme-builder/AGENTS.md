@@ -49,7 +49,7 @@ src/
 
 ## Build Configuration
 
-Exports three entry points via unbuild:
+Exports three entry points via obuild:
 
 - `index` - Main theme builder functionality
 - `core` - Core utilities and algorithms
