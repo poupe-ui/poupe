@@ -6,7 +6,7 @@ import {
 } from '../core';
 
 import {
-  type StandardDynamicSchemeKey,
+  type DynamicSchemeKey,
 } from './data';
 
 /**
@@ -65,12 +65,14 @@ export interface ThemeGenerationOptions {
   /** Contrast level from -1 (minimum) to 1 (maximum). 0 represents standard. Defaults to 0 */
   contrastLevel?: number
   /** Material color scheme to use. Defaults to 'content' */
-  scheme?: StandardDynamicSchemeKey
+  scheme?: DynamicSchemeKey
   /**
-   * MCU specification version to pass to `DynamicScheme`. Defaults to
-   * `'2025'` — theme-builder's historical pin. Callers that need a
-   * different baseline (e.g. `'2021'` to align with MCU's own default)
-   * can override.
+   * MCU specification version to pass to `DynamicScheme`. The
+   * effective value mirrors MCU's `maybeFallbackSpecVersion` plus
+   * the `SchemeCmf` constraint: `EXPRESSIVE`, `VIBRANT`,
+   * `TONAL_SPOT`, `NEUTRAL` default to `'2025'` and honour an
+   * explicit `'2021'`; `CMF` is forced to `'2026'`; every other
+   * variant is forced to `'2021'` regardless of what's passed.
    */
   specVersion?: SpecVersion
   /** Use CSS color-mix() for state colors instead of generating pre-computed variants. Defaults to false */

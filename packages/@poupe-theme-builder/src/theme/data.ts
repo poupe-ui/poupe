@@ -6,6 +6,7 @@ import {
   type ColorGroup,
   DynamicScheme,
   Hct,
+  type SpecVersion,
   TonalPalette,
   Variant,
 } from './utils';
@@ -131,7 +132,16 @@ export const standardPaletteKeys = Object.keys(standardPalettes) as StandardPale
 
 // DynamicScheme
 //
-export const standardDynamicSchemes = {
+
+/**
+ * Scheme name → `Variant` map covering every MCU 0.4 variant.
+ * `as const` preserves the per-entry `Variant` literal so
+ * downstream consumers can derive precise types
+ * (e.g. {@link variantSpecAcceptance} keyed by the looked-up
+ * variant). `satisfies` enforces the shape against the wider
+ * `Variant` enum.
+ */
+export const dynamicSchemes = {
   content: Variant.CONTENT,
   expressive: Variant.EXPRESSIVE,
   fidelity: Variant.FIDELITY,
@@ -141,6 +151,46 @@ export const standardDynamicSchemes = {
   vibrant: Variant.VIBRANT,
   rainbow: Variant.RAINBOW,
   fruitSalad: Variant.FRUIT_SALAD,
-} satisfies Record<string, Variant>;
+  cmf: Variant.CMF,
+} as const satisfies Record<string, Variant>;
 
-export type StandardDynamicSchemeKey = keyof typeof standardDynamicSchemes;
+export type DynamicSchemeKey = keyof typeof dynamicSchemes;
+
+// SpecVersion acceptance
+//
+
+/**
+ * Spec versions each MCU `Variant` produces meaningful output for,
+ * ordered ascending. The first entry is the lowest accepted spec;
+ * a resolver can use it as a last-resort pick when the caller's
+ * preference can't be downgraded, which for single-row variants
+ * like `CMF` ends up being an upgrade. Mirrors MCU's
+ * `DynamicScheme.maybeFallbackSpecVersion` plus the `SchemeCmf`
+ * constraint:
+ *
+ * - `Variant.EXPRESSIVE`, `Variant.VIBRANT`, `Variant.TONAL_SPOT`,
+ *   `Variant.NEUTRAL` accept `'2021'` and `'2025'`.
+ * - `Variant.CMF` is `'2026'`-only — `SchemeCmf` rejects any other
+ *   spec at construction time.
+ * - Every other variant accepts only `'2021'`.
+ */
+export const variantSpecAcceptance = {
+  [Variant.MONOCHROME]: ['2021'],
+  [Variant.NEUTRAL]: ['2021', '2025'],
+  [Variant.TONAL_SPOT]: ['2021', '2025'],
+  [Variant.VIBRANT]: ['2021', '2025'],
+  [Variant.EXPRESSIVE]: ['2021', '2025'],
+  [Variant.FIDELITY]: ['2021'],
+  [Variant.CONTENT]: ['2021'],
+  [Variant.RAINBOW]: ['2021'],
+  [Variant.FRUIT_SALAD]: ['2021'],
+  [Variant.CMF]: ['2026'],
+} as const satisfies Record<Variant, readonly [SpecVersion, ...SpecVersion[]]>;
+
+/**
+ * Spec versions accepted by `variant`, ordered ascending. Returns
+ * an empty array for variants outside the table (a future MCU
+ * enum value, a TS-bypass cast, etc.).
+ */
+export const getAcceptedSpecVersions = (variant: Variant): readonly SpecVersion[] =>
+  variantSpecAcceptance[variant] ?? [];

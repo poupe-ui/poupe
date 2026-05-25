@@ -9,9 +9,9 @@ import {
 } from '../core';
 
 import {
-  type StandardDynamicSchemeKey,
+  type DynamicSchemeKey,
 
-  standardDynamicSchemes,
+  dynamicSchemes,
 } from '../theme';
 
 const reHexValue = /^#?(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
@@ -19,13 +19,13 @@ const reHexValue = /^#?(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
 /** @returns if the value is a string suitable for {@link hct} */
 export const isHexValue = (s: HexColor | string): boolean => reHexValue.test(s);
 
-/** @returns if the value is a valid {@link StandardDynamicSchemeKey} */
-export const isThemeSchemeKey = (s?: string): boolean => !!s && s in standardDynamicSchemes;
+/** @returns if the value is a valid {@link DynamicSchemeKey} */
+export const isThemeSchemeKey = (s?: string): boolean => !!s && s in dynamicSchemes;
 
-/** @returns the given string as a valid StandardDynamicSchemeKey, or undefined if it is not a valid key */
-export const asThemeSchemeKey = (key?: string): StandardDynamicSchemeKey | undefined => {
+/** @returns the given string as a valid DynamicSchemeKey, or undefined if it is not a valid key */
+export const asThemeSchemeKey = (key?: string): DynamicSchemeKey | undefined => {
   if (isThemeSchemeKey(key)) {
-    return key as StandardDynamicSchemeKey;
+    return key as DynamicSchemeKey;
   }
 
   return undefined;

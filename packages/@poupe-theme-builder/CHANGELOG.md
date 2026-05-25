@@ -10,13 +10,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `ThemeGenerationOptions.specVersion` — opt-in override for the
-  MCU spec version. Re-exports `SpecVersion` from `core`.
-  Defaults to `'2025'`, theme-builder's historical pin.
+  MCU spec version. Re-exports `SpecVersion` from `core`. The
+  effective default mirrors MCU's `maybeFallbackSpecVersion` plus
+  the `SchemeCmf` constraint: `EXPRESSIVE | VIBRANT | TONAL_SPOT
+  | NEUTRAL` default to `'2025'` and honour an explicit `'2021'`;
+  `CMF` is forced to `'2026'`; every other variant is forced to
+  `'2021'`.
+- `variantSpecAcceptance` + `getAcceptedSpecVersions` — data table
+  and accessor exposing the variant → spec-versions matrix that
+  MCU 0.4's `maybeFallbackSpecVersion` encodes. `getAcceptedSpecVersions`
+  returns an empty list for variants outside the table;
+  `makeDynamicScheme` treats that as unsupported and throws
+  `TypeError` rather than passing the variant to MCU.
 
 ### Changed
 
 - `makeDynamicScheme` accepts an optional trailing `specVersion`
-  argument (default `'2025'`) instead of hard-coding it.
+  argument instead of hard-coding it. The effective value mirrors
+  MCU's variant fallback.
+- `standardDynamicSchemes` renamed to `dynamicSchemes`; companion
+  `StandardDynamicSchemeKey` renamed to `DynamicSchemeKey`. The
+  table now covers every MCU 0.4 variant.
+  `ThemeGenerationOptions.scheme`, the `server` re-exports, and
+  `@poupe/tailwindcss`'s `ThemeOptions` track the rename.
+  `as const`-narrowed so per-entry `Variant` literals survive
+  lookup (e.g. `variantSpecAcceptance[dynamicSchemes['cmf']]`
+  resolves to the precise spec tuple at the type level). `cmf`
+  routes through `SchemeCmf` inside `makeDynamicScheme` —
+  `SchemeCmf` is the only MCU path that handles `Variant.CMF`
+  dispatch and is `'2026'`-only, so the acceptance table pins
+  `cmf` to `['2026']` and caller-supplied core palettes are
+  ignored for CMF (`SchemeCmf` computes its own from the source
+  colour). Multi-source CMF seeding (a second source colour) is
+  deferred.
+
+### Dependencies
+
+- Bump `@poupe/material-color-utilities` to `^0.4.1`. The new MCU
+  changes scheme output independently of the spec version
+  selection; the bundled `@poupe/tailwindcss` baseline CSS
+  regenerates accordingly.
 
 ## [0.10.4] - 2026-05-25
 
@@ -32,10 +65,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Dependencies
 
-- Bump `@poupe/material-color-utilities` to `^0.4.1`. The new MCU
-  changes scheme output independently of the spec version
-  selection; the bundled `@poupe/tailwindcss` baseline CSS
-  regenerates accordingly.
 - `vitest` devDep `^3.2.4 → ^4.1.7`.
 
 ## [0.10.3] - 2026-05-13

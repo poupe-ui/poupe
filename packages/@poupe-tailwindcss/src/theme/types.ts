@@ -1,7 +1,7 @@
 /* imports */
 import {
   type ColorMap,
-  type StandardDynamicSchemeKey,
+  type DynamicSchemeKey,
   type StandardPaletteKey,
 } from '@poupe/theme-builder';
 
@@ -16,8 +16,8 @@ import {
 export {
   type Color,
   type ColorMap,
+  type DynamicSchemeKey,
   Hct,
-  type StandardDynamicSchemeKey,
   type StandardPaletteKey,
 } from '@poupe/theme-builder';
 
@@ -69,7 +69,7 @@ export type ThemeOptions<K extends string = string> = {
   extendColors: boolean
 
   /** Dynamic color scheme type, @defaultValue `'content'` */
-  scheme: StandardDynamicSchemeKey
+  scheme: DynamicSchemeKey
 
   /** Theme contrast level, @defaultValue `0` */
   contrastLevel: number
@@ -133,6 +133,6 @@ export const defaultThemePrefix = 'md-';
 export const defaultThemeDarkSuffix = '';
 export const defaultThemeLightSuffix = '';
 export const defaultThemeContrastLevel = 0;
-export const defaultThemeScheme: StandardDynamicSchemeKey = 'content';
+export const defaultThemeScheme: DynamicSchemeKey = 'content';
 export const defaultSurfacePrefix = 'surface-';
 export const defaultShapePrefix = 'shape-';

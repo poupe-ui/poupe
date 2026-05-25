@@ -19,7 +19,7 @@ import {
 } from '../core';
 
 import {
-  type StandardDynamicSchemeKey,
+  type DynamicSchemeKey,
   type ThemeColors,
 
   makeTheme,
@@ -249,7 +249,7 @@ export interface MakeCSSThemeOptions extends CSSThemeOptions {
   /** @defaultValue `0` */
   contrastLevel?: number
   /** @defaultValue `'content'` */
-  scheme?: StandardDynamicSchemeKey
+  scheme?: DynamicSchemeKey
 }
 
 /**

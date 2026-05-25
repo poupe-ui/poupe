@@ -13,6 +13,7 @@ import {
 export {
   DynamicScheme,
   Hct,
+  SchemeCmf,
   TonalPalette,
   Variant,
 } from '@poupe/material-color-utilities';
