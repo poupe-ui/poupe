@@ -107,8 +107,8 @@ declare module '../composables/use-poupe' {
 </script>
 
 <script setup lang="ts">
-/* global MouseEvent, HTMLButtonElement */
-import { computed, ref } from 'vue';
+/* global MouseEvent, HTMLButtonElement, HTMLElement */
+import { computed, onMounted, ref, useTemplateRef } from 'vue';
 import { usePoupeMergedProps, useRipple } from '../composables';
 import Icon from './icon.vue';
 import Surface from './surface.vue';
@@ -125,12 +125,17 @@ const props = computed(() =>
   usePoupeMergedProps(directProps, 'button', buttonDefaults),
 );
 
-// Button reference for ripple effect
-const buttonElement = ref<HTMLButtonElement>();
+// Bind useRipple to the rendered <button> (forwarded by Surface),
+// not to an inner wrapper — listeners + bounding-rect measurements
+// must match what the user actually clicks.
+const surfaceReference = useTemplateRef<{ rootElement: HTMLElement | undefined }>('surfaceReference');
+const buttonElement = ref<HTMLButtonElement | undefined>();
+onMounted(() => {
+  buttonElement.value = surfaceReference.value?.rootElement as HTMLButtonElement | undefined;
+});
 
-// Use ripple effect (disabled state is handled reactively)
 const isDisabled = computed(() => props.value.disabled);
-useRipple(buttonElement, {
+const { ripples, getRippleStyle } = useRipple(buttonElement, {
   disabled: isDisabled,
 });
 
@@ -237,7 +242,6 @@ const buttonClasses = computed(() => {
     'transition-all duration-200',
     'select-none',
     'font-medium',
-    'ripple-effect',
   ];
 
   // Size classes
@@ -320,47 +324,51 @@ const iconSize = computed(() => {
 
 <template>
   <Surface
+    ref="surfaceReference"
     v-bind="surfaceProps"
     tag="button"
     :class="buttonClasses"
     :disabled="props.disabled || props.loading"
     @click="emit('click', $event)"
   >
-    <div
-      ref="buttonElement"
-      class="contents"
+    <!-- Leading icon -->
+    <Icon
+      v-if="props.icon || props.iconStart"
+      :icon="props.icon || props.iconStart"
+      :class="iconSize"
+    />
+
+    <!-- Label -->
+    <span
+      v-if="computedLabel && (!props.iconButton || props.extended)"
+      class="leading-none"
     >
-      <!-- Leading icon -->
-      <Icon
-        v-if="props.icon || props.iconStart"
-        :icon="props.icon || props.iconStart"
-        :class="iconSize"
-      />
+      {{ computedLabel }}
+    </span>
 
-      <!-- Label -->
-      <span
-        v-if="computedLabel && (!props.iconButton || props.extended)"
-        class="leading-none"
-      >
-        {{ computedLabel }}
-      </span>
+    <!-- Default slot -->
+    <slot v-if="!computedLabel && !props.iconButton" />
 
-      <!-- Default slot -->
-      <slot v-if="!computedLabel && !props.iconButton" />
+    <!-- Trailing icon -->
+    <Icon
+      v-if="props.trailingIcon || props.iconEnd"
+      :icon="props.trailingIcon || props.iconEnd"
+      :class="iconSize"
+    />
 
-      <!-- Trailing icon -->
-      <Icon
-        v-if="props.trailingIcon || props.iconEnd"
-        :icon="props.trailingIcon || props.iconEnd"
-        :class="iconSize"
-      />
+    <!-- Loading indicator -->
+    <Icon
+      v-if="props.loading"
+      icon="svg-spinners:12-dots-scale-rotate"
+      :class="iconSize"
+    />
 
-      <!-- Loading indicator -->
-      <Icon
-        v-if="props.loading"
-        icon="svg-spinners:12-dots-scale-rotate"
-        :class="iconSize"
-      />
-    </div>
+    <!-- Ripple particles -->
+    <span
+      v-for="r in ripples"
+      :key="r.id"
+      aria-hidden="true"
+      :style="getRippleStyle(r)"
+    />
   </Surface>
 </template>

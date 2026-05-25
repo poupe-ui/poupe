@@ -150,11 +150,18 @@ declare module '../composables/use-poupe' {
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+/* global HTMLElement */
+import { computed, ref } from 'vue';
 import { usePoupeMergedProps } from '../composables';
 
 // Define props without withDefaults
 const directProps = defineProps<SurfaceProps>();
+
+// Expose the rendered root DOM element so consumers (e.g. Button)
+// can attach refs/listeners to the real <button>/<div>/... rather
+// than to a layout-invisible wrapper.
+const rootElement = ref<HTMLElement | undefined>();
+defineExpose({ rootElement });
 
 // Merge with global defaults and component defaults
 // This provides three-level merging: global defaults < component defaults < props
@@ -213,6 +220,7 @@ const classes = computed(() =>
 <template>
   <component
     :is="props.tag"
+    ref="rootElement"
     :class="classes"
   >
     <slot />
