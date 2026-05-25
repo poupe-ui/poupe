@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, expect, it } from 'vitest';
 import { Hct, Variant } from '../../core';
+import { makeDynamicScheme } from '../colors';
 import { makeTheme } from '../theme';
 
 describe('makeTheme with options', () => {
@@ -11,7 +12,7 @@ describe('makeTheme with options', () => {
   };
 
   describe('useColorMix option', () => {
-    it('should include state colors by default', () => {
+    it('includes state colors by default', () => {
       const theme = makeTheme(colors);
 
       // Check for standard state colors
@@ -30,7 +31,7 @@ describe('makeTheme with options', () => {
       expect((theme.light as any)['brand-hover']).toBeDefined();
     });
 
-    it('should not include state colors when useColorMix is true', () => {
+    it('omits state colors when useColorMix is true', () => {
       const theme = makeTheme(colors, 'content', 0, { useColorMix: true });
 
       // Check that state colors are not included
@@ -47,7 +48,7 @@ describe('makeTheme with options', () => {
       expect((theme.dark as any)['on-brand']).toBeDefined();
     });
 
-    it('should work with legacy parameters', () => {
+    it('accepts the legacy positional signature', () => {
       // Test backward compatibility with old signature
       const theme1 = makeTheme(colors, 'vibrant', 0.5);
       expect((theme1.dark as any)['primary-hover']).toBeDefined();
@@ -60,7 +61,7 @@ describe('makeTheme with options', () => {
       expect(theme1.dark.primary.toInt()).toBe(theme2.dark.primary.toInt());
     });
 
-    it('should work with extra options parameter', () => {
+    it('accepts the trailing extra-options parameter', () => {
       const theme = makeTheme(colors, 'expressive', 0.2, {
         useColorMix: false,
       });
@@ -71,22 +72,114 @@ describe('makeTheme with options', () => {
   });
 
   describe('scheme option', () => {
-    it('should route monochrome to MONOCHROME, not collapse to content', () => {
-      // Variant.MONOCHROME === 0 — JS truthiness on a numeric enum
-      // used to silently route the scheme through content.
-      const theme = makeTheme(colors, 'monochrome');
-      expect(theme.darkScheme.variant).toBe(Variant.MONOCHROME);
-      expect(theme.lightScheme.variant).toBe(Variant.MONOCHROME);
+    it.each([
+      ['monochrome', Variant.MONOCHROME],
+      ['neutral', Variant.NEUTRAL],
+      ['tonalSpot', Variant.TONAL_SPOT],
+      ['vibrant', Variant.VIBRANT],
+      ['expressive', Variant.EXPRESSIVE],
+      ['fidelity', Variant.FIDELITY],
+      ['content', Variant.CONTENT],
+      ['rainbow', Variant.RAINBOW],
+      ['fruitSalad', Variant.FRUIT_SALAD],
+      ['cmf', Variant.CMF],
+    ] as const)('routes scheme %s to its variant', (scheme, expected) => {
+      const theme = makeTheme(colors, scheme);
+      expect(theme.darkScheme.variant).toBe(expected);
+      expect(theme.lightScheme.variant).toBe(expected);
+    });
+  });
+
+  describe('specVersion option', () => {
+    it.each([
+      ['tonalSpot', '2025'],
+      ['vibrant', '2025'],
+      ['expressive', '2025'],
+      ['neutral', '2025'],
+      ['content', '2021'],
+      ['fidelity', '2021'],
+      ['monochrome', '2021'],
+      ['rainbow', '2021'],
+      ['fruitSalad', '2021'],
+      ['cmf', '2026'],
+    ] as const)('default spec for %s is %s', (scheme, expected) => {
+      const theme = makeTheme(colors, scheme);
+      expect(theme.darkScheme.specVersion).toBe(expected);
+      expect(theme.lightScheme.specVersion).toBe(expected);
+    });
+
+    it.each([
+      'tonalSpot',
+      'vibrant',
+      'expressive',
+      'neutral',
+    ] as const)('explicit 2021 override on %s is honoured', (scheme) => {
+      const theme = makeTheme(colors, scheme, 0, { specVersion: '2021' });
+      expect(theme.darkScheme.specVersion).toBe('2021');
+      expect(theme.lightScheme.specVersion).toBe('2021');
+    });
+
+    it.each([
+      'content',
+      'fidelity',
+      'monochrome',
+      'rainbow',
+      'fruitSalad',
+    ] as const)('MCU silently forces %s to 2021 even when 2025 is requested', (scheme) => {
+      const theme = makeTheme(colors, scheme, 0, { specVersion: '2025' });
+      expect(theme.darkScheme.specVersion).toBe('2021');
+      expect(theme.lightScheme.specVersion).toBe('2021');
+    });
+
+    it.each([
+      'tonalSpot',
+      'vibrant',
+      'expressive',
+      'neutral',
+    ] as const)('MCU downgrades %s from explicit 2026 to 2025', (scheme) => {
+      const theme = makeTheme(colors, scheme, 0, { specVersion: '2026' });
+      expect(theme.darkScheme.specVersion).toBe('2025');
+      expect(theme.lightScheme.specVersion).toBe('2025');
+    });
+
+    it.each([
+      'content',
+      'fidelity',
+      'monochrome',
+      'rainbow',
+      'fruitSalad',
+    ] as const)('MCU forces %s to 2021 even when 2026 is requested', (scheme) => {
+      const theme = makeTheme(colors, scheme, 0, { specVersion: '2026' });
+      expect(theme.darkScheme.specVersion).toBe('2021');
+      expect(theme.lightScheme.specVersion).toBe('2021');
+    });
+
+    it.each([
+      [undefined],
+      [{ specVersion: '2021' } as const],
+      [{ specVersion: '2025' } as const],
+      [{ specVersion: '2026' } as const],
+    ])('MCU forces cmf to 2026 (%j)', (extra) => {
+      const theme = makeTheme(colors, 'cmf', 0, extra);
+      expect(theme.darkScheme.specVersion).toBe('2026');
+      expect(theme.lightScheme.specVersion).toBe('2026');
+    });
+  });
+
+  describe('unsupported variant', () => {
+    it('makeDynamicScheme refuses TS-bypass variants with TypeError', () => {
+      expect(() => makeDynamicScheme(primaryColor, 99 as Variant, 0, false))
+        .toThrow(new TypeError('unsupported variant: 99'));
     });
   });
 
   describe('getStateColorMixParams', () => {
-    it('should be exported from core', async () => {
+    it('is re-exported from core', async () => {
       const { getStateColorMixParams } = await import('../../core');
       expect(getStateColorMixParams).toBeDefined();
     });
 
-    it('should return correct params for base colors', async () => {
+    it('returns correct params for base colors', async () => {
       const { getStateColorMixParams } = await import('../../core');
 
       const params = getStateColorMixParams('primary', 'hover');
@@ -98,7 +191,7 @@ describe('makeTheme with options', () => {
       });
     });
 
-    it('should return correct params for on-colors', async () => {
+    it('returns correct params for on-colors', async () => {
       const { getStateColorMixParams } = await import('../../core');
 
       const params = getStateColorMixParams('on-primary', 'disabled');
@@ -110,7 +203,7 @@ describe('makeTheme with options', () => {
       });
     });
 
-    it('should work with prefix', async () => {
+    it('honours a custom prefix', async () => {
       const { getStateColorMixParams } = await import('../../core');
 
       const params = getStateColorMixParams('primary', 'focus', '--md-');

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Re-exported type `StandardDynamicSchemeKey` renamed to
+  `DynamicSchemeKey`, tracking the upstream rename in
+  `@poupe/theme-builder`. `ThemeOptions.scheme` and
+  `defaultThemeScheme` widen to include `'cmf'`.
+
 ## [0.5.4] - 2026-05-25
 
 ### Fixed

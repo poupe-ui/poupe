@@ -6,7 +6,7 @@ import {
 } from '../core';
 
 import {
-  type StandardDynamicSchemeKey,
+  type DynamicSchemeKey,
 } from '../theme';
 
 import {
@@ -28,7 +28,7 @@ export {
 } from '../core';
 
 export {
-  type StandardDynamicSchemeKey,
+  type DynamicSchemeKey,
 } from '../theme';
 
 // CSS stringification utilities
@@ -67,14 +67,14 @@ export const getColorParam = (param?: string | string[], filter?: (s?: string) =
   return { param: s };
 };
 
-/** Attempts to convert a parameter to a valid StandardDynamicSchemeKey.
+/** Attempts to convert a parameter to a valid DynamicSchemeKey.
  * @param param - An optional string or string array representing a theme scheme key
  * @param filter - Optional function to pre-process the parameter before validation
  * @returns An object containing the original parameter and a validated theme scheme key, if applicable
  */
 export const getThemeSchemeParam = (param?: string | string[], filter?: (s?: string) => (string | undefined)): {
   param?: string
-  scheme?: StandardDynamicSchemeKey
+  scheme?: DynamicSchemeKey
 } => {
   const key = filter ? filter(getParam(param)) : getParam(param);
 

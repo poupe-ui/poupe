@@ -28,13 +28,13 @@ import {
 
 import {
   type CustomDynamicColorKey,
+  type DynamicSchemeKey,
   type StandardDynamicColorKey,
-  type StandardDynamicSchemeKey,
   type StandardPaletteKey,
 
   customDynamicColors,
+  dynamicSchemes,
   standardDynamicColorKeys,
-  standardDynamicSchemes,
   standardPaletteKeys,
 } from './data';
 
@@ -112,7 +112,7 @@ export function makeThemeKeys<K extends string>(colors: Partial<ThemeColors<K>>)
  */
 export function makeTheme<K extends string>(
   colors: ThemeColors<K>,
-  scheme: StandardDynamicSchemeKey = 'content',
+  scheme: DynamicSchemeKey = 'content',
   contrastLevel: number = 0,
   extraOptions?: Partial<ThemeGenerationOptions>,
 ) {
@@ -131,9 +131,9 @@ function makeThemeWithOptions<K extends string>(
   options: ThemeGenerationOptions,
 ) {
   const { source, corePalettes, extraPalettes, colors: colorOptions } = makeThemePalettes(colors);
-  const { contrastLevel = 0, scheme = 'content', specVersion = '2025' } = options;
+  const { contrastLevel = 0, scheme = 'content', specVersion } = options;
 
-  const variant = standardDynamicSchemes[scheme] ?? standardDynamicSchemes.content;
+  const variant = dynamicSchemes[scheme] ?? dynamicSchemes.content;
   const darkScheme = makeDynamicScheme(source, variant, contrastLevel, true, corePalettes, specVersion);
   const lightScheme = makeDynamicScheme(source, variant, contrastLevel, false, corePalettes, specVersion);
 
