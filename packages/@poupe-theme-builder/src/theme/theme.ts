@@ -133,7 +133,7 @@ function makeThemeWithOptions<K extends string>(
   const { source, corePalettes, extraPalettes, colors: colorOptions } = makeThemePalettes(colors);
   const { contrastLevel = 0, scheme = 'content' } = options;
 
-  const variant = standardDynamicSchemes[scheme] || standardDynamicSchemes.content;
+  const variant = standardDynamicSchemes[scheme] ?? standardDynamicSchemes.content;
   const darkScheme = makeDynamicScheme(source, variant, contrastLevel, true, corePalettes);
   const lightScheme = makeDynamicScheme(source, variant, contrastLevel, false, corePalettes);
 
