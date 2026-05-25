@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.4] - 2026-05-25
+
 ### Fixed
 
 - `shape-squircle-*` utilities now keep corner curves at a
@@ -29,6 +31,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   helper — sub-pixel precision the mask rasteriser can't
   resolve anyway. Combined with the prefix drop, per-utility
   payload drops from ~4.2 KB to ~1.8 KB.
+- Refresh agent docs to use `pnpm exec @tailwindcss/cli`
+  instead of the deprecated `pnpx` invocation for the
+  example builder.
 
 ## [0.5.3] - 2026-05-23
 
