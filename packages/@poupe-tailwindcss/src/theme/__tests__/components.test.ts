@@ -475,7 +475,7 @@ describe('makeShapeComponents', () => {
     expect(maskImage).toContain('M ');
     expect(maskImage).not.toContain('NaN');
 
-    // Verify all squircle shapes have valid mask images
+    // Verify all squircle shapes have valid mask-image entries
     const squircleKeys = Object.keys(result).filter((key) => key.includes('squircle'));
     for (const key of squircleKeys) {
       const shape = result[key];
@@ -486,5 +486,70 @@ describe('makeShapeComponents', () => {
     }
 
     // Test values are all within valid range (0-2) per MD3 Expressive design
+  });
+
+  it('should emit a 9-layer composite mask for size-aware corners', () => {
+    const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
+    const result = makeShapeComponents(theme);
+    const squircleMedium = result['.shape-squircle-medium'];
+
+    // Composite shape: 4 corner SVGs + 4 edge fills + 1 centre fill.
+    const maskImage = squircleMedium['mask-image'] as string;
+    expect(maskImage.match(/url\(/g)).toHaveLength(4);
+    expect(maskImage.match(/linear-gradient/g)).toHaveLength(5);
+
+    // Each corner SVG crops the same 200x200 path via a distinct
+    // viewBox. For squircle='1' (medium), r = 50 in SVG units.
+    expect(maskImage).toContain('viewBox=\'0 0 50 50\'');
+    expect(maskImage).toContain('viewBox=\'150 0 50 50\'');
+    expect(maskImage).toContain('viewBox=\'0 150 50 50\'');
+    expect(maskImage).toContain('viewBox=\'150 150 50 50\'');
+
+    // Corners anchor to the four element corners; edges + centre stretch.
+    const maskPosition = squircleMedium['mask-position'] as string;
+    expect(maskPosition).toContain('top left');
+    expect(maskPosition).toContain('top right');
+    expect(maskPosition).toContain('bottom left');
+    expect(maskPosition).toContain('bottom right');
+
+    // Corner regions hold the `rounded` pixel size; centre fills the rest.
+    const maskSize = squircleMedium['mask-size'] as string;
+    expect(maskSize).toContain('12px 12px');
+    expect(maskSize).toContain('calc(100% - 2 * 12px)');
+
+    expect(squircleMedium['mask-repeat']).toBe('no-repeat');
+  });
+
+  it('should render shape-squircle-full as a pill with 50% corners', () => {
+    const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
+    const result = makeShapeComponents(theme);
+    const squircleFull = result['.shape-squircle-full'];
+
+    // 9999px is treated as a pill request: corners sized to 50% so the
+    // four quadrants tile the element at any aspect ratio.
+    const maskSize = squircleFull['mask-size'] as string;
+    expect(maskSize).toContain('50% 50%');
+    // calc(100% - 2 * 50%) collapses centre + edges to zero size,
+    // leaving the four corner SVGs to cover the element.
+    expect(maskSize).toContain('calc(100% - 2 * 50%)');
+  });
+
+  it('should not emit -webkit-mask-* prefix duplications', () => {
+    // mask-image / mask-position / mask-size / mask-repeat are baseline
+    // since Safari 15.4 (2022); the -webkit-* prefix was dropped to halve
+    // the per-utility payload.
+    const theme = makeThemeFromPartialOptions({ themePrefix: 'md-' });
+    const result = makeShapeComponents(theme);
+    const squircleKeys = Object.keys(result).filter(
+      (k) => k.includes('squircle-'),
+    );
+
+    for (const key of squircleKeys) {
+      const shape = result[key];
+      expect(shape['-webkit-mask-image']).toBeUndefined();
+      expect(shape['-webkit-mask-size']).toBeUndefined();
+      expect(shape['-webkit-mask-position']).toBeUndefined();
+      expect(shape['-webkit-mask-repeat']).toBeUndefined();
+    }
   });
 });

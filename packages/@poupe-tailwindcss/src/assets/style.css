@@ -724,12 +724,10 @@
   border-radius: var(--md-shape-extra-small, 4px);
 }
 @utility shape-squircle-extra-small {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.56854249493 0 200 13.43145750507 200 30 L 200 170 C 200 186.56854249493 186.56854249493 200 170 200 L 30 200 C 13.43145750507 200 0 186.56854249493 0 170 L 0 30 C 0 13.43145750507 13.43145750507 0 30 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='170 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 170 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='170 170 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 4px 4px, 4px 0, 4px 100%, 0 4px, 100% 4px;
+  mask-size: 4px 4px, 4px 4px, 4px 4px, 4px 4px, calc(100% - 2 * 4px) calc(100% - 2 * 4px), calc(100% - 2 * 4px) 4px, calc(100% - 2 * 4px) 4px, 4px calc(100% - 2 * 4px), 4px calc(100% - 2 * 4px);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.56854249493 0 200 13.43145750507 200 30 L 200 170 C 200 186.56854249493 186.56854249493 200 170 200 L 30 200 C 13.43145750507 200 0 186.56854249493 0 170 L 0 30 C 0 13.43145750507 13.43145750507 0 30 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-extra-small: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-extra-small, 4px);
@@ -739,12 +737,10 @@
   border-radius: var(--md-shape-small, 8px);
 }
 @utility shape-squircle-small {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40 0 L 160 0 C 182.09138999324 0 200 17.90861000676 200 40 L 200 160 C 200 182.09138999324 182.09138999324 200 160 200 L 40 200 C 17.90861000676 200 0 182.09138999324 0 160 L 0 40 C 0 17.90861000676 17.90861000676 0 40 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40 0 L 160 0 C 182.09 0 200 17.91 200 40 L 200 160 C 200 182.09 182.09 200 160 200 L 40 200 C 17.91 200 0 182.09 0 160 L 0 40 C 0 17.91 17.91 0 40 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='160 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40 0 L 160 0 C 182.09 0 200 17.91 200 40 L 200 160 C 200 182.09 182.09 200 160 200 L 40 200 C 17.91 200 0 182.09 0 160 L 0 40 C 0 17.91 17.91 0 40 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 160 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40 0 L 160 0 C 182.09 0 200 17.91 200 40 L 200 160 C 200 182.09 182.09 200 160 200 L 40 200 C 17.91 200 0 182.09 0 160 L 0 40 C 0 17.91 17.91 0 40 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='160 160 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40 0 L 160 0 C 182.09 0 200 17.91 200 40 L 200 160 C 200 182.09 182.09 200 160 200 L 40 200 C 17.91 200 0 182.09 0 160 L 0 40 C 0 17.91 17.91 0 40 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 8px 8px, 8px 0, 8px 100%, 0 8px, 100% 8px;
+  mask-size: 8px 8px, 8px 8px, 8px 8px, 8px 8px, calc(100% - 2 * 8px) calc(100% - 2 * 8px), calc(100% - 2 * 8px) 8px, calc(100% - 2 * 8px) 8px, 8px calc(100% - 2 * 8px), 8px calc(100% - 2 * 8px);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40 0 L 160 0 C 182.09138999324 0 200 17.90861000676 200 40 L 200 160 C 200 182.09138999324 182.09138999324 200 160 200 L 40 200 C 17.90861000676 200 0 182.09138999324 0 160 L 0 40 C 0 17.90861000676 17.90861000676 0 40 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-small: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-small, 8px);
@@ -754,12 +750,10 @@
   border-radius: var(--md-shape-medium, 12px);
 }
 @utility shape-squircle-medium {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 177.61423749155 0 200 22.385762508450004 200 50 L 200 150 C 200 177.61423749155 177.61423749155 200 150 200 L 50 200 C 22.385762508450004 200 0 177.61423749155 0 150 L 0 50 C 0 22.385762508450004 22.385762508450004 0 50 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 177.61 0 200 22.39 200 50 L 200 150 C 200 177.61 177.61 200 150 200 L 50 200 C 22.39 200 0 177.61 0 150 L 0 50 C 0 22.39 22.39 0 50 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='150 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 177.61 0 200 22.39 200 50 L 200 150 C 200 177.61 177.61 200 150 200 L 50 200 C 22.39 200 0 177.61 0 150 L 0 50 C 0 22.39 22.39 0 50 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 150 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 177.61 0 200 22.39 200 50 L 200 150 C 200 177.61 177.61 200 150 200 L 50 200 C 22.39 200 0 177.61 0 150 L 0 50 C 0 22.39 22.39 0 50 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='150 150 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 177.61 0 200 22.39 200 50 L 200 150 C 200 177.61 177.61 200 150 200 L 50 200 C 22.39 200 0 177.61 0 150 L 0 50 C 0 22.39 22.39 0 50 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 12px 12px, 12px 0, 12px 100%, 0 12px, 100% 12px;
+  mask-size: 12px 12px, 12px 12px, 12px 12px, 12px 12px, calc(100% - 2 * 12px) calc(100% - 2 * 12px), calc(100% - 2 * 12px) 12px, calc(100% - 2 * 12px) 12px, 12px calc(100% - 2 * 12px), 12px calc(100% - 2 * 12px);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 177.61423749155 0 200 22.385762508450004 200 50 L 200 150 C 200 177.61423749155 177.61423749155 200 150 200 L 50 200 C 22.385762508450004 200 0 177.61423749155 0 150 L 0 50 C 0 22.385762508450004 22.385762508450004 0 50 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-medium: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-medium, 12px);
@@ -769,12 +763,10 @@
   border-radius: var(--md-shape-large, 16px);
 }
 @utility shape-squircle-large {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.13708498986 0 200 26.86291501014 200 60 L 200 140 C 200 173.13708498986 173.13708498986 200 140 200 L 60 200 C 26.86291501014 200 0 173.13708498986 0 140 L 0 60 C 0 26.86291501014 26.86291501014 0 60 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.14 0 200 26.86 200 60 L 200 140 C 200 173.14 173.14 200 140 200 L 60 200 C 26.86 200 0 173.14 0 140 L 0 60 C 0 26.86 26.86 0 60 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='140 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.14 0 200 26.86 200 60 L 200 140 C 200 173.14 173.14 200 140 200 L 60 200 C 26.86 200 0 173.14 0 140 L 0 60 C 0 26.86 26.86 0 60 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 140 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.14 0 200 26.86 200 60 L 200 140 C 200 173.14 173.14 200 140 200 L 60 200 C 26.86 200 0 173.14 0 140 L 0 60 C 0 26.86 26.86 0 60 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='140 140 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.14 0 200 26.86 200 60 L 200 140 C 200 173.14 173.14 200 140 200 L 60 200 C 26.86 200 0 173.14 0 140 L 0 60 C 0 26.86 26.86 0 60 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 16px 16px, 16px 0, 16px 100%, 0 16px, 100% 16px;
+  mask-size: 16px 16px, 16px 16px, 16px 16px, 16px 16px, calc(100% - 2 * 16px) calc(100% - 2 * 16px), calc(100% - 2 * 16px) 16px, calc(100% - 2 * 16px) 16px, 16px calc(100% - 2 * 16px), 16px calc(100% - 2 * 16px);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.13708498986 0 200 26.86291501014 200 60 L 200 140 C 200 173.13708498986 173.13708498986 200 140 200 L 60 200 C 26.86291501014 200 0 173.13708498986 0 140 L 0 60 C 0 26.86291501014 26.86291501014 0 60 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-large: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-large, 16px);
@@ -784,12 +776,10 @@
   border-radius: var(--md-shape-extra-large, 28px);
 }
 @utility shape-squircle-extra-large {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 70 0 L 130 0 C 168.65993248817 0 200 31.34006751183 200 70 L 200 130 C 200 168.65993248817 168.65993248817 200 130 200 L 70 200 C 31.34006751183 200 0 168.65993248817 0 130 L 0 70 C 0 31.34006751183 31.34006751183 0 70 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 70 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 70 0 L 130 0 C 168.66 0 200 31.34 200 70 L 200 130 C 200 168.66 168.66 200 130 200 L 70 200 C 31.34 200 0 168.66 0 130 L 0 70 C 0 31.34 31.34 0 70 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='130 0 70 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 70 0 L 130 0 C 168.66 0 200 31.34 200 70 L 200 130 C 200 168.66 168.66 200 130 200 L 70 200 C 31.34 200 0 168.66 0 130 L 0 70 C 0 31.34 31.34 0 70 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 130 70 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 70 0 L 130 0 C 168.66 0 200 31.34 200 70 L 200 130 C 200 168.66 168.66 200 130 200 L 70 200 C 31.34 200 0 168.66 0 130 L 0 70 C 0 31.34 31.34 0 70 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='130 130 70 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 70 0 L 130 0 C 168.66 0 200 31.34 200 70 L 200 130 C 200 168.66 168.66 200 130 200 L 70 200 C 31.34 200 0 168.66 0 130 L 0 70 C 0 31.34 31.34 0 70 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 28px 28px, 28px 0, 28px 100%, 0 28px, 100% 28px;
+  mask-size: 28px 28px, 28px 28px, 28px 28px, 28px 28px, calc(100% - 2 * 28px) calc(100% - 2 * 28px), calc(100% - 2 * 28px) 28px, calc(100% - 2 * 28px) 28px, 28px calc(100% - 2 * 28px), 28px calc(100% - 2 * 28px);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 70 0 L 130 0 C 168.65993248817 0 200 31.34006751183 200 70 L 200 130 C 200 168.65993248817 168.65993248817 200 130 200 L 70 200 C 31.34006751183 200 0 168.65993248817 0 130 L 0 70 C 0 31.34006751183 31.34006751183 0 70 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-extra-large: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-extra-large, 28px);
@@ -799,12 +789,10 @@
   border-radius: var(--md-shape-full, 9999px);
 }
 @utility shape-squircle-full {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='100 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 100 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='100 100 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 50% 50%, 50% 0, 50% 100%, 0 50%, 100% 50%;
+  mask-size: 50% 50%, 50% 50%, 50% 50%, 50% 50%, calc(100% - 2 * 50%) calc(100% - 2 * 50%), calc(100% - 2 * 50%) 50%, calc(100% - 2 * 50%) 50%, 50% calc(100% - 2 * 50%), 50% calc(100% - 2 * 50%);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-full: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-full, 9999px);
@@ -820,12 +808,10 @@
   border-radius: var(--md-shape-button, var(--md-shape-full, 9999px));
 }
 @utility shape-squircle-button {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='100 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 100 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='100 100 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 50% 50%, 50% 0, 50% 100%, 0 50%, 100% 50%;
+  mask-size: 50% 50%, 50% 50%, 50% 50%, 50% 50%, calc(100% - 2 * 50%) calc(100% - 2 * 50%), calc(100% - 2 * 50%) 50%, calc(100% - 2 * 50%) 50%, 50% calc(100% - 2 * 50%), 50% calc(100% - 2 * 50%);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-button: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-button, var(--md-shape-full, 9999px));
@@ -835,12 +821,10 @@
   border-radius: var(--md-shape-fab, var(--md-shape-large, 16px));
 }
 @utility shape-squircle-fab {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.13708498986 0 200 26.86291501014 200 60 L 200 140 C 200 173.13708498986 173.13708498986 200 140 200 L 60 200 C 26.86291501014 200 0 173.13708498986 0 140 L 0 60 C 0 26.86291501014 26.86291501014 0 60 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.14 0 200 26.86 200 60 L 200 140 C 200 173.14 173.14 200 140 200 L 60 200 C 26.86 200 0 173.14 0 140 L 0 60 C 0 26.86 26.86 0 60 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='140 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.14 0 200 26.86 200 60 L 200 140 C 200 173.14 173.14 200 140 200 L 60 200 C 26.86 200 0 173.14 0 140 L 0 60 C 0 26.86 26.86 0 60 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 140 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.14 0 200 26.86 200 60 L 200 140 C 200 173.14 173.14 200 140 200 L 60 200 C 26.86 200 0 173.14 0 140 L 0 60 C 0 26.86 26.86 0 60 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='140 140 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.14 0 200 26.86 200 60 L 200 140 C 200 173.14 173.14 200 140 200 L 60 200 C 26.86 200 0 173.14 0 140 L 0 60 C 0 26.86 26.86 0 60 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 16px 16px, 16px 0, 16px 100%, 0 16px, 100% 16px;
+  mask-size: 16px 16px, 16px 16px, 16px 16px, 16px 16px, calc(100% - 2 * 16px) calc(100% - 2 * 16px), calc(100% - 2 * 16px) 16px, calc(100% - 2 * 16px) 16px, 16px calc(100% - 2 * 16px), 16px calc(100% - 2 * 16px);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.13708498986 0 200 26.86291501014 200 60 L 200 140 C 200 173.13708498986 173.13708498986 200 140 200 L 60 200 C 26.86291501014 200 0 173.13708498986 0 140 L 0 60 C 0 26.86291501014 26.86291501014 0 60 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-fab: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-fab, var(--md-shape-large, 16px));
@@ -850,12 +834,10 @@
   border-radius: var(--md-shape-chip, var(--md-shape-small, 8px));
 }
 @utility shape-squircle-chip {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40 0 L 160 0 C 182.09138999324 0 200 17.90861000676 200 40 L 200 160 C 200 182.09138999324 182.09138999324 200 160 200 L 40 200 C 17.90861000676 200 0 182.09138999324 0 160 L 0 40 C 0 17.90861000676 17.90861000676 0 40 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40 0 L 160 0 C 182.09 0 200 17.91 200 40 L 200 160 C 200 182.09 182.09 200 160 200 L 40 200 C 17.91 200 0 182.09 0 160 L 0 40 C 0 17.91 17.91 0 40 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='160 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40 0 L 160 0 C 182.09 0 200 17.91 200 40 L 200 160 C 200 182.09 182.09 200 160 200 L 40 200 C 17.91 200 0 182.09 0 160 L 0 40 C 0 17.91 17.91 0 40 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 160 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40 0 L 160 0 C 182.09 0 200 17.91 200 40 L 200 160 C 200 182.09 182.09 200 160 200 L 40 200 C 17.91 200 0 182.09 0 160 L 0 40 C 0 17.91 17.91 0 40 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='160 160 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40 0 L 160 0 C 182.09 0 200 17.91 200 40 L 200 160 C 200 182.09 182.09 200 160 200 L 40 200 C 17.91 200 0 182.09 0 160 L 0 40 C 0 17.91 17.91 0 40 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 8px 8px, 8px 0, 8px 100%, 0 8px, 100% 8px;
+  mask-size: 8px 8px, 8px 8px, 8px 8px, 8px 8px, calc(100% - 2 * 8px) calc(100% - 2 * 8px), calc(100% - 2 * 8px) 8px, calc(100% - 2 * 8px) 8px, 8px calc(100% - 2 * 8px), 8px calc(100% - 2 * 8px);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 40 0 L 160 0 C 182.09138999324 0 200 17.90861000676 200 40 L 200 160 C 200 182.09138999324 182.09138999324 200 160 200 L 40 200 C 17.90861000676 200 0 182.09138999324 0 160 L 0 40 C 0 17.90861000676 17.90861000676 0 40 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-chip: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-chip, var(--md-shape-small, 8px));
@@ -865,12 +847,10 @@
   border-radius: var(--md-shape-icon-button, var(--md-shape-full, 9999px));
 }
 @utility shape-squircle-icon-button {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='100 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 100 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='100 100 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 50% 50%, 50% 0, 50% 100%, 0 50%, 100% 50%;
+  mask-size: 50% 50%, 50% 50%, 50% 50%, 50% 50%, calc(100% - 2 * 50%) calc(100% - 2 * 50%), calc(100% - 2 * 50%) 50%, calc(100% - 2 * 50%) 50%, 50% calc(100% - 2 * 50%), 50% calc(100% - 2 * 50%);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-icon-button: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-icon-button, var(--md-shape-full, 9999px));
@@ -880,12 +860,10 @@
   border-radius: var(--md-shape-card, var(--md-shape-medium, 12px));
 }
 @utility shape-squircle-card {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 177.61423749155 0 200 22.385762508450004 200 50 L 200 150 C 200 177.61423749155 177.61423749155 200 150 200 L 50 200 C 22.385762508450004 200 0 177.61423749155 0 150 L 0 50 C 0 22.385762508450004 22.385762508450004 0 50 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 177.61 0 200 22.39 200 50 L 200 150 C 200 177.61 177.61 200 150 200 L 50 200 C 22.39 200 0 177.61 0 150 L 0 50 C 0 22.39 22.39 0 50 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='150 0 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 177.61 0 200 22.39 200 50 L 200 150 C 200 177.61 177.61 200 150 200 L 50 200 C 22.39 200 0 177.61 0 150 L 0 50 C 0 22.39 22.39 0 50 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 150 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 177.61 0 200 22.39 200 50 L 200 150 C 200 177.61 177.61 200 150 200 L 50 200 C 22.39 200 0 177.61 0 150 L 0 50 C 0 22.39 22.39 0 50 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='150 150 50 50' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 177.61 0 200 22.39 200 50 L 200 150 C 200 177.61 177.61 200 150 200 L 50 200 C 22.39 200 0 177.61 0 150 L 0 50 C 0 22.39 22.39 0 50 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 12px 12px, 12px 0, 12px 100%, 0 12px, 100% 12px;
+  mask-size: 12px 12px, 12px 12px, 12px 12px, 12px 12px, calc(100% - 2 * 12px) calc(100% - 2 * 12px), calc(100% - 2 * 12px) 12px, calc(100% - 2 * 12px) 12px, 12px calc(100% - 2 * 12px), 12px calc(100% - 2 * 12px);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 50 0 L 150 0 C 177.61423749155 0 200 22.385762508450004 200 50 L 200 150 C 200 177.61423749155 177.61423749155 200 150 200 L 50 200 C 22.385762508450004 200 0 177.61423749155 0 150 L 0 50 C 0 22.385762508450004 22.385762508450004 0 50 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-card: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-card, var(--md-shape-medium, 12px));
@@ -895,12 +873,10 @@
   border-radius: var(--md-shape-dialog, var(--md-shape-extra-large, 28px));
 }
 @utility shape-squircle-dialog {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 70 0 L 130 0 C 168.65993248817 0 200 31.34006751183 200 70 L 200 130 C 200 168.65993248817 168.65993248817 200 130 200 L 70 200 C 31.34006751183 200 0 168.65993248817 0 130 L 0 70 C 0 31.34006751183 31.34006751183 0 70 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 70 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 70 0 L 130 0 C 168.66 0 200 31.34 200 70 L 200 130 C 200 168.66 168.66 200 130 200 L 70 200 C 31.34 200 0 168.66 0 130 L 0 70 C 0 31.34 31.34 0 70 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='130 0 70 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 70 0 L 130 0 C 168.66 0 200 31.34 200 70 L 200 130 C 200 168.66 168.66 200 130 200 L 70 200 C 31.34 200 0 168.66 0 130 L 0 70 C 0 31.34 31.34 0 70 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 130 70 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 70 0 L 130 0 C 168.66 0 200 31.34 200 70 L 200 130 C 200 168.66 168.66 200 130 200 L 70 200 C 31.34 200 0 168.66 0 130 L 0 70 C 0 31.34 31.34 0 70 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='130 130 70 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 70 0 L 130 0 C 168.66 0 200 31.34 200 70 L 200 130 C 200 168.66 168.66 200 130 200 L 70 200 C 31.34 200 0 168.66 0 130 L 0 70 C 0 31.34 31.34 0 70 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 28px 28px, 28px 0, 28px 100%, 0 28px, 100% 28px;
+  mask-size: 28px 28px, 28px 28px, 28px 28px, 28px 28px, calc(100% - 2 * 28px) calc(100% - 2 * 28px), calc(100% - 2 * 28px) 28px, calc(100% - 2 * 28px) 28px, 28px calc(100% - 2 * 28px), 28px calc(100% - 2 * 28px);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 70 0 L 130 0 C 168.65993248817 0 200 31.34006751183 200 70 L 200 130 C 200 168.65993248817 168.65993248817 200 130 200 L 70 200 C 31.34006751183 200 0 168.65993248817 0 130 L 0 70 C 0 31.34006751183 31.34006751183 0 70 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-dialog: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-dialog, var(--md-shape-extra-large, 28px));
@@ -910,12 +886,10 @@
   border-radius: var(--md-shape-menu, var(--md-shape-extra-small, 4px));
 }
 @utility shape-squircle-menu {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.56854249493 0 200 13.43145750507 200 30 L 200 170 C 200 186.56854249493 186.56854249493 200 170 200 L 30 200 C 13.43145750507 200 0 186.56854249493 0 170 L 0 30 C 0 13.43145750507 13.43145750507 0 30 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='170 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 170 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='170 170 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 4px 4px, 4px 0, 4px 100%, 0 4px, 100% 4px;
+  mask-size: 4px 4px, 4px 4px, 4px 4px, 4px 4px, calc(100% - 2 * 4px) calc(100% - 2 * 4px), calc(100% - 2 * 4px) 4px, calc(100% - 2 * 4px) 4px, 4px calc(100% - 2 * 4px), 4px calc(100% - 2 * 4px);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.56854249493 0 200 13.43145750507 200 30 L 200 170 C 200 186.56854249493 186.56854249493 200 170 200 L 30 200 C 13.43145750507 200 0 186.56854249493 0 170 L 0 30 C 0 13.43145750507 13.43145750507 0 30 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-menu: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-menu, var(--md-shape-extra-small, 4px));
@@ -925,12 +899,10 @@
   border-radius: var(--md-shape-snackbar, var(--md-shape-extra-small, 4px));
 }
 @utility shape-squircle-snackbar {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.56854249493 0 200 13.43145750507 200 30 L 200 170 C 200 186.56854249493 186.56854249493 200 170 200 L 30 200 C 13.43145750507 200 0 186.56854249493 0 170 L 0 30 C 0 13.43145750507 13.43145750507 0 30 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='170 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 170 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='170 170 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 4px 4px, 4px 0, 4px 100%, 0 4px, 100% 4px;
+  mask-size: 4px 4px, 4px 4px, 4px 4px, 4px 4px, calc(100% - 2 * 4px) calc(100% - 2 * 4px), calc(100% - 2 * 4px) 4px, calc(100% - 2 * 4px) 4px, 4px calc(100% - 2 * 4px), 4px calc(100% - 2 * 4px);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.56854249493 0 200 13.43145750507 200 30 L 200 170 C 200 186.56854249493 186.56854249493 200 170 200 L 30 200 C 13.43145750507 200 0 186.56854249493 0 170 L 0 30 C 0 13.43145750507 13.43145750507 0 30 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-snackbar: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-snackbar, var(--md-shape-extra-small, 4px));
@@ -940,12 +912,10 @@
   border-radius: var(--md-shape-tooltip, var(--md-shape-extra-small, 4px));
 }
 @utility shape-squircle-tooltip {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.56854249493 0 200 13.43145750507 200 30 L 200 170 C 200 186.56854249493 186.56854249493 200 170 200 L 30 200 C 13.43145750507 200 0 186.56854249493 0 170 L 0 30 C 0 13.43145750507 13.43145750507 0 30 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='170 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 170 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='170 170 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 4px 4px, 4px 0, 4px 100%, 0 4px, 100% 4px;
+  mask-size: 4px 4px, 4px 4px, 4px 4px, 4px 4px, calc(100% - 2 * 4px) calc(100% - 2 * 4px), calc(100% - 2 * 4px) 4px, calc(100% - 2 * 4px) 4px, 4px calc(100% - 2 * 4px), 4px calc(100% - 2 * 4px);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.56854249493 0 200 13.43145750507 200 30 L 200 170 C 200 186.56854249493 186.56854249493 200 170 200 L 30 200 C 13.43145750507 200 0 186.56854249493 0 170 L 0 30 C 0 13.43145750507 13.43145750507 0 30 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-tooltip: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-tooltip, var(--md-shape-extra-small, 4px));
@@ -955,12 +925,10 @@
   border-radius: var(--md-shape-text-field, var(--md-shape-extra-small, 4px));
 }
 @utility shape-squircle-text-field {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.56854249493 0 200 13.43145750507 200 30 L 200 170 C 200 186.56854249493 186.56854249493 200 170 200 L 30 200 C 13.43145750507 200 0 186.56854249493 0 170 L 0 30 C 0 13.43145750507 13.43145750507 0 30 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='170 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 170 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='170 170 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.57 0 200 13.43 200 30 L 200 170 C 200 186.57 186.57 200 170 200 L 30 200 C 13.43 200 0 186.57 0 170 L 0 30 C 0 13.43 13.43 0 30 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 4px 4px, 4px 0, 4px 100%, 0 4px, 100% 4px;
+  mask-size: 4px 4px, 4px 4px, 4px 4px, 4px 4px, calc(100% - 2 * 4px) calc(100% - 2 * 4px), calc(100% - 2 * 4px) 4px, calc(100% - 2 * 4px) 4px, 4px calc(100% - 2 * 4px), 4px calc(100% - 2 * 4px);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 30 0 L 170 0 C 186.56854249493 0 200 13.43145750507 200 30 L 200 170 C 200 186.56854249493 186.56854249493 200 170 200 L 30 200 C 13.43145750507 200 0 186.56854249493 0 170 L 0 30 C 0 13.43145750507 13.43145750507 0 30 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-text-field: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-text-field, var(--md-shape-extra-small, 4px));
@@ -970,12 +938,10 @@
   border-radius: var(--md-shape-search, var(--md-shape-full, 9999px));
 }
 @utility shape-squircle-search {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='100 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 100 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='100 100 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 50% 50%, 50% 0, 50% 100%, 0 50%, 100% 50%;
+  mask-size: 50% 50%, 50% 50%, 50% 50%, 50% 50%, calc(100% - 2 * 50%) calc(100% - 2 * 50%), calc(100% - 2 * 50%) 50%, calc(100% - 2 * 50%) 50%, 50% calc(100% - 2 * 50%), 50% calc(100% - 2 * 50%);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 100 0 A 100 100 0 0 1 200 100 A 100 100 0 0 1 100 200 A 100 100 0 0 1 0 100 A 100 100 0 0 1 100 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-search: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-search, var(--md-shape-full, 9999px));
@@ -991,12 +957,10 @@
   border-radius: var(--md-shape-navigation-drawer, var(--md-shape-large, 16px));
 }
 @utility shape-squircle-navigation-drawer {
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.13708498986 0 200 26.86291501014 200 60 L 200 140 C 200 173.13708498986 173.13708498986 200 140 200 L 60 200 C 26.86291501014 200 0 173.13708498986 0 140 L 0 60 C 0 26.86291501014 26.86291501014 0 60 0 Z' fill='black'/%3E%3C/svg%3E");
-  mask-size: 100% 100%;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.14 0 200 26.86 200 60 L 200 140 C 200 173.14 173.14 200 140 200 L 60 200 C 26.86 200 0 173.14 0 140 L 0 60 C 0 26.86 26.86 0 60 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='140 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.14 0 200 26.86 200 60 L 200 140 C 200 173.14 173.14 200 140 200 L 60 200 C 26.86 200 0 173.14 0 140 L 0 60 C 0 26.86 26.86 0 60 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='0 140 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.14 0 200 26.86 200 60 L 200 140 C 200 173.14 173.14 200 140 200 L 60 200 C 26.86 200 0 173.14 0 140 L 0 60 C 0 26.86 26.86 0 60 0 Z' fill='black'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg viewBox='140 140 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.14 0 200 26.86 200 60 L 200 140 C 200 173.14 173.14 200 140 200 L 60 200 C 26.86 200 0 173.14 0 140 L 0 60 C 0 26.86 26.86 0 60 0 Z' fill='black'/%3E%3C/svg%3E"), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000), linear-gradient(#000, #000);
+  mask-position: top left, top right, bottom left, bottom right, 16px 16px, 16px 0, 16px 100%, 0 16px, 100% 16px;
+  mask-size: 16px 16px, 16px 16px, 16px 16px, 16px 16px, calc(100% - 2 * 16px) calc(100% - 2 * 16px), calc(100% - 2 * 16px) 16px, calc(100% - 2 * 16px) 16px, 16px calc(100% - 2 * 16px), 16px calc(100% - 2 * 16px);
   mask-repeat: no-repeat;
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 60 0 L 140 0 C 173.13708498986 0 200 26.86291501014 200 60 L 200 140 C 200 173.13708498986 173.13708498986 200 140 200 L 60 200 C 26.86291501014 200 0 173.13708498986 0 140 L 0 60 C 0 26.86291501014 26.86291501014 0 60 0 Z' fill='black'/%3E%3C/svg%3E");
-  -webkit-mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
   --md-shape-family-navigation-drawer: squircle;
   @supports not (mask-image: url()) {
     border-radius: var(--md-shape-navigation-drawer, var(--md-shape-large, 16px));
