@@ -15,15 +15,18 @@ resolved as `Hct` plus its underlying tonal palette.
 
 ## Status
 
-Type surface and runtime helpers implemented. Public exports
-include the type catalogue (`Theme`, `ModalTheme`, `Recipe`, the
-MD3 role types, `ARGB`), the runtime value arrays those types
-derive from, the `argb` umbrella with its per-type variants
-(`argbFromHCT`, `argbFromColord`, `asARGB`), `getRandomColor` for
-rolling a fresh opaque ARGB source, the `camelCase` /
-`capitalize` string helpers, and the `keys` / `unsafeKeys`
-object-key helpers. Theme computation from a recipe is not yet
-implemented.
+Type surface, runtime helpers, and the Recipe → Theme pipeline
+implemented. Public exports include the type catalogue (`Theme`,
+`ModalTheme`, `Recipe`, the MD3 role types, `ARGB`), the runtime
+value arrays those types derive from, the `argb` umbrella with
+its per-type variants (`argbFromHCT`, `argbFromColord`, `asARGB`),
+`getRandomColor` for rolling a fresh opaque ARGB source, the
+`camelCase` / `capitalize` string helpers, the `keys` /
+`unsafeKeys` object-key helpers, `computeTheme<K, S>` for
+assembling a `Theme<K, S>` from a `Recipe<K, S>`, and value-form
+MCU re-exports (`Hct`, `TonalPalette`, `DynamicScheme`, `Variant`).
+The Preset layer and cascade resolution sitting on top of
+`computeTheme` are designed but unimplemented.
 
 ## Package Structure
 
@@ -31,6 +34,16 @@ implemented.
 src/
 ├── __tests__/                  # Package-level smoke tests
 ├── index.ts                    # Public barrel
+├── theme/                      # Theme computation pipeline
+│   ├── __tests__/              # Pipeline runtime + type tests
+│   ├── compute.ts              # `computeTheme` entry — Recipe → Theme
+│   ├── index.ts                # Theme-layer barrel
+│   ├── modal.ts                # `ModalTheme` assembly
+│   ├── palettes.ts             # Palette derivation and overlay
+│   ├── roles.ts                # Role accessor extraction
+│   ├── seeds.ts                # `SeedOptions` → `SeedValue` expansion
+│   ├── split.ts                # Baseline / per-mode seed split
+│   └── substrate.ts            # Global Recipe-field substrate
 ├── types/                      # Public type surface
 │   ├── __tests__/              # Type-level and runtime tests
 │   ├── argb.ts                 # Opaque-ARGB branded primitive

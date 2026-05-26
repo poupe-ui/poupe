@@ -37,3 +37,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     `unsafeKeys` returns `Array<keyof T>`. Drops the `as K[]`
     cast at `for (const k of Object.keys(t))` loops over typed
     records. Both mirror `@poupe/css`'s helpers verbatim.
+- `computeTheme<K, S>(recipe: Recipe<K, S>): Theme<K, S>` —
+  Recipe → Theme pipeline. Splits seed maps into core and extra
+  subsets, validates palette symmetry across baseline and per-mode
+  overlays, harmonises baseline seeds against `Theme.source`, and
+  assembles per-mode `ModalTheme<K, S>` instances pinning every
+  MD3 role and the four-quad extras. `S` threads through to gate
+  the spec-dependent `*Dim` slots on the resolved `Theme`.
+- Value-form re-exports of the MCU runtime classes (`Hct`,
+  `TonalPalette`, `DynamicScheme`) and the `Variant` enum so a
+  single `import { Hct } from '@poupe/color'` covers both the
+  value binding and the type binding.

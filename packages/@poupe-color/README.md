@@ -26,10 +26,13 @@ Shipped today:
   construction.
 - `keys` / `unsafeKeys` typed access to an object's own
   string keys.
+- `computeTheme<K, S>` — Recipe → Theme pipeline.
+- Value-form MCU re-exports (`Hct`, `TonalPalette`,
+  `DynamicScheme`, `Variant`) so a single `import` covers both
+  the value and the type binding.
 
-Not yet shipped: theme computation from a recipe. The shapes it
-will return and the helpers that prepare its input are already
-exported.
+Not yet shipped: the Preset layer and cascade resolution that
+will sit on top of `computeTheme`.
 
 ## Installation
 
@@ -48,10 +51,9 @@ pnpm add @poupe/color
 ## At a glance
 
 ```typescript
-import { argb, type Recipe } from '@poupe/color';
-import { Variant } from '@poupe/material-color-utilities';
+import { argb, computeTheme, Variant, type Recipe } from '@poupe/color';
 
-const recipe: Recipe<'brand'> = {
+const recipe: Recipe<'brand', '2025'> = {
   variant: Variant.VIBRANT,
   specVersion: '2025',
   contrast: 0,
@@ -63,6 +65,8 @@ const recipe: Recipe<'brand'> = {
     seeds: { secondary: argb('#9c27b0') },
   },
 };
+
+const theme = computeTheme(recipe);  // Theme<'brand', '2025'>
 ```
 
 The global substrate sits at the top (`variant`, `specVersion`,
@@ -136,10 +140,10 @@ and role-name catalogues.
   key set of `ModalPalettes`.
 - `Mode` — `'dark' | 'light'`.
 - `ARGB` — branded `number` for an opaque `0xFFRRGGBB` integer.
-- MCU re-exports (`Hct`, `TonalPalette`, `DynamicScheme`,
-  `Variant`, `SpecVersion`) — **type-only**; import the runtime
-  classes and enum values directly from
-  `@poupe/material-color-utilities`.
+- MCU re-exports — see the [MCU re-exports](#mcu-re-exports)
+  subsection. The runtime classes (`Hct`, `TonalPalette`,
+  `DynamicScheme`) and the `Variant` enum are re-exported as
+  values; `PaletteKey` and `SpecVersion` stay type-only.
 
 ### Value catalogues
 
@@ -159,6 +163,27 @@ for (const key of paletteKeys) {
 Available arrays: `paletteKeys`, `modes`, `extendedRoles`,
 `requiredStandardRoles`, `specDependentRoles`, `specsWithDim`,
 `standardRoles`.
+
+### Theme computation
+
+- `computeTheme<K, S>(recipe: Recipe<K, S>): Theme<K, S>` — Recipe →
+  Theme. Splits each layer's seed map into core-palette and
+  extra-palette subsets, validates extras for palette symmetry across
+  baseline / dark / light, harmonises baseline seeds against
+  `Theme.source` (per-mode overlays stay raw by default), and
+  assembles per-mode `ModalTheme<K, S>` instances pinning every MD3
+  role and the four-quad extras. `K` infers from the seed-map
+  literal's non-core keys; `S` infers from `recipe.specVersion`, so a
+  pinned spec literal narrows the spec-dependent `*Dim` slots
+  (absent on `'2021'`, required `Hct` on `'2025'` / `'2026'`).
+
+> **MCU may downgrade the recorded spec.** `theme.specVersion`
+> echoes `recipe.specVersion` verbatim; `theme.dark.scheme.specVersion`
+> may differ because MCU's `maybeFallbackSpecVersion` normalises the
+> request against the variant's supported set (e.g. `Variant.CONTENT`
+> only ships on `'2021'`). Read `theme.specVersion` for what the
+> recipe asked for, the modal `scheme.specVersion` for what MCU
+> actually ran.
 
 ### Runtime helpers
 
@@ -208,6 +233,17 @@ typed `Hct` or `Colord` value.
   may carry extra keys at runtime that the type pretends are
   absent. Reach for `keys` instead unless you need the array form.
   Mirrors `@poupe/css`'s `unsafeKeys` verbatim.
+
+### MCU re-exports
+
+A single `import { Hct, TonalPalette } from '@poupe/color'` covers
+both the value binding and the type binding inherent to class
+declarations, so consumers do not have to add a direct dependency
+on `@poupe/material-color-utilities` for the common entry points.
+
+- `Hct`, `TonalPalette`, `DynamicScheme` — classes (value + type).
+- `Variant` — enum value.
+- `PaletteKey`, `SpecVersion` — types only.
 
 ### `VERSION`
 

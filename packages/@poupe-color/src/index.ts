@@ -1,13 +1,19 @@
 import pkg from '../package.json';
 
+// MCU classes / enum re-exported value-form so consumers get both the
+// runtime binding and the type binding inherent to class declarations.
 export {
-  // MCU surface
-  type DynamicScheme,
-  type Hct,
+  Hct,
+  TonalPalette,
+
+  DynamicScheme,
+  Variant,
+} from '@poupe/material-color-utilities';
+
+export {
+  // MCU surface — types only
   type PaletteKey,
   type SpecVersion,
-  type TonalPalette,
-  type Variant,
 
   paletteKeys,
 
@@ -43,6 +49,11 @@ export {
   type SeedsMap,
   type SeedValue,
 } from './types';
+
+// Theme computation.
+export {
+  computeTheme,
+} from './theme';
 
 // Runtime helpers.
 export {
