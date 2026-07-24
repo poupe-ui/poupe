@@ -112,7 +112,7 @@
     "@vue/test-utils": "^2.4.10",
     "@vue/tsconfig": "^0.9.1",
     "eslint": "^9.39.4",
-    "jsdom": "^26.1.0",
+    "jsdom": "^29.1.1",
     "npm-run-all2": "^8.0.4",
     "obuild": "^0.4.34",
     "publint": "^0.3.20",
