@@ -107,7 +107,7 @@
     "@poupe/rolldown-vue-css": "workspace:^",
     "@tailwindcss/vite": "^4.3.0",
     "@tsconfig/node20": "^20.1.9",
-    "@types/jsdom": "^21.1.7",
+    "@types/jsdom": "^28.0.3",
     "@types/node": "^20.19.40",
     "@vue/test-utils": "^2.4.10",
     "@vue/tsconfig": "^0.9.1",
