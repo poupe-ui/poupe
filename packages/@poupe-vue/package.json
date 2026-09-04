@@ -111,7 +111,7 @@
     "@types/node": "^20.19.40",
     "@vue/test-utils": "^2.4.10",
     "@vue/tsconfig": "^0.9.1",
-    "eslint": "^9.39.4",
+    "eslint": "^10.10.0",
     "jsdom": "^26.1.0",
     "npm-run-all2": "^8.0.4",
     "obuild": "^0.4.34",
